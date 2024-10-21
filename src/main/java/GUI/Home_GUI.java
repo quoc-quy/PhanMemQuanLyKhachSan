@@ -32,12 +32,11 @@ public class Home_GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        
         cardPanel.add(new Phong_GUI(), "room");
         cardPanel.add(new DichVu_GUI(), "service");
         
          adjustMenuBasedOnRole(userRole);  // Điều chỉnh menu theo vai trò
-    }  
+    }
     
     private void adjustMenuBasedOnRole(String userRole) {
         if (userRole.equals("NV_QUANLY")) {

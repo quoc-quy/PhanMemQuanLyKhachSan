@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import java.awt.Font;
+import javax.swing.table.JTableHeader;
+
 /**
  *
  * @author Admin
@@ -131,19 +134,19 @@ public class DichVu_GUI extends javax.swing.JPanel {
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", "", null, null, null},
-                {"", null, null, null, null, null},
-                {"", null, null, null, null, null},
-                {"", null, null, null, null, null},
-                {"", null, null, null, null, null},
-                {"", null, null, null, null, null}
+                {"", "", "", null, null},
+                {"", null, null, null, null},
+                {"", null, null, null, null},
+                {"", null, null, null, null},
+                {"", null, null, null, null},
+                {"", null, null, null, null}
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Đơn vị tính", "Đơn giá", "Số lượng", "Chọn"
+                "Mã sản phẩm", "Tên sản phẩm", "Đơn vị tính", "Đơn giá", "Số lượng"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -189,7 +192,10 @@ public class DichVu_GUI extends javax.swing.JPanel {
 
         add(jPanel2, "card2");
     }// </editor-fold>//GEN-END:initComponents
-
+    private void updateHeader(){
+        JTableHeader header = jTable1.getTableHeader();
+         header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel5;
