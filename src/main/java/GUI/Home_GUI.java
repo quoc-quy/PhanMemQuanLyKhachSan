@@ -605,10 +605,8 @@ public class Home_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_panelPhongFocusGained
 
-    private void panelPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPhongMouseClicked
-        // TODO add your handling code here:
-        panelPhong.setBackground(Color.decode("#199FFE"));
-        lbPhong.setForeground(Color.white);
+    private void panelPhongMouseClicked(java.awt.event.MouseEvent evt) {
+    	changePanelColor(panelPhong, lbPhong);
         showPanel("room");
     }//GEN-LAST:event_panelPhongMouseClicked
 
