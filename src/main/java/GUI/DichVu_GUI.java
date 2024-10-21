@@ -18,6 +18,8 @@ public class DichVu_GUI extends javax.swing.JPanel {
      */
     public DichVu_GUI() {
         initComponents();
+        
+        updateHeader();
     }
 
     /**
