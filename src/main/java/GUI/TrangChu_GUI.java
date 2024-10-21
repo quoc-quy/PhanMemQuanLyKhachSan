@@ -445,7 +445,7 @@ public class TrangChu_GUI extends javax.swing.JFrame {
         cardPanel.setLayout(new java.awt.CardLayout());
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 70)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 72)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(25, 159, 254));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Welcome to TQSN");
