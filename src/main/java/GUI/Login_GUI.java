@@ -165,7 +165,7 @@ public class Login_GUI extends javax.swing.JFrame {
             String maTaiKhoan = taiKhoanDAO.getTaiKhoanByTenDangNhap(tenDangNhap);
             if (nhanVienDAO.isManager(maTaiKhoan)) {
                 // Nếu là quản lý, chuyển sang trang chính
-                Home_GUI home = new Home_GUI();  // Đây là trang chính của bạn
+                TrangChu_GUI home = new TrangChu_GUI();  // Đây là trang chính của bạn
                 home.setVisible(true);
                 this.dispose();  // Đóng cửa sổ login
             } else {
