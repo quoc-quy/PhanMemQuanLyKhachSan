@@ -80,10 +80,10 @@ public class Login_GUI extends javax.swing.JFrame {
         jLabel4.setText("Password");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 77, 27));
 
-        jLabel5.setText("___________________________________________________");
+        jLabel5.setText("______________________________________________");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 230, -1));
 
-        jLabel6.setText("___________________________________________________");
+        jLabel6.setText("______________________________________________");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 230, 20));
 
         txtUserName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -99,6 +99,7 @@ public class Login_GUI extends javax.swing.JFrame {
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 20, 30));
 
         iconEyeHide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/eye-hide.png"))); // NOI18N
+        iconEyeHide.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         iconEyeHide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 iconEyeHideMouseClicked(evt);
@@ -107,6 +108,7 @@ public class Login_GUI extends javax.swing.JFrame {
         jPanel2.add(iconEyeHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
         iconEyeShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/eye-show.png"))); // NOI18N
+        iconEyeShow.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         iconEyeShow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 iconEyeShowMouseClicked(evt);
@@ -122,6 +124,7 @@ public class Login_GUI extends javax.swing.JFrame {
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Login");
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
