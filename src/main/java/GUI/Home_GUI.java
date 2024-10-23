@@ -193,6 +193,7 @@ public class Home_GUI extends javax.swing.JFrame {
         jPanel1.add(panelPhong);
 
         panelKhachHang.setBackground(new java.awt.Color(255, 255, 255));
+        panelKhachHang.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 1, 1, 1));
         panelKhachHang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         panelKhachHang.setMaximumSize(new java.awt.Dimension(300, 60));
         panelKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -216,7 +217,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         panelKhachHangLayout.setVerticalGroup(
             panelKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +226,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addGroup(panelKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(lbKhachHang))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         jPanel1.add(panelKhachHang);
@@ -542,7 +543,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addGroup(panelDangXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(lbDangXuat))
-                .addContainerGap(6, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel1.add(panelDangXuat);
@@ -608,7 +609,7 @@ public class Home_GUI extends javax.swing.JFrame {
     private void panelPhongMouseClicked(java.awt.event.MouseEvent evt) {
     	changePanelColor(panelPhong, lbPhong);
         showPanel("room");
-    }//GEN-LAST:event_panelPhongMouseClicked
+    }                                       
 
     private void panelDichVuMouseClicked(java.awt.event.MouseEvent evt) {
     	changePanelColor(panelDichVu, lbDichVu);
