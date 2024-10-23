@@ -39,9 +39,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lbThemHoaDon" min="-2" max="-2" attributes="0"/>
+                  <Component id="panelThemHoaDon" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                  <Component id="panelXuatFile" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
               <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
@@ -54,8 +54,8 @@
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="titleHoaDon" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="lbThemHoaDon" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+                      <Component id="panelThemHoaDon" alignment="1" max="32767" attributes="0"/>
+                      <Component id="panelXuatFile" alignment="1" max="32767" attributes="0"/>
                       <Component id="jButton1" max="32767" attributes="0"/>
                       <Component id="jTextField1" max="32767" attributes="0"/>
                   </Group>
@@ -78,7 +78,7 @@
             <Property name="text" type="java.lang.String" value="H&#xf3;a &#x111;&#x1a1;n"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JPanel" name="lbThemHoaDon">
+        <Container class="javax.swing.JPanel" name="panelThemHoaDon">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="fe" green="9f" red="19" type="rgb"/>
@@ -177,7 +177,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="panelXuatFile">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b8" green="fb" red="81" type="rgb"/>
