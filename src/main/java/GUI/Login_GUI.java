@@ -7,6 +7,7 @@ package GUI;
 import ConnectDB.ConnectDB;
 import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
+import java.awt.event.KeyEvent;
 import java.sql.*;
 
 import javax.swing.JFrame;
@@ -24,6 +25,7 @@ public class Login_GUI extends javax.swing.JFrame {
     public Login_GUI() {
         initComponents();
         setLocationRelativeTo(null);
+        getRootPane().setDefaultButton(btnLogin);
     }
 
     /**
