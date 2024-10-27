@@ -44,7 +44,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
+        panel101 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
@@ -52,7 +52,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel39 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
+        panel102 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
@@ -60,7 +60,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel44 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
+        panel103 = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
@@ -68,7 +68,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel47 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
+        panel104 = new javax.swing.JPanel();
         jPanel28 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
@@ -76,7 +76,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel50 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
+        panel105 = new javax.swing.JPanel();
         jPanel29 = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
@@ -84,7 +84,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel53 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jPanel15 = new javax.swing.JPanel();
+        panel106 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
@@ -92,7 +92,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel57 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jPanel16 = new javax.swing.JPanel();
+        panel107 = new javax.swing.JPanel();
         jPanel32 = new javax.swing.JPanel();
         jLabel58 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
@@ -100,7 +100,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel61 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jPanel50 = new javax.swing.JPanel();
+        panel108 = new javax.swing.JPanel();
         jPanel51 = new javax.swing.JPanel();
         jLabel237 = new javax.swing.JLabel();
         jLabel238 = new javax.swing.JLabel();
@@ -111,7 +111,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jSeparator4 = new javax.swing.JSeparator();
         jLabel12 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel17 = new javax.swing.JPanel();
+        panel201 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
         jLabel62 = new javax.swing.JLabel();
         jLabel63 = new javax.swing.JLabel();
@@ -119,7 +119,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel65 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
+        panel202 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jLabel66 = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
@@ -127,7 +127,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel69 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
-        jPanel19 = new javax.swing.JPanel();
+        panel203 = new javax.swing.JPanel();
         jPanel35 = new javax.swing.JPanel();
         jLabel72 = new javax.swing.JLabel();
         jLabel73 = new javax.swing.JLabel();
@@ -135,7 +135,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel75 = new javax.swing.JLabel();
         jLabel76 = new javax.swing.JLabel();
         jLabel77 = new javax.swing.JLabel();
-        jPanel20 = new javax.swing.JPanel();
+        panel204 = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
         jLabel78 = new javax.swing.JLabel();
         jLabel79 = new javax.swing.JLabel();
@@ -241,9 +241,9 @@ public class Phong_GUI extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.GridLayout(2, 4, 10, 10));
 
-        jPanel10.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel10.setForeground(new java.awt.Color(255, 255, 255));
+        panel101.setBackground(new java.awt.Color(0, 148, 254));
+        panel101.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel101.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel25.setBackground(new java.awt.Color(204, 255, 204));
         jPanel25.setForeground(new java.awt.Color(102, 255, 102));
@@ -300,16 +300,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel2.setText("80,000");
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel101Layout = new javax.swing.GroupLayout(panel101);
+        panel101.setLayout(panel101Layout);
+        panel101Layout.setHorizontalGroup(
+            panel101Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel101Layout.createSequentialGroup()
+                .addGroup(panel101Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel101Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(panel101Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel101Layout.createSequentialGroup()
                                 .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,16 +317,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
+                    .addGroup(panel101Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
+        panel101Layout.setVerticalGroup(
+            panel101Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel101Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel101Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -338,11 +338,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel10);
+        jPanel2.add(panel101);
 
-        jPanel11.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel11.setForeground(new java.awt.Color(255, 255, 255));
+        panel102.setBackground(new java.awt.Color(0, 148, 254));
+        panel102.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel102.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel26.setBackground(new java.awt.Color(204, 255, 204));
         jPanel26.setForeground(new java.awt.Color(102, 255, 102));
@@ -379,12 +379,12 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel43.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(255, 255, 255));
         jLabel43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/sun.png"))); // NOI18N
-        jLabel43.setText("300,000");
+        jLabel43.setText("400,000");
         jLabel43.setMaximumSize(new java.awt.Dimension(100, 40));
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel41.setText("Phòng đơn");
+        jLabel41.setText("Phòng đôi");
         jLabel41.setMaximumSize(new java.awt.Dimension(73, 40));
 
         jLabel44.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -397,18 +397,18 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
-        jLabel16.setText("80,000");
+        jLabel16.setText("150,000");
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel102Layout = new javax.swing.GroupLayout(panel102);
+        panel102.setLayout(panel102Layout);
+        panel102Layout.setHorizontalGroup(
+            panel102Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel102Layout.createSequentialGroup()
+                .addGroup(panel102Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel102Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGroup(panel102Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel102Layout.createSequentialGroup()
                                 .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -416,16 +416,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel11Layout.createSequentialGroup()
+                    .addGroup(panel102Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
+        panel102Layout.setVerticalGroup(
+            panel102Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel102Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel102Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -437,11 +437,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel11);
+        jPanel2.add(panel102);
 
-        jPanel12.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel12.setForeground(new java.awt.Color(255, 255, 255));
+        panel103.setBackground(new java.awt.Color(0, 148, 254));
+        panel103.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel103.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel27.setBackground(new java.awt.Color(204, 255, 204));
         jPanel27.setForeground(new java.awt.Color(102, 255, 102));
@@ -478,12 +478,12 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel45.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel45.setForeground(new java.awt.Color(255, 255, 255));
         jLabel45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/sun.png"))); // NOI18N
-        jLabel45.setText("300,000");
+        jLabel45.setText("600,000");
         jLabel45.setMaximumSize(new java.awt.Dimension(100, 40));
 
         jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel46.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel46.setText("Phòng đơn");
+        jLabel46.setText("Phòng gia đình");
         jLabel46.setMaximumSize(new java.awt.Dimension(73, 40));
 
         jLabel47.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -496,18 +496,18 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
-        jLabel18.setText("80,000");
+        jLabel18.setText("200,000");
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel12Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel103Layout = new javax.swing.GroupLayout(panel103);
+        panel103.setLayout(panel103Layout);
+        panel103Layout.setHorizontalGroup(
+            panel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel103Layout.createSequentialGroup()
+                .addGroup(panel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel103Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(panel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel103Layout.createSequentialGroup()
                                 .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -515,16 +515,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
+                    .addGroup(panel103Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+        panel103Layout.setVerticalGroup(
+            panel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel103Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel103Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -536,11 +536,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel12);
+        jPanel2.add(panel103);
 
-        jPanel13.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel13.setForeground(new java.awt.Color(255, 255, 255));
+        panel104.setBackground(new java.awt.Color(0, 148, 254));
+        panel104.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel104.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel28.setBackground(new java.awt.Color(204, 255, 204));
         jPanel28.setForeground(new java.awt.Color(102, 255, 102));
@@ -597,16 +597,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel20.setText("80,000");
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel104Layout = new javax.swing.GroupLayout(panel104);
+        panel104.setLayout(panel104Layout);
+        panel104Layout.setHorizontalGroup(
+            panel104Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel104Layout.createSequentialGroup()
+                .addGroup(panel104Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel104Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGroup(panel104Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel104Layout.createSequentialGroup()
                                 .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -614,16 +614,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
+                    .addGroup(panel104Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
+        panel104Layout.setVerticalGroup(
+            panel104Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel104Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel104Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -635,11 +635,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel13);
+        jPanel2.add(panel104);
 
-        jPanel14.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel14.setForeground(new java.awt.Color(255, 255, 255));
+        panel105.setBackground(new java.awt.Color(0, 148, 254));
+        panel105.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel105.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel29.setBackground(new java.awt.Color(204, 255, 204));
         jPanel29.setForeground(new java.awt.Color(102, 255, 102));
@@ -696,16 +696,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel22.setText("150,000");
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel105Layout = new javax.swing.GroupLayout(panel105);
+        panel105.setLayout(panel105Layout);
+        panel105Layout.setHorizontalGroup(
+            panel105Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel105Layout.createSequentialGroup()
+                .addGroup(panel105Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel105Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGroup(panel105Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel105Layout.createSequentialGroup()
                                 .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -713,16 +713,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
+                    .addGroup(panel105Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        panel105Layout.setVerticalGroup(
+            panel105Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel105Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel105Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -734,11 +734,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel14);
+        jPanel2.add(panel105);
 
-        jPanel15.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel15.setForeground(new java.awt.Color(255, 255, 255));
+        panel106.setBackground(new java.awt.Color(0, 148, 254));
+        panel106.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel106.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel30.setBackground(new java.awt.Color(204, 255, 204));
         jPanel30.setForeground(new java.awt.Color(102, 255, 102));
@@ -775,12 +775,12 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel55.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel55.setForeground(new java.awt.Color(255, 255, 255));
         jLabel55.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/sun.png"))); // NOI18N
-        jLabel55.setText("400,000");
+        jLabel55.setText("300,000");
         jLabel55.setMaximumSize(new java.awt.Dimension(100, 40));
 
         jLabel56.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel56.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel56.setText("Phòng đôi");
+        jLabel56.setText("Phòng đơn");
         jLabel56.setMaximumSize(new java.awt.Dimension(73, 40));
 
         jLabel57.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -793,18 +793,18 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
-        jLabel24.setText("150,000");
+        jLabel24.setText("80,000");
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel106Layout = new javax.swing.GroupLayout(panel106);
+        panel106.setLayout(panel106Layout);
+        panel106Layout.setHorizontalGroup(
+            panel106Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel106Layout.createSequentialGroup()
+                .addGroup(panel106Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel106Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(panel106Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel106Layout.createSequentialGroup()
                                 .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -812,16 +812,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
+                    .addGroup(panel106Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
+        panel106Layout.setVerticalGroup(
+            panel106Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel106Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel106Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -833,11 +833,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel15);
+        jPanel2.add(panel106);
 
-        jPanel16.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel16.setForeground(new java.awt.Color(255, 255, 255));
+        panel107.setBackground(new java.awt.Color(0, 148, 254));
+        panel107.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel107.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel32.setBackground(new java.awt.Color(204, 255, 204));
         jPanel32.setForeground(new java.awt.Color(102, 255, 102));
@@ -874,12 +874,12 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel59.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel59.setForeground(new java.awt.Color(255, 255, 255));
         jLabel59.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/sun.png"))); // NOI18N
-        jLabel59.setText("400,000");
+        jLabel59.setText("600,000");
         jLabel59.setMaximumSize(new java.awt.Dimension(100, 40));
 
         jLabel60.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel60.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel60.setText("Phòng đôi");
+        jLabel60.setText("Phòng gia đình");
         jLabel60.setMaximumSize(new java.awt.Dimension(73, 40));
 
         jLabel61.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -892,18 +892,18 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
-        jLabel26.setText("150,000");
+        jLabel26.setText("200,000");
 
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel107Layout = new javax.swing.GroupLayout(panel107);
+        panel107.setLayout(panel107Layout);
+        panel107Layout.setHorizontalGroup(
+            panel107Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel107Layout.createSequentialGroup()
+                .addGroup(panel107Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel107Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGroup(panel107Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel107Layout.createSequentialGroup()
                                 .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -911,16 +911,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel16Layout.createSequentialGroup()
+                    .addGroup(panel107Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
+        panel107Layout.setVerticalGroup(
+            panel107Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel107Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel107Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -932,11 +932,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel16);
+        jPanel2.add(panel107);
 
-        jPanel50.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel50.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel50.setForeground(new java.awt.Color(255, 255, 255));
+        panel108.setBackground(new java.awt.Color(0, 148, 254));
+        panel108.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel108.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel51.setBackground(new java.awt.Color(204, 255, 204));
         jPanel51.setForeground(new java.awt.Color(102, 255, 102));
@@ -993,16 +993,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel242.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel242.setText("150,000");
 
-        javax.swing.GroupLayout jPanel50Layout = new javax.swing.GroupLayout(jPanel50);
-        jPanel50.setLayout(jPanel50Layout);
-        jPanel50Layout.setHorizontalGroup(
-            jPanel50Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel50Layout.createSequentialGroup()
-                .addGroup(jPanel50Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel50Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel108Layout = new javax.swing.GroupLayout(panel108);
+        panel108.setLayout(panel108Layout);
+        panel108Layout.setHorizontalGroup(
+            panel108Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel108Layout.createSequentialGroup()
+                .addGroup(panel108Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel108Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel50Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel50Layout.createSequentialGroup()
+                        .addGroup(panel108Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel108Layout.createSequentialGroup()
                                 .addComponent(jLabel240, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel51, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1010,16 +1010,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel241, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel239, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel242, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel50Layout.createSequentialGroup()
+                    .addGroup(panel108Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel238, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel50Layout.setVerticalGroup(
-            jPanel50Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel50Layout.createSequentialGroup()
+        panel108Layout.setVerticalGroup(
+            panel108Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel108Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel50Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel108Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel240, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel51, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel241, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1031,7 +1031,7 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel242, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2.add(jPanel50);
+        jPanel2.add(panel108);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel12.setText("Tầng 2");
@@ -1040,9 +1040,9 @@ public class Phong_GUI extends javax.swing.JPanel {
         jPanel3.setPreferredSize(new java.awt.Dimension(0, 348));
         jPanel3.setLayout(new java.awt.GridLayout(2, 4, 10, 10));
 
-        jPanel17.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel17.setForeground(new java.awt.Color(255, 255, 255));
+        panel201.setBackground(new java.awt.Color(0, 148, 254));
+        panel201.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel201.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel33.setBackground(new java.awt.Color(204, 255, 204));
         jPanel33.setForeground(new java.awt.Color(102, 255, 102));
@@ -1099,16 +1099,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel28.setText("80,000");
 
-        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
-        jPanel17.setLayout(jPanel17Layout);
-        jPanel17Layout.setHorizontalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel17Layout.createSequentialGroup()
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel17Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel201Layout = new javax.swing.GroupLayout(panel201);
+        panel201.setLayout(panel201Layout);
+        panel201Layout.setHorizontalGroup(
+            panel201Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel201Layout.createSequentialGroup()
+                .addGroup(panel201Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel201Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addGroup(panel201Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel201Layout.createSequentialGroup()
                                 .addComponent(jLabel65, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1116,16 +1116,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel64, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel17Layout.createSequentialGroup()
+                    .addGroup(panel201Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel17Layout.setVerticalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel17Layout.createSequentialGroup()
+        panel201Layout.setVerticalGroup(
+            panel201Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel201Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel201Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel65, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1137,11 +1137,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel3.add(jPanel17);
+        jPanel3.add(panel201);
 
-        jPanel18.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel18.setForeground(new java.awt.Color(255, 255, 255));
+        panel202.setBackground(new java.awt.Color(0, 148, 254));
+        panel202.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel202.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel34.setBackground(new java.awt.Color(204, 255, 204));
         jPanel34.setForeground(new java.awt.Color(102, 255, 102));
@@ -1198,16 +1198,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel71.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel71.setText("80,000");
 
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel202Layout = new javax.swing.GroupLayout(panel202);
+        panel202.setLayout(panel202Layout);
+        panel202Layout.setHorizontalGroup(
+            panel202Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel202Layout.createSequentialGroup()
+                .addGroup(panel202Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel202Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addGroup(panel202Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel202Layout.createSequentialGroup()
                                 .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1215,16 +1215,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel68, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
+                    .addGroup(panel202Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
+        panel202Layout.setVerticalGroup(
+            panel202Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel202Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel202Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1236,11 +1236,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel3.add(jPanel18);
+        jPanel3.add(panel202);
 
-        jPanel19.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel19.setForeground(new java.awt.Color(255, 255, 255));
+        panel203.setBackground(new java.awt.Color(0, 148, 254));
+        panel203.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel203.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel35.setBackground(new java.awt.Color(204, 255, 204));
         jPanel35.setForeground(new java.awt.Color(102, 255, 102));
@@ -1297,16 +1297,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel77.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel77.setText("80,000");
 
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel203Layout = new javax.swing.GroupLayout(panel203);
+        panel203.setLayout(panel203Layout);
+        panel203Layout.setHorizontalGroup(
+            panel203Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel203Layout.createSequentialGroup()
+                .addGroup(panel203Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel203Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGroup(panel203Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel203Layout.createSequentialGroup()
                                 .addComponent(jLabel75, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1314,16 +1314,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel76, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel74, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel77, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
+                    .addGroup(panel203Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel73, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
+        panel203Layout.setVerticalGroup(
+            panel203Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel203Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel203Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel75, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel76, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1335,11 +1335,11 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel77, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel3.add(jPanel19);
+        jPanel3.add(panel203);
 
-        jPanel20.setBackground(new java.awt.Color(0, 148, 254));
-        jPanel20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
-        jPanel20.setForeground(new java.awt.Color(255, 255, 255));
+        panel204.setBackground(new java.awt.Color(0, 148, 254));
+        panel204.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
+        panel204.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel36.setBackground(new java.awt.Color(204, 255, 204));
         jPanel36.setForeground(new java.awt.Color(102, 255, 102));
@@ -1397,16 +1397,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         jLabel83.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/watch.png"))); // NOI18N
         jLabel83.setText("80,000");
 
-        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-        jPanel20.setLayout(jPanel20Layout);
-        jPanel20Layout.setHorizontalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel20Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel204Layout = new javax.swing.GroupLayout(panel204);
+        panel204.setLayout(panel204Layout);
+        panel204Layout.setHorizontalGroup(
+            panel204Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel204Layout.createSequentialGroup()
+                .addGroup(panel204Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel204Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addGroup(panel204Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel204Layout.createSequentialGroup()
                                 .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                 .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1414,16 +1414,16 @@ public class Phong_GUI extends javax.swing.JPanel {
                                 .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel83, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel20Layout.createSequentialGroup()
+                    .addGroup(panel204Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel20Layout.setVerticalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
+        panel204Layout.setVerticalGroup(
+            panel204Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel204Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel204Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1435,7 +1435,7 @@ public class Phong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel83, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel3.add(jPanel20);
+        jPanel3.add(panel204);
 
         jPanel21.setBackground(new java.awt.Color(0, 148, 254));
         jPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197)));
@@ -2429,18 +2429,7 @@ public class Phong_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel97;
     private javax.swing.JLabel jLabel98;
     private javax.swing.JLabel jLabel99;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
@@ -2470,12 +2459,23 @@ public class Phong_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel48;
     private javax.swing.JPanel jPanel49;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel50;
     private javax.swing.JPanel jPanel51;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JPanel panel101;
+    private javax.swing.JPanel panel102;
+    private javax.swing.JPanel panel103;
+    private javax.swing.JPanel panel104;
+    private javax.swing.JPanel panel105;
+    private javax.swing.JPanel panel106;
+    private javax.swing.JPanel panel107;
+    private javax.swing.JPanel panel108;
+    private javax.swing.JPanel panel201;
+    private javax.swing.JPanel panel202;
+    private javax.swing.JPanel panel203;
+    private javax.swing.JPanel panel204;
     // End of variables declaration//GEN-END:variables
 }

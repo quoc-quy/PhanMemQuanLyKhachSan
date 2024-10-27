@@ -47,4 +47,23 @@ public class NhanVien_DAO {
         }
         return isReceptionist;
     }
+    
+    public String getTenNhanVienByMaTaiKhoan(String maTaiKhoan) {
+        String tenNhanVien = "";
+        String query = "SELECT TenNhanVien FROM NhanVien WHERE TaiKhoan = ?";
+        
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, maTaiKhoan);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                tenNhanVien = rs.getString("TenNhanVien");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return tenNhanVien;
+    }
 }

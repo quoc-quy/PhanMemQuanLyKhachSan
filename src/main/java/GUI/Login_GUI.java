@@ -168,6 +168,7 @@ public class Login_GUI extends javax.swing.JFrame {
           if (taiKhoanDAO.checkLogin(tenDangNhap, matKhau)) {
         String maTaiKhoan = taiKhoanDAO.getTaiKhoanByTenDangNhap(tenDangNhap);
         String userRole;
+        String userName = nhanVienDAO.getTenNhanVienByMaTaiKhoan(maTaiKhoan);
 
         if (nhanVienDAO.isManager(maTaiKhoan)) {
             userRole = "NV_QUANLY"; // Quản lý
@@ -176,7 +177,7 @@ public class Login_GUI extends javax.swing.JFrame {
         }
 
         // Mở trang chính và truyền vai trò vào Home_GUI
-        Home_GUI home = new Home_GUI(userRole);
+        Home_GUI home = new Home_GUI(userRole, userName);
         home.setVisible(true);
         this.dispose();  // Đóng cửa sổ login
         } else {

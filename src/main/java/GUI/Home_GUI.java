@@ -25,12 +25,14 @@ public class Home_GUI extends javax.swing.JFrame {
 	/**
      * Creates new form Home_GUI
      */
-    public Home_GUI(String userRole) {
+    public Home_GUI(String userRole, String userName) {
         initComponents();
         
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        lbUserName.setText(userName);
         
         cardPanel.add(new Phong_GUI(), "room");
         cardPanel.add(new DichVu_GUI(), "service");
@@ -65,7 +67,7 @@ public class Home_GUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         panelUser3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lbUserName = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         panelPhong = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -115,8 +117,8 @@ public class Home_GUI extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/user_1.png"))); // NOI18N
         jLabel3.setText("jLabel1");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("Trần Nguyễn Quốc Quý");
+        lbUserName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbUserName.setText("Trần Nguyễn Quốc Quý");
 
         jSeparator2.setBackground(new java.awt.Color(0, 204, 0));
         jSeparator2.setAlignmentX(10.0F);
@@ -131,8 +133,8 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addComponent(lbUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelUser3Layout.setVerticalGroup(
@@ -141,7 +143,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelUser3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                    .addComponent(lbUserName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -713,7 +715,6 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -729,6 +730,7 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lbThongKe;
     private javax.swing.JLabel lbThongKeGiaoCa;
     private javax.swing.JLabel lbTroGiup;
+    private javax.swing.JLabel lbUserName;
     private javax.swing.JPanel panelDangXuat;
     private javax.swing.JPanel panelDichVu;
     private javax.swing.JPanel panelHoaDon;
