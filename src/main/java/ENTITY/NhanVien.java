@@ -4,6 +4,7 @@
  */
 package ENTITY;
 
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,26 +20,22 @@ public class NhanVien {
     private String tenNhanVien;
     private LoaiNhanVien loaiNhanVien;
     private String phai;
-    private LocalDate ngaySinh;
-    private String password;
+    private Date ngaySinh;
     private String CCCD;
     private String soDienThoai;
-    private String trangThai;
     
     public NhanVien(){
-        this("", "", LoaiNhanVien.NV_LETAN, "", LocalDate.now(), "", "", "", "");
+        
     }
 
-    public NhanVien(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String phai, LocalDate ngaySinh, String password, String CCCD, String soDienThoai, String trangThai) {
+    public NhanVien(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String phai, Date ngaySinh, String CCCD, String soDienThoai) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
         this.loaiNhanVien = loaiNhanVien;
         this.phai = phai;
         this.ngaySinh = ngaySinh;
-        this.password = password;
         this.CCCD = CCCD;
         this.soDienThoai = soDienThoai;
-        this.trangThai = trangThai;
     }
 
     public String getMaNhanVien() {
@@ -73,20 +70,12 @@ public class NhanVien {
         this.phai = phai;
     }
 
-    public LocalDate getNgaySinh() {
+    public Date getNgaySinh() {
         return ngaySinh;
     }
 
-    public void setNgaySinh(LocalDate ngaySinh) {
+    public void setNgaySinh(Date ngaySinh) {
         this.ngaySinh = ngaySinh;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getCCCD() {
@@ -103,14 +92,6 @@ public class NhanVien {
 
     public void setSoDienThoai(String soDienThoai) {
         this.soDienThoai = soDienThoai;
-    }
-
-    public String getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(String trangThai) {
-        this.trangThai = trangThai;
     }
 
     @Override
@@ -139,6 +120,6 @@ public class NhanVien {
     public String toString() {
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DecimalFormat dFormat = new DecimalFormat("#,###.##$");
-        return "NhanVien{" + "maNhanVien=" + maNhanVien + ", tenNhanVien=" + tenNhanVien + ", loaiNhanVien=" + loaiNhanVien + ", phai=" + phai + ", ngaySinh=" + ngaySinh.format(formatter) + ", password=" + password + ", CCCD=" + CCCD + ", soDienThoai=" + soDienThoai + ", trangThai=" + trangThai + '}';
+        return "NhanVien{" + "maNhanVien=" + maNhanVien + ", tenNhanVien=" + tenNhanVien + ", loaiNhanVien=" + loaiNhanVien + ", phai=" + phai + ", ngaySinh=" + ngaySinh + ", CCCD=" + CCCD + ", soDienThoai=" + soDienThoai + '}';
     }
 }

@@ -5,7 +5,13 @@
 package DAO;
 
 import ConnectDB.ConnectDB;
+import ENTITY.KhachHang;
+import ENTITY.LoaiNhanVien;
+import ENTITY.NhanVien;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,7 +19,8 @@ import java.sql.*;
  */
 public class NhanVien_DAO {
     private ConnectDB dbConnection = new ConnectDB();
-
+    
+//    kiểm tra coi có phải là Quản Lý 
     public boolean isManager(String maTaiKhoan) {
         boolean isManager = false;
         Connection connection = dbConnection.getConnection();
@@ -31,6 +38,7 @@ public class NhanVien_DAO {
         return isManager;
     }
     
+//  kiểm tra coi có phải là Lễ tân
     public boolean isReceptionist(String maTaiKhoan) {
         boolean isReceptionist = false;
         Connection connection = dbConnection.getConnection();
@@ -48,6 +56,7 @@ public class NhanVien_DAO {
         return isReceptionist;
     }
     
+//  Lấy tên nhân viên bằng mã tài khoản
     public String getTenNhanVienByMaTaiKhoan(String maTaiKhoan) {
         String tenNhanVien = "";
         String query = "SELECT TenNhanVien FROM NhanVien WHERE TaiKhoan = ?";
@@ -65,5 +74,37 @@ public class NhanVien_DAO {
         }
         
         return tenNhanVien;
+    }
+    
+//  lấy danh sách nhân viên
+    
+    public List<NhanVien> getAllNhanVien() {
+        List<NhanVien> dsNhanVien = new ArrayList<>();
+        String query = "SELECT * FROM NhanVien";
+
+        try (Connection conn = dbConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+            	// Chuyển chuỗi lấy từ cơ sở dữ liệu thành enum
+                String loaiNhanVienStr = rs.getString("LoaiNhanVien");
+                LoaiNhanVien loaiNhanVien = LoaiNhanVien.valueOf(loaiNhanVienStr); 
+                
+                NhanVien nv = new NhanVien(
+                    rs.getString("MaNhanVien"),
+                    rs.getString("TenNhanVien"),
+                    loaiNhanVien,
+                    rs.getString("Phai"),
+                    rs.getDate("NgaySinh"),
+                    rs.getString("CCCD"),
+                    rs.getString("SDT")
+                );
+                dsNhanVien.add(nv);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsNhanVien;
     }
 }

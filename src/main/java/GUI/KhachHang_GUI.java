@@ -6,7 +6,15 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import DAO.KhachHang_DAO;
+import ENTITY.KhachHang;
 
 /**
  *
@@ -14,13 +22,19 @@ import javax.swing.table.JTableHeader;
  */
 public class KhachHang_GUI extends javax.swing.JPanel {
 
-    /**
+    private DefaultTableModel tableModel;
+	/**
      * Creates new form KhachHang_GUI
      */
     public KhachHang_GUI() {
         initComponents();
         
         updateHeader();
+        
+        
+     // Đổ dữ liệu vào JTable
+        loadDataToTable();
+        
     }
 
     /**
@@ -35,7 +49,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         titleHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbKhachHang = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -53,27 +67,26 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         titleHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         titleHoaDon.setText("Danh sách đặt phòng");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Mã khách hàng", "Tên khách hàng", "CCCD", "Phái", "Điện thoại"
-            }
+        tbKhachHang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+            new String[] { "Mã khách hàng", "Tên khách hàng", "CCCD", "Phái", "Ngày sinh", "Điện thoại" }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            Class<?>[] types = new Class<?>[] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;  // Không cho phép chỉnh sửa dữ liệu trong bảng
+            }
         });
-        jTable1.setRowHeight(40);
-        jScrollPane1.setViewportView(jTable1);
+        tbKhachHang.setRowHeight(40);
+        jScrollPane1.setViewportView(tbKhachHang);
 
         jPanel2.setBackground(new java.awt.Color(255, 0, 0));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -130,7 +143,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
-        jLabel3.setText("Nhận phòng");
+        jLabel3.setText("Thêm KH");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -150,7 +163,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         );
 
         jTextField1.setForeground(new java.awt.Color(144, 144, 144));
-        jTextField1.setText("Nhập tên hoặc số điện thoại...");
+        jTextField1.setText("Nhập CCCD để tìm");
         jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField1FocusGained(evt);
@@ -230,8 +243,38 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         jTextField1.setForeground(Color.decode("#909090"));
     }//GEN-LAST:event_jTextField1FocusLost
     private void updateHeader(){
-        JTableHeader header = jTable1.getTableHeader();
+        JTableHeader header = tbKhachHang.getTableHeader();
          header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
+    }
+    
+    
+ // Hàm đổ dữ liệu từ database vào JTable
+    private void loadDataToTable() {
+    	KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+        List<KhachHang> dsKhachHang = khachHangDAO.getAllKhachHang();
+        
+      DefaultTableModel tableModel = new DefaultTableModel(
+		    new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+		    new String[] { "Mã khách hàng", "Tên khách hàng", "CCCD", "Phái", "Ngày sinh", "Điện thoại" }
+		);
+  	tbKhachHang.setModel(tableModel);
+        
+        tableModel.setRowCount(0);
+
+        // Định dạng ngày theo dd/MM/yyyy
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (KhachHang kh : dsKhachHang) {
+            Object[] row = {
+                kh.getMaKhachHang(),
+                kh.getTenKhachHang(),
+                kh.getCCCD(),
+                kh.getPhai(),
+                dateFormat.format(kh.getNgaySinh()),  // Định dạng ngày sinh
+                kh.getDienThoai()
+            };
+            tableModel.addRow(row);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -245,8 +288,8 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tbKhachHang;
     private javax.swing.JLabel titleHoaDon;
     // End of variables declaration//GEN-END:variables
 }

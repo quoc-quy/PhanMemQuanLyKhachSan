@@ -104,16 +104,10 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="tbKhachHang">
               <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="4">
-                    <Column editable="true" title="M&#xe3; kh&#xe1;ch h&#xe0;ng" type="java.lang.String"/>
-                    <Column editable="true" title="T&#xea;n kh&#xe1;ch h&#xe0;ng" type="java.lang.String"/>
-                    <Column editable="true" title="CCCD" type="java.lang.String"/>
-                    <Column editable="true" title="Ph&#xe1;i" type="java.lang.String"/>
-                    <Column editable="true" title="&#x110;i&#x1ec7;n tho&#x1ea1;i" type="java.lang.String"/>
-                  </Table>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object[][] {},  // B&#x1eaf;t &#x111;&#x1ea7;u v&#x1edb;i d&#x1eef; li&#x1ec7;u r&#x1ed7;ng&#xa;    new String[] { &quot;M&#xe3; kh&#xe1;ch h&#xe0;ng&quot;, &quot;T&#xea;n kh&#xe1;ch h&#xe0;ng&quot;, &quot;CCCD&quot;, &quot;Ph&#xe1;i&quot;, &quot;Ng&#xe0;y sinh&quot;, &quot;&#x110;i&#x1ec7;n tho&#x1ea1;i&quot; }&#xa;) {&#xa;    Class&lt;?&gt;[] types = new Class&lt;?&gt;[] {&#xa;        java.lang.String.class, java.lang.String.class, java.lang.String.class,&#xa;        java.lang.String.class, java.lang.String.class, java.lang.String.class&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;&#xa;    @Override&#xa;    public boolean isCellEditable(int row, int column) {&#xa;        return false;  // Kh&#xf4;ng cho ph&#xe9;p ch&#x1ec9;nh s&#x1eed;a d&#x1eef; li&#x1ec7;u trong b&#x1ea3;ng&#xa;    }&#xa;}" type="code"/>
                 </Property>
                 <Property name="rowHeight" type="int" value="40"/>
               </Properties>
@@ -254,7 +248,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/IMAGES/add.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nh&#x1ead;n ph&#xf2;ng"/>
+                <Property name="text" type="java.lang.String" value="Th&#xea;m KH"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -264,7 +258,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="90" green="90" red="90" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Nh&#x1ead;p t&#xea;n ho&#x1eb7;c s&#x1ed1; &#x111;i&#x1ec7;n tho&#x1ea1;i..."/>
+            <Property name="text" type="java.lang.String" value="Nh&#x1ead;p CCCD &#x111;&#x1ec3; t&#xec;m"/>
           </Properties>
           <Events>
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField1FocusGained"/>

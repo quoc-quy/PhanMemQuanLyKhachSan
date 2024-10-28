@@ -5,14 +5,22 @@
 package GUI;
 
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import DAO.KhachHang_DAO;
+import DAO.NhanVien_DAO;
+import ENTITY.KhachHang;
+import ENTITY.NhanVien;
 
 /**
  *
  * @author 84837
  */
 public class NhanVien_GUI extends javax.swing.JPanel {
-
     /**
      * Creates new form NhanVien_GUI
      */
@@ -20,6 +28,8 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         initComponents();
         
         updateHeader();
+        
+        loadDataToTable();
     }
 
     /**
@@ -34,7 +44,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         titleHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbNhanVien = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -49,15 +59,10 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         titleHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         titleHoaDon.setText("Danh sách nhân viên");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
+        tbNhanVien.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {},
             new String [] {
-                "Mã nhân viên", "Tên nhân viên", "Loại", "Phái", "Ngày sinh", "Trạng Thái"
+                "Mã nhân viên", "Tên nhân viên", "Loại", "Phái", "Ngày sinh", "Số điện thoại"
             }
         ) {
             Class[] types = new Class [] {
@@ -68,8 +73,8 @@ public class NhanVien_GUI extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jTable1.setRowHeight(40);
-        jScrollPane1.setViewportView(jTable1);
+        tbNhanVien.setRowHeight(40);
+        jScrollPane1.setViewportView(tbNhanVien);
 
         jPanel2.setBackground(new java.awt.Color(255, 0, 0));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -179,8 +184,38 @@ public class NhanVien_GUI extends javax.swing.JPanel {
         add(jPanel1, "card2");
     }// </editor-fold>//GEN-END:initComponents
     private void updateHeader(){
-        JTableHeader header = jTable1.getTableHeader();
+        JTableHeader header = tbNhanVien.getTableHeader();
          header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
+    }
+    
+    
+//    Hàm đổ dữ liệu từ database vào JTable
+    private void loadDataToTable() {
+    	NhanVien_DAO nhanVienhDAO = new NhanVien_DAO();
+        List<NhanVien> dsNhanVien = nhanVienhDAO.getAllNhanVien();
+        
+      DefaultTableModel tableModel = new DefaultTableModel(
+		    new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+		    new String[] { "Mã nhân viên", "Tên nhân viên", "Loại", "Phái", "Ngày sinh", "Số điện thoại" }
+		);
+  		tbNhanVien.setModel(tableModel);
+        
+        tableModel.setRowCount(0);
+
+        // Định dạng ngày theo dd/MM/yyyy
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (NhanVien nv : dsNhanVien) {
+            Object[] row = {
+                nv.getMaNhanVien(),
+                nv.getTenNhanVien(),
+                nv.getLoaiNhanVien().toString(),
+                nv.getPhai(),
+                dateFormat.format(nv.getNgaySinh()),
+                nv.getSoDienThoai()
+            };
+            tableModel.addRow(row);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -192,7 +227,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbNhanVien;
     private javax.swing.JLabel titleHoaDon;
     // End of variables declaration//GEN-END:variables
 }

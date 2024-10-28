@@ -9,7 +9,7 @@ package ENTITY;
  * @author 84837
  */
 public enum LoaiNhanVien {
-    NV_QUANLY("Nhan vien quan ly"), NV_LETAN("Nhan vien le tan");
+    NV_QUANLY("Quan Ly"), NV_LETAN("Le Tan");
      
     private String loaiNhanVien;
 
@@ -19,6 +19,6 @@ public enum LoaiNhanVien {
 
     @Override
     public String toString() {
-        return "loaiNhanVien{" + "ordinal=" + ordinal() + ", name=" + name() + ", loaiNhanVien=" + loaiNhanVien + '}';
+        return loaiNhanVien;
     }
 }

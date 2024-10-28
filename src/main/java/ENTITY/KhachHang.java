@@ -4,6 +4,7 @@
  */
 package ENTITY;
 
+import java.sql.Date;
 import java.util.Objects;
 
 /**
@@ -15,21 +16,27 @@ public class KhachHang {
     private String tenKhachHang;
     private String CCCD;
     private String phai;
+    private Date ngaySinh;
     private String dienThoai;
     
-    public KhachHang(){
-        this("", "", "", "", "");
-    }
+    public KhachHang() {
+    	
+	}
 
-    public KhachHang(String maKhachHang, String tenKhachHang, String CCCD, String phai, String dienThoai) {
-        this.maKhachHang = maKhachHang;
-        this.tenKhachHang = tenKhachHang;
-        this.CCCD = CCCD;
-        this.phai = phai;
-        this.dienThoai = dienThoai;
-    }
+	public KhachHang(String maKhachHang, String tenKhachHang, String CCCD, String phai, Date ngaySinh,
+			String dienThoai) {
+		super();
+		this.maKhachHang = maKhachHang;
+		this.tenKhachHang = tenKhachHang;
+		this.CCCD = CCCD;
+		this.phai = phai;
+		this.ngaySinh = ngaySinh;
+		this.dienThoai = dienThoai;
+	}
 
-    public String getMaKhachHang() {
+
+
+	public String getMaKhachHang() {
         return maKhachHang;
     }
 
@@ -60,8 +67,17 @@ public class KhachHang {
     public void setPhai(String phai) {
         this.phai = phai;
     }
+    
 
-    public String getDienThoai() {
+    public Date getNgaySinh() {
+		return ngaySinh;
+	}
+
+	public void setNgaySinh(Date ngaySinh) {
+		this.ngaySinh = ngaySinh;
+	}
+
+	public String getDienThoai() {
         return dienThoai;
     }
 
@@ -88,13 +104,12 @@ public class KhachHang {
         final KhachHang other = (KhachHang) obj;
         return Objects.equals(this.maKhachHang, other.maKhachHang);
     }
-    
-    
 
-    @Override
-    public String toString() {
-        return "KhachHang{" + "maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + ", CCCD=" + CCCD + ", phai=" + phai + ", dienThoai=" + dienThoai + '}';
-    }
+	@Override
+	public String toString() {
+		return "KhachHang [maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + ", CCCD=" + CCCD + ", phai="
+				+ phai + ", ngaySinh=" + ngaySinh + ", dienThoai=" + dienThoai + "]";
+	}
     
     
 }
