@@ -23,13 +23,13 @@ public class NhanVien {
     private String password;
     private String CCCD;
     private String soDienThoai;
-    private Boolean trangThai;
+    private String trangThai;
     
     public NhanVien(){
-        this("", "", LoaiNhanVien.NV_LETAN, "", LocalDate.now(), "", "", "", true);
+        this("", "", LoaiNhanVien.NV_LETAN, "", LocalDate.now(), "", "", "", "");
     }
 
-    public NhanVien(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String phai, LocalDate ngaySinh, String password, String CCCD, String soDienThoai, Boolean trangThai) {
+    public NhanVien(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String phai, LocalDate ngaySinh, String password, String CCCD, String soDienThoai, String trangThai) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
         this.loaiNhanVien = loaiNhanVien;
@@ -105,11 +105,11 @@ public class NhanVien {
         this.soDienThoai = soDienThoai;
     }
 
-    public Boolean getTrangThai() {
+    public String getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(Boolean trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
 
