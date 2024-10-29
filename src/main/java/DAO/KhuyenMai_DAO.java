@@ -1,14 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DAO;
+
+import ConnectDB.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ConnectDB.ConnectDB;
-
-
+/**
+ *
+ * @author Snowy
+ */
 public class KhuyenMai_DAO {
-			 private ConnectDB dbConnection = new ConnectDB();
+    private ConnectDB dbConnection = new ConnectDB();
 		 
 //		 Kiểm tra mã khuyến mãi
 		 public boolean isExp(String maKhuyenMai) {
@@ -61,5 +68,5 @@ public class KhuyenMai_DAO {
 			}
 			return moTa;
 		}
-	}
-
+    
+}
