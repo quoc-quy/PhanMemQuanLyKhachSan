@@ -141,7 +141,7 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="6">
+                  <Table columnCount="8" rowCount="6">
                     <Column editable="true" title="M&#xe3; h&#xf3;a &#x111;&#x1a1;n" type="java.lang.Object">
                       <Data value=""/>
                       <Data value=""/>
@@ -169,6 +169,7 @@
                     <Column editable="true" title="Kh&#xe1;ch h&#xe0;ng" type="java.lang.Object"/>
                     <Column editable="true" title="T&#x1ed5;ng ti&#x1ec1;n" type="java.lang.Double"/>
                     <Column editable="true" title="Gi&#x1ea3;m gi&#xe1;" type="java.lang.Double"/>
+                    <Column editable="true" title="Thu&#x1ebf;" type="java.lang.Double"/>
                     <Column editable="true" title="T&#x1ed5;ng sau khi gi&#x1ea3;m" type="java.lang.Double"/>
                   </Table>
                 </Property>

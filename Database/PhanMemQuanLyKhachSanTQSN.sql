@@ -196,6 +196,12 @@ INSERT INTO HoaDon (MaHoaDon, MaKhuyenMai, MaNhanVienLap, MaKhachHang, NgayLap, 
 ('HD10102024NV0010019', 'KM001', 'NV001', 'KH0019', '2024-10-10', '2024-10-10', '2024-10-19', 950000, 2100000),
 ('HD10102024NV0010020', 'KM002', 'NV001', 'KH0020', '2024-10-10', '2024-10-10', '2024-10-20', 1000000, 2200000);
 
+ALTER TABLE HoaDon
+ADD Thue INT;
+
+UPDATE HoaDon
+SET Thue = 10;
+
 
 --------------------------------------- Chi Tiết Hóa Đơn ---------------------------
 
