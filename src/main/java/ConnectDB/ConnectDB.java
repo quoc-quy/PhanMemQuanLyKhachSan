@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * @author Admin
  */
 public class ConnectDB {
-	public Connection getConnection() {
+	public static Connection getConnection() {
         Connection connection = null;
         try {
             String url = "jdbc:sqlserver://localhost:1433;databaseName=PhanMemQuanLyKhachSanTQSN";

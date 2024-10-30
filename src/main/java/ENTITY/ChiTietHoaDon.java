@@ -47,6 +47,22 @@ public class ChiTietHoaDon {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
+    
+ // Phương thức tính tiền phòng
+    public double tinhTienPhong() {
+        double tienPhong = 0;
+
+        // Kiểm tra nếu phòng có giá theo ngày
+        if (phong.getLoaiPhong().isTinhTheoNgay()) {
+            tienPhong = phong.getLoaiPhong().getGiaTienTheoNgay() * soLuong;
+        } 
+        // Nếu phòng tính giá theo giờ
+        else {
+            tienPhong = phong.getLoaiPhong().getGiaTienTheoGio() * soLuong;
+        }
+
+        return tienPhong;
+    }
 
     @Override
     public String toString() {

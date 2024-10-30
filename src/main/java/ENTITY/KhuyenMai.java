@@ -20,11 +20,11 @@ public class KhuyenMai {
     private Boolean trangThai;
     private int chietKhau;
     
-    public KhuyenMai(){
-        this("", "", LocalDate.now(), LocalDate.now(), true, 0);
-    }
+    public KhuyenMai(String makhuyenMai) {
+		this.makhuyenMai = makhuyenMai;
+	}
 
-    public KhuyenMai(String makhuyenMai, String moTa, LocalDate ngayBatDau, LocalDate ngayKetThuc, Boolean trangThai, int chietKhau) {
+	public KhuyenMai(String makhuyenMai, String moTa, LocalDate ngayBatDau, LocalDate ngayKetThuc, Boolean trangThai, int chietKhau) {
         this.makhuyenMai = makhuyenMai;
         this.moTa = moTa;
         this.ngayBatDau = ngayBatDau;

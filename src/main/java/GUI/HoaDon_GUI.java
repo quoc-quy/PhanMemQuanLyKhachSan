@@ -6,7 +6,21 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import DAO.HoaDon_DAO;
+import DAO.KhachHang_DAO;
+import ENTITY.ChiTietDichVu;
+import ENTITY.ChiTietHoaDon;
+import ENTITY.HoaDon;
+import ENTITY.KhachHang;
+import ENTITY.LoaiPhong;
+import ENTITY.Phong;
 
 /**
  *
@@ -21,6 +35,11 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         initComponents();
         
         updateHeader();
+        
+        loadDataToTable();
+        
+//        Chức năng tìm kiếm
+        btnTimKiem.addActionListener(e -> filterTableData());
     }
 
     /**
@@ -38,11 +57,11 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         panelThemHoaDon = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbHoaDon = new javax.swing.JTable();
         panelXuatFile = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        btnTimKiem = new javax.swing.JButton();
+        txtTimKiem = new javax.swing.JTextField();
 
         setLayout(new java.awt.CardLayout());
 
@@ -79,8 +98,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbHoaDon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", "", "", null, null, null, null, null},
                 {"", null, null, null, null, null, null, null},
@@ -90,7 +109,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 {"", null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã hóa đơn", "Thời gian", "Loại phòng", "Khách hàng", "Tổng tiền", "Giảm giá", "Thuế", "Tổng sau khi giảm"
+                "Mã hóa đơn", "Khách hàng", "Mã phòng","Loại phòng", "Ngày nhận", "Ngày trả", "Dịch vụ", "Tổng tiền", "Khuyến mãi", "Thuế", "Tổng thanh toán"
             }
         ) {
             Class[] types = new Class [] {
@@ -101,8 +120,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jTable1.setRowHeight(40);
-        jScrollPane1.setViewportView(jTable1);
+        tbHoaDon.setRowHeight(40);
+        jScrollPane1.setViewportView(tbHoaDon);
 
         panelXuatFile.setBackground(new java.awt.Color(129, 251, 184));
         panelXuatFile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -131,16 +150,21 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
+        btnTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
 
-        jTextField1.setForeground(new java.awt.Color(144, 144, 144));
-        jTextField1.setText("Tìm theo mã...");
-        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtTimKiem.setForeground(new java.awt.Color(144, 144, 144));
+        txtTimKiem.setText("Tìm theo mã phòng, tên KH");
+        txtTimKiem.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField1FocusGained(evt);
+                txtTimKiemFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField1FocusLost(evt);
+                txtTimKiemFocusLost(evt);
+            }
+        });
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimKiemActionPerformed(evt);
             }
         });
 
@@ -152,9 +176,9 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(titleHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnTimKiem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelThemHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -171,8 +195,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                     .addComponent(titleHoaDon)
                     .addComponent(panelThemHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelXuatFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtTimKiem))
                 .addGap(7, 7, 7)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -182,32 +206,164 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         add(jPanel2, "card2");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
-        jTextField1.setText("");
-        jTextField1.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jTextField1FocusGained
+    private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusGained
+        txtTimKiem.setText("");
+        txtTimKiem.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtTimKiemFocusGained
 
-    private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
-        jTextField1.setText("Tìm theo mã...");
-        jTextField1.setForeground(Color.decode("#909090"));
-    }//GEN-LAST:event_jTextField1FocusLost
+    private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusLost
+        txtTimKiem.setText("Tìm theo mã...");
+        txtTimKiem.setForeground(Color.decode("#909090"));
+    }//GEN-LAST:event_txtTimKiemFocusLost
+
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimKiemActionPerformed
     private void updateHeader(){
-        JTableHeader header = jTable1.getTableHeader();
+        JTableHeader header = tbHoaDon.getTableHeader();
          header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
     }
+ // Hàm đổ dữ liệu từ database vào JTable
+//    private void loadDataToTable() {
+//    	HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+//        List<HoaDon> dsHoaDon = hoaDonDAO.getAllHoaDon();
+//        
+//      DefaultTableModel tableModel = new DefaultTableModel(
+//		    new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+//		    new String [] {
+//		    		"Mã hóa đơn", "Khách hàng", "Phòng", "Ngày nhận", "Ngày trả", "Khuyến mãi", "Tổng thanh toán"
+//	            }
+//		);
+//  	tbHoaDon.setModel(tableModel);
+//        
+//        tableModel.setRowCount(0);
+//
+//        // Định dạng ngày theo dd/MM/yyyy
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        for (HoaDon hd : dsHoaDon) {
+//            Object[] row = {
+//                hd.getMaHoaDon(),
+//                hd.getKhachHang().getTenKhachHang(),
+//                hd.getMaHoaDon(),
+//                hd.getNgayNhanPhong(),
+//                hd.getNgayTraPhong(),
+//                hd.getKhuyenMai().getChietKhau(),
+//                hd.getTongTien()
+//               
+//            };
+//            tableModel.addRow(row);
+//        }
+//    }
+    
+    private void loadDataToTable() {
+        HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+        List<Object[]> dsHoaDon = hoaDonDAO.getAllHoaDonWithPhong();
+
+        DefaultTableModel tableModel = new DefaultTableModel(
+            new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+            new String[]{
+                "Mã hóa đơn", "Khách hàng", "Phòng", 
+                "Ngày nhận", "Ngày trả", "Khuyến mãi", "Tổng thanh toán"
+            }
+        );
+
+        tbHoaDon.setModel(tableModel);
+        tableModel.setRowCount(0);
+
+        // Định dạng ngày theo dd/MM/yyyy
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (Object[] row : dsHoaDon) {
+            tableModel.addRow(new Object[]{
+                row[0],  // Mã hóa đơn
+                row[1],  // Khách hàng
+                row[2],  // Mã phòng
+                dateFormat.format(row[3]),  // Ngày nhận
+                dateFormat.format(row[4]),  // Ngày trả
+                row[5] + "%",  // Khuyến mãi
+                row[6]  // Tổng thanh toán
+            });
+        }
+    }
+    
+    private void filterTableData() {
+        String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
+
+        // Tạo một DefaultTableModel mới với cấu trúc bảng giống bảng chính
+        DefaultTableModel filteredModel = new DefaultTableModel(
+            new String[]{
+                "Mã hóa đơn", "Khách hàng", "Phòng", "Ngày nhận", 
+                "Ngày trả", "Khuyến mãi", "Tổng thanh toán"
+            }, 0
+        );
+        
+        // Lấy dữ liệu từ model gốc của JTable
+        DefaultTableModel originalModel = (DefaultTableModel) tbHoaDon.getModel();
+
+        // Duyệt qua từng hàng và lọc dữ liệu
+        for (int i = 0; i < originalModel.getRowCount(); i++) {
+            String tenKhachHang = originalModel.getValueAt(i, 1).toString().toLowerCase();
+            String maPhong = originalModel.getValueAt(i, 2).toString().toLowerCase();
+
+            // Kiểm tra nếu từ khóa xuất hiện trong tên khách hàng hoặc mã phòng
+            if (tenKhachHang.contains(keyword) || maPhong.contains(keyword)) {
+                // Thêm hàng phù hợp vào model đã lọc
+                filteredModel.addRow(new Object[]{
+                    originalModel.getValueAt(i, 0),  // Mã hóa đơn
+                    originalModel.getValueAt(i, 1),  // Khách hàng
+                    originalModel.getValueAt(i, 2),  // Phòng
+                    originalModel.getValueAt(i, 3),  // Ngày nhận
+                    originalModel.getValueAt(i, 4),  // Ngày trả
+                    originalModel.getValueAt(i, 5),  // Khuyến mãi
+                    originalModel.getValueAt(i, 6)   // Tổng thanh toán
+                });
+            }
+        }
+
+        // Cập nhật model cho JTable với dữ liệu đã lọc
+        tbHoaDon.setModel(filteredModel);
+    }
+    
+    private List<Object[]> originalData = new ArrayList<>(); // Dữ liệu ban đầu
+
+	 // Phương thức để load dữ liệu ban đầu và lưu lại vào biến originalData
+	 private void loadOriginalData() {
+	     HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+	     List<Object[]> dsHoaDon = hoaDonDAO.getAllHoaDonWithPhong();
+	
+	     DefaultTableModel tableModel = (DefaultTableModel) tbHoaDon.getModel();
+	     tableModel.setRowCount(0); // Xóa dữ liệu cũ
+	
+	     // Lưu dữ liệu ban đầu vào danh sách originalData
+	     for (Object[] row : dsHoaDon) {
+	         originalData.add(row); // Lưu vào biến originalData
+	         tableModel.addRow(row); // Thêm vào bảng
+	     }
+	 }
+	 
+	 private void restoreOriginalData() {
+		    DefaultTableModel tableModel = (DefaultTableModel) tbHoaDon.getModel();
+		    tableModel.setRowCount(0); // Xóa dữ liệu hiện tại
+
+		    // Khôi phục dữ liệu từ originalData
+		    for (Object[] row : originalData) {
+		        tableModel.addRow(row);
+		    }
+		}
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel panelThemHoaDon;
     private javax.swing.JPanel panelXuatFile;
+    private javax.swing.JTable tbHoaDon;
     private javax.swing.JLabel titleHoaDon;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

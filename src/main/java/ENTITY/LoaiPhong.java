@@ -4,8 +4,6 @@
  */
 package ENTITY;
 
-import java.text.DecimalFormat;
-import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -14,16 +12,19 @@ import java.time.format.DateTimeFormatter;
 public class LoaiPhong {
     private String maLoaiPhong;
     private String tenLoaiPhong;
-    private Double giaTien;
+    private Double giaTienTheoGio;
+    private Double giaTienTheoNgay;
+    private boolean tinhTheoNgay;
     
     public LoaiPhong(){
-        this("", "", 0.0);
     }
 
-    public LoaiPhong(String maLoaiPhong, String tenLoaiPhong, Double giaTien) {
+    public LoaiPhong(String maLoaiPhong, String tenLoaiPhong, Double giaTienTheoGio, Double giaTienTheoNgay, Boolean tinhTheoNgay) {
         this.maLoaiPhong = maLoaiPhong;
         this.tenLoaiPhong = tenLoaiPhong;
-        this.giaTien = giaTien;
+        this.giaTienTheoGio = giaTienTheoGio;
+        this.giaTienTheoNgay = giaTienTheoNgay;
+        this.tinhTheoNgay = tinhTheoNgay;
     }
 
     public String getMaLoaiPhong() {
@@ -41,21 +42,39 @@ public class LoaiPhong {
     public void setTenLoaiPhong(String tenLoaiPhong) {
         this.tenLoaiPhong = tenLoaiPhong;
     }
+    
 
-    public Double getGiaTien() {
-        return giaTien;
-    }
+    public Double getGiaTienTheoGio() {
+		return giaTienTheoGio;
+	}
 
-    public void setGiaTien(Double giaTien) {
-        this.giaTien = giaTien;
-    }
+	public void setGiaTienTheoGio(Double giaTienTheoGio) {
+		this.giaTienTheoGio = giaTienTheoGio;
+	}
 
-    @Override
-    public String toString() {
-        DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DecimalFormat dFormat = new DecimalFormat("#,###.##$");
-        return "LoaiPhong{" + "maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", giaTien=" + dFormat.format(this.giaTien) + '}';
-    }
+	public Double getGiaTienTheoNgay() {
+		return giaTienTheoNgay;
+	}
+
+	public void setGiaTienTheoNgay(Double giaTienTheoNgay) {
+		this.giaTienTheoNgay = giaTienTheoNgay;
+	}
+
+	public boolean isTinhTheoNgay() {
+		return tinhTheoNgay;
+	}
+
+	public void setTinhTheoNgay(boolean tinhTheoNgay) {
+		this.tinhTheoNgay = tinhTheoNgay;
+	}
+
+	@Override
+	public String toString() {
+		return "LoaiPhong [maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", giaTienTheoGio="
+				+ giaTienTheoGio + ", giaTienTheoNgay=" + giaTienTheoNgay + ", tinhTheoNgay=" + tinhTheoNgay + "]";
+	}
+
+	
     
     
 }

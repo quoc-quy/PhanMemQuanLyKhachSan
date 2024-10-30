@@ -24,11 +24,13 @@ public class NhanVien {
     private String CCCD;
     private String soDienThoai;
     
-    public NhanVien(){
-        
-    }
+    
 
-    public NhanVien(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String phai, Date ngaySinh, String CCCD, String soDienThoai) {
+    public NhanVien(String maNhanVien) {
+		this.maNhanVien = maNhanVien;
+	}
+
+	public NhanVien(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String phai, Date ngaySinh, String CCCD, String soDienThoai) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
         this.loaiNhanVien = loaiNhanVien;

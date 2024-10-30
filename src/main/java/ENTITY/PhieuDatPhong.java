@@ -18,17 +18,19 @@ public class PhieuDatPhong {
     private Phong phong;
     private LocalDate ngayNhanPhong;
     private LocalDate ngayTraPhong;
+    private Double tienCoc;
     
     public PhieuDatPhong(){
         
     }
 
-    public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, LocalDate ngayNhanPhong, LocalDate ngayTraPhong) {
+    public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, LocalDate ngayNhanPhong, LocalDate ngayTraPhong, Double tienCoc) {
         this.khachHang = khachHang;
         this.nhanVienLap = nhanVienLap;
         this.phong = phong;
         this.ngayNhanPhong = ngayNhanPhong;
         this.ngayTraPhong = ngayTraPhong;
+        this.tienCoc = tienCoc;
     }
 
     public KhachHang getKhachHang() {
@@ -70,12 +72,20 @@ public class PhieuDatPhong {
     public void setNgayTraPhong(LocalDate ngayTraPhong) {
         this.ngayTraPhong = ngayTraPhong;
     }
+    
+    public Double getTienCoc() {
+		return tienCoc;
+	}
 
-    @Override
+	public void setTienCoc(Double tienCoc) {
+		this.tienCoc = tienCoc;
+	}
+
+	@Override
     public String toString() {
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DecimalFormat dFormat = new DecimalFormat("#,###.##$");
-        return "PhieuDatPhong{" + "khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", phong=" + phong + ", ngayNhanPhong=" + ngayNhanPhong.format(formatter) + ", ngayTraPhong=" + ngayTraPhong.format(formatter) + '}';
+        return "PhieuDatPhong{" + "khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", phong=" + phong + ", ngayNhanPhong=" + ngayNhanPhong.format(formatter) + ", ngayTraPhong=" + ngayTraPhong.format(formatter) + ", tienCoc=" + tienCoc +'}';
     }
     
     

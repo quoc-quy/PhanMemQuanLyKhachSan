@@ -18,11 +18,13 @@ public class DichVu {
     private Double donGia;
     private String donViTinh;
     
-    public DichVu(){
-        this("", "", 0, 0.0, "");
-    }
+    
 
-    public DichVu(String maDichvu, String tenDichVu, int soLuong, Double donGia, String donViTinh) {
+    public DichVu(String maDichvu) {
+		this.maDichvu = maDichvu;
+	}
+
+	public DichVu(String maDichvu, String tenDichVu, int soLuong, Double donGia, String donViTinh) {
         this.maDichvu = maDichvu;
         this.tenDichVu = tenDichVu;
         this.soLuong = soLuong;

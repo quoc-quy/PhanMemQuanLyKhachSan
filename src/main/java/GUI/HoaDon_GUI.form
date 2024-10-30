@@ -35,9 +35,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="titleHoaDon" min="-2" pref="76" max="-2" attributes="0"/>
                   <EmptySpace pref="275" max="32767" attributes="0"/>
-                  <Component id="jTextField1" min="-2" pref="195" max="-2" attributes="0"/>
+                  <Component id="txtTimKiem" min="-2" pref="195" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnTimKiem" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="panelThemHoaDon" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -56,8 +56,8 @@
                       <Component id="titleHoaDon" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="panelThemHoaDon" alignment="1" max="32767" attributes="0"/>
                       <Component id="panelXuatFile" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jButton1" max="32767" attributes="0"/>
-                      <Component id="jTextField1" max="32767" attributes="0"/>
+                      <Component id="btnTimKiem" max="32767" attributes="0"/>
+                      <Component id="txtTimKiem" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
@@ -135,43 +135,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="tbHoaDon">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="8" rowCount="6">
-                    <Column editable="true" title="M&#xe3; h&#xf3;a &#x111;&#x1a1;n" type="java.lang.Object">
-                      <Data value=""/>
-                      <Data value=""/>
-                      <Data value=""/>
-                      <Data value=""/>
-                      <Data value=""/>
-                      <Data value=""/>
-                    </Column>
-                    <Column editable="true" title="Th&#x1edd;i gian" type="java.lang.String">
-                      <Data value=""/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
-                    <Column editable="true" title="Lo&#x1ea1;i ph&#xf2;ng" type="java.lang.String">
-                      <Data value=""/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                      <Data value="null"/>
-                    </Column>
-                    <Column editable="true" title="Kh&#xe1;ch h&#xe0;ng" type="java.lang.Object"/>
-                    <Column editable="true" title="T&#x1ed5;ng ti&#x1ec1;n" type="java.lang.Double"/>
-                    <Column editable="true" title="Gi&#x1ea3;m gi&#xe1;" type="java.lang.Double"/>
-                    <Column editable="true" title="Thu&#x1ebf;" type="java.lang.Double"/>
-                    <Column editable="true" title="T&#x1ed5;ng sau khi gi&#x1ea3;m" type="java.lang.Double"/>
-                  </Table>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {&quot;&quot;, &quot;&quot;, &quot;&quot;, null, null, null, null, null},&#xa;        {&quot;&quot;, null, null, null, null, null, null, null},&#xa;        {&quot;&quot;, null, null, null, null, null, null, null},&#xa;        {&quot;&quot;, null, null, null, null, null, null, null},&#xa;        {&quot;&quot;, null, null, null, null, null, null, null},&#xa;        {&quot;&quot;, null, null, null, null, null, null, null}&#xa;    },&#xa;    new String [] {&#xa;        &quot;M&#xe3; h&#xf3;a &#x111;&#x1a1;n&quot;, &quot;Kh&#xe1;ch h&#xe0;ng&quot;, &quot;M&#xe3; ph&#xf2;ng&quot;,&quot;Lo&#x1ea1;i ph&#xf2;ng&quot;, &quot;Ng&#xe0;y nh&#x1ead;n&quot;, &quot;Ng&#xe0;y tr&#x1ea3;&quot;, &quot;D&#x1ecb;ch v&#x1ee5;&quot;, &quot;T&#x1ed5;ng ti&#x1ec1;n&quot;, &quot;Khuy&#x1ebf;n m&#xe3;i&quot;, &quot;Thu&#x1ebf;&quot;, &quot;T&#x1ed5;ng thanh to&#xe1;n&quot;&#xa;    }&#xa;) {&#xa;    Class[] types = new Class [] {&#xa;        java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;}" type="code"/>
                 </Property>
                 <Property name="rowHeight" type="int" value="40"/>
               </Properties>
@@ -229,23 +199,24 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnTimKiem">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/IMAGES/Search.png"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="txtTimKiem">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="90" green="90" red="90" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="T&#xec;m theo m&#xe3;..."/>
+            <Property name="text" type="java.lang.String" value="T&#xec;m theo m&#xe3; ph&#xf2;ng, t&#xea;n KH"/>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField1FocusGained"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField1FocusLost"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtTimKiemFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtTimKiemFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTimKiemActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
