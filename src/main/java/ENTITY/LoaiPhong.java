@@ -15,7 +15,6 @@ public class LoaiPhong {
     private Double giaTienTheoGio;
     private Double giaTienTheoNgay;
     private boolean tinhTheoNgay;
-    private String moTaPhong;
     
     public LoaiPhong(){
     }
@@ -23,14 +22,13 @@ public class LoaiPhong {
     
 
     public LoaiPhong(String maLoaiPhong, String tenLoaiPhong, Double giaTienTheoGio, Double giaTienTheoNgay,
-			boolean tinhTheoNgay, String moTaPhong) {
+			boolean tinhTheoNgay) {
 		super();
 		this.maLoaiPhong = maLoaiPhong;
 		this.tenLoaiPhong = tenLoaiPhong;
 		this.giaTienTheoGio = giaTienTheoGio;
 		this.giaTienTheoNgay = giaTienTheoNgay;
 		this.tinhTheoNgay = tinhTheoNgay;
-		this.moTaPhong = moTaPhong;
 	}
 
 
@@ -75,19 +73,6 @@ public class LoaiPhong {
 	public void setTinhTheoNgay(boolean tinhTheoNgay) {
 		this.tinhTheoNgay = tinhTheoNgay;
 	}
-	
-	
-
-	public String getMoTaPhong() {
-		return moTaPhong;
-	}
-
-
-
-	public void setMoTaPhong(String moTaPhong) {
-		this.moTaPhong = moTaPhong;
-	}
-
 
 
 	@Override

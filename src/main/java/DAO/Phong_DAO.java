@@ -19,11 +19,11 @@ public class Phong_DAO {
 	
 	public List<Phong> getAllPhong() {
         List<Phong> dsPhong = new ArrayList<>();
-        String query = "SELECT p.MaPhong, p.SoNguoiLon, p.SoTreEm, " +
-                "p.TrangThaiPhong, p.TinhTrangPhong, " +
-                "l.MaLoaiPhong, l.TenLoaiPhong, l.GiaTienTheoNgay, l.GiaTienTheoGio, l.MoTaPhong " +
-                "FROM Phong p " +
-                "JOIN LoaiPhong l ON p.LoaiPhong = l.MaLoaiPhong";
+        String query = "SELECT MaPhong, SoNguoiLon, SoTreEm, TrangThaiPhong, TinhTrangPhong, " +
+                "LoaiPhong.MaLoaiPhong, LoaiPhong.TenLoaiPhong, " +
+                "LoaiPhong.GiaTienTheoNgay, LoaiPhong.GiaTienTheoGio " +
+                "FROM Phong " +
+                "JOIN LoaiPhong ON Phong.LoaiPhong = LoaiPhong.MaLoaiPhong";
 
         try (Connection conn = connectDB.getConnection();
              Statement stmt = conn.createStatement();
@@ -36,8 +36,7 @@ public class Phong_DAO {
             		    rs.getString("TenLoaiPhong"),
             		    rs.getDouble("GiaTienTheoNgay"),
             		    rs.getDouble("GiaTienTheoGio"),
-            		    rs.getBoolean("TinhTheoNgay"),
-            		    rs.getString("MoTaPhong")
+            		    false
             		);
 
                 // Lấy giá trị enum từ chuỗi trong cơ sở dữ liệu

@@ -4,23 +4,41 @@
  */
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import DAO.Phong_DAO;
+import ENTITY.Phong;
 
 /**
  *
  * @author Admin
  */
 public class Phong_GUI extends javax.swing.JPanel {
-
+	private Phong_DAO phongDAO;
+	private JPanel panelMain;
     /**
      * Creates new form Phong_GUI
      */
     public Phong_GUI() {
-        initComponents();
+//        initComponents();
+        phongDAO = new Phong_DAO();
+        initComponents1();
+        loadDataToCards();
+        
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        jDialog1.setLocationRelativeTo(null);
+//        jDialog1.setLocationRelativeTo(null);
     }
 
     private void setExtendedState(int maximizedBoth) {
@@ -2534,6 +2552,64 @@ public class Phong_GUI extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jDialog1WindowActivated
 
+    private void initComponents1() {
+
+        // Tạo panel chính chứa các card phòng
+        panelMain = new JPanel(new GridLayout(0, 4, 10, 10)); // 4 cột, khoảng cách 10px
+        JScrollPane scrollPane = new JScrollPane(panelMain);
+
+        // Cấu hình giao diện chính
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
+
+        setSize(800, 600);
+
+    }
+
+    private void loadDataToCards() {
+        List<Phong> dsPhong = phongDAO.getAllPhong();
+
+        for (Phong phong : dsPhong) {
+            panelMain.add(createRoomCard(phong));
+        }
+
+        panelMain.revalidate(); // Cập nhật lại giao diện sau khi thêm card
+        panelMain.repaint();
+    }
+
+    private JPanel createRoomCard(Phong phong) {
+        // Tạo panel con đại diện cho một phòng
+        JPanel card = new JPanel();
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBackground(Color.BLUE);
+        card.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Thêm thông tin phòng vào card
+        JLabel lblMaPhong = new JLabel("Mã: " + phong.getMaPhong());
+        lblMaPhong.setForeground(Color.WHITE);
+        lblMaPhong.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JLabel lblLoaiPhong = new JLabel("Loại: " + phong.getLoaiPhong().getTenLoaiPhong());
+        lblLoaiPhong.setForeground(Color.WHITE);
+
+        JLabel lblGiaNgay = new JLabel("Ngày: " + phong.getLoaiPhong().getGiaTienTheoNgay());
+        lblGiaNgay.setForeground(Color.WHITE);
+
+        JLabel lblGiaGio = new JLabel("Giờ: " + phong.getLoaiPhong().getGiaTienTheoGio());
+        lblGiaGio.setForeground(Color.WHITE);
+
+        JLabel lblTinhTrang = new JLabel(phong.getTinhTrangPhong().toString());
+        lblTinhTrang.setForeground(Color.GREEN);
+
+        // Thêm các thành phần vào card
+        card.add(lblMaPhong);
+        card.add(lblLoaiPhong);
+        card.add(lblGiaNgay);
+        card.add(lblGiaGio);
+        card.add(lblTinhTrang);
+
+        return card;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -44,13 +44,14 @@ CREATE TABLE LoaiPhong (
 	GiaTienTheoGio DOUBLE
 );
 
+ALTER TABLE LoaiPhong
+ADD TinhTheoNgay BIT;
+
 INSERT INTO LoaiPhong (MaLoaiPhong, TenLoaiPhong, GiaTienTheoNgay, GiaTienTheoGio) VALUES
 ('LP001', 'Phong Don', 300000, 80000),
 ('LP002', 'Phong Doi', 400000, 150000),
 ('LP003', 'Phong Gia Dinh', 600000, 200000);
 
-ALTER TABLE LoaiPhong
-ADD MoTaPhong NVARCHAR(255);
 
 --------------------------------------- Phòng ---------------------------
 
