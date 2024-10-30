@@ -103,4 +103,75 @@ public class KhuyenMai_DAO {
         
         return dsKhuyenMai;
     }
+    
+//    add khuyen mai 
+    public boolean addKhuyenMai(KhuyenMai khuyenMai) {
+    	String query = "INSERT INTO KhuyenMai (MaKhuyenMai, MoTa, NgayBatDau, NgayKetThuc, TrangThai, ChietKhau) VALUES (?, ?, ?, ?, ?, ?)";
+    	try(Connection conn = dbConnection.getConnection();
+    		PreparedStatement ps = conn.prepareStatement(query)){
+    		ps.setString(1,khuyenMai.getMakhuyenMai());
+    		ps.setString(2,khuyenMai.getMoTa());
+    		ps.setDate(3,khuyenMai.getNgayBatDau());
+    		ps.setDate(4,khuyenMai.getNgayKetThuc());
+    		ps.setString(5,khuyenMai.getTrangThai());
+    		ps.setInt(6,khuyenMai.getChietKhau());
+    			return ps.executeUpdate()>0;
+    	}catch(SQLException e) {
+    		
+    	}
+    	return false;
+    }
+    
+    public boolean updateKhuyenMai(KhuyenMai khuyenMai) {
+    	String query = "UPDATE KhuyenMai SET MoTa = ?, NgayBatDau = ?, NgayKetThuc = ?, TrangThai = ?, ChietKhau = ? WHERE MaKhuyenMai = ?";
+    	try(Connection conn = dbConnection.getConnection();
+    			PreparedStatement ps = conn.prepareStatement(query)){
+    		ps.setString(1, khuyenMai.getMakhuyenMai());
+    		ps.setString(2,khuyenMai.getMoTa());
+    		ps.setDate(3,khuyenMai.getNgayBatDau());
+    		ps.setDate(4, khuyenMai.getNgayKetThuc());
+    		ps.setString(5, khuyenMai.getTrangThai());
+    		ps.setInt(6,khuyenMai.getChietKhau());
+    		return ps.executeUpdate() > 0;
+    	}catch(SQLException e) {
+    		
+    	}
+    	return false;
+    }
+    
+    public boolean deleteKhuyenMai(String maKhuyenMai) {
+    	 String query = "DELETE FROM KhuyenMai WHERE MaKhuyenMai = ?";
+    	 try(Connection conn = dbConnection.getConnection();
+    			 PreparedStatement ps = conn.prepareStatement(query)){
+	    		 ps.setString(1, maKhuyenMai);
+	    		 return ps.executeUpdate() > 0;
+    	 } catch(SQLException e) {
+    		 
+    	 }
+    	 return false;
+    }
+    
+    public KhuyenMai findMaKhuyenMai(String maKhuyenMai) {
+    	KhuyenMai khuyenMai = null;
+    	String query = "SELECT * FROM KhuyenMai WHERE MaKhuyenMai = ?";
+    	try(Connection conn = dbConnection.getConnection();
+    			PreparedStatement ps = conn.prepareStatement(query)){
+    		ps.setString(1, maKhuyenMai);
+    		ResultSet rs = ps.executeQuery();
+    		
+    		if(rs.next()) {
+    			khuyenMai = new KhuyenMai(
+    					rs.getString("MaKhuyenMai"),
+                        rs.getString("MoTa"),
+                        rs.getDate("NgayBatDau"),
+                        rs.getDate("NgayKetThuc"),
+                        rs.getString("TrangThai"),
+                        rs.getInt("ChietKhau")
+    			);
+    		}
+    	} catch(SQLException e) {
+    		
+    	}
+    	return khuyenMai;
+    }
 }

@@ -6,6 +6,7 @@ package GUI;
 
 import java.awt.Font;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -16,6 +17,17 @@ import DAO.KhachHang_DAO;
 import DAO.KhuyenMai_DAO;
 import ENTITY.KhachHang;
 import ENTITY.KhuyenMai;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -30,6 +42,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         initComponents();
         updateHeader();
         loadDataToTable();
+        
     }
 
     /**
@@ -137,6 +150,11 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         btnThemKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnThemKhuyenMai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
         btnThemKhuyenMai.setText("Thêm khuyến mãi");
+        btnThemKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemKhuyenMaiMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -189,6 +207,15 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 
         add(jPanel1, "card2");
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    
+     
+    
+    private void btnThemKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {
+    	
+    	
+    }//GEN-LAST:event_btnThemKhuyenMaiMouseClicked
     private void updateHeader(){
         JTableHeader header = tbKhuyenMai.getTableHeader();
          header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
@@ -215,12 +242,16 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
                 km.getMoTa(),
                 dateFormat.format(km.getNgayBatDau()),
                 dateFormat.format(km.getNgayKetThuc()),
-                km.getChietKhau(),
+                String.valueOf(km.getChietKhau()),
                 km.getTrangThai()
             };
             tableModel.addRow(row);
         }
+       
     }
+   
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCapNhatKhuyenMai;
@@ -234,4 +265,6 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
     private javax.swing.JTable tbKhuyenMai;
     private javax.swing.JLabel titleHoaDon;
     // End of variables declaration//GEN-END:variables
+
+   
 }
