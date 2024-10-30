@@ -40,8 +40,8 @@ INSERT INTO NhanVien (MaNhanVien, TenNhanVien, LoaiNhanVien, TaiKhoan, NgaySinh,
 CREATE TABLE LoaiPhong (
     MaLoaiPhong NVARCHAR(6) PRIMARY KEY,
     TenLoaiPhong NVARCHAR(50),
-    GiaTienTheoNgay FLOAT,
-	GiaTienTheoGio FLOAT
+    GiaTienTheoNgay DOUBLE,
+	GiaTienTheoGio DOUBLE
 );
 
 INSERT INTO LoaiPhong (MaLoaiPhong, TenLoaiPhong, GiaTienTheoNgay, GiaTienTheoGio) VALUES
@@ -49,6 +49,8 @@ INSERT INTO LoaiPhong (MaLoaiPhong, TenLoaiPhong, GiaTienTheoNgay, GiaTienTheoGi
 ('LP002', 'Phong Doi', 400000, 150000),
 ('LP003', 'Phong Gia Dinh', 600000, 200000);
 
+ALTER TABLE LoaiPhong
+ADD MoTaPhong NVARCHAR(255);
 
 --------------------------------------- Phòng ---------------------------
 

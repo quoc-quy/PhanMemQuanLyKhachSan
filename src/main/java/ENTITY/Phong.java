@@ -13,21 +13,30 @@ import java.util.Objects;
 public class Phong {
     private String maPhong;
     private LoaiPhong loaiPhong;
-    private int soNguoi;
+    private int soNguoiLon;
+    private int soTreEm;
     private TrangThaiPhong trangThaiPhong;
     private TinhTrangPhong tinhTrangPhong;
     
     public Phong(){
     }
 
-    public Phong(String maPhong, LoaiPhong loaiPhong, int soNguoi, TrangThaiPhong trangThaiPhong) {
-        this.maPhong = maPhong;
-        this.loaiPhong = loaiPhong;
-        this.soNguoi = soNguoi;
-        this.trangThaiPhong = trangThaiPhong;
-    }
+    
 
-    public String getMaPhong() {
+    public Phong(String maPhong, LoaiPhong loaiPhong, int soNguoiLon, int soTreEm, TrangThaiPhong trangThaiPhong,
+			TinhTrangPhong tinhTrangPhong) {
+		super();
+		this.maPhong = maPhong;
+		this.loaiPhong = loaiPhong;
+		this.soNguoiLon = soNguoiLon;
+		this.soTreEm = soTreEm;
+		this.trangThaiPhong = trangThaiPhong;
+		this.tinhTrangPhong = tinhTrangPhong;
+	}
+
+
+
+	public String getMaPhong() {
         return maPhong;
     }
 
@@ -41,14 +50,6 @@ public class Phong {
 
     public void setLoaiPhong(LoaiPhong loaiPhong) {
         this.loaiPhong = loaiPhong;
-    }
-
-    public int getSoNguoi() {
-        return soNguoi;
-    }
-
-    public void setSoNguoi(int soNguoi) {
-        this.soNguoi = soNguoi;
     }
 
     public TrangThaiPhong getTrangThaiPhong() {
@@ -68,7 +69,23 @@ public class Phong {
     }
     
 
-    @Override
+    public int getSoNguoiLon() {
+		return soNguoiLon;
+	}
+
+	public void setSoNguoiLon(int soNguoiLon) {
+		this.soNguoiLon = soNguoiLon;
+	}
+
+	public int getSoTreEm() {
+		return soTreEm;
+	}
+
+	public void setSoTreEm(int soTreEm) {
+		this.soTreEm = soTreEm;
+	}
+
+	@Override
     public int hashCode() {
         return Objects.hash(maPhong);
     }
@@ -88,8 +105,13 @@ public class Phong {
         return Objects.equals(this.maPhong, other.maPhong);
     }
 
-    @Override
-    public String toString() {
-        return "Phong{" + "maPhong=" + maPhong + ", loaiPhong=" + loaiPhong + ", soNguoi=" + soNguoi + ", trangThaiPhong=" + trangThaiPhong + ", tinhTrangPhong=" + tinhTrangPhong + '}';
-    }  
+
+
+	@Override
+	public String toString() {
+		return "Phong [maPhong=" + maPhong + ", loaiPhong=" + loaiPhong + ", soNguoiLon=" + soNguoiLon + ", soTreEm="
+				+ soTreEm + ", trangThaiPhong=" + trangThaiPhong + ", tinhTrangPhong=" + tinhTrangPhong + "]";
+	}
+
+    
 }
