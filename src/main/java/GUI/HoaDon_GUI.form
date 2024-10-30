@@ -41,7 +41,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="panelThemHoaDon" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="panelXuatFile" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnXuatFile" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
               <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
@@ -55,7 +55,7 @@
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="titleHoaDon" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="panelThemHoaDon" alignment="1" max="32767" attributes="0"/>
-                      <Component id="panelXuatFile" alignment="1" max="32767" attributes="0"/>
+                      <Component id="btnXuatFile" alignment="1" max="32767" attributes="0"/>
                       <Component id="btnTimKiem" max="32767" attributes="0"/>
                       <Component id="txtTimKiem" max="32767" attributes="0"/>
                   </Group>
@@ -148,7 +148,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panelXuatFile">
+        <Container class="javax.swing.JPanel" name="btnXuatFile">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b8" green="fb" red="81" type="rgb"/>
@@ -157,6 +157,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnXuatFileMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">

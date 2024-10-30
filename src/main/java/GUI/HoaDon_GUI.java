@@ -10,11 +10,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
+import Components.ExportFile;
 import DAO.HoaDon_DAO;
 
 /**
@@ -59,7 +61,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbHoaDon = new javax.swing.JTable();
-        panelXuatFile = new javax.swing.JPanel();
+        btnXuatFile = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnTimKiem = new javax.swing.JButton();
         txtTimKiem = new javax.swing.JTextField();
@@ -124,8 +126,13 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         tbHoaDon.setRowHeight(40);
         jScrollPane1.setViewportView(tbHoaDon);
 
-        panelXuatFile.setBackground(new java.awt.Color(129, 251, 184));
-        panelXuatFile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXuatFile.setBackground(new java.awt.Color(129, 251, 184));
+        btnXuatFile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXuatFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXuatFileMouseClicked(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -134,18 +141,18 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Export.png"))); // NOI18N
         jLabel1.setText("Xuất file");
 
-        javax.swing.GroupLayout panelXuatFileLayout = new javax.swing.GroupLayout(panelXuatFile);
-        panelXuatFile.setLayout(panelXuatFileLayout);
-        panelXuatFileLayout.setHorizontalGroup(
-            panelXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelXuatFileLayout.createSequentialGroup()
+        javax.swing.GroupLayout btnXuatFileLayout = new javax.swing.GroupLayout(btnXuatFile);
+        btnXuatFile.setLayout(btnXuatFileLayout);
+        btnXuatFileLayout.setHorizontalGroup(
+            btnXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnXuatFileLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
-        panelXuatFileLayout.setVerticalGroup(
-            panelXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelXuatFileLayout.createSequentialGroup()
+        btnXuatFileLayout.setVerticalGroup(
+            btnXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnXuatFileLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -182,7 +189,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelThemHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
             .addComponent(jSeparator1)
             .addComponent(jScrollPane1)
@@ -194,7 +201,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(titleHoaDon)
                     .addComponent(panelThemHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelXuatFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnXuatFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTimKiem))
                 .addGap(7, 7, 7)
@@ -204,7 +211,14 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         );
 
         add(jPanel2, "card2");
-    }// </editor-fold>//GEN-END:initComponents
+    }
+    
+    
+//   Sự kiện xuất file
+    private void btnXuatFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXuatFileMouseClicked
+    	ExportFile exporter = new ExportFile();
+        exporter.exportToExcel(tbHoaDon); // Xuất dữ liệu từ bảng tbHoaDon
+    }
 
     private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {
         txtTimKiem.setText("");
@@ -340,13 +354,13 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTimKiem;
+    private javax.swing.JPanel btnXuatFile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelThemHoaDon;
-    private javax.swing.JPanel panelXuatFile;
     private javax.swing.JTable tbHoaDon;
     private javax.swing.JLabel titleHoaDon;
     private javax.swing.JTextField txtTimKiem;
