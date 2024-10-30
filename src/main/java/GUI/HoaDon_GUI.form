@@ -211,7 +211,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="90" green="90" red="90" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="T&#xec;m theo m&#xe3; ph&#xf2;ng, t&#xea;n KH"/>
           </Properties>
           <Events>
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtTimKiemFocusGained"/>

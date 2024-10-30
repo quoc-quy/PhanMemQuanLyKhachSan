@@ -10,23 +10,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 
 import DAO.HoaDon_DAO;
-import DAO.KhachHang_DAO;
-import ENTITY.ChiTietDichVu;
-import ENTITY.ChiTietHoaDon;
-import ENTITY.HoaDon;
-import ENTITY.KhachHang;
-import ENTITY.LoaiPhong;
-import ENTITY.Phong;
 
 /**
  *
  * @author Admin
  */
 public class HoaDon_GUI extends javax.swing.JPanel {
+	private DefaultTableModel originalModel;
 
     /**
      * Creates new form DichVu_GUI
@@ -37,6 +33,11 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         updateHeader();
         
         loadDataToTable();
+        
+        
+        // Lưu model ban đầu ngay khi khởi tạo
+        originalModel = (DefaultTableModel) tbHoaDon.getModel();
+
         
 //        Chức năng tìm kiếm
         btnTimKiem.addActionListener(e -> filterTableData());
@@ -153,7 +154,6 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         btnTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
 
         txtTimKiem.setForeground(new java.awt.Color(144, 144, 144));
-        txtTimKiem.setText("Tìm theo mã phòng, tên KH");
         txtTimKiem.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTimKiemFocusGained(evt);
@@ -206,19 +206,18 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         add(jPanel2, "card2");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusGained
+    private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {
         txtTimKiem.setText("");
-        txtTimKiem.setForeground(Color.BLACK);
-    }//GEN-LAST:event_txtTimKiemFocusGained
+        txtTimKiem.setForeground(Color.BLACK);   
+    }
 
-    private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusLost
-        txtTimKiem.setText("Tìm theo mã...");
+    private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {
         txtTimKiem.setForeground(Color.decode("#909090"));
-    }//GEN-LAST:event_txtTimKiemFocusLost
+    }                                    
 
-    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimKiemActionPerformed
+    }                                          
     private void updateHeader(){
         JTableHeader header = tbHoaDon.getTableHeader();
          header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
@@ -286,72 +285,58 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             });
         }
     }
-    
+
+    // Phương thức lọc dữ liệu
     private void filterTableData() {
         String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
 
-        // Tạo một DefaultTableModel mới với cấu trúc bảng giống bảng chính
-        DefaultTableModel filteredModel = new DefaultTableModel(
-            new String[]{
-                "Mã hóa đơn", "Khách hàng", "Phòng", "Ngày nhận", 
-                "Ngày trả", "Khuyến mãi", "Tổng thanh toán"
-            }, 0
-        );
-        
-        // Lấy dữ liệu từ model gốc của JTable
-        DefaultTableModel originalModel = (DefaultTableModel) tbHoaDon.getModel();
+        // Kiểm tra nếu từ khóa rỗng, khôi phục dữ liệu ban đầu
+        if (keyword.isEmpty()) {
+            tbHoaDon.setModel(originalModel); // Khôi phục model ban đầu
+            return;
+        }
 
-        // Duyệt qua từng hàng và lọc dữ liệu
-        for (int i = 0; i < originalModel.getRowCount(); i++) {
-            String tenKhachHang = originalModel.getValueAt(i, 1).toString().toLowerCase();
-            String maPhong = originalModel.getValueAt(i, 2).toString().toLowerCase();
+        // Tạo model mới để chứa dữ liệu lọc
+        DefaultTableModel filteredModel = new DefaultTableModel(
+                new String[]{"Mã hóa đơn", "Khách hàng", "Phòng", 
+                             "Ngày nhận", "Ngày trả", "Khuyến mãi", "Tổng thanh toán"}, 
+                0
+        );
+
+        boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
+
+        // Duyệt qua từng hàng trong originalModel và lọc dữ liệu
+        for (int i = 0; i < originalModel.getRowCount(); i++) {// Lấy tên khách hàng và mã phòng, kiểm tra null và loại bỏ khoảng trắng
+            String tenKhachHang = originalModel.getValueAt(i, 1) != null 
+                    ? originalModel.getValueAt(i, 1).toString().trim().toLowerCase() 
+                    : "";
+			String maPhong = originalModel.getValueAt(i, 2) != null 
+			               ? originalModel.getValueAt(i, 2).toString().trim().toLowerCase() 
+			               : "";
+			
 
             // Kiểm tra nếu từ khóa xuất hiện trong tên khách hàng hoặc mã phòng
             if (tenKhachHang.contains(keyword) || maPhong.contains(keyword)) {
-                // Thêm hàng phù hợp vào model đã lọc
                 filteredModel.addRow(new Object[]{
-                    originalModel.getValueAt(i, 0),  // Mã hóa đơn
-                    originalModel.getValueAt(i, 1),  // Khách hàng
-                    originalModel.getValueAt(i, 2),  // Phòng
-                    originalModel.getValueAt(i, 3),  // Ngày nhận
-                    originalModel.getValueAt(i, 4),  // Ngày trả
-                    originalModel.getValueAt(i, 5),  // Khuyến mãi
-                    originalModel.getValueAt(i, 6)   // Tổng thanh toán
+                    originalModel.getValueAt(i, 0), // Mã hóa đơn
+                    originalModel.getValueAt(i, 1), // Khách hàng
+                    originalModel.getValueAt(i, 2), // Phòng
+                    originalModel.getValueAt(i, 3), // Ngày nhận
+                    originalModel.getValueAt(i, 4), // Ngày trả
+                    originalModel.getValueAt(i, 5), // Khuyến mãi
+                    originalModel.getValueAt(i, 6)  // Tổng thanh toán
                 });
+                found = true; // Đánh dấu là đã tìm thấy dữ liệu
             }
         }
 
-        // Cập nhật model cho JTable với dữ liệu đã lọc
-        tbHoaDon.setModel(filteredModel);
+        // Cập nhật JTable với model đã lọc hoặc hiển thị thông báo nếu không tìm thấy
+        if (found) {
+            tbHoaDon.setModel(filteredModel); // Cập nhật model đã lọc
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu phù hợp!");
+        }
     }
-    
-    private List<Object[]> originalData = new ArrayList<>(); // Dữ liệu ban đầu
-
-	 // Phương thức để load dữ liệu ban đầu và lưu lại vào biến originalData
-	 private void loadOriginalData() {
-	     HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
-	     List<Object[]> dsHoaDon = hoaDonDAO.getAllHoaDonWithPhong();
-	
-	     DefaultTableModel tableModel = (DefaultTableModel) tbHoaDon.getModel();
-	     tableModel.setRowCount(0); // Xóa dữ liệu cũ
-	
-	     // Lưu dữ liệu ban đầu vào danh sách originalData
-	     for (Object[] row : dsHoaDon) {
-	         originalData.add(row); // Lưu vào biến originalData
-	         tableModel.addRow(row); // Thêm vào bảng
-	     }
-	 }
-	 
-	 private void restoreOriginalData() {
-		    DefaultTableModel tableModel = (DefaultTableModel) tbHoaDon.getModel();
-		    tableModel.setRowCount(0); // Xóa dữ liệu hiện tại
-
-		    // Khôi phục dữ liệu từ originalData
-		    for (Object[] row : originalData) {
-		        tableModel.addRow(row);
-		    }
-		}
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTimKiem;
