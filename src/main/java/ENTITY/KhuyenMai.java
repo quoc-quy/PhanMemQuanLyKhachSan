@@ -7,6 +7,7 @@ package ENTITY;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  *
@@ -15,16 +16,16 @@ import java.time.format.DateTimeFormatter;
 public class KhuyenMai {
     private String makhuyenMai;
     private String moTa;
-    private LocalDate ngayBatDau;
-    private LocalDate ngayKetThuc;
-    private Boolean trangThai;
+    private Date ngayBatDau;
+    private Date ngayKetThuc;
+    private String trangThai;
     private int chietKhau;
     
     public KhuyenMai(String makhuyenMai) {
 		this.makhuyenMai = makhuyenMai;
 	}
 
-	public KhuyenMai(String makhuyenMai, String moTa, LocalDate ngayBatDau, LocalDate ngayKetThuc, Boolean trangThai, int chietKhau) {
+	public KhuyenMai(String makhuyenMai, String moTa, Date ngayBatDau, Date ngayKetThuc, String trangThai, int chietKhau) {
         this.makhuyenMai = makhuyenMai;
         this.moTa = moTa;
         this.ngayBatDau = ngayBatDau;
@@ -49,27 +50,27 @@ public class KhuyenMai {
         this.moTa = moTa;
     }
 
-    public LocalDate getNgayBatDau() {
+    public Date getNgayBatDau() {
         return ngayBatDau;
     }
 
-    public void setNgayBatDau(LocalDate ngayBatDau) {
+    public void setNgayBatDau(Date ngayBatDau) {
         this.ngayBatDau = ngayBatDau;
     }
 
-    public LocalDate getNgayKetThuc() {
+    public Date getNgayKetThuc() {
         return ngayKetThuc;
     }
 
-    public void setNgayKetThuc(LocalDate ngayKetThuc) {
+    public void setNgayKetThuc(Date ngayKetThuc) {
         this.ngayKetThuc = ngayKetThuc;
     }
 
-    public Boolean getTrangThai() {
+    public String getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(Boolean trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -87,7 +88,7 @@ public class KhuyenMai {
     public String toString() {
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DecimalFormat dFormat = new DecimalFormat("#,###.##$");
-        return "KhuyenMai{" + "makhuyenMai=" + makhuyenMai + ", moTa=" + moTa + ", ngayBatDau=" + ngayBatDau.format(formatter) + ", ngayKetThuc=" + ngayKetThuc.format(formatter) + ", trangThai=" + trangThai + ", chietKhau=" + dFormat.format(this.chietKhau) + '}';
+        return "KhuyenMai{" + "makhuyenMai=" + makhuyenMai + ", moTa=" + moTa + ", ngayBatDau=" + ngayBatDau + ", ngayKetThuc=" + ngayKetThuc + ", trangThai=" + trangThai + ", chietKhau=" + dFormat.format(this.chietKhau) + '}';
     }
     
     
