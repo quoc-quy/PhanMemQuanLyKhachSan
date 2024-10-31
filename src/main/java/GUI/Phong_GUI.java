@@ -2651,6 +2651,38 @@ public class Phong_GUI extends javax.swing.JPanel {
                 filterRoomsByFloor(selectedTang);
             }
         });
+        lblFilter1.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				getAllRooms();
+			}
+		});
     }
 
     private void loadDataToCards() {
@@ -2732,6 +2764,7 @@ public class Phong_GUI extends javax.swing.JPanel {
     }
     
     private void getAllRooms() {
+    	panelMain.removeAll();
     	List<Phong> danhSachPhong = phongDAO.getAllPhong();
     	
     	for (Phong phong : danhSachPhong) {
