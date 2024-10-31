@@ -18,7 +18,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
 import java.util.List;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -28,10 +30,14 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import com.toedter.calendar.JDateChooser;
 
 import DAO.Phong_DAO;
 import ENTITY.Phong;
@@ -2890,6 +2896,39 @@ public class Phong_GUI extends javax.swing.JPanel {
         buttonPanel.add(btnDatPhong);
         buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         buttonPanel.setBackground(Color.white);
+
+        btnDatPhong.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				showBookingDialog(phong);
+			}
+		});
         
         
         // Thêm dialogPanel vào JDialog
@@ -2900,6 +2939,80 @@ public class Phong_GUI extends javax.swing.JPanel {
         dialog.setVisible(true);
     }
     
+    private void showBookingDialog(Phong phong) {
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(panelMain);
+
+        JDialog bookingDialog = new JDialog(parentFrame, "Đặt phòng cho " + phong.getMaPhong(), true);
+        bookingDialog.setSize(400, 300);
+        bookingDialog.setLocationRelativeTo(parentFrame);
+        bookingDialog.setBackground(Color.white);
+
+        JPanel bookingPanel = new JPanel();
+        bookingPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        bookingPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Field Check-in
+        bookingPanel.add(new JLabel("Check-in:"));
+        JDateChooser checkInDateChooser = new JDateChooser();
+        checkInDateChooser.setDateFormatString("dd/MM/yyyy");
+        bookingPanel.add(checkInDateChooser);
+
+        // Field Check-out
+        bookingPanel.add(new JLabel("Check-out:"));
+        JDateChooser checkOutDateChooser = new JDateChooser();
+        checkOutDateChooser.setDateFormatString("dd/MM/yyyy");
+        bookingPanel.add(checkOutDateChooser);
+
+        // Số người lớn (JComboBox với giá trị từ 0 đến 5)
+        bookingPanel.add(new JLabel("Số người lớn:"));
+        Integer[] personOptions = {0, 1, 2, 3, 4, 5};
+        JComboBox<Integer> adultsComboBox = new JComboBox<>(personOptions);
+        bookingPanel.add(adultsComboBox);
+
+        // Số trẻ em (JComboBox với giá trị từ 0 đến 5)
+        bookingPanel.add(new JLabel("Số trẻ em:"));
+        JComboBox<Integer> childrenComboBox = new JComboBox<>(personOptions);
+        bookingPanel.add(childrenComboBox);
+
+        // Panel cho nút Xác nhận
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton btnConfirm = new JButton("Xác nhận");
+        buttonPanel.add(btnConfirm);
+
+        bookingDialog.setLayout(new BorderLayout());
+        bookingDialog.add(bookingPanel, BorderLayout.CENTER);
+        bookingDialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        btnConfirm.addActionListener(e -> {
+            Date checkInDate = (Date) checkInDateChooser.getDate();
+            Date checkOutDate = (Date) checkOutDateChooser.getDate();
+            int adultsCount = (Integer) adultsComboBox.getSelectedItem();
+            int childrenCount = (Integer) childrenComboBox.getSelectedItem();
+
+            if (checkInDate == null || checkOutDate == null) {
+                JOptionPane.showMessageDialog(bookingDialog, "Vui lòng chọn ngày Check-in và Check-out.");
+                return;
+            }
+            if (checkOutDate.before(checkInDate)) {
+                JOptionPane.showMessageDialog(bookingDialog, "Ngày Check-out phải sau ngày Check-in.");
+                return;
+            }
+
+            // Chuyển đổi java.util.Date sang java.sql.Date
+            java.sql.Date sqlCheckInDate = new java.sql.Date(checkInDate.getTime());
+            java.sql.Date sqlCheckOutDate = new java.sql.Date(checkOutDate.getTime());
+
+            // In thông tin đặt phòng ra console hoặc xử lý logic đặt phòng
+            System.out.println("Đặt phòng thành công cho " + phong.getMaPhong());
+            System.out.println("Check-in: " + sqlCheckInDate);
+            System.out.println("Check-out: " + sqlCheckOutDate);
+            System.out.println("Người lớn: " + adultsCount);
+            System.out.println("Trẻ em: " + childrenCount);
+
+            bookingDialog.dispose();
+        });
+        bookingDialog.setVisible(true);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
