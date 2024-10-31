@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -21,6 +22,7 @@ import ENTITY.KhachHang;
  * @author 84837
  */
 public class KhachHang_GUI extends javax.swing.JPanel {
+	private DefaultTableModel originalModel;
 
     private DefaultTableModel tableModel;
 	/**
@@ -34,6 +36,13 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         
      // Đổ dữ liệu vào JTable
         loadDataToTable();
+        
+        // Lưu model ban đầu ngay khi khởi tạo
+        originalModel = (DefaultTableModel) tbKhachHang.getModel();
+
+        
+//        Chức năng tìm kiếm
+        btnTimKiem.addActionListener(e -> filterTableData());
         
     }
 
@@ -56,8 +65,8 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtTimKiem = new javax.swing.JTextField();
+        btnTimKiem = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setLayout(new java.awt.CardLayout());
@@ -162,18 +171,18 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jTextField1.setForeground(new java.awt.Color(144, 144, 144));
-        jTextField1.setText("Nhập CCCD để tìm");
-        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtTimKiem.setForeground(new java.awt.Color(144, 144, 144));
+        txtTimKiem.setText("Nhập tên, CCCD để tìm");
+        txtTimKiem.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField1FocusGained(evt);
+                txtTimKiemFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField1FocusLost(evt);
+                txtTimKiemFocusLost(evt);
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
+        btnTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Tìm khách hàng");
@@ -192,9 +201,9 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(btnTimKiem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -211,7 +220,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -222,7 +231,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                             .addGap(12, 12, 12))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel4))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE))
@@ -231,17 +240,15 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         add(jPanel1, "card2");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
+    private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusGained
         // TODO add your handling code here:
-        jTextField1.setText("");
-        jTextField1.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jTextField1FocusGained
+        txtTimKiem.setText("");
+        txtTimKiem.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtTimKiemFocusGained
 
-    private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
-        // TODO add your handling code here:
-        jTextField1.setText("Nhập tên hoặc số điện thoại...");
-        jTextField1.setForeground(Color.decode("#909090"));
-    }//GEN-LAST:event_jTextField1FocusLost
+    private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {
+        txtTimKiem.setForeground(Color.decode("#909090"));
+    }                                    
     private void updateHeader(){
         JTableHeader header = tbKhachHang.getTableHeader();
          header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
@@ -276,9 +283,59 @@ public class KhachHang_GUI extends javax.swing.JPanel {
             tableModel.addRow(row);
         }
     }
+    
+ // Phương thức lọc dữ liệu
+    private void filterTableData() {
+        String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
+
+        // Kiểm tra nếu từ khóa rỗng, khôi phục dữ liệu ban đầu
+        if (keyword.isEmpty()) {
+        	tbKhachHang.setModel(originalModel); // Khôi phục model ban đầu
+            return;
+        }
+
+        // Tạo model mới để chứa dữ liệu lọc
+        DefaultTableModel filteredModel = new DefaultTableModel(
+        		new String[] { "Mã khách hàng", "Tên khách hàng", "CCCD", "Phái", "Ngày sinh", "Điện thoại" }, 
+                0
+        );
+
+        boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
+
+        // Duyệt qua từng hàng trong originalModel và lọc dữ liệu
+        for (int i = 0; i < originalModel.getRowCount(); i++) {// Lấy tên khách hàng và mã phòng, kiểm tra null và loại bỏ khoảng trắng
+            String tenKhachHang = originalModel.getValueAt(i, 1) != null 
+                    ? originalModel.getValueAt(i, 1).toString().trim().toLowerCase() 
+                    : "";
+			String cccd = originalModel.getValueAt(i, 2) != null 
+			               ? originalModel.getValueAt(i, 2).toString().trim().toLowerCase() 
+			               : "";
+			
+
+            // Kiểm tra nếu từ khóa xuất hiện trong tên khách hàng hoặc mã phòng
+            if (tenKhachHang.contains(keyword) || cccd.contains(keyword)) {
+                filteredModel.addRow(new Object[]{
+                    originalModel.getValueAt(i, 0),
+                    originalModel.getValueAt(i, 1), 
+                    originalModel.getValueAt(i, 2), 
+                    originalModel.getValueAt(i, 3),
+                    originalModel.getValueAt(i, 4),
+                    originalModel.getValueAt(i, 5)
+                });
+                found = true; // Đánh dấu là đã tìm thấy dữ liệu
+            }
+        }
+
+        // Cập nhật JTable với model đã lọc hoặc hiển thị thông báo nếu không tìm thấy
+        if (found) {
+        	tbKhachHang.setModel(filteredModel);
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu phù hợp!");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -288,8 +345,8 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tbKhachHang;
     private javax.swing.JLabel titleHoaDon;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }
