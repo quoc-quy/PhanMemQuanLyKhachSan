@@ -22,16 +22,20 @@ import DAO.HoaDon_DAO;
  */
 public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
+	private DanhSachDatPhong_DAO danhSachDatPhongDAO = new DanhSachDatPhong_DAO();
+	
 
     /**
      * Creates new form DanhSachDatPhong
      */
     public DanhSachDatPhong_GUI() {
         initComponents();
-        
+
         updateHeader();
         
         loadDataToTable();
+        setWidthColumns();
+        
         
         // Lưu model ban đầu ngay khi khởi tạo
         originalModel = (DefaultTableModel) tbDanhSachDatPhong.getModel();
@@ -94,6 +98,11 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
         btnHuy.setBackground(new java.awt.Color(255, 0, 0));
         btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHuy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHuyMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -240,23 +249,53 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         add(jPanel1, "card2");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusGained
-        // TODO add your handling code here:
+    private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {
         txtTimKiem.setText("");
         txtTimKiem.setForeground(Color.BLACK);
-    }//GEN-LAST:event_txtTimKiemFocusGained
+    }
 
-    private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusLost
-        // TODO add your handling code here:
+    private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {
         txtTimKiem.setForeground(Color.decode("#909090"));
-    }//GEN-LAST:event_txtTimKiemFocusLost
+    }
 
-    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimKiemActionPerformed
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    private void btnHuyMouseClicked(java.awt.event.MouseEvent evt) {
+    	int selectedRow = tbDanhSachDatPhong.getSelectedRow(); // Lấy dòng được chọn
+        if (selectedRow != -1) {
+            // Hiển thị hộp thoại xác nhận
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn hủy đặt phòng này không?", "Xác nhận hủy", JOptionPane.YES_NO_OPTION);
+            
+            // Nếu người dùng chọn YES thì thực hiện xóa
+            if (confirm == JOptionPane.YES_OPTION) {
+                String maPhieuDatPhong = tbDanhSachDatPhong.getValueAt(selectedRow, 1).toString(); // Giả sử mã hóa đơn ở cột thứ 2
+
+                // Gọi phương thức xóa từ DAO
+                boolean isDeleted = danhSachDatPhongDAO.deletePhieuDatPhong(maPhieuDatPhong);
+
+                if (isDeleted) {
+                    // Xóa dòng khỏi bảng giao diện sau khi xóa thành công
+                    ((DefaultTableModel) tbDanhSachDatPhong.getModel()).removeRow(selectedRow);
+                    JOptionPane.showMessageDialog(this, "Xóa thành công!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Xóa không thành công!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần hủy!");
+        }
+    }
+    
     private void updateHeader() {
 		JTableHeader header = tbDanhSachDatPhong.getTableHeader();
 		header.setFont(new Font("Times new Romans", Font.BOLD, 16));
+	}
+    
+    private void setWidthColumns() {
+        tbDanhSachDatPhong.getColumnModel().getColumn(0).setMaxWidth(50); // Đặt chiều rộng tối thiểu cho cột STT
+        tbDanhSachDatPhong.getColumnModel().getColumn(4).setMaxWidth(100);
+        tbDanhSachDatPhong.getColumnModel().getColumn(5).setMaxWidth(70);
 	}
     
     private void loadDataToTable() {
@@ -265,7 +304,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
         DefaultTableModel tableModel = new DefaultTableModel(
             new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-            new String[] { "Stt", "Tên khách hàng", "Số điện thoại", "Giới tính", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc" }
+            new String[] { "Stt", "Mã Phiếu đặt phòng", "Tên khách hàng", "Số điện thoại", "Phái", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc" }
         );
 
         tbDanhSachDatPhong.setModel(tableModel);
@@ -276,14 +315,15 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         
         for (Object[] row : dsHoaDon) {
             tableModel.addRow(new Object[]{
-                row[0], 
-                row[1],  
+                row[0],  
+                row[1],
                 row[2],  
                 row[3],  
-                row[4],
-                dateFormat.format(row[5]), 
-                dateFormat.format(row[6]),
-                row[7]
+                row[4],  
+                row[5],
+                dateFormat.format(row[6]), 
+                dateFormat.format(row[7]),
+                row[8]
             });
         }
     }
@@ -300,7 +340,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
         // Tạo model mới để chứa dữ liệu lọc
         DefaultTableModel filteredModel = new DefaultTableModel(
-        		new String[] { "Stt", "Tên khách hàng", "Số điện thoại", "Giới tính", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc" }, 
+        		new String[] { "Stt", "Mã Phiếu đặt phòng", "Tên khách hàng", "Số điện thoại", "Phái", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc" }, 
                 0
         );
 
@@ -308,11 +348,11 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
         // Duyệt qua từng hàng trong originalModel và lọc dữ liệu
         for (int i = 0; i < originalModel.getRowCount(); i++) {// Lấy tên khách hàng và mã phòng, kiểm tra null và loại bỏ khoảng trắng
-            String tenKhachHang = originalModel.getValueAt(i, 1) != null 
-                    ? originalModel.getValueAt(i, 1).toString().trim().toLowerCase() 
+            String tenKhachHang = originalModel.getValueAt(i, 2) != null 
+                    ? originalModel.getValueAt(i, 2).toString().trim().toLowerCase() 
                     : "";
-			String maPhong = originalModel.getValueAt(i, 2) != null 
-			               ? originalModel.getValueAt(i, 2).toString().trim().toLowerCase() 
+			String maPhong = originalModel.getValueAt(i, 3) != null 
+			               ? originalModel.getValueAt(i, 3).toString().trim().toLowerCase() 
 			               : "";
 			
 
@@ -334,7 +374,8 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
         // Cập nhật JTable với model đã lọc hoặc hiển thị thông báo nếu không tìm thấy
         if (found) {
-            tbDanhSachDatPhong.setModel(filteredModel); // Cập nhật model đã lọc
+            tbDanhSachDatPhong.setModel(filteredModel);
+            setWidthColumns();// Cập nhật model đã lọc
         } else {
             JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu phù hợp!");
         }
