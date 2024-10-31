@@ -23,7 +23,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -2728,7 +2730,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         lblGiaGio.setIcon(new ImageIcon(getClass().getResource("/IMAGES/watch.png")));
         lblGiaGio.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
        
-        RoundedPanel panelTinhTrang = new RoundedPanel(20);
+        RoundedPanel panelTinhTrang = new RoundedPanel(30);
         JLabel lblTinhTrang = new JLabel(phong.getTinhTrangPhong().toString());
         if(phong.getTinhTrangPhong() == TinhTrangPhong.SACH) {
         	lblTinhTrang.setForeground(Color.decode("#2F9245"));
@@ -2757,7 +2759,41 @@ public class Phong_GUI extends javax.swing.JPanel {
         card.add(lblGiaGio);
         card.add(lblGiaNgay);
         card.add(panelTinhTrang);
-
+        card.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        card.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				showRoomDetailsDialog(phong);
+			}
+		});
+        
         return card;
     }
     
@@ -2797,7 +2833,72 @@ public class Phong_GUI extends javax.swing.JPanel {
         panelMain.repaint();
     }
     
-    
+    //JDialogDatPhong
+    private void showRoomDetailsDialog(Phong phong) {
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Chi tiết phòng - " + phong.getMaPhong());
+        dialog.setModal(true); // Chặn các thao tác bên ngoài khi mở dialog
+        dialog.setSize(450, 400);
+        dialog.setLocationRelativeTo(null); // Hiển thị dialog ở giữa màn hình
+
+        // Tạo JPanel chứa thông tin phòng
+        JPanel dialogPanel = new JPanel();
+        dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.Y_AXIS));
+        dialogPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialogPanel.setBackground(Color.white);
+
+        // Tạo và thêm các JLabel vào dialogPanel cùng với JSeparator
+        JLabel lblMaPhong = new JLabel(phong.getMaPhong());
+        lblMaPhong.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        lblMaPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+        dialogPanel.add(lblMaPhong);
+        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+        JLabel lblLoaiPhong = new JLabel("Loại phòng: " + phong.getLoaiPhong().getTenLoaiPhong());
+        lblLoaiPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblLoaiPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+        dialogPanel.add(lblLoaiPhong);
+        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+        JLabel lblGiaNgay = new JLabel("Giá ngày: " + phong.getLoaiPhong().getGiaTienTheoNgay());
+        lblGiaNgay.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+        dialogPanel.add(lblGiaNgay);
+        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+        JLabel lblGiaGio = new JLabel("Giá giờ: " + phong.getLoaiPhong().getGiaTienTheoGio());
+        lblGiaGio.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblGiaGio.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+        dialogPanel.add(lblGiaGio);
+        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+        JLabel lblTinhTrang = new JLabel("Tình trạng: " + phong.getTinhTrangPhong());
+        lblTinhTrang.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTinhTrang.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+        dialogPanel.add(lblTinhTrang);
+        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
+        JButton btnDatPhong = new JButton("Đặt phòng");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        btnDatPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnDatPhong.setBackground(Color.decode("#199FFE"));
+        btnDatPhong.setMaximumSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+        btnDatPhong.setPreferredSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+        btnDatPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnDatPhong.setForeground(Color.white);
+        btnDatPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonPanel.add(btnDatPhong);
+        buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        buttonPanel.setBackground(Color.white);
+        
+        
+        // Thêm dialogPanel vào JDialog
+        dialog.add(dialogPanel);
+        dialog.setLayout(new BorderLayout());
+        dialog.add(dialogPanel, BorderLayout.CENTER);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.setVisible(true);
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
