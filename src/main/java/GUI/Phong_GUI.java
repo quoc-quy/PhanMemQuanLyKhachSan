@@ -2984,8 +2984,8 @@ public class Phong_GUI extends javax.swing.JPanel {
         bookingDialog.add(buttonPanel, BorderLayout.SOUTH);
 
         btnConfirm.addActionListener(e -> {
-            Date checkInDate = (Date) checkInDateChooser.getDate();
-            Date checkOutDate = (Date) checkOutDateChooser.getDate();
+            java.util.Date checkInDate = checkInDateChooser.getDate();
+            java.util.Date checkOutDate = checkOutDateChooser.getDate();
             int adultsCount = (Integer) adultsComboBox.getSelectedItem();
             int childrenCount = (Integer) childrenComboBox.getSelectedItem();
 
