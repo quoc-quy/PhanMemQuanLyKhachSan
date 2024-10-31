@@ -4,6 +4,7 @@
  */
 package ENTITY;
 
+import java.text.DecimalFormat;
 
 /**
  *
@@ -77,8 +78,9 @@ public class LoaiPhong {
 
 	@Override
 	public String toString() {
+		DecimalFormat dFormat = new DecimalFormat("#,###.##$");
 		return "LoaiPhong [maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", giaTienTheoGio="
-				+ giaTienTheoGio + ", giaTienTheoNgay=" + giaTienTheoNgay + ", tinhTheoNgay=" + tinhTheoNgay + "]";
+				+ dFormat.format(giaTienTheoGio) + ", giaTienTheoNgay=" + dFormat.format(giaTienTheoNgay) + ", tinhTheoNgay=" + tinhTheoNgay + "]";
 	}
 
 	
