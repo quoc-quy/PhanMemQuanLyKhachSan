@@ -47,7 +47,7 @@ import ENTITY.NhanVien;
 
 /**
  *
- * @author 84837
+ * @author 8483
  */
 public class NhanVien_GUI extends javax.swing.JPanel {
 	/**

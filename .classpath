@@ -59,5 +59,9 @@
 	<classpathentry kind="lib" path="Libraries/slf4j-api-1.7.36.jar"/>
 	<classpathentry kind="lib" path="Libraries/SparseBitSet-1.2.jar"/>
 	<classpathentry kind="lib" path="Libraries/xmlbeans-5.1.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="Libraries/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="Libraries/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="Libraries/junit-4.6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

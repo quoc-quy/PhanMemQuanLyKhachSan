@@ -111,9 +111,10 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 {"", null, null, null, null, null, null, null},
                 {"", null, null, null, null, null, null, null}
             },
-            new String [] {
-                "Mã hóa đơn", "Khách hàng", "Mã phòng","Loại phòng", "Ngày nhận", "Ngày trả", "Dịch vụ", "Tổng tiền", "Khuyến mãi", "Thuế", "Tổng thanh toán"
-            }
+            new String[]{
+                    "Mã hóa đơn", "Khách hàng", "Phòng", 
+                    "Ngày nhận", "Ngày trả", "Khuyến mãi", "Tổng thanh toán"
+                }
         ) {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
@@ -121,6 +122,10 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;  // Không cho phép chỉnh sửa dữ liệu trong bảng
             }
         });
         tbHoaDon.setRowHeight(40);
