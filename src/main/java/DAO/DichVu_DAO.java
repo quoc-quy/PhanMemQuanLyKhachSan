@@ -1,15 +1,10 @@
 package DAO;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import ConnectDB.ConnectDB;
 import ENTITY.DichVu;
-import ENTITY.KhachHang;
 
 public class DichVu_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
@@ -38,5 +33,78 @@ public class DichVu_DAO {
         }
         return dsDichVu;
     }
+    
+ // Thêm dịch vụ mới
+ 	public boolean insertDichVu(DichVu dv) {
+ 		String query = "INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, donGia, donViTinh) VALUES (?, ?, ?, ?, ?)";
+
+ 		try (Connection conn = connectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+ 			pstmt.setString(1, dv.getMaDichvu());
+ 			pstmt.setString(2, dv.getTenDichVu());
+ 			pstmt.setInt(3, dv.getSoLuong());
+ 			pstmt.setDouble(4, dv.getDonGia());
+ 			pstmt.setString(5, dv.getDonViTinh());
+
+ 			return pstmt.executeUpdate() > 0;
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+ 		return false;
+ 	}
+
+ 	// Cập nhật dịch vụ
+ 	public boolean updateDichVu(DichVu dv) {
+ 		String query = "UPDATE DichVu SET tenDichVu = ?, soLuong = ?, donGia = ?, donViTinh = ? WHERE maDichVu = ?";
+
+ 		try (Connection conn = connectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+ 			pstmt.setString(1, dv.getTenDichVu());
+ 			pstmt.setInt(2, dv.getSoLuong());
+ 			pstmt.setDouble(3, dv.getDonGia());
+ 			pstmt.setString(4, dv.getDonViTinh());
+ 			pstmt.setString(5, dv.getMaDichvu());
+
+ 			return pstmt.executeUpdate() > 0;
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+ 		return false;
+ 	}
+
+ 	// Xóa dịch vụ
+ 	public boolean deleteDichVu(String maDichVu) {
+ 		String query = "DELETE FROM DichVu WHERE maDichVu = ?";
+
+ 		try (Connection conn = connectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+ 			pstmt.setString(1, maDichVu);
+
+ 			return pstmt.executeUpdate() > 0;
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+ 		return false;
+ 	}
+
+ 	// Lấy dịch vụ theo mã dịch vụ
+ 	public DichVu getDichVuById(String maDichVu) {
+ 		String query = "SELECT * FROM DichVu WHERE maDichVu = ?";
+ 		DichVu dichVu = null;
+
+ 		try (Connection conn = connectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+ 			pstmt.setString(1, maDichVu);
+ 			ResultSet rs = pstmt.executeQuery();
+
+ 			if (rs.next()) {
+ 				dichVu = new DichVu(rs.getString("maDichVu"), rs.getString("tenDichVu"), rs.getInt("soLuong"),
+ 						rs.getDouble("donGia"), rs.getString("donViTinh"));
+ 			}
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+ 		return dichVu;
+ 	}
 
 }

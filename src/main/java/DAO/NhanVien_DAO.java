@@ -13,6 +13,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -107,4 +109,77 @@ public class NhanVien_DAO {
         }
         return dsNhanVien;
     }
+    
+
+	// Add a new employee
+	public boolean addNhanVien(NhanVien nhanVien) {
+		String sql = "INSERT INTO NhanVien (MaNhanVien, TenNhanVien, LoaiNhanVien, Phai, NgaySinh, SoDienThoai) VALUES (?, ?, ?, ?, ?, ?)";
+		try (Connection connection = ConnectDB.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, nhanVien.getMaNhanVien());
+			statement.setString(2, nhanVien.getTenNhanVien());
+			statement.setString(3, nhanVien.getLoaiNhanVien().toString()); // Ensure LoaiNhanVien is properly formatted
+			statement.setString(4, nhanVien.getPhai());
+			statement.setDate(5, new java.sql.Date(nhanVien.getNgaySinh().getTime()));
+			statement.setString(6, nhanVien.getSoDienThoai());
+
+			int rowsInserted = statement.executeUpdate();
+			return rowsInserted > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	// Update an employee
+	// Update an employee
+	public boolean updateNhanVien(NhanVien nhanVien) {
+	    // Validate input
+	    if (nhanVien == null || nhanVien.getMaNhanVien() == null || nhanVien.getMaNhanVien().isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Dữ liệu nhân viên không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        return false; // Exit if the employee data is invalid
+	    }
+
+	    // Get the enum name directly, which will be either "NV_LETAN" or "NV_QUANLY"
+	    String loaiNhanVienString = nhanVien.getLoaiNhanVien().name();
+
+	    String sql = "UPDATE NhanVien SET TenNhanVien = ?, LoaiNhanVien = ?, NgaySinh = ?, CCCD = ?, SDT = ?, Phai = ? WHERE MaNhanVien = ?";
+
+	    try (Connection connection = ConnectDB.getConnection();
+	         PreparedStatement statement = connection.prepareStatement(sql)) {
+
+	        statement.setString(1, nhanVien.getTenNhanVien());
+	        statement.setString(2, loaiNhanVienString); // Directly use the enum name
+	        statement.setDate(3, new java.sql.Date(nhanVien.getNgaySinh().getTime()));
+	        statement.setString(4, nhanVien.getCCCD());
+	        statement.setString(5, nhanVien.getSoDienThoai());
+	        statement.setString(6, nhanVien.getPhai());
+	        statement.setString(7, nhanVien.getMaNhanVien());
+
+	        int rowsUpdated = statement.executeUpdate();
+	        return rowsUpdated > 0;
+	    } catch (SQLException e) {
+	        // Use a logging framework instead of printing the stack trace
+	        System.err.println("Error updating NhanVien: " + e.getMessage());
+	        JOptionPane.showMessageDialog(null, "Lỗi khi cập nhật dữ liệu: " + e.getMessage(), "Lỗi",
+	                JOptionPane.ERROR_MESSAGE);
+	        return false;
+	    }
+	}
+
+
+
+	// Delete an employee
+	public boolean deleteNhanVien(String maNhanVien) {
+		String sql = "DELETE FROM NhanVien WHERE MaNhanVien = ?";
+		try (Connection connection = ConnectDB.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, maNhanVien);
+			int rowsDeleted = statement.executeUpdate();
+			return rowsDeleted > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
