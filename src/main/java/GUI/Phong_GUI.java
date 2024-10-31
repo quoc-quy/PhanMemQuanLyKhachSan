@@ -2698,7 +2698,7 @@ public class Phong_GUI extends javax.swing.JPanel {
 
     private JPanel createRoomCard(Phong phong) {
         // Tạo panel con đại diện cho một phòng
-        JPanel card = new JPanel();
+    	RoundedPanel card = new RoundedPanel(20);
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBackground(Color.decode("#0094FE"));
         card.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
