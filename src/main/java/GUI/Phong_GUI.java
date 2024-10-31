@@ -6,6 +6,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -32,6 +33,7 @@ import javax.swing.SwingConstants;
 
 import DAO.Phong_DAO;
 import ENTITY.Phong;
+import ENTITY.TinhTrangPhong;
 
 /**
  *
@@ -2718,7 +2720,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         lblGiaNgay.setForeground(Color.WHITE);
         lblGiaNgay.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblGiaNgay.setIcon(new ImageIcon(getClass().getResource("/IMAGES/sun.png")));
-        lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
+        lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
         JLabel lblGiaGio = new JLabel(""+phong.getLoaiPhong().getGiaTienTheoGio());
         lblGiaGio.setForeground(Color.WHITE);
@@ -2726,16 +2728,35 @@ public class Phong_GUI extends javax.swing.JPanel {
         lblGiaGio.setIcon(new ImageIcon(getClass().getResource("/IMAGES/watch.png")));
         lblGiaGio.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
        
+        RoundedPanel panelTinhTrang = new RoundedPanel(20);
         JLabel lblTinhTrang = new JLabel(phong.getTinhTrangPhong().toString());
-        lblTinhTrang.setForeground(Color.GREEN);
-        lblTinhTrang.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
+        if(phong.getTinhTrangPhong() == TinhTrangPhong.SACH) {
+        	lblTinhTrang.setForeground(Color.decode("#2F9245"));
+        	lblTinhTrang.setIcon(new ImageIcon(getClass().getResource("/IMAGES/Vector.png")));
+        	panelTinhTrang.setBackground(Color.decode("#E6FFEB"));
+        }else {
+        	lblTinhTrang.setForeground(Color.decode("#CC0000"));
+        	lblTinhTrang.setIcon(new ImageIcon(getClass().getResource("/IMAGES/notclean.png")));
+        	panelTinhTrang.setBackground(Color.decode("#FFE6E6"));
+        }
+        panelTinhTrang.add(lblTinhTrang);
+        
+        panelTinhTrang.setMaximumSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
+        panelTinhTrang.setPreferredSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
+        panelTinhTrang.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        lblMaPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblLoaiPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblGiaNgay.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lblGiaGio.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelTinhTrang.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Thêm các thành phần vào card
         card.add(lblMaPhong);
         card.add(lblLoaiPhong);
         card.add(lblGiaGio);
         card.add(lblGiaNgay);
-        card.add(lblTinhTrang);
+        card.add(panelTinhTrang);
 
         return card;
     }

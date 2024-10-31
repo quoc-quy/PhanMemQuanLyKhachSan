@@ -9,7 +9,7 @@ package ENTITY;
  * @author 84837
  */
 public enum TinhTrangPhong {
-    SACH("Phong da duoc don sach se"), CHUA_DON("Phong chua duoc ve sinh sach se");
+    SACH("Sạch"), CHUA_DON("Chưa dọn");
     
     private String tinhTrangPhong;
 
