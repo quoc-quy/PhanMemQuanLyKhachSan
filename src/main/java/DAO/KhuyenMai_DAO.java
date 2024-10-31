@@ -9,6 +9,7 @@ import ENTITY.KhuyenMai;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -112,8 +113,8 @@ public class KhuyenMai_DAO {
     		PreparedStatement ps = conn.prepareStatement(query)){
     		ps.setString(1,khuyenMai.getMakhuyenMai());
     		ps.setString(2,khuyenMai.getMoTa());
-    		ps.setDate(3,khuyenMai.getNgayBatDau());
-    		ps.setDate(4,khuyenMai.getNgayKetThuc());
+    		ps.setDate(3,(Date) khuyenMai.getNgayBatDau());
+    		ps.setDate(4,(Date) khuyenMai.getNgayKetThuc());
     		ps.setString(5,khuyenMai.getTrangThai());
     		ps.setInt(6,khuyenMai.getChietKhau());
     			return ps.executeUpdate()>0;
@@ -129,8 +130,8 @@ public class KhuyenMai_DAO {
     			PreparedStatement ps = conn.prepareStatement(query)){
     		ps.setString(1, khuyenMai.getMakhuyenMai());
     		ps.setString(2,khuyenMai.getMoTa());
-    		ps.setDate(3,khuyenMai.getNgayBatDau());
-    		ps.setDate(4, khuyenMai.getNgayKetThuc());
+    		ps.setDate(3,(Date) khuyenMai.getNgayBatDau());
+    		ps.setDate(4, (Date) khuyenMai.getNgayKetThuc());
     		ps.setString(5, khuyenMai.getTrangThai());
     		ps.setInt(6,khuyenMai.getChietKhau());
     		return ps.executeUpdate() > 0;
