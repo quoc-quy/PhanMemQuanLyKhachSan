@@ -40,6 +40,7 @@ public class Home_GUI extends javax.swing.JFrame {
         cardPanel.add(new KhuyenMai_GUI(), "khuyenmai");
         cardPanel.add(new KhachHang_GUI(), "khachhang");
         cardPanel.add(new NhanVien_GUI(), "nhanvien");
+        cardPanel.add(new DanhSachDatPhong_GUI(), "dsDatPhong");
         
          adjustMenuBasedOnRole(userRole);  // Điều chỉnh menu theo vai trò
     }
@@ -651,6 +652,7 @@ public class Home_GUI extends javax.swing.JFrame {
 
     private void panelTroGiupMouseClicked(java.awt.event.MouseEvent evt) {
     	changePanelColor(panelTroGiup, lbTroGiup);
+        showPanel("dsDatPhong");
     }                                         
 
     private void panelKhachHangMouseClicked(java.awt.event.MouseEvent evt) {
