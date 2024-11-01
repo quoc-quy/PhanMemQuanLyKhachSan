@@ -123,6 +123,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnHuyMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -156,7 +159,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/IMAGES/delete.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
+                <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
               </Properties>
             </Component>
           </SubComponents>

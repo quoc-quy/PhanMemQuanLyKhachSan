@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import DAO.DanhSachDatPhong_DAO;
 import DAO.KhachHang_DAO;
 import ENTITY.KhachHang;
 
@@ -33,6 +34,8 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
 
     private DefaultTableModel tableModel;
+	private KhachHang_DAO dsKHDAO = new KhachHang_DAO();
+
 	/**
      * Creates new form KhachHang_GUI
      */
@@ -45,13 +48,14 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         
      // Đổ dữ liệu vào JTable
         loadDataToTable();
+        refreshTable();
         
         // Lưu model ban đầu ngay khi khởi tạo
         originalModel = (DefaultTableModel) tbKhachHang.getModel();
 
-        
 //        Chức năng tìm kiếm
         btnTimKiem.addActionListener(e -> filterTableData());
+        
         
     }
 
@@ -108,12 +112,17 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 
         btnHuy.setBackground(new java.awt.Color(255, 0, 0));
         btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHuy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHuyMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/delete.png"))); // NOI18N
-        jLabel1.setText("Hủy");
+        jLabel1.setText("Xóa");
 
         javax.swing.GroupLayout btnHuyLayout = new javax.swing.GroupLayout(btnHuy);
         btnHuy.setLayout(btnHuyLayout);
@@ -262,29 +271,50 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 
     private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemKHMouseClicked
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(KhachHang_GUI.this);
-        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, true);
+        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, true, this);
         dialog.setVisible(true);
+    }
 
-        // Tạo và hiển thị dialog ThemKhachHangDialog_GUI
-//        if (parentFrame != null) {
-//            ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, true);
-//            dialog.setVisible(true);
-//        }
-    }//GEN-LAST:event_btnThemKHMouseClicked
+    private void btnHuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHuyMouseClicked
+    	int selectedRow = tbKhachHang.getSelectedRow(); // Lấy dòng được chọn
+        if (selectedRow != -1) {
+            // Hiển thị hộp thoại xác nhận
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn hủy đặt phòng này không?", "Xác nhận hủy", JOptionPane.YES_NO_OPTION);
+            
+            // Nếu người dùng chọn YES thì thực hiện xóa
+            if (confirm == JOptionPane.YES_OPTION) {
+                String maKH = tbKhachHang.getValueAt(selectedRow, 0).toString(); // Giả sử mã hóa đơn ở cột thứ 2
+
+                // Gọi phương thức xóa từ DAO
+                boolean isDeleted = dsKHDAO.xoaKhachHang(maKH);
+
+                if (isDeleted) {
+                    // Xóa dòng khỏi bảng giao diện sau khi xóa thành công
+                    ((DefaultTableModel) tbKhachHang.getModel()).removeRow(selectedRow);
+                    refreshTable();
+                    JOptionPane.showMessageDialog(this, "Xóa thành công!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Xóa không thành công!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần hủy!");
+        }
+    }//GEN-LAST:event_btnHuyMouseClicked
 
     private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {
         txtTimKiem.setForeground(Color.decode("#909090"));
     }                                    
     private void updateHeader(){
         JTableHeader header = tbKhachHang.getTableHeader();
-         header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
+         header.setFont(new Font("Times new Romans", Font.BOLD, 16));
     }
     
     
  // Hàm đổ dữ liệu từ database vào JTable
-    private void loadDataToTable() {
-    	KhachHang_DAO khachHangDAO = new KhachHang_DAO();
-        List<KhachHang> dsKhachHang = khachHangDAO.getAllKhachHang();
+    public void loadDataToTable() {
+//    	KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+        List<KhachHang> dsKhachHang = dsKHDAO.getAllKhachHang();
         
       DefaultTableModel tableModel = new DefaultTableModel(
 		    new Object[][] {},  // Bắt đầu với dữ liệu rỗng
@@ -374,13 +404,35 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                     if (tbKhachHang.getSelectedRow() != -1) { // Kiểm tra có hàng nào được chọn không
                         // Kích hoạt lại các nút khi có dòng được chọn
                         btnHuy.setEnabled(true);
-                        btnCapNhat.setEnabled(true); // Màu mặc định #F2F2F2 cho nút Cập nhật khi kích hoạt
+                        btnCapNhat.setEnabled(true); 
                         btnHuy.setBackground(Color.red);
                         btnCapNhat.setBackground(Color.orange);
                     } 
                 }
             }
         });
+    }
+    
+//    làm mới bảng khi thêm mới dữ liệu
+    public void refreshTable() {
+        List<KhachHang> danhSachKhachHang = dsKHDAO.getAllKhachHang();
+
+        DefaultTableModel tableModel = (DefaultTableModel) tbKhachHang.getModel();
+        tableModel.setRowCount(0); // Xóa dữ liệu cũ trong bảng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (KhachHang kh : danhSachKhachHang) {
+            Object[] row = {
+                kh.getMaKhachHang(),
+                kh.getTenKhachHang(),
+                kh.getCCCD(),
+                kh.getPhai(),
+                dateFormat.format(kh.getNgaySinh()),  // Định dạng ngày sinh
+                kh.getDienThoai()
+            };
+            tableModel.addRow(row);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

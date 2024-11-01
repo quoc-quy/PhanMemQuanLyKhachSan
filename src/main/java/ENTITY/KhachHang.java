@@ -16,14 +16,14 @@ public class KhachHang {
     private String tenKhachHang;
     private String CCCD;
     private String phai;
-    private Date ngaySinh;
+    private java.util.Date ngaySinh;
     private String dienThoai;
     
     public KhachHang(String maKhachHang) {
 		this.maKhachHang = maKhachHang;
 	}
 
-	public KhachHang(String maKhachHang, String tenKhachHang, String CCCD, String phai, Date ngaySinh,
+	public KhachHang(String maKhachHang, String tenKhachHang, String CCCD, String phai, java.util.Date ngaySinh,
 			String dienThoai) {
 		super();
 		this.maKhachHang = maKhachHang;
@@ -69,7 +69,7 @@ public class KhachHang {
     }
     
 
-    public Date getNgaySinh() {
+    public java.util.Date getNgaySinh() {
 		return ngaySinh;
 	}
 

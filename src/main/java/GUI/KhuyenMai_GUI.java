@@ -58,6 +58,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         titleHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -66,7 +67,17 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         lblCapNhat = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnThemKhuyenMai = new javax.swing.JLabel();
-        
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 704, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 467, Short.MAX_VALUE)
+        );
 
         setLayout(new java.awt.CardLayout());
 
@@ -99,14 +110,22 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 
         btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
         btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        
+        btnCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCapNhatMouseClicked(evt);
+            }
+        });
 
         lblCapNhat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCapNhat.setForeground(new java.awt.Color(255, 255, 255));
         lblCapNhat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
         lblCapNhat.setText("Cập nhật");
-       
+        lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCapNhatMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnCapNhatLayout = new javax.swing.GroupLayout(btnCapNhat);
         btnCapNhat.setLayout(btnCapNhatLayout);
@@ -130,7 +149,11 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         btnThemKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnThemKhuyenMai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
         btnThemKhuyenMai.setText("Thêm khuyến mãi");
-        
+        btnThemKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemKhuyenMaiMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -426,11 +449,11 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnCapNhat;
     private javax.swing.JLabel btnThemKhuyenMai;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCapNhat;
-    private javax.swing.JLabel lblThemKhuyenMai;
     private javax.swing.JTable tbKhuyenMai;
     private javax.swing.JLabel titleHoaDon;
     // End of variables declaration//GEN-END:variables
