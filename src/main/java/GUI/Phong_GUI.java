@@ -3150,23 +3150,35 @@ public class Phong_GUI extends javax.swing.JPanel {
         // Panel cho nút Xác nhận
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         
-        JButton btnConfirm = new JButton("Xác nhận");
-        btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        btnConfirm.setBackground(Color.decode("#199FFE"));
-        btnConfirm.setMaximumSize(new Dimension(btnConfirm.getPreferredSize().width + 20, btnConfirm.getPreferredSize().height + 10));
-        btnConfirm.setPreferredSize(new Dimension(btnConfirm.getPreferredSize().width + 20, btnConfirm.getPreferredSize().height + 10));
-        btnConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnConfirm.setForeground(Color.white);
-        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JButton btnNhanPhong = new JButton("Nhận phòng");
+        btnNhanPhong.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        btnNhanPhong.setBackground(Color.decode("#199FFE"));
+        btnNhanPhong.setMaximumSize(new Dimension(btnNhanPhong.getPreferredSize().width + 20, btnNhanPhong.getPreferredSize().height + 10));
+        btnNhanPhong.setPreferredSize(new Dimension(btnNhanPhong.getPreferredSize().width + 20, btnNhanPhong.getPreferredSize().height + 10));
+        btnNhanPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnNhanPhong.setForeground(Color.white);
+        btnNhanPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         buttonPanel.setBackground(Color.white);
-        buttonPanel.add(btnConfirm);
+        buttonPanel.add(btnNhanPhong);
+        
+        JButton btnDatPhong = new JButton("Đặt phòng");
+        btnDatPhong.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        btnDatPhong.setBackground(Color.decode("#F56D28"));
+        btnDatPhong.setMaximumSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+        btnDatPhong.setPreferredSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+        btnDatPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnDatPhong.setForeground(Color.white);
+        btnDatPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.add(btnDatPhong);
 
         bookingDialog.setLayout(new BorderLayout());
         bookingDialog.add(bookingPanel, BorderLayout.CENTER);
         bookingDialog.add(buttonPanel, BorderLayout.SOUTH);
 
-        btnConfirm.addActionListener(e -> {
+        btnDatPhong.addActionListener(e -> {
             java.util.Date checkInDate =  checkInDateChooser.getDate();
             java.util.Date checkOutDate = checkOutDateChooser.getDate();
             int adultsCount = (Integer) adultsComboBox.getSelectedItem();
