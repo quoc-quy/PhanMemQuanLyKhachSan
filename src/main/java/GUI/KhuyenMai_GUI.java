@@ -122,22 +122,12 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 
         btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
         btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCapNhatMouseClicked(evt);
-            }
-        });
 
         lblCapNhat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCapNhat.setForeground(new java.awt.Color(255, 255, 255));
         lblCapNhat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
         lblCapNhat.setText("Cập nhật");
-        lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCapNhatMouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout btnCapNhatLayout = new javax.swing.GroupLayout(btnCapNhat);
         btnCapNhat.setLayout(btnCapNhatLayout);
@@ -161,11 +151,6 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         btnThemKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnThemKhuyenMai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
         btnThemKhuyenMai.setText("Thêm khuyến mãi");
-        btnThemKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnThemKhuyenMaiMouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

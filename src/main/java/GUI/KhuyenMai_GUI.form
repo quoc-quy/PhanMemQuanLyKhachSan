@@ -119,9 +119,6 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCapNhatMouseClicked"/>
-          </Events>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -154,9 +151,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="C&#x1ead;p nh&#x1ead;t"/>
               </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCapNhatMouseClicked"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -205,9 +199,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m khuy&#x1ebf;n m&#xe3;i"/>
               </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnThemKhuyenMaiMouseClicked"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
