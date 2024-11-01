@@ -34,6 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -3013,40 +3014,114 @@ public class Phong_GUI extends javax.swing.JPanel {
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(panelMain);
 
         JDialog bookingDialog = new JDialog(parentFrame, "Đặt phòng cho " + phong.getMaPhong(), true);
-        bookingDialog.setSize(400, 300);
+        bookingDialog.setSize(500, 500);
         bookingDialog.setLocationRelativeTo(parentFrame);
-        bookingDialog.setBackground(Color.white);
 
         JPanel bookingPanel = new JPanel();
-        bookingPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        bookingPanel.setLayout(new GridLayout(8, 2, 10, 10));
         bookingPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Field Check-in
-        bookingPanel.add(new JLabel("Check-in:"));
+        bookingPanel.add(new JLabel("Check-in:") {{
+            setFont(new Font("Segoe UI", Font.BOLD, 14));
+        }});
         JDateChooser checkInDateChooser = new JDateChooser();
         checkInDateChooser.setDateFormatString("dd/MM/yyyy");
         bookingPanel.add(checkInDateChooser);
 
         // Field Check-out
-        bookingPanel.add(new JLabel("Check-out:"));
+        bookingPanel.add(new JLabel("Check-out:") {{
+            setFont(new Font("Segoe UI", Font.BOLD, 14));
+        }});
         JDateChooser checkOutDateChooser = new JDateChooser();
         checkOutDateChooser.setDateFormatString("dd/MM/yyyy");
         bookingPanel.add(checkOutDateChooser);
 
         // Số người lớn (JComboBox với giá trị từ 0 đến 5)
-        bookingPanel.add(new JLabel("Số người lớn:"));
+        bookingPanel.add(new JLabel("Số người lớn:") {{
+            setFont(new Font("Segoe UI", Font.BOLD, 14));
+        }});
+        
         Integer[] personOptions = {0, 1, 2, 3, 4, 5};
+        String[] typeOptions = {"Theo ngày", "Theo giờ"};
         JComboBox<Integer> adultsComboBox = new JComboBox<>(personOptions);
         bookingPanel.add(adultsComboBox);
-
+        
+        
         // Số trẻ em (JComboBox với giá trị từ 0 đến 5)
-        bookingPanel.add(new JLabel("Số trẻ em:"));
+        bookingPanel.add(new JLabel("Số trẻ em:") {{
+            setFont(new Font("Segoe UI", Font.BOLD, 14));
+        }});
         JComboBox<Integer> childrenComboBox = new JComboBox<>(personOptions);
         bookingPanel.add(childrenComboBox);
+        
+        JButton btnXemThongTin = new JButton("Xem thông tin");
+        btnXemThongTin.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnXemThongTin.setBackground(Color.decode("#199FFE"));
+        btnXemThongTin.setMaximumSize(new Dimension(btnXemThongTin.getPreferredSize().width + 20, btnXemThongTin.getPreferredSize().height + 10));
+        btnXemThongTin.setPreferredSize(new Dimension(btnXemThongTin.getPreferredSize().width + 20, btnXemThongTin.getPreferredSize().height + 10));
+        btnXemThongTin.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnXemThongTin.setForeground(Color.white);
+        btnXemThongTin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        bookingPanel.add(btnXemThongTin);
+        
+        JButton btnThemKhachHang = new JButton("Thêm Khách Hàng");
+        btnThemKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png")));
+        btnThemKhachHang.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnThemKhachHang.setBackground(Color.decode("#61D998"));
+        btnThemKhachHang.setMaximumSize(new Dimension(btnThemKhachHang.getPreferredSize().width + 20, btnThemKhachHang.getPreferredSize().height + 10));
+        btnThemKhachHang.setPreferredSize(new Dimension(btnThemKhachHang.getPreferredSize().width + 20, btnThemKhachHang.getPreferredSize().height + 10));
+        btnThemKhachHang.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnThemKhachHang.setForeground(Color.white);
+        btnThemKhachHang.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnThemKhachHang.setVisible(false);
+        bookingPanel.add(btnThemKhachHang);
+        
+        //Nut them KH se hien thi khi co gia tri trong o ComboBox > 0
+        ActionListener comboBoxListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int adultsCount = (Integer) adultsComboBox.getSelectedItem();
+
+                // Kiểm tra nếu một trong hai giá trị lớn hơn 0
+                if (adultsCount > 0) {
+                	btnThemKhachHang.setVisible(true); // Hiển thị nút
+                }else {
+                	btnThemKhachHang.setVisible(false);
+                }
+            }
+        };
+
+        // Gắn ActionListener cho JComboBox
+        adultsComboBox.addActionListener(comboBoxListener);
+        childrenComboBox.addActionListener(comboBoxListener);
+
+        // Số trẻ em (JComboBox với giá trị từ 0 đến 5)
+        bookingPanel.add(new JLabel("Loại hình:") {{
+            setFont(new Font("Segoe UI", Font.BOLD, 14));
+        }});
+        JComboBox<String> typeComboBox = new JComboBox<>(typeOptions);
+        bookingPanel.add(typeComboBox);
+        
+        // TextField tiền cọc
+        bookingPanel.add(new JLabel("Tiền cọc:") {{
+            setFont(new Font("Segoe UI", Font.BOLD, 14));
+        }});
+        bookingPanel.add(new JTextField());
 
         // Panel cho nút Xác nhận
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        
         JButton btnConfirm = new JButton("Xác nhận");
+        btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnConfirm.setBackground(Color.decode("#199FFE"));
+        btnConfirm.setMaximumSize(new Dimension(btnConfirm.getPreferredSize().width + 20, btnConfirm.getPreferredSize().height + 10));
+        btnConfirm.setPreferredSize(new Dimension(btnConfirm.getPreferredSize().width + 20, btnConfirm.getPreferredSize().height + 10));
+        btnConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnConfirm.setForeground(Color.white);
+        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        buttonPanel.setBackground(Color.white);
         buttonPanel.add(btnConfirm);
 
         bookingDialog.setLayout(new BorderLayout());
