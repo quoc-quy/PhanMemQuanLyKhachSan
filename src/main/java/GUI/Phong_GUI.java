@@ -2749,6 +2749,76 @@ public class Phong_GUI extends javax.swing.JPanel {
         }
         panelTinhTrang.add(lblTinhTrang);
         
+        panelTinhTrang.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Lấy tình trạng hiện tại của phòng (là một enum)
+			    TinhTrangPhong tinhTrangHienTai = phong.getTinhTrangPhong();
+
+			    // Chuyển đổi tình trạng
+			    TinhTrangPhong tinhTrangMoi = (tinhTrangHienTai == TinhTrangPhong.SACH) ? TinhTrangPhong.CHUA_DON : TinhTrangPhong.SACH;
+
+			    // Cập nhật tình trạng mới vào CSDL
+			    if (phongDAO.updateTinhTrangPhong(phong.getMaPhong(), tinhTrangMoi.name())) {
+			        phong.setTinhTrangPhong(tinhTrangMoi); // Cập nhật trong đối tượng
+
+			        // Cập nhật giao diện dựa trên tình trạng mới
+			        if (tinhTrangMoi == TinhTrangPhong.SACH) {
+			            lblTinhTrang.setForeground(Color.decode("#2F9245"));
+			            lblTinhTrang.setText("Sạch");
+			            lblTinhTrang.setIcon(new ImageIcon(getClass().getResource("/IMAGES/Vector.png")));
+			            panelTinhTrang.setBackground(Color.decode("#E6FFEB"));
+			            panelTinhTrang.setMaximumSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
+			            panelTinhTrang.setPreferredSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
+			            panelTinhTrang.setAlignmentX(Component.CENTER_ALIGNMENT);
+			            System.out.println("Đã cập nhật giao diện: Sạch");
+			        } else {
+			            lblTinhTrang.setForeground(Color.decode("#CC0000"));
+			            lblTinhTrang.setText("Chưa dọn");
+			            lblTinhTrang.setIcon(new ImageIcon(getClass().getResource("/IMAGES/notclean.png")));
+			            panelTinhTrang.setBackground(Color.decode("#FFE6E6"));
+			            panelTinhTrang.setMaximumSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
+			            panelTinhTrang.setPreferredSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
+			            panelTinhTrang.setAlignmentX(Component.CENTER_ALIGNMENT);
+			            System.out.println("Đã cập nhật giao diện: Chưa dọn");
+			        }
+			    } else {
+			        JOptionPane.showMessageDialog(null, "Cập nhật thất bại.");
+			        System.out.println("Lỗi: Cập nhật thất bại trong CSDL.");
+			    }
+			    lblMaPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
+		        lblLoaiPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
+		        lblGiaNgay.setAlignmentX(Component.LEFT_ALIGNMENT);
+		        lblGiaGio.setAlignmentX(Component.LEFT_ALIGNMENT);
+		        panelTinhTrang.setAlignmentX(Component.LEFT_ALIGNMENT);
+			}
+		});
+        
         panelTinhTrang.setMaximumSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
         panelTinhTrang.setPreferredSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
         panelTinhTrang.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -3013,6 +3083,8 @@ public class Phong_GUI extends javax.swing.JPanel {
         });
         bookingDialog.setVisible(true);
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
