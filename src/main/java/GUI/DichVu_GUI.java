@@ -4,7 +4,12 @@
  */
 package GUI;
 
+import javax.swing.text.*;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +18,10 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -44,170 +51,150 @@ public class DichVu_GUI extends javax.swing.JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+	// <editor-fold defaultstate="collapsed" desc="Generated
+	// Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel5 = new javax.swing.JLabel();
-        btnXoa = new javax.swing.JPanel();
-        lbXoa = new javax.swing.JLabel();
-        btnCapNhat = new javax.swing.JPanel();
-        lbCapNhat = new javax.swing.JLabel();
-        btnThemDichVu = new javax.swing.JPanel();
-        lbThemDichVu = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+		jPanel2 = new javax.swing.JPanel();
+		jSeparator1 = new javax.swing.JSeparator();
+		jLabel5 = new javax.swing.JLabel();
+		btnXoa = new javax.swing.JPanel();
+		lbXoa = new javax.swing.JLabel();
+		btnCapNhat = new javax.swing.JPanel();
+		lbCapNhat = new javax.swing.JLabel();
+		btnThemDichVu = new javax.swing.JPanel();
+		lbThemDichVu = new javax.swing.JLabel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		jTable1 = new javax.swing.JTable();
 
-        setLayout(new java.awt.CardLayout());
+		setLayout(new java.awt.CardLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+		jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setText("Dịch vụ");
+		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+		jLabel5.setText("Dịch vụ");
 
-        btnXoa.setBackground(new java.awt.Color(255, 51, 51));
-        btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+		btnXoa.setBackground(new java.awt.Color(255, 51, 51));
+		btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        lbXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lbXoa.setForeground(new java.awt.Color(255, 255, 255));
-        lbXoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/delete.png"))); // NOI18N
-        lbXoa.setText("Xóa");
-        lbXoa.setIconTextGap(10);
+		lbXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+		lbXoa.setForeground(new java.awt.Color(255, 255, 255));
+		lbXoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		lbXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/delete.png"))); // NOI18N
+		lbXoa.setText("Xóa");
+		lbXoa.setIconTextGap(10);
 
-        javax.swing.GroupLayout btnXoaLayout = new javax.swing.GroupLayout(btnXoa);
-        btnXoa.setLayout(btnXoaLayout);
-        btnXoaLayout.setHorizontalGroup(
-            btnXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnXoaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
-        );
-        btnXoaLayout.setVerticalGroup(
-            btnXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnXoaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbXoa)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+		javax.swing.GroupLayout btnXoaLayout = new javax.swing.GroupLayout(btnXoa);
+		btnXoa.setLayout(btnXoaLayout);
+		btnXoaLayout.setHorizontalGroup(btnXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(btnXoaLayout.createSequentialGroup().addContainerGap().addComponent(lbXoa,
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGap(18, 18, 18)));
+		btnXoaLayout.setVerticalGroup(btnXoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(btnXoaLayout.createSequentialGroup().addContainerGap().addComponent(lbXoa)
+						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
-        btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
-        btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+		btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
+		btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        lbCapNhat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lbCapNhat.setForeground(new java.awt.Color(255, 255, 255));
-        lbCapNhat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
-        lbCapNhat.setText("Cập nhật");
-        lbCapNhat.setIconTextGap(10);
+		lbCapNhat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+		lbCapNhat.setForeground(new java.awt.Color(255, 255, 255));
+		lbCapNhat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		lbCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
+		lbCapNhat.setText("Cập nhật");
+		lbCapNhat.setIconTextGap(10);
 
-        javax.swing.GroupLayout btnCapNhatLayout = new javax.swing.GroupLayout(btnCapNhat);
-        btnCapNhat.setLayout(btnCapNhatLayout);
-        btnCapNhatLayout.setHorizontalGroup(
-            btnCapNhatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnCapNhatLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbCapNhat, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        btnCapNhatLayout.setVerticalGroup(
-            btnCapNhatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnCapNhatLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbCapNhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+		javax.swing.GroupLayout btnCapNhatLayout = new javax.swing.GroupLayout(btnCapNhat);
+		btnCapNhat.setLayout(btnCapNhatLayout);
+		btnCapNhatLayout
+				.setHorizontalGroup(btnCapNhatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(btnCapNhatLayout.createSequentialGroup().addContainerGap()
+								.addComponent(lbCapNhat, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+								.addContainerGap()));
+		btnCapNhatLayout.setVerticalGroup(btnCapNhatLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(btnCapNhatLayout.createSequentialGroup().addContainerGap().addComponent(lbCapNhat,
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addContainerGap()));
 
-        btnThemDichVu.setBackground(new java.awt.Color(25, 159, 254));
-        btnThemDichVu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+		btnThemDichVu.setBackground(new java.awt.Color(25, 159, 254));
+		btnThemDichVu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        lbThemDichVu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lbThemDichVu.setForeground(new java.awt.Color(255, 255, 255));
-        lbThemDichVu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbThemDichVu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
-        lbThemDichVu.setText("Thêm dịch vụ");
-        lbThemDichVu.setIconTextGap(10);
+		lbThemDichVu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+		lbThemDichVu.setForeground(new java.awt.Color(255, 255, 255));
+		lbThemDichVu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		lbThemDichVu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
+		lbThemDichVu.setText("Thêm dịch vụ");
+		lbThemDichVu.setIconTextGap(10);
 
-        javax.swing.GroupLayout btnThemDichVuLayout = new javax.swing.GroupLayout(btnThemDichVu);
-        btnThemDichVu.setLayout(btnThemDichVuLayout);
-        btnThemDichVuLayout.setHorizontalGroup(
-            btnThemDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnThemDichVuLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(lbThemDichVu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(14, 14, 14))
-        );
-        btnThemDichVuLayout.setVerticalGroup(
-            btnThemDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnThemDichVuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbThemDichVu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+		javax.swing.GroupLayout btnThemDichVuLayout = new javax.swing.GroupLayout(btnThemDichVu);
+		btnThemDichVu.setLayout(btnThemDichVuLayout);
+		btnThemDichVuLayout.setHorizontalGroup(btnThemDichVuLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(btnThemDichVuLayout.createSequentialGroup().addGap(17, 17, 17).addComponent(lbThemDichVu,
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGap(14, 14, 14)));
+		btnThemDichVuLayout.setVerticalGroup(btnThemDichVuLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(btnThemDichVuLayout.createSequentialGroup().addContainerGap().addComponent(lbThemDichVu,
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addContainerGap()));
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+		jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, "", "", null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Đơn vị tính", "Số lượng", "Đơn giá"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
-            };
+		jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+		jTable1.setModel(new javax.swing.table.DefaultTableModel(
+				new Object[][] { { null, "", "", null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null },
+						{ null, null, null, null, null }, { null, null, null, null, null } },
+				new String[] { "Mã sản phẩm", "Tên sản phẩm", "Đơn vị tính", "Số lượng", "Đơn giá" }) {
+			Class[] types = new Class[] { java.lang.String.class, java.lang.String.class, java.lang.String.class,
+					java.lang.Integer.class, java.lang.Float.class };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jTable1.setRowHeight(40);
-        jScrollPane1.setViewportView(jTable1);
+			public Class getColumnClass(int columnIndex) {
+				return types[columnIndex];
+			}
+		});
+		jTable1.setRowHeight(40);
+		jScrollPane1.setViewportView(jTable1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 387, Short.MAX_VALUE)
-                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnThemDichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(jSeparator1)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel5)
-                    .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCapNhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnThemDichVu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
-        );
+		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+		jPanel2.setLayout(jPanel2Layout);
+		jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(jScrollPane1)
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+						.addContainerGap()
+						.addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 76,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 387, Short.MAX_VALUE)
+						.addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(18, 18, 18)
+						.addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(18, 18, 18)
+						.addComponent(btnThemDichVu, javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addContainerGap())
+				.addComponent(jSeparator1));
+		jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel2Layout.createSequentialGroup().addGap(8, 8, 8)
+						.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+								.addComponent(jLabel5)
+								.addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnCapNhat, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnThemDichVu, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)));
 
-        add(jPanel2, "card2");
-    }// </editor-fold>//GEN-END:initComponents
+		add(jPanel2, "card2");
+	}// </editor-fold>//GEN-END:initComponents
 
 	private void updateHeader() {
 		JTableHeader header = jTable1.getTableHeader();
@@ -366,6 +353,46 @@ public class DichVu_GUI extends javax.swing.JPanel {
 		javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
 		javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
 
+		// Thêm sự kiện cho nút Lưu
+		btnSave.addActionListener(e -> {
+			// Biểu thức chính quy cho các trường
+			String maDichVuRegex = "^[A-Za-z0-9]+$"; // ví dụ: chỉ chứa chữ và số
+			String tenDichVuRegex = "^[\\p{L} ]{3,50}$"; // ví dụ: chữ cái và khoảng trắng, từ 3 đến 50 ký tự
+			String soLuongRegex = "^[1-9][0-9]*$"; // số nguyên dương
+			String donGiaRegex = "^\\d+(\\.\\d{1,2})?$"; // số thực dương với tối đa 2 chữ số sau dấu thập phân
+			String donViTinhRegex = "^[\\p{L} ]+$"; // chỉ chứa chữ cái và khoảng trắng
+
+			// Kiểm tra dữ liệu đầu vào
+			if (!txtMaDichVu.getText().matches(maDichVuRegex)) {
+				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Mã dịch vụ không hợp lệ.");
+				return;
+			}
+			if (!txtTenDichVu.getText().matches(tenDichVuRegex)) {
+				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Tên dịch vụ không hợp lệ.");
+				return;
+			}
+			if (!txtSoLuong.getText().matches(soLuongRegex)) {
+				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Số lượng không hợp lệ.");
+				return;
+			}
+			if (!txtDonGia.getText().matches(donGiaRegex)) {
+				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Đơn giá không hợp lệ.");
+				return;
+			}
+			if (!txtDonViTinh.getText().matches(donViTinhRegex)) {
+				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Đơn vị tính không hợp lệ.");
+				return;
+			}
+
+			// Nếu tất cả hợp lệ, cập nhật dữ liệu
+			jTable1.setValueAt(txtMaDichVu.getText(), selectedRow, 0);
+			jTable1.setValueAt(txtTenDichVu.getText(), selectedRow, 1);
+			jTable1.setValueAt(Integer.parseInt(txtSoLuong.getText()), selectedRow, 2);
+			jTable1.setValueAt(Double.parseDouble(txtDonGia.getText()), selectedRow, 3);
+			jTable1.setValueAt(txtDonViTinh.getText(), selectedRow, 4);
+
+			updateServiceDialog.dispose();
+		});
 		// Nút lưu cập nhật dữ liệu vào JTable
 		btnSave.addActionListener(e -> {
 			try {
@@ -469,30 +496,49 @@ public class DichVu_GUI extends javax.swing.JPanel {
 	private void openAddServiceDialog(java.awt.event.MouseEvent evt) {
 		// Create a new dialog for adding services
 		JDialog addServiceDialog = new JDialog();
-		addServiceDialog.setTitle("Thêm Dịch Vụ");
-		addServiceDialog.setSize(450, 350);
+		addServiceDialog.setTitle("Thêm mới dịch vụ");
+		addServiceDialog.setSize(450, 400);
 		addServiceDialog.setLocationRelativeTo(this);
 		addServiceDialog.setModal(true);
 
 		// Automatically generate Ma Dịch Vụ from database
 		String generatedMaDichVu = generateServiceCode();
 
+		JLabel titleLabel = new JLabel("Thêm nhân viên");
+		titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		titleLabel.setForeground(Color.BLACK);
+
 		javax.swing.JLabel lblMaDichVu = new javax.swing.JLabel("Mã Dịch Vụ:");
 		javax.swing.JTextField txtMaDichVu = new javax.swing.JTextField(generatedMaDichVu, 20);
+		lblMaDichVu.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		txtMaDichVu.setEnabled(false);
 		txtMaDichVu.setEditable(false); // Make this field non-editable
 
 		// Other UI components (same as in your code)
-		javax.swing.JLabel lblTenDichVu = new javax.swing.JLabel("Tên Dịch Vụ:");
-		javax.swing.JTextField txtTenDichVu = new javax.swing.JTextField(20);
-		javax.swing.JLabel lblSoLuong = new javax.swing.JLabel("Số Lượng:");
-		javax.swing.JTextField txtSoLuong = new javax.swing.JTextField(20);
-		javax.swing.JLabel lblDonGia = new javax.swing.JLabel("Đơn Giá:");
-		javax.swing.JTextField txtDonGia = new javax.swing.JTextField(20);
-		javax.swing.JLabel lblDonViTinh = new javax.swing.JLabel("Đơn Vị Tính:");
-		javax.swing.JTextField txtDonViTinh = new javax.swing.JTextField(20);
+		JLabel lblTenDichVu = new JLabel("Tên dịch vụ:");
+		lblTenDichVu.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		JTextField txtTenDichVu = new JTextField(20);
+		JLabel lblSoLuong = new JLabel("Số lượng:");
+		lblSoLuong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		JTextField txtSoLuong = new JTextField(20);
+		((AbstractDocument) txtSoLuong.getDocument()).setDocumentFilter(new NumericDocumentFilter()); // Apply filter
+
+		JLabel lblDonGia = new JLabel("Đơn giá:");
+		lblDonGia.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		JTextField txtDonGia = new JTextField(20);
+		((AbstractDocument) txtDonGia.getDocument()).setDocumentFilter(new NumericDocumentFilter()); // Apply filter
+
+		JLabel lblDonViTinh = new JLabel("Đơn vị tính:");
+		lblDonViTinh.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		JTextField txtDonViTinh = new JTextField(20);
 
 		javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
 		javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+		btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnSave.setBackground(Color.decode("#199FFE"));
+		btnSave.setForeground(Color.WHITE);
+		btnCancel.setBackground(Color.decode("#D3D3D3"));
 
 		// Save button action listener to add data to JTable
 		btnSave.addActionListener(e -> {
@@ -620,17 +666,41 @@ public class DichVu_GUI extends javax.swing.JPanel {
 		return nextCode;
 	}
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel btnCapNhat;
-    private javax.swing.JPanel btnThemDichVu;
-    private javax.swing.JPanel btnXoa;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lbCapNhat;
-    private javax.swing.JLabel lbThemDichVu;
-    private javax.swing.JLabel lbXoa;
-    // End of variables declaration//GEN-END:variables
+	// DocumentFilter to allow only numbers
+	private static class NumericDocumentFilter extends DocumentFilter {
+		@Override
+		public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
+				throws BadLocationException {
+			if (string != null && string.matches("\\d*")) { // Check if input is numeric
+				super.insertString(fb, offset, string, attr);
+			}
+		}
+
+		@Override
+		public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+				throws BadLocationException {
+			if (text != null && text.matches("\\d*")) { // Check if input is numeric
+				super.replace(fb, offset, length, text, attrs);
+			}
+		}
+
+		@Override
+		public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+			super.remove(fb, offset, length);
+		}
+	}
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JPanel btnCapNhat;
+	private javax.swing.JPanel btnThemDichVu;
+	private javax.swing.JPanel btnXoa;
+	private javax.swing.JLabel jLabel5;
+	private javax.swing.JPanel jPanel2;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JSeparator jSeparator1;
+	private javax.swing.JTable jTable1;
+	private javax.swing.JLabel lbCapNhat;
+	private javax.swing.JLabel lbThemDichVu;
+	private javax.swing.JLabel lbXoa;
+	// End of variables declaration//GEN-END:variables
 }
