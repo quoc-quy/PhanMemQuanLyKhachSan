@@ -102,15 +102,16 @@ public class NhanVien_DAO {
 
 	// Add a new employee
 	public boolean addNhanVien(NhanVien nhanVien) {
-		String sql = "INSERT INTO NhanVien (MaNhanVien, TenNhanVien, LoaiNhanVien, Phai, NgaySinh, SoDienThoai) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO NhanVien (MaNhanVien, TenNhanVien, LoaiNhanVien, NgaySinh, CCCD, SoDienThoai, ) VALUES (?, ?, ?, ?, ?, ?)";
 		try (Connection connection = ConnectDB.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, nhanVien.getMaNhanVien());
 			statement.setString(2, nhanVien.getTenNhanVien());
 			statement.setString(3, nhanVien.getLoaiNhanVien().toString()); // Ensure LoaiNhanVien is properly formatted
-			statement.setString(4, nhanVien.getPhai());
-			statement.setDate(5, new java.sql.Date(nhanVien.getNgaySinh().getTime()));
+			statement.setDate(4, new java.sql.Date(nhanVien.getNgaySinh().getTime()));
+			statement.setString(5, nhanVien.getCCCD());
 			statement.setString(6, nhanVien.getSoDienThoai());
+			statement.setString(7, nhanVien.getPhai());
 
 			int rowsInserted = statement.executeUpdate();
 			return rowsInserted > 0;
