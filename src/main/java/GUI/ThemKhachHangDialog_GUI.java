@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 
 import javax.swing.JOptionPane;
@@ -336,6 +338,30 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
     // Phương thức kiểm tra hợp lệ số điện thoại
     private boolean isPhoneNumberValid(String phone) {
         return phone.matches("0\\d{9}"); // Kiểm tra bắt đầu bằng số 0 và có 10 chữ số
+    }
+    
+    private void addInputValidation() {
+        txtCCCD.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                // Chỉ cho phép nhập số
+                if (!Character.isDigit(c)) {
+                    e.consume(); // Ngăn không cho nhập ký tự
+                }
+            }
+        });
+
+        txtSDT.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                // Chỉ cho phép nhập số
+                if (!Character.isDigit(c)) {
+                    e.consume(); // Ngăn không cho nhập ký tự
+                }
+            }
+        });
     }
 
     /**
