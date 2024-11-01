@@ -32,7 +32,7 @@ import ENTITY.KhachHang;
  */
 public class KhachHang_GUI extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
-
+	private static KhachHang_GUI instance;
     private DefaultTableModel tableModel;
 	private KhachHang_DAO dsKHDAO = new KhachHang_DAO();
 
@@ -42,6 +42,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     public KhachHang_GUI() {
         initComponents();
         
+        instance = this;
         addSelectionListenerToTable();
         
         updateHeader();
@@ -411,6 +412,10 @@ public class KhachHang_GUI extends javax.swing.JPanel {
                 }
             }
         });
+    }
+    
+    public static KhachHang_GUI getInstance() {
+        return instance;
     }
     
 //    làm mới bảng khi thêm mới dữ liệu
