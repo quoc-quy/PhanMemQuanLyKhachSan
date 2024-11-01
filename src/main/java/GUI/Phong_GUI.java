@@ -43,6 +43,8 @@ import com.toedter.calendar.JDateChooser;
 import DAO.Phong_DAO;
 import ENTITY.Phong;
 import ENTITY.TinhTrangPhong;
+import GUI.ThemKhachHangDialog_GUI;
+import GUI.KhachHang_GUI;
 
 /**
  *
@@ -3023,7 +3025,7 @@ public class Phong_GUI extends javax.swing.JPanel {
 
         // Field Check-in
         bookingPanel.add(new JLabel("Check-in:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 14));
+            setFont(new Font("Segoe UI", Font.BOLD, 20));
         }});
         JDateChooser checkInDateChooser = new JDateChooser();
         checkInDateChooser.setDateFormatString("dd/MM/yyyy");
@@ -3031,7 +3033,7 @@ public class Phong_GUI extends javax.swing.JPanel {
 
         // Field Check-out
         bookingPanel.add(new JLabel("Check-out:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 14));
+            setFont(new Font("Segoe UI", Font.BOLD, 20));
         }});
         JDateChooser checkOutDateChooser = new JDateChooser();
         checkOutDateChooser.setDateFormatString("dd/MM/yyyy");
@@ -3039,7 +3041,7 @@ public class Phong_GUI extends javax.swing.JPanel {
 
         // Số người lớn (JComboBox với giá trị từ 0 đến 5)
         bookingPanel.add(new JLabel("Số người lớn:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 14));
+            setFont(new Font("Segoe UI", Font.BOLD, 20));
         }});
         
         Integer[] personOptions = {0, 1, 2, 3, 4, 5};
@@ -3050,13 +3052,13 @@ public class Phong_GUI extends javax.swing.JPanel {
         
         // Số trẻ em (JComboBox với giá trị từ 0 đến 5)
         bookingPanel.add(new JLabel("Số trẻ em:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 14));
+            setFont(new Font("Segoe UI", Font.BOLD, 20));
         }});
         JComboBox<Integer> childrenComboBox = new JComboBox<>(personOptions);
         bookingPanel.add(childrenComboBox);
         
         JButton btnXemThongTin = new JButton("Xem thông tin");
-        btnXemThongTin.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnXemThongTin.setFont(new Font("Segoe UI", Font.BOLD, 20));
         btnXemThongTin.setBackground(Color.decode("#199FFE"));
         btnXemThongTin.setMaximumSize(new Dimension(btnXemThongTin.getPreferredSize().width + 20, btnXemThongTin.getPreferredSize().height + 10));
         btnXemThongTin.setPreferredSize(new Dimension(btnXemThongTin.getPreferredSize().width + 20, btnXemThongTin.getPreferredSize().height + 10));
@@ -3067,7 +3069,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         
         JButton btnThemKhachHang = new JButton("Thêm Khách Hàng");
         btnThemKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png")));
-        btnThemKhachHang.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnThemKhachHang.setFont(new Font("Segoe UI", Font.BOLD, 20));
         btnThemKhachHang.setBackground(Color.decode("#61D998"));
         btnThemKhachHang.setMaximumSize(new Dimension(btnThemKhachHang.getPreferredSize().width + 20, btnThemKhachHang.getPreferredSize().height + 10));
         btnThemKhachHang.setPreferredSize(new Dimension(btnThemKhachHang.getPreferredSize().width + 20, btnThemKhachHang.getPreferredSize().height + 10));
@@ -3076,6 +3078,42 @@ public class Phong_GUI extends javax.swing.JPanel {
         btnThemKhachHang.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnThemKhachHang.setVisible(false);
         bookingPanel.add(btnThemKhachHang);
+        
+        btnThemKhachHang.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				JFrame parentFrame1 = (JFrame) SwingUtilities.getWindowAncestor(Phong_GUI.this);
+		        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, getFocusTraversalKeysEnabled(), null, null);
+		        
+		        dialog.setVisible(true);
+			}
+		});
         
         //Nut them KH se hien thi khi co gia tri trong o ComboBox > 0
         ActionListener comboBoxListener = new ActionListener() {
@@ -3098,37 +3136,49 @@ public class Phong_GUI extends javax.swing.JPanel {
 
         // Số trẻ em (JComboBox với giá trị từ 0 đến 5)
         bookingPanel.add(new JLabel("Loại hình:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 14));
+            setFont(new Font("Segoe UI", Font.BOLD, 20));
         }});
         JComboBox<String> typeComboBox = new JComboBox<>(typeOptions);
         bookingPanel.add(typeComboBox);
         
         // TextField tiền cọc
         bookingPanel.add(new JLabel("Tiền cọc:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 14));
+            setFont(new Font("Segoe UI", Font.BOLD, 20));
         }});
         bookingPanel.add(new JTextField());
 
         // Panel cho nút Xác nhận
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         
-        JButton btnConfirm = new JButton("Xác nhận");
-        btnConfirm.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        btnConfirm.setBackground(Color.decode("#199FFE"));
-        btnConfirm.setMaximumSize(new Dimension(btnConfirm.getPreferredSize().width + 20, btnConfirm.getPreferredSize().height + 10));
-        btnConfirm.setPreferredSize(new Dimension(btnConfirm.getPreferredSize().width + 20, btnConfirm.getPreferredSize().height + 10));
-        btnConfirm.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnConfirm.setForeground(Color.white);
-        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JButton btnNhanPhong = new JButton("Nhận phòng");
+        btnNhanPhong.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        btnNhanPhong.setBackground(Color.decode("#199FFE"));
+        btnNhanPhong.setMaximumSize(new Dimension(btnNhanPhong.getPreferredSize().width + 20, btnNhanPhong.getPreferredSize().height + 10));
+        btnNhanPhong.setPreferredSize(new Dimension(btnNhanPhong.getPreferredSize().width + 20, btnNhanPhong.getPreferredSize().height + 10));
+        btnNhanPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnNhanPhong.setForeground(Color.white);
+        btnNhanPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         buttonPanel.setBackground(Color.white);
-        buttonPanel.add(btnConfirm);
+        buttonPanel.add(btnNhanPhong);
+        
+        JButton btnDatPhong = new JButton("Đặt phòng");
+        btnDatPhong.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        btnDatPhong.setBackground(Color.decode("#F56D28"));
+        btnDatPhong.setMaximumSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+        btnDatPhong.setPreferredSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+        btnDatPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnDatPhong.setForeground(Color.white);
+        btnDatPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.add(btnDatPhong);
 
         bookingDialog.setLayout(new BorderLayout());
         bookingDialog.add(bookingPanel, BorderLayout.CENTER);
         bookingDialog.add(buttonPanel, BorderLayout.SOUTH);
 
-        btnConfirm.addActionListener(e -> {
+        btnDatPhong.addActionListener(e -> {
             java.util.Date checkInDate =  checkInDateChooser.getDate();
             java.util.Date checkOutDate = checkOutDateChooser.getDate();
             int adultsCount = (Integer) adultsComboBox.getSelectedItem();
