@@ -4,8 +4,15 @@
  */
 package GUI;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -15,16 +22,21 @@ import javax.swing.table.JTableHeader;import javax.swing.table.TableModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import ConnectDB.ConnectDB;
 import DAO.KhachHang_DAO;
 import DAO.KhuyenMai_DAO;
 import ENTITY.KhachHang;
 import ENTITY.KhuyenMai;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -58,6 +70,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         titleHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -66,7 +79,17 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         lblCapNhat = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnThemKhuyenMai = new javax.swing.JLabel();
-        
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 704, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 467, Short.MAX_VALUE)
+        );
 
         setLayout(new java.awt.CardLayout());
 
@@ -99,14 +122,22 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 
         btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
         btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        
+        btnCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCapNhatMouseClicked(evt);
+            }
+        });
 
         lblCapNhat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCapNhat.setForeground(new java.awt.Color(255, 255, 255));
         lblCapNhat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
         lblCapNhat.setText("Cập nhật");
-       
+        lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCapNhatMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnCapNhatLayout = new javax.swing.GroupLayout(btnCapNhat);
         btnCapNhat.setLayout(btnCapNhatLayout);
@@ -130,7 +161,11 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         btnThemKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnThemKhuyenMai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
         btnThemKhuyenMai.setText("Thêm khuyến mãi");
-        
+        btnThemKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemKhuyenMaiMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -253,7 +288,16 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 				 updateKhuyenMai(); // Call update service dialog method
 				
 			}
-		});         
+		});  
+        
+        
+        
+        btnThemKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				showAddKhuyenMaiDialog(evt); // Call update service dialog method
+				
+			}
+		});       
 }
     private void updateKhuyenMai() {
     	int selectedRow = tbKhuyenMai.getSelectedRow();
@@ -278,6 +322,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 	   // UI	
 	   javax.swing.JTextField txtMaKhuyenMai = createTextField(khuyenMai.getMakhuyenMai(), false);
 	   javax.swing.JTextField txtMoTa = new javax.swing.JTextField(khuyenMai.getMoTa(), 20);
+	   
 	   JDateChooser dateChooserNgayBatDau = new JDateChooser();
 	    dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
 	    dateChooserNgayBatDau.setDate(khuyenMai.getNgayBatDau());
@@ -380,7 +425,7 @@ private void updateKhuyenmaiData(JDialog dialog, KhuyenMai khuyenMai, KhuyenMai_
 	            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
 	            if (currentDate.after(ngayKetThuc)) {
 	                trangThai = "Het han";
-	            }
+	            } else trangThai = "Hoat dong";
 
 	            khuyenMai.setMoTa(moTa);
 	            khuyenMai.setNgayBatDau(ngayBatDau);
@@ -420,17 +465,188 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
 		java.util.Date date = dateFormat.parse(dateString);
 		return new java.sql.Date(date.getTime());
 	}
+   
+   public void showAddKhuyenMaiDialog(java.awt.event.MouseEvent evt) {
+	   JDialog addKhuyenMaiDialog = new JDialog((Frame) null,"Thêm khuyễn mãi",true);
+	   addKhuyenMaiDialog.setSize(500,400);
+	   addKhuyenMaiDialog.setLocationRelativeTo(this);
+	   
+	   
+	   //UI	
+	   String MaKhuyenMai = generateNewKhuyenMaiID();
+	   javax.swing.JLabel lblMaKhuyenMai = new javax.swing.JLabel("Mã khuyến mãi: ");
+	   javax.swing.JTextField txtMaKhuyenMai = new javax.swing.JTextField(MaKhuyenMai, 20);
+	   txtMaKhuyenMai.setEditable(false);
+	   
+	   JTextField txtMoTa=new JTextField(20);
+	   JDateChooser dateChooserNgayBatDau = new JDateChooser();
+	   JDateChooser dateChooserNgayKetThuc = new JDateChooser();
+	   dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
+       dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
+	   JTextField txtTrangThai = new JTextField(20);
+	   JTextField txtChietKhau=new JTextField(20);
+	   
+	   JButton btnSave = new JButton("Lưu");
+	   JButton btnCancel = new JButton("Hủy");
+	   
+	   // layout components
+	   	JPanel formPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.anchor = GridBagConstraints.WEST;
+		
+		addFormRow(formPanel,gbc,0,"Mã khuyến mãi:",txtMaKhuyenMai);
+		addFormRow(formPanel,gbc,1,"Mô tả:",txtMoTa);
+		addFormRow(formPanel, gbc, 2, "Ngày bắt đầu:", dateChooserNgayBatDau);
+		addFormRow(formPanel, gbc, 3, "Ngày kết thúc:", dateChooserNgayKetThuc);
+		addFormRow(formPanel,gbc,4,"Trạng thái:",txtTrangThai);
+		addFormRow(formPanel,gbc,5,"Chiết khấu:",txtChietKhau);
+		
+		// Button panel setup
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		buttonPanel.add(btnCancel);
+		buttonPanel.add(btnSave);
+		
+		JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		mainPanel.add(formPanel, BorderLayout.CENTER);
+		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+		//Event Listeners
+		btnSave.addActionListener(e -> {
+			if(saveKhuyenMaiData(addKhuyenMaiDialog,txtMoTa,dateChooserNgayBatDau,dateChooserNgayKetThuc,txtTrangThai,txtChietKhau)) {
+				addKhuyenMaiDialog.dispose();
+			}
+		});
+		btnCancel.addActionListener(e -> addKhuyenMaiDialog.dispose());
+		
+		addKhuyenMaiDialog.add(mainPanel);
+		addKhuyenMaiDialog.setVisible(true);
+
+   }
+   
+private boolean saveKhuyenMaiData(JDialog dialog, JTextField txtMoTa, JDateChooser dateChooserNgayBatDau,
+		JDateChooser dateChooserNgayKetThuc, JTextField txtTrangThai, JTextField txtChietKhau) {
+	// TODO Auto-generated method stub
+	String moTa=txtMoTa.getText().trim();
+	java.util.Date ngayBatDau = dateChooserNgayBatDau.getDate();
+	java.util.Date ngayKetThuc = dateChooserNgayKetThuc.getDate();
+	String trangThai =txtTrangThai.getText().trim();
+	String chietKhau =txtChietKhau.getText().trim();
+	
+	if (moTa.isEmpty() || ngayBatDau == null|| ngayKetThuc== null ||trangThai.isEmpty() || chietKhau.isEmpty()) {
+        JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo",
+                JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+	
+	
+
+    
+    
+    
+	String maKhuyenMai = generateNewKhuyenMaiID();
+	 if (maKhuyenMai == null) {
+	        // Hiển thị thông báo lỗi nếu không tạo được mã
+	        JOptionPane.showMessageDialog(dialog, "Lỗi khi tạo mã khuyến mãi mới.", "Lỗi",
+	                JOptionPane.ERROR_MESSAGE);
+	        return false; // Trả về false để chỉ ra rằng có lỗi xảy ra
+    }
+	
+	// Lưu dữ liệu vào cơ sở dữ liệu
+    if (saveToDatabase(maKhuyenMai, moTa, ngayBatDau, ngayKetThuc, trangThai, chietKhau)) {
+        // Thêm dòng mới vào bảng với thứ tự hoán đổi
+        DefaultTableModel tableModel = (DefaultTableModel) tbKhuyenMai.getModel();
+        tableModel.addRow(new Object[] { maKhuyenMai, moTa, ngayBatDau, ngayKetThuc, trangThai, chietKhau});
+        return true;
+    } else {
+        JOptionPane.showMessageDialog(dialog, "Lỗi lưu dữ liệu vào cơ sở dữ liệu.", "Lỗi",
+                JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+	
+
+	
+}
+
+private boolean saveToDatabase(String maKhuyenMai, String moTa, java.util.Date ngayBatDau, java.util.Date ngayKetThuc,
+		String trangThai, String chietKhau) {
+	// TODO Auto-generated method stub
+	ConnectDB connectDB = new ConnectDB();
+	try (Connection conn = connectDB.getConnection()) { // Use the connection from ConnectDB
+		if (conn == null) {
+			JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu.", "Lỗi kết nối",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		String sql = "INSERT INTO KhuyenMai (MaKhuyenMai, MoTa, NgayBatDau, NgayKetThuc, TrangThai, ChietKhau) VALUES (?, ?, ?, ?, ?, ?)";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			
+				pstmt.setString(1, maKhuyenMai); // Thiết lập tham số 1 (MaKhuyenMai)
+			    pstmt.setString(2, moTa); // Thiết lập tham số 2 (MoTa)
+			    pstmt.setDate(3, new java.sql.Date(ngayBatDau.getTime())); // Thiết lập tham số 3 (NgayBatDau)
+			    pstmt.setDate(4, new java.sql.Date(ngayKetThuc.getTime())); // Thiết lập tham số 4 (NgayKetThuc)
+			    pstmt.setString(5, trangThai); // Thiết lập tham số 5 (TrangThai)
+			    pstmt.setString(6, chietKhau); // Thiết lập tham số 6 (ChietKhau)
+			
+			int rowInserted = pstmt.executeUpdate();
+			return rowInserted > 0;	
+			
+		} 
+		} catch (SQLException e ) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
+
+	// TODO Auto-generated method stub
+	private String generateNewKhuyenMaiID() {
+		String nextCode = "KM001"; // Default code
+		try (Connection conn = ConnectDB.getConnection()) {
+			String sql = "SELECT MAX(maKhuyenMai) FROM KhuyenMai";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					String lastCode = rs.getString(1);
+					if (lastCode != null) {
+						int lastNumber = Integer.parseInt(lastCode.substring(2)); // Extract number part
+						nextCode = "KM" + String.format("%03d", lastNumber + 1); // Increment and format
+					}
+				}
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			javax.swing.JOptionPane.showMessageDialog(null, "Lỗi khi truy xuất mã dịch vụ: " + ex.getMessage(), "Lỗi",
+					javax.swing.JOptionPane.ERROR_MESSAGE);
+		}
+		return nextCode;
+	
+}
+
+
+// Helper method to add components in formPanel
+   private void addFormRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, Component component) {
+	   	gbc.gridx = 0;
+		gbc.gridy = row;
+		panel.add(new JLabel(labelText), gbc);
+
+		gbc.gridx = 1;
+		panel.add(component, gbc);
+   }
+   
+   
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnCapNhat;
     private javax.swing.JLabel btnThemKhuyenMai;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCapNhat;
-    private javax.swing.JLabel lblThemKhuyenMai;
     private javax.swing.JTable tbKhuyenMai;
     private javax.swing.JLabel titleHoaDon;
     // End of variables declaration//GEN-END:variables

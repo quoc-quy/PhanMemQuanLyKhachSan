@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,7 +50,7 @@ public class KhachHang_DAO {
     		ps.setString(2,khachHang.getTenKhachHang());
     		ps.setString(3, khachHang.getCCCD());
     		ps.setString(4, khachHang.getPhai());
-    		ps.setDate(5, khachHang.getNgaySinh());
+    		ps.setDate(5, new java.sql.Date(khachHang.getNgaySinh().getTime()));
     		ps.setString(6, khachHang.getDienThoai());
     		return ps.executeUpdate()>0;
     	} catch(SQLException e ) {
@@ -77,7 +78,7 @@ public class KhachHang_DAO {
     		ps.setString(2, khachHang.getTenKhachHang());
     		ps.setString(3, khachHang.getCCCD());
     		ps.setString(4, khachHang.getPhai());
-    		ps.setDate(5, khachHang.getNgaySinh());
+    		ps.setDate(5, (Date) khachHang.getNgaySinh());
     		ps.setString(6, khachHang.getDienThoai());
     		return ps.executeUpdate() > 0;
     	} catch(SQLException e ) {
