@@ -5,6 +5,8 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -59,11 +61,12 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         titleHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbKhachHang = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
+        RoundedPanel jPanel2 = new RoundedPanel(20);
+        RoundedPanel jPanel3 = new RoundedPanel(20);
+        RoundedPanel jPanel4 = new RoundedPanel(20);
+        
         jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtTimKiem = new javax.swing.JTextField();
         btnTimKiem = new javax.swing.JButton();

@@ -5,6 +5,8 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,11 +59,11 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         titleHoaDon = new javax.swing.JLabel();
-        panelThemHoaDon = new javax.swing.JPanel();
+        RoundedPanel panelThemHoaDon = new RoundedPanel(20);
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbHoaDon = new javax.swing.JTable();
-        btnXuatFile = new javax.swing.JPanel();
+        RoundedPanel btnXuatFile = new RoundedPanel(20);
         jLabel1 = new javax.swing.JLabel();
         btnTimKiem = new javax.swing.JButton();
         txtTimKiem = new javax.swing.JTextField();

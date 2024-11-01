@@ -66,6 +66,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         lblCapNhat = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnThemKhuyenMai = new javax.swing.JLabel();
+        
 
         setLayout(new java.awt.CardLayout());
 
