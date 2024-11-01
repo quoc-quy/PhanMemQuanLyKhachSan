@@ -13,11 +13,14 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;import javax.swing.table.TableModel;
 
+import com.toedter.calendar.JDateChooser;
+
 import DAO.KhachHang_DAO;
 import DAO.KhuyenMai_DAO;
 import ENTITY.KhachHang;
 import ENTITY.KhuyenMai;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -58,10 +62,8 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         titleHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbKhuyenMai = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        btnXoaKhuyenMai = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        btnCapNhatKhuyenMai = new javax.swing.JLabel();
+        btnCapNhat = new javax.swing.JPanel();
+        lblCapNhat = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnThemKhuyenMai = new javax.swing.JLabel();
 
@@ -94,51 +96,28 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         tbKhuyenMai.setRowHeight(40);
         jScrollPane1.setViewportView(tbKhuyenMai);
 
-        jPanel2.setBackground(new java.awt.Color(255, 0, 0));
-        jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
+        btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        
 
-        btnXoaKhuyenMai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXoaKhuyenMai.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoaKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnXoaKhuyenMai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/delete.png"))); // NOI18N
-        btnXoaKhuyenMai.setText("Xóa");
+        lblCapNhat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCapNhat.setForeground(new java.awt.Color(255, 255, 255));
+        lblCapNhat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
+        lblCapNhat.setText("Cập nhật");
+       
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(btnXoaKhuyenMai, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                .addContainerGap())
+        javax.swing.GroupLayout btnCapNhatLayout = new javax.swing.GroupLayout(btnCapNhat);
+        btnCapNhat.setLayout(btnCapNhatLayout);
+        btnCapNhatLayout.setHorizontalGroup(
+            btnCapNhatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCapNhat, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        btnCapNhatLayout.setVerticalGroup(
+            btnCapNhatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnCapNhatLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnXoaKhuyenMai)
-                .addContainerGap())
-        );
-
-        jPanel3.setBackground(new java.awt.Color(245, 109, 40));
-        jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        btnCapNhatKhuyenMai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnCapNhatKhuyenMai.setForeground(new java.awt.Color(255, 255, 255));
-        btnCapNhatKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCapNhatKhuyenMai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
-        btnCapNhatKhuyenMai.setText("Cập nhật");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnCapNhatKhuyenMai, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCapNhatKhuyenMai)
+                .addComponent(lblCapNhat)
                 .addContainerGap())
         );
 
@@ -150,11 +129,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         btnThemKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnThemKhuyenMai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png"))); // NOI18N
         btnThemKhuyenMai.setText("Thêm khuyến mãi");
-        btnThemKhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnThemKhuyenMaiMouseClicked(evt);
-            }
-        });
+        
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -184,9 +159,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
@@ -198,8 +171,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
                 .addComponent(titleHoaDon)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE))
@@ -208,14 +180,13 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         add(jPanel1, "card2");
     }// </editor-fold>//GEN-END:initComponents
 
+   
+
     
     
      
     
-    private void btnThemKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {
-    	
-    	
-    }//GEN-LAST:event_btnThemKhuyenMaiMouseClicked
+    
     private void updateHeader(){
         JTableHeader header = tbKhuyenMai.getTableHeader();
          header.setFont(new Font("Times new Romans", Font.BOLD, 16)); 
@@ -247,21 +218,218 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
             };
             tableModel.addRow(row);
         }
-       
-    }
-   
+        lblCapNhat.setEnabled(false);
+        btnCapNhat.setEnabled(false);
+        
+        tbKhuyenMai.getSelectionModel().addListSelectionListener(e -> {
+        	if(!e.getValueIsAdjusting()) {
+        		boolean isRowSelected = tbKhuyenMai.getSelectedRow() != -1;
+        				lblCapNhat.setEnabled(isRowSelected);
+        				btnCapNhat.setEnabled(isRowSelected);
+        	}
+        });
+        
+        lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				if (tbKhuyenMai.getSelectedRow() != -1) { // Check if a row is selected
+					updateKhuyenMai();
+					; // Call update service dialog method
+				}
+			}
+		});
+        
+        btnCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				if (tbKhuyenMai.getSelectedRow() != -1) { // Check if a row is selected
+					updateKhuyenMai(); // Call update service dialog method
+				}
+			}
+		});
+        
+        
+        btnCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				 updateKhuyenMai(); // Call update service dialog method
+				
+			}
+		});         
+}
+    private void updateKhuyenMai() {
+    	int selectedRow = tbKhuyenMai.getSelectedRow();
+    	if(selectedRow == -1) {
+    		JOptionPane.showMessageDialog(this, "Chọn khuyến mãi cần cập nhật");
+    		return;
+    	}
+    	String khuyenMaiID= (String) tbKhuyenMai.getValueAt(selectedRow, 0);
+    	KhuyenMai_DAO khuyenMaiDAO = new KhuyenMai_DAO();
+    	KhuyenMai khuyenMai = khuyenMaiDAO.getBangMaKhuyenMai(khuyenMaiID);
+    	
+    	JDialog updateKhuyenMaiDialog = creatUpdateKhuyenMaiDialog(khuyenMai,khuyenMaiDAO);
+    		updateKhuyenMaiDialog.setVisible(true);
+    }  	
+   private JDialog  creatUpdateKhuyenMaiDialog(KhuyenMai khuyenMai,KhuyenMai_DAO khuyenMaiDAO) {
+	   JDialog  updateKhuyenMaiDialog = new JDialog();
+	   updateKhuyenMaiDialog.setTitle("Cập nhật khuyến mãi");
+	   updateKhuyenMaiDialog.setSize(500,400);
+	   updateKhuyenMaiDialog.setLocationRelativeTo(this);
+	   updateKhuyenMaiDialog.setModal(true);
+	   
+	   // UI	
+	   javax.swing.JTextField txtMaKhuyenMai = createTextField(khuyenMai.getMakhuyenMai(), false);
+	   javax.swing.JTextField txtMoTa = new javax.swing.JTextField(khuyenMai.getMoTa(), 20);
+	   JDateChooser dateChooserNgayBatDau = new JDateChooser();
+	    dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
+	    dateChooserNgayBatDau.setDate(khuyenMai.getNgayBatDau());
+
+	    JDateChooser dateChooserNgayKetThuc = new JDateChooser();
+	    dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
+	    dateChooserNgayKetThuc.setDate(khuyenMai.getNgayKetThuc());
+
+	   javax.swing.JTextField txtTrangThai = new javax.swing.JTextField(khuyenMai.getTrangThai(), 20);
+	   javax.swing.JTextField txtChietKhau = new javax.swing.JTextField(String.valueOf(khuyenMai.getChietKhau()),20);
+	   
+	   javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
+	   javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+	   
+	   //btnSave add action 
+	   btnSave.addActionListener(e -> updateKhuyenmaiData(
+		        updateKhuyenMaiDialog, khuyenMai, khuyenMaiDAO, txtMoTa, dateChooserNgayBatDau, dateChooserNgayKetThuc, txtTrangThai, txtChietKhau));
+	   //btn cancel add action
+	   btnCancel.addActionListener(e->updateKhuyenMaiDialog.dispose());
+	   //Panel setup	
+	   javax.swing.JPanel formPanel = createFormPanel(txtMaKhuyenMai, txtMoTa, dateChooserNgayBatDau, dateChooserNgayKetThuc,
+				txtTrangThai, txtChietKhau);
+	   javax.swing.JPanel buttonPanel = createButtonPanel(btnCancel, btnSave);
+	   //main panel setup
+	   javax.swing.JPanel mainPanel = new javax.swing.JPanel();
+		mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
+		mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		mainPanel.add(formPanel, java.awt.BorderLayout.CENTER);
+		mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+
+		updateKhuyenMaiDialog.add(mainPanel);
+		return updateKhuyenMaiDialog;
+   }
+   private JPanel createButtonPanel(JButton btnCancel, JButton btnSave) {
+	// TODO Auto-generated method stub
+	   javax.swing.JPanel buttonPanel = new javax.swing.JPanel();
+		buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+		buttonPanel.add(btnCancel);
+		buttonPanel.add(btnSave);
+		return buttonPanel;  
+	
+}
+
+private javax.swing.JPanel createFormPanel(javax.swing.JTextField txtMaKhuyenMai, javax.swing.JTextField txtMoTa, JDateChooser dateChooserNgayBatDau, JDateChooser dateChooserNgayKetThuc, javax.swing.JTextField txtTrangThai, javax.swing.JTextField txtChietKhau) {
+	// TODO Auto-generated method stub
+	javax.swing.JPanel formPanel = new javax.swing.JPanel();
+	formPanel.setLayout(new java.awt.GridBagLayout());
+	java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+	gbc.insets = new java.awt.Insets(5, 5, 5, 5);
+	gbc.anchor = java.awt.GridBagConstraints.WEST;
+	
+	addComponent(formPanel, gbc, 0, 0, "Mã khuyến mãi:", txtMaKhuyenMai);
+	addComponent(formPanel, gbc, 0, 1, "Mô tả:", txtMoTa);
+	addComponent(formPanel, gbc, 0, 2, "Ngày bắt đầu:", dateChooserNgayBatDau);
+	addComponent(formPanel, gbc, 0, 3, "Ngày kết thúc:", dateChooserNgayKetThuc);
+	addComponent(formPanel, gbc, 0, 4, "Trạng thái:", txtTrangThai);
+	addComponent(formPanel, gbc, 0, 5, "Chiết khấu:", txtChietKhau);
+	
+	
+	return formPanel;
+}
+
+private void addComponent(javax.swing.JPanel panel, GridBagConstraints gbc, int gridX, int gridY, String labelText,
+		javax.swing.JComponent component) {
+	// TODO Auto-generated method stub
+	gbc.gridx = gridX;
+	gbc.gridy = gridY;
+	panel.add(new javax.swing.JLabel(labelText), gbc);
+	gbc.gridx = gridX + 1;
+	panel.add(component, gbc);
+	
+}
+
+private void updateKhuyenmaiData(JDialog dialog, KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO,
+		JTextField txtMoTa, JDateChooser dateChooserNgayBatDau, JDateChooser dateChooserNgayKetThuc, JTextField txtTrangThai,
+		JTextField txtChietKhau) {
+	// TODO Auto-generated method stub
+	   String moTa = txtMoTa.getText().trim();
+	   String trangThai =txtTrangThai.getText().trim();
+	   String chietKhauStr=txtChietKhau.getText().trim();
+	   
+	   java.util.Date ngayBatDauUtil = dateChooserNgayBatDau.getDate();
+	   java.util.Date ngayKetThucUtil = dateChooserNgayKetThuc.getDate();
+	   
+	   if (ngayBatDauUtil == null || ngayKetThucUtil == null) {
+	        JOptionPane.showMessageDialog(dialog, "Vui lòng chọn ngày bắt đầu và ngày kết thúc.", "Thông báo",
+	                JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+	    java.sql.Date ngayBatDau = new java.sql.Date(ngayBatDauUtil.getTime());
+	    java.sql.Date ngayKetThuc = new java.sql.Date(ngayKetThucUtil.getTime());
+
+
+	   
+	    if (isInputValid(moTa, dateChooserNgayBatDau.getDate(), dateChooserNgayKetThuc.getDate(), trangThai, chietKhauStr)) {
+	        try {
+	            int chietKhau = Integer.parseInt(chietKhauStr);
+
+	            // Tự động cập nhật trạng thái nếu ngày hiện tại đã qua ngày kết thúc
+	            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+	            if (currentDate.after(ngayKetThuc)) {
+	                trangThai = "Het han";
+	            }
+
+	            khuyenMai.setMoTa(moTa);
+	            khuyenMai.setNgayBatDau(ngayBatDau);
+	            khuyenMai.setNgayKetThuc(ngayKetThuc);
+	            khuyenMai.setTrangThai(trangThai);
+	            khuyenMai.setChietKhau(chietKhau);
+
+	            if (khuyenMaiDAO.updateKhuyenMai(khuyenMai)) {
+	                loadDataToTable();
+	                JOptionPane.showMessageDialog(dialog, "Khuyến mãi cập nhật thành công");
+	                dialog.dispose();
+	            } else {
+	                JOptionPane.showMessageDialog(dialog, "Cập nhật không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	            }
+	        } catch (NumberFormatException ex) {
+	            JOptionPane.showMessageDialog(dialog, "Chiết khấu phải là số nguyên.", "Lỗi định dạng",
+	                    JOptionPane.ERROR_MESSAGE);
+	        }
+	    } else {
+	        JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo",
+	                JOptionPane.WARNING_MESSAGE);
+	    }
+}
+
+private boolean isInputValid(String moTa, java.util.Date ngayBatDau, java.util.Date ngayKetThuc, String trangThai, String chietKhau) {
+    return !moTa.isEmpty() && ngayBatDau != null && ngayKetThuc != null && !trangThai.isEmpty() && !chietKhau.isEmpty();
+}
+
+
+private javax.swing.JTextField createTextField(String text, boolean editable) {
+		javax.swing.JTextField textField = new javax.swing.JTextField(text, 20);
+		textField.setEditable(editable);
+		return textField;
+}
+   private java.sql.Date parseDate(String dateString) throws java.text.ParseException {
+		java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date date = dateFormat.parse(dateString);
+		return new java.sql.Date(date.getTime());
+	}
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnCapNhatKhuyenMai;
+    private javax.swing.JPanel btnCapNhat;
     private javax.swing.JLabel btnThemKhuyenMai;
-    private javax.swing.JLabel btnXoaKhuyenMai;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCapNhat;
+    private javax.swing.JLabel lblThemKhuyenMai;
     private javax.swing.JTable tbKhuyenMai;
     private javax.swing.JLabel titleHoaDon;
     // End of variables declaration//GEN-END:variables
