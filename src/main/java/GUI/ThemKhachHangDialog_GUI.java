@@ -18,12 +18,14 @@ import ENTITY.KhachHang;
 public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
 
     private static KhachHang_GUI parentPanel;
+    private static Phong_GUI parentPanelPhong;
 	/**
      * Creates new form ThemKhachHangDialog_GUI
      */
-    public ThemKhachHangDialog_GUI(java.awt.Frame parent, boolean modal, KhachHang_GUI parentPanel) {
+    public ThemKhachHangDialog_GUI(java.awt.Frame parent, boolean modal, KhachHang_GUI parentPanel, Phong_GUI parentPanelPhong) {
     	super(parent, "Thêm Khách Hàng", modal);
         this.parentPanel = parentPanel;
+        this.parentPanelPhong = parentPanelPhong;
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -295,6 +297,17 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         String phai = (String) cboGioiTinhKH.getSelectedItem();
         java.util.Date ngaySinh = ngaySinhKH.getDate();
 
+        // Kiểm tra điều kiện hợp lệ
+        if (!isCCCDValid(cccd)) {
+            JOptionPane.showMessageDialog(this, "Số CCCD phải có từ 9 đến 12 chữ số.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!isPhoneNumberValid(dienThoai)) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         // Tạo đối tượng KhachHang
         KhachHang khachHang = new KhachHang(maKhachHang, tenKhachHang, cccd, phai, ngaySinh, dienThoai);
 
@@ -303,14 +316,26 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         boolean isSaved = khachHangDAO.addKhachHang(khachHang);
 
         if (isSaved) {
-            JOptionPane.showMessageDialog(ThemKhachHangDialog_GUI.this, "Lưu khách hàng thành công!");
+            JOptionPane.showMessageDialog(this, "Lưu khách hàng thành công!");
             dispose(); // Đóng dialog sau khi lưu thành công
 
-         // Cập nhật bảng trong KhachHang_GUI
-            parentPanel.refreshTable(); // Gọi phương thức để làm mới bảng
+            // Cập nhật bảng trong KhachHang_GUI
+            if (parentPanel != null) {
+                parentPanel.refreshTable(); // Gọi phương thức để làm mới bảng
+            }
         } else {
-            JOptionPane.showMessageDialog(ThemKhachHangDialog_GUI.this, "Lưu khách hàng thất bại.");
+            JOptionPane.showMessageDialog(this, "Lưu khách hàng thất bại.");
         }
+    }
+    
+ // Phương thức kiểm tra hợp lệ CCCD
+    private boolean isCCCDValid(String cccd) {
+        return cccd.matches("\\d{9,12}"); // Kiểm tra số và có từ 9 đến 12 chữ số
+    }
+
+    // Phương thức kiểm tra hợp lệ số điện thoại
+    private boolean isPhoneNumberValid(String phone) {
+        return phone.matches("0\\d{9}"); // Kiểm tra bắt đầu bằng số 0 và có 10 chữ số
     }
 
     /**
@@ -343,7 +368,7 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(new javax.swing.JFrame(), true, parentPanel);
+                ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(new javax.swing.JFrame(), true, parentPanel, parentPanelPhong);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -109,4 +109,28 @@ public class KhachHang_DAO {
     	}
     	return khachHang;
     }
+    
+    public String getNextCustomerID() {
+        String lastCustomerID = null;
+        String sql = "SELECT MaKhachHang FROM KhachHang ORDER BY MaKhachHang DESC LIMIT 1";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            if (rs.next()) {
+                lastCustomerID = rs.getString("MaKhachHang");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Tạo mã mới dựa trên mã gần nhất
+        if (lastCustomerID != null) {
+            int nextID = Integer.parseInt(lastCustomerID.substring(2)) + 1;
+            return String.format("KH%04d", nextID); // Tạo mã dưới dạng KHxxxx
+        } else {
+            return "KH0001"; // Nếu không có mã nào thì bắt đầu từ KH0001
+        }
+    }
 }

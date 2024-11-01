@@ -271,7 +271,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 
     private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemKHMouseClicked
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(KhachHang_GUI.this);
-        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, true, this);
+        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, true, this, null);
         dialog.setVisible(true);
     }
 
