@@ -58,11 +58,11 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         titleHoaDon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbDanhSachDatPhong = new javax.swing.JTable();
-        btnHuy = new javax.swing.JPanel();
+        RoundedPanel btnHuy = new RoundedPanel(20);
+        RoundedPanel btnCapNhat = new RoundedPanel(20);
+        RoundedPanel btnNhanPhong = new RoundedPanel(20);
         jLabel1 = new javax.swing.JLabel();
-        btnCapNhat = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        btnNhanPhong = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtTimKiem = new javax.swing.JTextField();
         btnTimKiem = new javax.swing.JButton();

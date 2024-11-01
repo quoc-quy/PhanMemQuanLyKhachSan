@@ -108,4 +108,17 @@ public class Phong_DAO {
 	    }
 	    return dsPhong;
 	}
+	public boolean updateTinhTrangPhong(String maPhong, String tinhTrangMoi) {
+	    try (Connection conn = ConnectDB.getConnection()) {
+	        String sql = "UPDATE Phong SET TinhTrangPhong = ? WHERE MaPhong = ?";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, tinhTrangMoi);
+	        stmt.setString(2, maPhong);
+	        int rowsAffected = stmt.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
 }

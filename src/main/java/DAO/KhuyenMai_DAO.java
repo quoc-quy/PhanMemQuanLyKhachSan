@@ -125,22 +125,30 @@ public class KhuyenMai_DAO {
     }
     
     public boolean updateKhuyenMai(KhuyenMai khuyenMai) {
-    	String query = "UPDATE KhuyenMai SET MoTa = ?, NgayBatDau = ?, NgayKetThuc = ?, TrangThai = ?, ChietKhau = ? WHERE MaKhuyenMai = ?";
-    	try(Connection conn = dbConnection.getConnection();
-    			PreparedStatement ps = conn.prepareStatement(query)){
-    		ps.setString(1, khuyenMai.getMakhuyenMai());
-    		ps.setString(2,khuyenMai.getMoTa());
-    		ps.setDate(3,(Date) khuyenMai.getNgayBatDau());
-    		ps.setDate(4, (Date) khuyenMai.getNgayKetThuc());
-    		ps.setString(5, khuyenMai.getTrangThai());
-    		ps.setInt(6,khuyenMai.getChietKhau());
-    		return ps.executeUpdate() > 0;
-    	}catch(SQLException e) {
-    		
-    	}
-    	return false;
+        String query = "UPDATE KhuyenMai SET MoTa = ?, NgayBatDau = ?, NgayKetThuc = ?, TrangThai = ?, ChietKhau = ? WHERE MaKhuyenMai = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            // Đảm bảo đúng thứ tự của các tham số trong PreparedStatement theo câu truy vấn
+            ps.setString(1, khuyenMai.getMoTa());
+            
+            // Chuyển đổi ngày nếu cần thiết
+            ps.setDate(2, new java.sql.Date(khuyenMai.getNgayBatDau().getTime()));
+            ps.setDate(3, new java.sql.Date(khuyenMai.getNgayKetThuc().getTime()));
+            
+            ps.setString(4, khuyenMai.getTrangThai());
+            ps.setInt(5, khuyenMai.getChietKhau());
+            
+            
+            ps.setString(6, khuyenMai.getMakhuyenMai());
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace(); // Ghi log lỗi hoặc xử lý phù hợp
+        }
+        return false;
     }
-    
     public boolean deleteKhuyenMai(String maKhuyenMai) {
     	 String query = "DELETE FROM KhuyenMai WHERE MaKhuyenMai = ?";
     	 try(Connection conn = dbConnection.getConnection();
@@ -153,7 +161,7 @@ public class KhuyenMai_DAO {
     	 return false;
     }
     
-    public KhuyenMai findMaKhuyenMai(String maKhuyenMai) {
+    public KhuyenMai getBangMaKhuyenMai(String maKhuyenMai) {
     	KhuyenMai khuyenMai = null;
     	String query = "SELECT * FROM KhuyenMai WHERE MaKhuyenMai = ?";
     	try(Connection conn = dbConnection.getConnection();
