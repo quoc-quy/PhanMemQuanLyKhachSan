@@ -54,11 +54,13 @@ import javax.swing.JTextField;
  * @author 84837
  */
 public class KhuyenMai_GUI extends javax.swing.JPanel {
+	private KhuyenMai_DAO khuyenMaiDAO;
 
     /**
      * Creates new form KhachHang_GUI
      */
     public KhuyenMai_GUI() {
+    	khuyenMaiDAO =new KhuyenMai_DAO();
         initComponents();
         updateHeader();
         loadDataToTable();
@@ -447,15 +449,17 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
 	}
    
    public void showAddKhuyenMaiDialog(java.awt.event.MouseEvent evt) {
+	   
+	   String maKhuyenMai = khuyenMaiDAO.generateNewKhuyenMaiID();
 	   JDialog addKhuyenMaiDialog = new JDialog((Frame) null,"Thêm khuyễn mãi",true);
 	   addKhuyenMaiDialog.setSize(500,400);
 	   addKhuyenMaiDialog.setLocationRelativeTo(this);
 	   
 	   
 	   //UI	
-	   String MaKhuyenMai = generateNewKhuyenMaiID();
+	   
 	   javax.swing.JLabel lblMaKhuyenMai = new javax.swing.JLabel("Mã khuyến mãi: ");
-	   javax.swing.JTextField txtMaKhuyenMai = new javax.swing.JTextField(MaKhuyenMai, 20);
+	   javax.swing.JTextField txtMaKhuyenMai = new javax.swing.JTextField(maKhuyenMai, 20);
 	   txtMaKhuyenMai.setEditable(false);
 	   txtMaKhuyenMai.setEnabled(false);
 	   
@@ -541,7 +545,7 @@ private boolean saveKhuyenMaiData(JDialog dialog, JTextField txtMoTa, JDateChoos
     
     
     
-	String maKhuyenMai = generateNewKhuyenMaiID();
+	String maKhuyenMai = khuyenMaiDAO.generateNewKhuyenMaiID();
 	 if (maKhuyenMai == null) {
 	        // Hiển thị thông báo lỗi nếu không tạo được mã
 	        JOptionPane.showMessageDialog(dialog, "Lỗi khi tạo mã khuyến mãi mới.", "Lỗi",
@@ -617,27 +621,7 @@ private boolean saveToDatabase(String maKhuyenMai, String moTa, String formatted
 
 
 	// TODO Auto-generated method stub
-	private String generateNewKhuyenMaiID() {
-		String nextCode = "KM001"; // Default code
-		try (Connection conn = ConnectDB.getConnection()) {
-			String sql = "SELECT MAX(maKhuyenMai) FROM KhuyenMai";
-			try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
-					String lastCode = rs.getString(1);
-					if (lastCode != null) {
-						int lastNumber = Integer.parseInt(lastCode.substring(2)); // Extract number part
-						nextCode = "KM" + String.format("%03d", lastNumber + 1); // Increment and format
-					}
-				}
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			javax.swing.JOptionPane.showMessageDialog(null, "Lỗi khi truy xuất mã dịch vụ: " + ex.getMessage(), "Lỗi",
-					javax.swing.JOptionPane.ERROR_MESSAGE);
-		}
-		return nextCode;
 	
-}
 
 
 // Helper method to add components in formPanel
