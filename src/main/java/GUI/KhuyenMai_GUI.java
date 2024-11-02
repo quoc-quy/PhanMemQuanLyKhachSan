@@ -19,6 +19,9 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;import javax.swing.table.TableModel;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -36,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
+import javax.print.attribute.AttributeSet;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -462,6 +466,7 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
 	   javax.swing.JLabel lblMaKhuyenMai = new javax.swing.JLabel("Mã khuyến mãi: ");
 	   javax.swing.JTextField txtMaKhuyenMai = new javax.swing.JTextField(MaKhuyenMai, 20);
 	   txtMaKhuyenMai.setEditable(false);
+	   txtMaKhuyenMai.setEnabled(false);
 	   
 	   JTextField txtMoTa=new JTextField(20);
 	   JDateChooser dateChooserNgayBatDau = new JDateChooser();
@@ -470,6 +475,21 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
        dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
 	   JTextField txtTrangThai = new JTextField(20);
 	   JTextField txtChietKhau=new JTextField(20);
+
+	   //chi cho nhap so chiet khau   
+	   ((AbstractDocument) txtChietKhau.getDocument()).setDocumentFilter(new DocumentFilter() {
+           public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws BadLocationException {
+               if (string.matches("\\d*")) { // Chỉ cho phép ký tự số
+                   super.insertString(fb, offset, string, attr);
+               }
+           }
+
+           public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
+               if (text.matches("\\d*")) { // Chỉ cho phép ký tự số
+                   super.replace(fb, offset, length, text, attrs);
+               }
+           }
+       });
 	   
 	   JButton btnSave = new JButton("Lưu");
 	   JButton btnCancel = new JButton("Hủy");
@@ -537,14 +557,18 @@ private boolean saveKhuyenMaiData(JDialog dialog, JTextField txtMoTa, JDateChoos
 	                JOptionPane.ERROR_MESSAGE);
 	        return false; // Trả về false để chỉ ra rằng có lỗi xảy ra
     }
-	
-	// Lưu dữ liệu vào cơ sở dữ liệu
-    if (saveToDatabase(maKhuyenMai, moTa, ngayBatDau, ngayKetThuc, trangThai, chietKhau)) {
-        // Thêm dòng mới vào bảng với thứ tự hoán đổi
-        DefaultTableModel tableModel = (DefaultTableModel) tbKhuyenMai.getModel();
-        tableModel.addRow(new Object[] { maKhuyenMai, moTa, ngayBatDau, ngayKetThuc, trangThai, chietKhau});
-        return true;
-    } else {
+	 
+	 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    String formattedNgayBatDau = dateFormat.format(ngayBatDau);
+	    String formattedNgayKetThuc = dateFormat.format(ngayKetThuc);
+
+	    // Lưu dữ liệu vào cơ sở dữ liệu với ngày định dạng dd/MM/yyyy
+	    if (saveToDatabase(maKhuyenMai, moTa, formattedNgayBatDau, formattedNgayKetThuc, trangThai, chietKhau)) {
+	        // Thêm dòng mới vào bảng với định dạng ngày dd/MM/yyyy
+	        DefaultTableModel tableModel = (DefaultTableModel) tbKhuyenMai.getModel();
+	        tableModel.addRow(new Object[]{maKhuyenMai, moTa, formattedNgayBatDau, formattedNgayKetThuc, chietKhau, trangThai});
+	        return true;
+	    }else {
         JOptionPane.showMessageDialog(dialog, "Lỗi lưu dữ liệu vào cơ sở dữ liệu.", "Lỗi",
                 JOptionPane.ERROR_MESSAGE);
         return false;
@@ -554,35 +578,50 @@ private boolean saveKhuyenMaiData(JDialog dialog, JTextField txtMoTa, JDateChoos
 	
 }
 
-private boolean saveToDatabase(String maKhuyenMai, String moTa, java.util.Date ngayBatDau, java.util.Date ngayKetThuc,
-		String trangThai, String chietKhau) {
-	// TODO Auto-generated method stub
-	ConnectDB connectDB = new ConnectDB();
-	try (Connection conn = connectDB.getConnection()) { // Use the connection from ConnectDB
-		if (conn == null) {
-			JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu.", "Lỗi kết nối",
-					JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		String sql = "INSERT INTO KhuyenMai (MaKhuyenMai, MoTa, NgayBatDau, NgayKetThuc, TrangThai, ChietKhau) VALUES (?, ?, ?, ?, ?, ?)";
-		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			
-				pstmt.setString(1, maKhuyenMai); // Thiết lập tham số 1 (MaKhuyenMai)
-			    pstmt.setString(2, moTa); // Thiết lập tham số 2 (MoTa)
-			    pstmt.setDate(3, new java.sql.Date(ngayBatDau.getTime())); // Thiết lập tham số 3 (NgayBatDau)
-			    pstmt.setDate(4, new java.sql.Date(ngayKetThuc.getTime())); // Thiết lập tham số 4 (NgayKetThuc)
-			    pstmt.setString(5, trangThai); // Thiết lập tham số 5 (TrangThai)
-			    pstmt.setString(6, chietKhau); // Thiết lập tham số 6 (ChietKhau)
-			
-			int rowInserted = pstmt.executeUpdate();
-			return rowInserted > 0;	
-			
-		} 
-		} catch (SQLException e ) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+private boolean saveToDatabase(String maKhuyenMai, String moTa, String formattedNgayBatDau, String formattedNgayKetThuc,
+        String trangThai, String chietKhau) {
+    // Kết nối đến cơ sở dữ liệu
+    ConnectDB connectDB = new ConnectDB();
+    try (Connection conn = connectDB.getConnection()) {
+        if (conn == null) {
+            JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu.", "Lỗi kết nối",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Chuyển đổi chuỗi ngày thành java.sql.Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        java.sql.Date sqlNgayBatDau;
+        java.sql.Date sqlNgayKetThuc;
+        
+        try {
+            java.util.Date utilNgayBatDau = dateFormat.parse(formattedNgayBatDau);
+            java.util.Date utilNgayKetThuc = dateFormat.parse(formattedNgayKetThuc);
+            sqlNgayBatDau = new java.sql.Date(utilNgayBatDau.getTime());
+            sqlNgayKetThuc = new java.sql.Date(utilNgayKetThuc.getTime());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Định dạng ngày không hợp lệ.", "Lỗi định dạng ngày",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        String sql = "INSERT INTO KhuyenMai (MaKhuyenMai, MoTa, NgayBatDau, NgayKetThuc, TrangThai, ChietKhau) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, maKhuyenMai);
+            pstmt.setString(2, moTa);
+            pstmt.setDate(3, sqlNgayBatDau); // Thiết lập ngày bắt đầu
+            pstmt.setDate(4, sqlNgayKetThuc); // Thiết lập ngày kết thúc
+            pstmt.setString(5, trangThai);
+            pstmt.setString(6, chietKhau);
+
+            int rowInserted = pstmt.executeUpdate();
+            return rowInserted > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
 
 
 
