@@ -23,6 +23,11 @@ public class KhachHang {
 		
 	}
 
+	public KhachHang(String maKhachHang) {
+		this.maKhachHang = maKhachHang;
+	}
+
+
 	public KhachHang(String maKhachHang, String tenKhachHang, String CCCD, String phai, java.util.Date ngaySinh,
 			String dienThoai) {
 		super();

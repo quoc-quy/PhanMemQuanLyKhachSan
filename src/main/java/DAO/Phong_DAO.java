@@ -121,4 +121,20 @@ public class Phong_DAO {
 	    }
 	    return false;
 	}
+	
+	public void capNhatTrangThaiPhong(String maPhong, String trangThai) {
+	    String sql = "UPDATE Phong SET TrangThai = ? WHERE MaPhong = ?";
+	    
+	    try (Connection conn = connectDB.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        
+	        ps.setString(1, trangThai);
+	        ps.setString(2, maPhong);
+	        
+	        ps.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 }

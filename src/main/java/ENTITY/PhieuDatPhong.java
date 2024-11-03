@@ -4,6 +4,7 @@
  */
 package ENTITY;
 
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,15 +17,15 @@ public class PhieuDatPhong {
     private KhachHang khachHang;
     private NhanVien nhanVienLap;
     private Phong phong;
-    private LocalDate ngayNhanPhong;
-    private LocalDate ngayTraPhong;
+    private java.util.Date ngayNhanPhong;
+    private java.util.Date ngayTraPhong;
     private Double tienCoc;
     
     public PhieuDatPhong(){
         
     }
 
-    public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, LocalDate ngayNhanPhong, LocalDate ngayTraPhong, Double tienCoc) {
+    public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, java.util.Date ngayNhanPhong, java.util.Date ngayTraPhong, Double tienCoc) {
         this.khachHang = khachHang;
         this.nhanVienLap = nhanVienLap;
         this.phong = phong;
@@ -57,19 +58,19 @@ public class PhieuDatPhong {
         this.phong = phong;
     }
 
-    public LocalDate getNgayNhanPhong() {
+    public java.util.Date getNgayNhanPhong() {
         return ngayNhanPhong;
     }
 
-    public void setNgayNhanPhong(LocalDate ngayNhanPhong) {
+    public void setNgayNhanPhong(java.util.Date ngayNhanPhong) {
         this.ngayNhanPhong = ngayNhanPhong;
     }
 
-    public LocalDate getNgayTraPhong() {
+    public java.util.Date getNgayTraPhong() {
         return ngayTraPhong;
     }
 
-    public void setNgayTraPhong(LocalDate ngayTraPhong) {
+    public void setNgayTraPhong(java.util.Date ngayTraPhong) {
         this.ngayTraPhong = ngayTraPhong;
     }
     
@@ -85,7 +86,7 @@ public class PhieuDatPhong {
     public String toString() {
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DecimalFormat dFormat = new DecimalFormat("#,###.##$");
-        return "PhieuDatPhong{" + "khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", phong=" + phong + ", ngayNhanPhong=" + ngayNhanPhong.format(formatter) + ", ngayTraPhong=" + ngayTraPhong.format(formatter) + ", tienCoc=" + tienCoc +'}';
+        return "PhieuDatPhong{" + "khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", phong=" + phong + ", ngayNhanPhong=" + ngayNhanPhong + ", ngayTraPhong=" + ngayTraPhong + ", tienCoc=" + tienCoc +'}';
     }
     
     

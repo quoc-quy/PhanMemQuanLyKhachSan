@@ -4,6 +4,11 @@
  */
 package GUI;
 import ENTITY.KhachHang;
+import ENTITY.NhanVien;
+import ENTITY.PhieuDatPhong;
+import ENTITY.Phong;
+import ENTITY.TrangThaiPhong;
+import DAO.DanhSachDatPhong_DAO;
 import DAO.KhachHang_DAO;
 import DAO.LoaiPhong_DAO;
 
@@ -210,6 +215,11 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         btnDatNhanh.setForeground(new java.awt.Color(255, 255, 255));
         btnDatNhanh.setText("Đặt nhanh");
         btnDatNhanh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDatNhanh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDatNhanhMouseClicked(evt);
+            }
+        });
         btnDatNhanh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDatNhanhActionPerformed(evt);
@@ -424,6 +434,61 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(window, true);
     	dialog.setVisible(true);
     }//GEN-LAST:event_btnThemKHMouseClicked
+
+    private void btnDatNhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDatNhanhMouseClicked
+    	try {
+            // Lấy thông tin từ giao diện
+            String maPhong = lbMaPhong.getText();
+            String maKhachHang = (String) cboDSCCCD.getSelectedItem();
+            String maNhanVienLap = "NV001"; // Ví dụ mã nhân viên, bạn có thể thay đổi hoặc lấy từ hệ thống đăng nhập
+            java.util.Date ngayNhanPhong = txtNgayCheckIn.getDate();
+            java.util.Date ngayTraPhong = txtNgayCheckOut.getDate();
+            double tienCoc = txtTienCoc.getText().isEmpty() ? 0.0 : Double.parseDouble(txtTienCoc.getText());
+
+            // Kiểm tra thông tin bắt buộc
+            if (ngayNhanPhong == null || ngayTraPhong == null) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày nhận phòng và ngày trả phòng.");
+                return;
+            }
+            
+            // Tạo các đối tượng liên quan
+            KhachHang khachHang = new KhachHang();
+            khachHang.setCCCD(maKhachHang);
+            
+            NhanVien nhanVien = new NhanVien(maNhanVienLap);
+            
+            Phong phong = new Phong();
+            phong.setMaPhong(maPhong);
+            
+            // Tạo đối tượng PhieuDatPhong
+            PhieuDatPhong phieuDatPhong = new PhieuDatPhong();
+            phieuDatPhong.setKhachHang(khachHang);
+            phieuDatPhong.setNhanVienLap(nhanVien);
+            phieuDatPhong.setPhong(phong);
+            phieuDatPhong.setNgayNhanPhong(ngayNhanPhong);
+            phieuDatPhong.setNgayTraPhong(ngayTraPhong);
+            phieuDatPhong.setTienCoc(tienCoc);
+
+            // Gọi DAO để lưu vào cơ sở dữ liệu
+            DanhSachDatPhong_DAO phieuDatPhongDAO = new DanhSachDatPhong_DAO();
+            boolean success = phieuDatPhongDAO.addPhieuDatPhong(phieuDatPhong);
+
+            // Thông báo kết quả
+            if (success) {
+            	dispose();
+                JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thành công!");
+                
+                
+                
+                // Sau khi lưu thành công, bạn có thể cập nhật giao diện hoặc thực hiện hành động khác
+            } else {
+                JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thất bại. Vui lòng kiểm tra lại thông tin.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi đặt phòng.");
+        }
+    }//GEN-LAST:event_btnDatNhanhMouseClicked
 
     private void txtKhuyenMaiKeyTyped(java.awt.event.KeyEvent evt) {
     }                                     
@@ -759,6 +824,8 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         }
     }
     
+    
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDatNhanh;
     private javax.swing.JButton btnDatTruoc;
