@@ -5,6 +5,7 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -80,8 +81,10 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbKhuyenMai = new javax.swing.JTable();
         btnCapNhat = new javax.swing.JPanel();
+        btnCapNhat = new RoundedPanel(20);
         lblCapNhat = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jPanel4 = new RoundedPanel(20);
         btnThemKhuyenMai = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
@@ -243,14 +246,14 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
             };
             tableModel.addRow(row);
         }
-        lblCapNhat.setEnabled(false);
         btnCapNhat.setEnabled(false);
+        btnCapNhat.setBackground(Color.gray);
         
         tbKhuyenMai.getSelectionModel().addListSelectionListener(e -> {
         	if(!e.getValueIsAdjusting()) {
         		boolean isRowSelected = tbKhuyenMai.getSelectedRow() != -1;
-        				lblCapNhat.setEnabled(isRowSelected);
         				btnCapNhat.setEnabled(isRowSelected);
+        		        btnCapNhat.setBackground(Color.orange);
         	}
         });
         
