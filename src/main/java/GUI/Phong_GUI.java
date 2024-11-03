@@ -1,5 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFile/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI;
@@ -21,8 +21,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -43,9 +45,12 @@ import javax.swing.border.TitledBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import DAO.DanhSachDatPhong_DAO;
 import DAO.Phong_DAO;
+import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
 import ENTITY.TinhTrangPhong;
+import ENTITY.TrangThaiPhong;
 import GUI.ThemKhachHangDialog_GUI;
 import GUI.KhachHang_GUI;
 
@@ -54,13 +59,15 @@ import GUI.KhachHang_GUI;
  * @author Admin
  */
 public class Phong_GUI extends javax.swing.JPanel {
+    private List<JPanel> phongCards; // Danh sách để lưu trữ các card phòng
 	private Phong_DAO phongDAO;
 	private JPanel panelMain;
+	private PhieuDatPhong phieuDatPhong;
     /**
      * Creates new form Phong_GUI
      */
     public Phong_GUI() {
-//        initComponents();
+        phongCards = new ArrayList<>(); // Khởi tạo danh sách
         phongDAO = new Phong_DAO();
         initComponents();
         loadDataToCards();
@@ -2647,6 +2654,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         // Tạo panel chính chứa các card phòng
         panelMain = new JPanel(new GridLayout(0, 4, 10, 10)); // 4 cột, khoảng cách 10px
         panelMain.setBackground(Color.white);
+        
         JScrollPane scrollPane = new JScrollPane(panelMain);
 
         
@@ -2720,7 +2728,7 @@ public class Phong_GUI extends javax.swing.JPanel {
                  tang++; // Tăng biến đếm tầng
 
                  // Tạo một JPanel mới cho tầng tiếp theo với tiêu đề mới
-                 tangPanel = createTangPanel(tang);
+//                 tangPanel = createTangPanel(tang);
              }
         }
         
@@ -2779,10 +2787,14 @@ public class Phong_GUI extends javax.swing.JPanel {
         	lblTinhTrang.setForeground(Color.decode("#2F9245"));
         	lblTinhTrang.setIcon(new ImageIcon(getClass().getResource("/IMAGES/Vector.png")));
         	panelTinhTrang.setBackground(Color.decode("#E6FFEB"));
+        	if(phong.getTrangThaiPhong() == TrangThaiPhong.DANG_SU_DUNG) {
+            	card.setBackground(Color.decode("#FA5950"));
+        	}
         }else {
         	lblTinhTrang.setForeground(Color.decode("#CC0000"));
         	lblTinhTrang.setIcon(new ImageIcon(getClass().getResource("/IMAGES/notclean.png")));
         	panelTinhTrang.setBackground(Color.decode("#FFE6E6"));
+        	card.setBackground(Color.decode("#004B97"));
         }
         panelTinhTrang.add(lblTinhTrang);
         
@@ -2833,7 +2845,6 @@ public class Phong_GUI extends javax.swing.JPanel {
 			            panelTinhTrang.setMaximumSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
 			            panelTinhTrang.setPreferredSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
 			            panelTinhTrang.setAlignmentX(Component.CENTER_ALIGNMENT);
-			            System.out.println("Đã cập nhật giao diện: Sạch");
 			        } else {
 			            lblTinhTrang.setForeground(Color.decode("#CC0000"));
 			            lblTinhTrang.setText("Chưa dọn");
@@ -2842,11 +2853,9 @@ public class Phong_GUI extends javax.swing.JPanel {
 			            panelTinhTrang.setMaximumSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
 			            panelTinhTrang.setPreferredSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
 			            panelTinhTrang.setAlignmentX(Component.CENTER_ALIGNMENT);
-			            System.out.println("Đã cập nhật giao diện: Chưa dọn");
 			        }
 			    } else {
 			        JOptionPane.showMessageDialog(null, "Cập nhật thất bại.");
-			        System.out.println("Lỗi: Cập nhật thất bại trong CSDL.");
 			    }
 			    lblMaPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
 		        lblLoaiPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -2904,10 +2913,23 @@ public class Phong_GUI extends javax.swing.JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				showRoomDetailsDialog(phong);
+				showRoomDetailDialog(phong);
 			}
 		});
+        phongCards.add(card);
         
         return card;
+    }
+    
+ // Phương thức để cập nhật màu của `card` dựa trên mã phòng
+    public void updateRoomColor(String maPhong, Color color) {
+        for (JPanel card : phongCards) {
+            JLabel lblMaPhong = (JLabel) card.getComponent(0); // Giả định nhãn mã phòng là phần tử đầu tiên
+            if (lblMaPhong.getText().equals(maPhong)) {
+                card.setBackground(color); // Cập nhật màu
+                break;
+            }
+        }
     }
     
     private void filterRoomsByFloor(int tang) {
@@ -2955,312 +2977,197 @@ public class Phong_GUI extends javax.swing.JPanel {
     
     //JDialogDatPhong
     private void showRoomDetailsDialog(Phong phong) {
-        JDialog dialog = new JDialog();
-        dialog.setTitle("Chi tiết phòng - " + phong.getMaPhong());
-        dialog.setModal(true); // Chặn các thao tác bên ngoài khi mở dialog
-        dialog.setSize(450, 400);
-        dialog.setLocationRelativeTo(null); // Hiển thị dialog ở giữa màn hình
+    	if(phong.getTrangThaiPhong() == TrangThaiPhong.PHONG_TRONG) {
+    		JDialog dialog = new JDialog();
+            dialog.setTitle("Chi tiết phòng - " + phong.getMaPhong());
+            dialog.setModal(true); // Chặn các thao tác bên ngoài khi mở dialog
+            dialog.setSize(450, 400);
+            dialog.setLocationRelativeTo(null); // Hiển thị dialog ở giữa màn hình
 
-        // Tạo JPanel chứa thông tin phòng
-        JPanel dialogPanel = new JPanel();
-        dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.Y_AXIS));
-        dialogPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        dialogPanel.setBackground(Color.white);
+            // Tạo JPanel chứa thông tin phòng
+            JPanel dialogPanel = new JPanel();
+            dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.Y_AXIS));
+            dialogPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            dialogPanel.setBackground(Color.white);
 
-        // Tạo và thêm các JLabel vào dialogPanel cùng với JSeparator
-        JLabel lblMaPhong = new JLabel(phong.getMaPhong());
-        lblMaPhong.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblMaPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
-        dialogPanel.add(lblMaPhong);
-        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+            // Tạo và thêm các JLabel vào dialogPanel cùng với JSeparator
+            JLabel lblMaPhong = new JLabel(phong.getMaPhong());
+            lblMaPhong.setFont(new Font("Segoe UI", Font.BOLD, 24));
+            lblMaPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+            dialogPanel.add(lblMaPhong);
+            dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JLabel lblLoaiPhong = new JLabel("Loại phòng: " + phong.getLoaiPhong().getTenLoaiPhong());
-        lblLoaiPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblLoaiPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
-        dialogPanel.add(lblLoaiPhong);
-        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+            JLabel lblLoaiPhong = new JLabel("Loại phòng: " + phong.getLoaiPhong().getTenLoaiPhong());
+            lblLoaiPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            lblLoaiPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+            dialogPanel.add(lblLoaiPhong);
+            dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JLabel lblGiaNgay = new JLabel("Giá ngày: " + phong.getLoaiPhong().getGiaTienTheoNgay());
-        lblGiaNgay.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
-        dialogPanel.add(lblGiaNgay);
-        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+            JLabel lblGiaNgay = new JLabel("Giá ngày: " + phong.getLoaiPhong().getGiaTienTheoNgay());
+            lblGiaNgay.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+            dialogPanel.add(lblGiaNgay);
+            dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JLabel lblGiaGio = new JLabel("Giá giờ: " + phong.getLoaiPhong().getGiaTienTheoGio());
-        lblGiaGio.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblGiaGio.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
-        dialogPanel.add(lblGiaGio);
-        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+            JLabel lblGiaGio = new JLabel("Giá giờ: " + phong.getLoaiPhong().getGiaTienTheoGio());
+            lblGiaGio.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            lblGiaGio.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+            dialogPanel.add(lblGiaGio);
+            dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JLabel lblTinhTrang = new JLabel("Tình trạng: " + phong.getTinhTrangPhong());
-        lblTinhTrang.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblTinhTrang.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
-        dialogPanel.add(lblTinhTrang);
-        dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+            JLabel lblTinhTrang = new JLabel("Tình trạng: " + phong.getTinhTrangPhong());
+            lblTinhTrang.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            lblTinhTrang.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+            dialogPanel.add(lblTinhTrang);
+            dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JButton btnDatPhong = new JButton("Đặt phòng");
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnDatPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        btnDatPhong.setBackground(Color.decode("#199FFE"));
-        btnDatPhong.setMaximumSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
-        btnDatPhong.setPreferredSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
-        btnDatPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnDatPhong.setForeground(Color.white);
-        btnDatPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        buttonPanel.add(btnDatPhong);
-        buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        buttonPanel.setBackground(Color.white);
+            JButton btnDatPhong = new JButton("Đặt phòng");
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            btnDatPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            btnDatPhong.setBackground(Color.decode("#199FFE"));
+            btnDatPhong.setMaximumSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+            btnDatPhong.setPreferredSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
+            btnDatPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
+            btnDatPhong.setForeground(Color.white);
+            btnDatPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            buttonPanel.add(btnDatPhong);
+            buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+            buttonPanel.setBackground(Color.white);
 
-        btnDatPhong.addMouseListener(new MouseListener() {
-			
-			private Frame parentFrame;
+            btnDatPhong.addMouseListener(new MouseListener() {
+    			
+    			private Frame parentFrame;
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-//				showBookingDialog(phong);
-				String maPhong = phong.getMaPhong(); // Giả sử phong là đối tượng hợp lệ có phương thức getMaPhong()
+    			@Override
+    			public void mouseReleased(MouseEvent e) {
+    				// TODO Auto-generated method stub
+    				
+    			}
+    			
+    			@Override
+    			public void mousePressed(MouseEvent e) {
+    				// TODO Auto-generated method stub
+    				
+    			}
+    			
+    			@Override
+    			public void mouseExited(MouseEvent e) {
+    				// TODO Auto-generated method stub
+    				
+    			}
+    			
+    			@Override
+    			public void mouseEntered(MouseEvent e) {
+    				// TODO Auto-generated method stub
+    				
+    			}
+    			
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				// TODO Auto-generated method stub
+//        				showBookingDialog(phong);
+    				String maPhong = phong.getMaPhong(); // Giả sử phong là đối tượng hợp lệ có phương thức getMaPhong()
 
-				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
-			    Window window = SwingUtilities.getWindowAncestor(Phong_GUI.this);
-			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(window, true, maPhong);
-			    dialog.dispose();
-			    dialogDatPhong.setVisible(true);
-				
-			}
-		});
+    				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
+    			    Window window = SwingUtilities.getWindowAncestor(Phong_GUI.this);
+    			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(window, true, maPhong, Phong_GUI.this);
+    			    dialog.dispose();
+    			    dialogDatPhong.setVisible(true);
+    				
+    			}
+    		});
+            
         
-    
-        // Thêm dialogPanel vào JDialog
-        dialog.add(dialogPanel);
-        dialog.setLayout(new BorderLayout());
-        dialog.add(dialogPanel, BorderLayout.CENTER);
-        dialog.add(buttonPanel, BorderLayout.SOUTH);
-        dialog.setVisible(true);
+            // Thêm dialogPanel vào JDialog
+            dialog.add(dialogPanel);
+            dialog.setLayout(new BorderLayout());
+            dialog.add(dialogPanel, BorderLayout.CENTER);
+            dialog.add(buttonPanel, BorderLayout.SOUTH);
+            dialog.setVisible(true);
+    	}
     }
     
-    private void showBookingDialog(Phong phong) {
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(panelMain);
+    public void showRoomDetailDialog(Phong phong) {
+    	DanhSachDatPhong_DAO phieuDatPhongDAO = new DanhSachDatPhong_DAO();
+        if(phong.getTrangThaiPhong() == TrangThaiPhong.DANG_SU_DUNG) {
+        	JDialog dialog = new JDialog();
+            dialog.setTitle("Chi tiết phòng - " + phong.getMaPhong());
+            dialog.setModal(true);
+            dialog.setSize(450, 450);
+            dialog.setLocationRelativeTo(null);
 
-        JDialog bookingDialog = new JDialog(parentFrame, "Đặt phòng cho " + phong.getMaPhong(), true);
-        bookingDialog.setSize(500, 500);
-        bookingDialog.setLocationRelativeTo(parentFrame);
+            // Tạo JPanel chứa thông tin phòng
+            JPanel dialogPanel = new JPanel();
+            dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.Y_AXIS));
+            dialogPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            dialogPanel.setBackground(Color.white);
 
-        JPanel bookingPanel = new JPanel();
-        bookingPanel.setLayout(new GridLayout(8, 2, 10, 10));
-        bookingPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            // Tiêu đề
+            JLabel lblMaPhong = new JLabel("P." + phong.getMaPhong());
+            lblMaPhong.setFont(new Font("Segoe UI", Font.BOLD, 28));
+            lblMaPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
+            lblMaPhong.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+            dialogPanel.add(lblMaPhong);
+            dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        // Field Check-in
-        bookingPanel.add(new JLabel("Check-in:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 20));
-        }});
-        JDateChooser checkInDateChooser = new JDateChooser();
-        checkInDateChooser.setDateFormatString("dd/MM/yyyy");
-        bookingPanel.add(checkInDateChooser);
+			// Thông tin khách hàng và phòng
+            addDetailRow(dialogPanel, "Khách hàng", phieuDatPhong .getKhachHang().getTenKhachHang());
+            addDetailRow(dialogPanel, "Loại hình", phieuDatPhong.getLoaiHinh());
+            addDetailRow(dialogPanel, "Check-in", phieuDatPhong.getNgayNhanPhong() + " " + phieuDatPhong.getGioCheckIn());
+            addDetailRow(dialogPanel, "Check-out", phieuDatPhong.getNgayTraPhong() + " " + phieuDatPhong.getGioCheckOut());
+            addDetailRow(dialogPanel, "Tiền cọc", String.format("%,d", phieuDatPhong.getTienCoc()));
+            addDetailRow(dialogPanel, "Tổng", String.format("%,d", phieuDatPhong.getTongTien()));
 
-        // Field Check-out
-        bookingPanel.add(new JLabel("Check-out:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 20));
-        }});
-        JDateChooser checkOutDateChooser = new JDateChooser();
-        checkOutDateChooser.setDateFormatString("dd/MM/yyyy");
-        bookingPanel.add(checkOutDateChooser);
+            // Tạo panel nút ở cuối
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+            buttonPanel.setBackground(Color.white);
 
-        // Số người lớn (JComboBox với giá trị từ 0 đến 5)
-        bookingPanel.add(new JLabel("Số người lớn:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 20));
-        }});
-        
-        Integer[] personOptions = {0, 1, 2, 3, 4, 5};
-        String[] typeOptions = {"Theo ngày", "Theo giờ"};
-        JComboBox<Integer> adultsComboBox = new JComboBox<>(personOptions);
-        bookingPanel.add(adultsComboBox);
-        
-        
-        // Số trẻ em (JComboBox với giá trị từ 0 đến 5)
-        bookingPanel.add(new JLabel("Số trẻ em:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 20));
-        }});
-        JComboBox<Integer> childrenComboBox = new JComboBox<>(personOptions);
-        bookingPanel.add(childrenComboBox);
-        
-        JButton btnXemThongTin = new JButton("Xem thông tin");
-        btnXemThongTin.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        btnXemThongTin.setBackground(Color.decode("#199FFE"));
-        btnXemThongTin.setMaximumSize(new Dimension(btnXemThongTin.getPreferredSize().width + 20, btnXemThongTin.getPreferredSize().height + 10));
-        btnXemThongTin.setPreferredSize(new Dimension(btnXemThongTin.getPreferredSize().width + 20, btnXemThongTin.getPreferredSize().height + 10));
-        btnXemThongTin.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnXemThongTin.setForeground(Color.white);
-        btnXemThongTin.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        bookingPanel.add(btnXemThongTin);
-        
-        JButton btnThemKhachHang = new JButton("Thêm Khách Hàng");
-        btnThemKhachHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/add.png")));
-        btnThemKhachHang.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        btnThemKhachHang.setBackground(Color.decode("#61D998"));
-        btnThemKhachHang.setMaximumSize(new Dimension(btnThemKhachHang.getPreferredSize().width + 20, btnThemKhachHang.getPreferredSize().height + 10));
-        btnThemKhachHang.setPreferredSize(new Dimension(btnThemKhachHang.getPreferredSize().width + 20, btnThemKhachHang.getPreferredSize().height + 10));
-        btnThemKhachHang.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnThemKhachHang.setForeground(Color.white);
-        btnThemKhachHang.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnThemKhachHang.setVisible(false);
-        bookingPanel.add(btnThemKhachHang);
-        
-        btnThemKhachHang.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-//				JFrame parentFrame1 = (JFrame) SwingUtilities.getWindowAncestor(Phong_GUI.this);
-//		        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, getFocusTraversalKeysEnabled(), null, null);
-//		        
-//		        dialog.setVisible(true);
-			}
-		});
-        
-        //Nut them KH se hien thi khi co gia tri trong o ComboBox > 0
-        ActionListener comboBoxListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int adultsCount = (Integer) adultsComboBox.getSelectedItem();
+            // Thêm các nút vào panel
+            buttonPanel.add(createButton("Trả phòng", "#FF3333"));
+            buttonPanel.add(createButton("Chuyển phòng", "#FF9900"));
+            buttonPanel.add(createButton("Đặt phòng", "#199FFE"));
+            buttonPanel.add(createButton("Dịch vụ", "#3333FF"));
 
-                // Kiểm tra nếu một trong hai giá trị lớn hơn 0
-                if (adultsCount > 0) {
-                	btnThemKhachHang.setVisible(true); // Hiển thị nút
-                }else {
-                	btnThemKhachHang.setVisible(false);
-                }
-            }
-        };
-
-        // Gắn ActionListener cho JComboBox
-        adultsComboBox.addActionListener(comboBoxListener);
-        childrenComboBox.addActionListener(comboBoxListener);
-
-        // Số trẻ em (JComboBox với giá trị từ 0 đến 5)
-        bookingPanel.add(new JLabel("Loại hình:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 20));
-        }});
-        JComboBox<String> typeComboBox = new JComboBox<>(typeOptions);
-        bookingPanel.add(typeComboBox);
-        
-        // TextField tiền cọc
-        bookingPanel.add(new JLabel("Tiền cọc:") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 20));
-        }});
-        bookingPanel.add(new JTextField());
-
-        // Panel cho nút Xác nhận
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        
-        JButton btnNhanPhong = new JButton("Nhận phòng");
-        btnNhanPhong.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        btnNhanPhong.setBackground(Color.decode("#199FFE"));
-        btnNhanPhong.setMaximumSize(new Dimension(btnNhanPhong.getPreferredSize().width + 20, btnNhanPhong.getPreferredSize().height + 10));
-        btnNhanPhong.setPreferredSize(new Dimension(btnNhanPhong.getPreferredSize().width + 20, btnNhanPhong.getPreferredSize().height + 10));
-        btnNhanPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnNhanPhong.setForeground(Color.white);
-        btnNhanPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        buttonPanel.setBackground(Color.white);
-        buttonPanel.add(btnNhanPhong);
-        
-        JButton btnDatPhong = new JButton("Đặt phòng");
-        btnDatPhong.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        btnDatPhong.setBackground(Color.decode("#F56D28"));
-        btnDatPhong.setMaximumSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
-        btnDatPhong.setPreferredSize(new Dimension(btnDatPhong.getPreferredSize().width + 20, btnDatPhong.getPreferredSize().height + 10));
-        btnDatPhong.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnDatPhong.setForeground(Color.white);
-        btnDatPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        buttonPanel.setBackground(Color.white);
-        buttonPanel.add(btnDatPhong);
-
-        bookingDialog.setLayout(new BorderLayout());
-        bookingDialog.add(bookingPanel, BorderLayout.CENTER);
-        bookingDialog.add(buttonPanel, BorderLayout.SOUTH);
-
-        btnDatPhong.addActionListener(e -> {
-            java.util.Date checkInDate =  checkInDateChooser.getDate();
-            java.util.Date checkOutDate = checkOutDateChooser.getDate();
-            int adultsCount = (Integer) adultsComboBox.getSelectedItem();
-            int childrenCount = (Integer) childrenComboBox.getSelectedItem();
-
-            if (checkInDate == null || checkOutDate == null) {
-                JOptionPane.showMessageDialog(bookingDialog, "Vui lòng chọn ngày Check-in và Check-out.");
-                return;
-            }
-            if (checkOutDate.before(checkInDate)) {
-                JOptionPane.showMessageDialog(bookingDialog, "Ngày Check-out phải sau ngày Check-in.");
-                return;
-            }
-
-            // Chuyển đổi java.util.Date sang java.sql.Date
-            java.sql.Date sqlCheckInDate = new java.sql.Date(checkInDate.getTime());
-            java.sql.Date sqlCheckOutDate = new java.sql.Date(checkOutDate.getTime());
-
-            // In thông tin đặt phòng ra console hoặc xử lý logic đặt phòng
-            System.out.println("Đặt phòng thành công cho " + phong.getMaPhong());
-            System.out.println("Check-in: " + sqlCheckInDate);
-            System.out.println("Check-out: " + sqlCheckOutDate);
-            System.out.println("Người lớn: " + adultsCount);
-            System.out.println("Trẻ em: " + childrenCount);
-
-            bookingDialog.dispose();
-        });
-        bookingDialog.setVisible(true);
+            // Thêm dialogPanel và buttonPanel vào JDialog
+            dialog.add(dialogPanel, BorderLayout.CENTER);
+            dialog.add(buttonPanel, BorderLayout.SOUTH);
+            dialog.setVisible(true);
+        }
     }
-    
 
+    private void addDetailRow(JPanel panel, String label, String value) {
+        JPanel row = new JPanel(new BorderLayout());
+        row.setBackground(Color.white);
+
+        JLabel lblLabel = new JLabel(label);
+        lblLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblLabel.setForeground(Color.BLACK);
+        lblLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+
+        JLabel lblValue = new JLabel(value);
+        lblValue.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblValue.setForeground(Color.BLACK);
+        lblValue.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        lblValue.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        row.add(lblLabel, BorderLayout.WEST);
+        row.add(lblValue, BorderLayout.EAST);
+
+        panel.add(row);
+        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+    }
+
+    private JButton createButton(String text, String colorHex) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setBackground(Color.decode(colorHex));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setPreferredSize(new Dimension(100, 40));
+        return button;
+    }
+		
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

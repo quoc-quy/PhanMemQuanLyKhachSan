@@ -123,7 +123,7 @@ public class Phong_DAO {
 	}
 	
 	public void capNhatTrangThaiPhong(String maPhong, String trangThai) {
-	    String sql = "UPDATE Phong SET TrangThai = ? WHERE MaPhong = ?";
+	    String sql = "UPDATE Phong SET TrangThaiPhong = ? WHERE MaPhong = ?";
 	    
 	    try (Connection conn = connectDB.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {

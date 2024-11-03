@@ -11,7 +11,9 @@ import ENTITY.TrangThaiPhong;
 import DAO.DanhSachDatPhong_DAO;
 import DAO.KhachHang_DAO;
 import DAO.LoaiPhong_DAO;
+import DAO.Phong_DAO;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -48,9 +50,9 @@ import com.toedter.calendar.IDateEditor;
  * @author Admin
  */
 public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
-    private static Phong_GUI parentPanelPhong;
+    private static Phong_GUI phongGUI;
     private static String maPhong;
-	
+    private Phong_DAO phongDAO = new Phong_DAO();
 	
 	
     private KhachHang_DAO khachHangDAO = new KhachHang_DAO();
@@ -59,9 +61,9 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     /**
      * Creates new form DatPhong_Dialog_GUI
      */
-    public DatPhong_Dialog_GUI(Window parent, boolean modal, String maPhong) {
+    public DatPhong_Dialog_GUI(Window parent, boolean modal, String maPhong, Phong_GUI phongGUI) {
         super();
-//        this.parentPanelPhong = parentPanelPhong;
+        this.phongGUI = phongGUI;
         this.maPhong = maPhong;
         initComponents();
         setLocationRelativeTo(null);
@@ -101,8 +103,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         txtSoNguoiLon = new javax.swing.JSpinner();
         txtSoTreEm = new javax.swing.JSpinner();
         txtTienCoc = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtKhuyenMai = new javax.swing.JTextField();
         btnThemKH = new javax.swing.JButton();
         cboDSCCCD = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
@@ -159,20 +159,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         txtTienCoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTienCocActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setText("KM (%)");
-
-        txtKhuyenMai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtKhuyenMaiActionPerformed(evt);
-            }
-        });
-        txtKhuyenMai.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtKhuyenMaiKeyTyped(evt);
             }
         });
 
@@ -289,29 +275,24 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                                     .addComponent(txtGioCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtGioCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(49, 49, 49)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtSoTreEm, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(42, 42, 42))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(47, 47, 47)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtSoTreEm, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtTienCoc, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(42, 42, 42)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(btnThemKH, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                                            .addComponent(cboDSCCCD, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                        .addComponent(txtTienCoc, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnThemKH, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboDSCCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -323,7 +304,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                         .addComponent(btnDatNhanh, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnDatTruoc, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +318,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(lbMaPhong))
-                        .addGap(32, 32, 32)
+                        .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(txtNgayCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,8 +326,8 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                                 .addComponent(txtGioCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel5)
                                 .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8)
-                                .addComponent(txtKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel7)
+                                .addComponent(txtTienCoc, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -359,9 +340,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(cboLoaiHinh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtTienCoc, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cboLoaiHinh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -373,7 +352,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                             .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDatNhanh, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDatTruoc, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))
+                        .addContainerGap(16, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lbTongTien)
@@ -398,11 +377,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         // TODO add your handling code here:
     	calculateTotalAmount();
     }//GEN-LAST:event_txtTienCocActionPerformed
-
-    private void txtKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKhuyenMaiActionPerformed
-        // TODO add your handling code here:
-    	calculateTotalAmount();
-    }//GEN-LAST:event_txtKhuyenMaiActionPerformed
 
     private void btnThemKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKHActionPerformed
         // TODO add your handling code here:
@@ -444,6 +418,10 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
             java.util.Date ngayNhanPhong = txtNgayCheckIn.getDate();
             java.util.Date ngayTraPhong = txtNgayCheckOut.getDate();
             double tienCoc = txtTienCoc.getText().isEmpty() ? 0.0 : Double.parseDouble(txtTienCoc.getText());
+            String loaiHinh = (String) cboLoaiHinh.getSelectedItem();
+            java.util.Date gioNhanPhong = (Date) txtGioCheckIn.getValue();
+            java.util.Date gioTraPhong = (Date) txtGioCheckOut.getValue();
+            double tongtien = Double.parseDouble(lbTongTien.getText());
 
             // Kiểm tra thông tin bắt buộc
             if (ngayNhanPhong == null || ngayTraPhong == null) {
@@ -468,6 +446,11 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
             phieuDatPhong.setNgayNhanPhong(ngayNhanPhong);
             phieuDatPhong.setNgayTraPhong(ngayTraPhong);
             phieuDatPhong.setTienCoc(tienCoc);
+            phieuDatPhong.setLoaiHinh(loaiHinh);
+            phieuDatPhong.setGioCheckIn(gioNhanPhong);
+            phieuDatPhong.setGioCheckOut(gioTraPhong);
+            phieuDatPhong.setTongTien(tongtien);
+            
 
             // Gọi DAO để lưu vào cơ sở dữ liệu
             DanhSachDatPhong_DAO phieuDatPhongDAO = new DanhSachDatPhong_DAO();
@@ -478,7 +461,13 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
             	dispose();
                 JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thành công!");
                 
+
+                String maPhongDat = phieuDatPhong.getPhong().getMaPhong();
                 
+                phongDAO.capNhatTrangThaiPhong(maPhongDat, "DANG_SU_DUNG"); // Cập nhật trạng thái phòng trong CSDL
+
+                // Cập nhật màu nền của phòng trong Phong_GUI thành #FA5950
+                phongGUI.updateRoomColor(maPhongDat, Color.decode("#FA5950"));
                 
                 // Sau khi lưu thành công, bạn có thể cập nhật giao diện hoặc thực hiện hành động khác
             } else {
@@ -489,9 +478,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi đặt phòng.");
         }
     }//GEN-LAST:event_btnDatNhanhMouseClicked
-
-    private void txtKhuyenMaiKeyTyped(java.awt.event.KeyEvent evt) {
-    }                                     
+                                     
 
     /**
      * @param args the command line arguments
@@ -524,10 +511,10 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
         	public void run() {
                 // Lấy Window hiện tại nếu có
-                Window window = SwingUtilities.getWindowAncestor(parentPanelPhong); // dialog ở đây là JComponent hiện tại của bạn
+                Window window = SwingUtilities.getWindowAncestor(phongGUI); // dialog ở đây là JComponent hiện tại của bạn
 
                 // Nếu bạn không có Window cha, có thể sử dụng null
-                DatPhong_Dialog_GUI dialog = new DatPhong_Dialog_GUI(window, true, maPhong);
+                DatPhong_Dialog_GUI dialog = new DatPhong_Dialog_GUI(window, true, maPhong, phongGUI);
                 
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -729,13 +716,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         txtGioCheckIn.addChangeListener(e -> calculateTotalAmount());
         txtGioCheckOut.addChangeListener(e -> calculateTotalAmount());
 
-        // Lắng nghe thay đổi trên JTextField cho khuyến mãi và tiền cọc
-        txtKhuyenMai.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                calculateTotalAmount();
-            }
-        });
+ 
         txtTienCoc.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -766,8 +747,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                 return;
             }
 
-            // Lấy giá trị khuyến mãi và tiền cọc, mặc định là 0 nếu trống
-            double khuyenMai = txtKhuyenMai.getText().isEmpty() ? 0 : Double.parseDouble(txtKhuyenMai.getText());
             double tienCoc = txtTienCoc.getText().isEmpty() ? 0 : Double.parseDouble(txtTienCoc.getText());
             double tongTien = 0;
 
@@ -788,7 +767,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                 // Tính số ngày ở
                 long diffInMillies = Math.abs(ngayCheckOut.getTime() - ngayCheckIn.getTime());
                 int soNgayO = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                tongTien = (soNgayO * giaPhong) - (khuyenMai * (soNgayO * giaPhong) / 100) - tienCoc;
+                tongTien = (soNgayO * giaPhong)  - tienCoc;
             } else if ("Giờ".equals(loaiHinh)) {
                 // Tính số giờ ở dựa trên giờ check-in và check-out
                 Calendar calendarCheckIn = Calendar.getInstance();
@@ -813,7 +792,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                     return;
                 }
 
-                tongTien = (soGio * giaPhong) - (khuyenMai * (soGio * giaPhong) / 100) - tienCoc;
+                tongTien = (soGio * giaPhong)  - tienCoc;
             }
 
             // Định dạng lại lbTongTien với tối đa 2 chữ số thập phân
@@ -840,7 +819,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -849,7 +827,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     private javax.swing.JTable tbKH;
     private javax.swing.JSpinner txtGioCheckIn;
     private javax.swing.JSpinner txtGioCheckOut;
-    private javax.swing.JTextField txtKhuyenMai;
     private com.toedter.calendar.JDateChooser txtNgayCheckIn;
     private com.toedter.calendar.JDateChooser txtNgayCheckOut;
     private javax.swing.JSpinner txtSoNguoiLon;
