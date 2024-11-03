@@ -59,10 +59,13 @@ public class DichVu_GUI extends javax.swing.JPanel {
 		jSeparator1 = new javax.swing.JSeparator();
 		jLabel5 = new javax.swing.JLabel();
 		btnXoa = new javax.swing.JPanel();
+		btnXoa = new RoundedPanel(20);
 		lbXoa = new javax.swing.JLabel();
 		btnCapNhat = new javax.swing.JPanel();
+		btnCapNhat = new RoundedPanel(20);
 		lbCapNhat = new javax.swing.JLabel();
 		btnThemDichVu = new javax.swing.JPanel();
+		btnThemDichVu = new RoundedPanel(20);
 		lbThemDichVu = new javax.swing.JLabel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jTable1 = new javax.swing.JTable();
@@ -74,11 +77,10 @@ public class DichVu_GUI extends javax.swing.JPanel {
 		jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 		jLabel5.setText("Dịch vụ");
 
-		btnXoa.setBackground(new java.awt.Color(255, 51, 51));
 		btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
 		lbXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-		lbXoa.setForeground(new java.awt.Color(255, 255, 255));
+		lbXoa.setForeground(Color.white);
 		lbXoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		lbXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/delete.png"))); // NOI18N
 		lbXoa.setText("Xóa");
@@ -94,11 +96,10 @@ public class DichVu_GUI extends javax.swing.JPanel {
 				.addGroup(btnXoaLayout.createSequentialGroup().addContainerGap().addComponent(lbXoa)
 						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
-		btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
 		btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
 		lbCapNhat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-		lbCapNhat.setForeground(new java.awt.Color(255, 255, 255));
+		lbCapNhat.setForeground(Color.white);
 		lbCapNhat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		lbCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/fixing.png"))); // NOI18N
 		lbCapNhat.setText("Cập nhật");
@@ -219,19 +220,24 @@ public class DichVu_GUI extends javax.swing.JPanel {
 		}
 
 		// Inside your constructor or initComponents method
-		lbXoa.setEnabled(false); // Initially disable the "Xóa" label
-		lbCapNhat.setEnabled(false); // Initially disable the "Cập nhật" label
+		btnXoa.setEnabled(false); // Initially disable the "Xóa" label
+		btnCapNhat.setEnabled(false); // Initially disable the "Cập nhật" label
 		btnXoa.setEnabled(false);
+		btnXoa.setBackground(Color.GRAY);
+		btnXoa.setForeground(Color.white);
 		btnCapNhat.setEnabled(false);
-
+		btnCapNhat.setBackground(Color.GRAY);
+		btnCapNhat.setForeground(Color.white);
 		// Add ListSelectionListener to enable labels on row selection
 		jTable1.getSelectionModel().addListSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
 				boolean isRowSelected = jTable1.getSelectedRow() != -1; // Check if a row is selected
-				lbXoa.setEnabled(isRowSelected); // Enable or disable "Xóa"
-				lbCapNhat.setEnabled(isRowSelected); // Enable or disable "Cập nhật"
 				btnXoa.setEnabled(isRowSelected); // Enable or disable "Xóa"
 				btnCapNhat.setEnabled(isRowSelected); // Enable or disable "Cập nhật"
+				btnXoa.setEnabled(isRowSelected); // Enable or disable "Xóa"
+				btnXoa.setBackground(Color.red);
+				btnCapNhat.setEnabled(isRowSelected); // Enable or disable "Cập nhật"
+				btnCapNhat.setBackground(Color.orange);
 			}
 		});
 

@@ -81,10 +81,13 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		jScrollPane1 = new javax.swing.JScrollPane();
 		tbNhanVien = new javax.swing.JTable();
 		btnXoa = new javax.swing.JPanel();
+		btnXoa = new RoundedPanel(20);
 		lbXoa = new javax.swing.JLabel();
 		btnCapNhat = new javax.swing.JPanel();
+		btnCapNhat = new RoundedPanel(20);
 		lbCapNhat = new javax.swing.JLabel();
 		btnThemNhanvien = new javax.swing.JPanel();
+		btnThemNhanvien = new RoundedPanel(20);
 		lbThemNhanVien = new javax.swing.JLabel();
 
 		setLayout(new java.awt.CardLayout());
@@ -237,16 +240,20 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 			tableModel.addRow(row);
 		}
 
-		lbXoa.setEnabled(false);
-		lbCapNhat.setEnabled(false);
+		btnXoa.setEnabled(false);
+		btnXoa.setBackground(Color.gray);
+		btnCapNhat.setEnabled(false);
+		btnCapNhat.setBackground(Color.gray);
 		btnXoa.setEnabled(false);
 		btnCapNhat.setEnabled(false);
 
 		tbNhanVien.getSelectionModel().addListSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
 				boolean isRowSelected = tbNhanVien.getSelectedRow() != -1;
-				lbXoa.setEnabled(isRowSelected);
-				lbCapNhat.setEnabled(isRowSelected);
+				btnXoa.setEnabled(isRowSelected);
+				btnXoa.setBackground(Color.red);
+				btnCapNhat.setEnabled(isRowSelected);
+				btnCapNhat.setBackground(Color.orange);
 				btnXoa.setEnabled(isRowSelected);
 				btnCapNhat.setEnabled(isRowSelected);
 			}
