@@ -133,4 +133,46 @@ public class KhachHang_DAO {
             return "KH0001"; // Nếu không có mã nào thì bắt đầu từ KH0001
         }
     }
+    
+    // Phương thức lấy tất cả CCCD khách hàng từ cơ sở dữ liệu
+    public List<String> getAllCustomerCCCD() {
+        List<String> customerCCCDs = new ArrayList<>();
+        try (Connection conn = ConnectDB.getConnection()) {
+            String query = "SELECT CCCD FROM KhachHang";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                customerCCCDs.add(rs.getString("CCCD"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return customerCCCDs;
+    }
+    
+ // Phương thức lấy thông tin khách hàng theo CCCD
+    public KhachHang getCustomerByCCCD(String cccd) {
+        KhachHang khachHang = null;
+        try (Connection conn = ConnectDB.getConnection()) {
+            String query = "SELECT * FROM KhachHang WHERE CCCD = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, cccd);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                khachHang = new KhachHang(
+                    rs.getString("MaKhachHang"),
+                    rs.getString("TenKhachHang"),
+                    rs.getString("CCCD"),
+                    rs.getString("Phai"),
+                    rs.getDate("NgaySinh"),
+                    rs.getString("DenThoai")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return khachHang;
+    }
 }

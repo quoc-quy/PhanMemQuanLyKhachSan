@@ -12,6 +12,7 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -2972,6 +2973,8 @@ public class Phong_GUI extends javax.swing.JPanel {
 
         btnDatPhong.addMouseListener(new MouseListener() {
 			
+			private Frame parentFrame;
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
@@ -2999,11 +3002,17 @@ public class Phong_GUI extends javax.swing.JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				showBookingDialog(phong);
+//				showBookingDialog(phong);
+				String maPhong = phong.getMaPhong(); // Giả sử phong là đối tượng hợp lệ có phương thức getMaPhong()
+
+			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(Phong_GUI.this, true, maPhong);
+			    dialog.dispose();
+			    dialogDatPhong.setVisible(true);
+				
 			}
 		});
         
-        
+    
         // Thêm dialogPanel vào JDialog
         dialog.add(dialogPanel);
         dialog.setLayout(new BorderLayout());
