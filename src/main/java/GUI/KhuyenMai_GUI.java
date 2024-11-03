@@ -310,6 +310,8 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 	   
 	   // UI	
 	   javax.swing.JTextField txtMaKhuyenMai = createTextField(khuyenMai.getMakhuyenMai(), false);
+	   txtMaKhuyenMai.setEditable(false);
+	   txtMaKhuyenMai.setEnabled(false);
 	   javax.swing.JTextField txtMoTa = new javax.swing.JTextField(khuyenMai.getMoTa(), 20);
 	   
 	   JDateChooser dateChooserNgayBatDau = new JDateChooser();

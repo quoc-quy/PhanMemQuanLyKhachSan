@@ -71,22 +71,23 @@ public class KhachHang_DAO {
     }
     
     public boolean updateKhachHang(KhachHang khachHang) {
-    	String query = "UPDATE KhachHang SET TenKhachHang = ?, CCCD = ?, Phai = ?, NgaySinh = ?, DienThoai = ? WHERE MaKhachHang = ?";
+    	String query = "UPDATE KhachHang SET TenKhachHang = ?, CCCD = ?, Phai = ?, NgaySinh = ?, DenThoai = ? WHERE MaKhachHang = ?";
     	try(Connection conn = connectDB.getConnection();
     			PreparedStatement ps = conn.prepareStatement(query)){
-    		ps.setString(1, khachHang.getMaKhachHang());
-    		ps.setString(2, khachHang.getTenKhachHang());
-    		ps.setString(3, khachHang.getCCCD());
-    		ps.setString(4, khachHang.getPhai());
-    		ps.setDate(5, (Date) khachHang.getNgaySinh());
-    		ps.setString(6, khachHang.getDienThoai());
+    		ps.setString(1, khachHang.getTenKhachHang());
+    		ps.setString(2, khachHang.getCCCD());
+    		ps.setString(3, khachHang.getPhai());
+    		ps.setDate(4, (Date) khachHang.getNgaySinh());
+    		ps.setString(5, khachHang.getDienThoai());
+    		ps.setString(6, khachHang.getMaKhachHang());
     		return ps.executeUpdate() > 0;
     	} catch(SQLException e ) {
     		
     	}
     	return false;
     }
-    public KhachHang findMaKhachHang(String maKhachHang) {
+    
+    public KhachHang findMaKhachHangID(String maKhachHang) {
     	KhachHang khachHang = null;
     	String query = "SELECT * FROM KhachHang WHERE MaKhachHang = ?";
     	try(Connection conn = connectDB.getConnection();
@@ -94,20 +95,20 @@ public class KhachHang_DAO {
     		ps.setString(1, maKhachHang);
     		ResultSet rs = ps.executeQuery();
     		
-    		if(rs.next()) {
-    			khachHang = new KhachHang(
-    					rs.getString("MaKhachHang"),
-                        rs.getString("TenKhachHang"),
-                        rs.getString("CCCD"),
-                        rs.getString("Phai"),
-                        rs.getDate("NgaySinh"),
-                        rs.getString("DienThoat")
-    			);
-    		}
-    	} catch(SQLException e) {
-    		
-    	}
-    	return khachHang;
+    		if (rs.next()) {
+                khachHang = new KhachHang();
+                khachHang.setMaKhachHang(rs.getString("MaKhachHang"));
+                khachHang.setTenKhachHang(rs.getString("TenKhachHang"));
+                khachHang.setCCCD(rs.getString("CCCD"));
+                khachHang.setPhai(rs.getString("Phai"));
+                khachHang.setNgaySinh(rs.getDate("NgaySinh"));
+                khachHang.setDienThoai(rs.getString("DenThoai"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return khachHang;
+
     }
     
     public String getNextCustomerID() {

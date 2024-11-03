@@ -19,8 +19,8 @@ public class KhachHang {
     private java.util.Date ngaySinh;
     private String dienThoai;
     
-    public KhachHang(String maKhachHang) {
-		this.maKhachHang = maKhachHang;
+    public KhachHang() {
+		
 	}
 
 	public KhachHang(String maKhachHang, String tenKhachHang, String CCCD, String phai, java.util.Date ngaySinh,
