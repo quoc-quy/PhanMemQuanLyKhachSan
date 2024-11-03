@@ -8,6 +8,7 @@ import DAO.KhachHang_DAO;
 import DAO.LoaiPhong_DAO;
 
 import java.awt.Frame;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -28,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
@@ -52,7 +54,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     /**
      * Creates new form DatPhong_Dialog_GUI
      */
-    public DatPhong_Dialog_GUI(Phong_GUI phong_GUI, boolean modal, String maPhong) {
+    public DatPhong_Dialog_GUI(Window parent, boolean modal, String maPhong) {
         super();
 //        this.parentPanelPhong = parentPanelPhong;
         this.maPhong = maPhong;
@@ -174,6 +176,11 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         btnThemKH.setForeground(new java.awt.Color(255, 255, 255));
         btnThemKH.setText("Thêm khách hàng");
         btnThemKH.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnThemKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemKHMouseClicked(evt);
+            }
+        });
         btnThemKH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemKHActionPerformed(evt);
@@ -411,6 +418,13 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         calculateTotalAmount();
     }//GEN-LAST:event_cboLoaiHinhActionPerformed
 
+    private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemKHMouseClicked
+    	// TODO Auto-generated method stub
+    	Window window = SwingUtilities.getWindowAncestor(this);
+    	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(window, true);
+    	dialog.setVisible(true);
+    }//GEN-LAST:event_btnThemKHMouseClicked
+
     private void txtKhuyenMaiKeyTyped(java.awt.event.KeyEvent evt) {
     }                                     
 
@@ -443,14 +457,20 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DatPhong_Dialog_GUI dialog = new DatPhong_Dialog_GUI(new Phong_GUI(), true, maPhong);
+        	public void run() {
+                // Lấy Window hiện tại nếu có
+                Window window = SwingUtilities.getWindowAncestor(parentPanelPhong); // dialog ở đây là JComponent hiện tại của bạn
+
+                // Nếu bạn không có Window cha, có thể sử dụng null
+                DatPhong_Dialog_GUI dialog = new DatPhong_Dialog_GUI(window, true, maPhong);
+                
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
+                
                 dialog.setVisible(true);
             }
         });

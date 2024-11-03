@@ -14,6 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -3005,7 +3006,9 @@ public class Phong_GUI extends javax.swing.JPanel {
 //				showBookingDialog(phong);
 				String maPhong = phong.getMaPhong(); // Giả sử phong là đối tượng hợp lệ có phương thức getMaPhong()
 
-			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(Phong_GUI.this, true, maPhong);
+				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
+			    Window window = SwingUtilities.getWindowAncestor(Phong_GUI.this);
+			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(window, true, maPhong);
 			    dialog.dispose();
 			    dialogDatPhong.setVisible(true);
 				
@@ -3117,10 +3120,10 @@ public class Phong_GUI extends javax.swing.JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				JFrame parentFrame1 = (JFrame) SwingUtilities.getWindowAncestor(Phong_GUI.this);
-		        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, getFocusTraversalKeysEnabled(), null, null);
-		        
-		        dialog.setVisible(true);
+//				JFrame parentFrame1 = (JFrame) SwingUtilities.getWindowAncestor(Phong_GUI.this);
+//		        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, getFocusTraversalKeysEnabled(), null, null);
+//		        
+//		        dialog.setVisible(true);
 			}
 		});
         

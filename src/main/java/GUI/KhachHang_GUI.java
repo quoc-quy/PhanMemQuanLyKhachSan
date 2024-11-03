@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Window;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -489,9 +490,9 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimKiemFocusGained
 
     private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {                                       
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(KhachHang_GUI.this);
-        ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentFrame, true, this, null);
-        dialog.setVisible(true);
+    	Window window = SwingUtilities.getWindowAncestor(this);
+    	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(window, true);
+    	dialog.setVisible(true);
     }
 
     private void btnHuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHuyMouseClicked
