@@ -24,7 +24,8 @@ public class NhanVien {
     private String CCCD;
     private String soDienThoai;
     
-    
+    public NhanVien() {
+	}
 
     public NhanVien(String maNhanVien) {
 		this.maNhanVien = maNhanVien;

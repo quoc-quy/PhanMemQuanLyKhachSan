@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
@@ -20,12 +21,12 @@ import ENTITY.KhachHang;
 public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
 
     private static KhachHang_GUI parentPanel;
-    private static Phong_GUI parentPanelPhong;
+    private static DatPhong_Dialog_GUI parentPanelPhong;
 	/**
      * Creates new form ThemKhachHangDialog_GUI
      */
-    public ThemKhachHangDialog_GUI(java.awt.Frame parent, boolean modal, KhachHang_GUI parentPanel, Phong_GUI parentPanelPhong) {
-    	super(parent, "Thêm Khách Hàng", modal);
+    public ThemKhachHangDialog_GUI(Window parent, boolean modal) {
+    	super();
         this.parentPanel = parentPanel;
         this.parentPanelPhong = parentPanelPhong;
         initComponents();
@@ -394,7 +395,7 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(new javax.swing.JFrame(), true, parentPanel, parentPanelPhong);
+                ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

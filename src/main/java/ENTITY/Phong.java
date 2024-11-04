@@ -18,10 +18,13 @@ public class Phong {
     private TrangThaiPhong trangThaiPhong;
     private TinhTrangPhong tinhTrangPhong;
     
-    public Phong(){
+    public Phong(String maPhong){
+    	this.maPhong = maPhong;
     }
 
-    
+
+    public Phong(){
+    }
 
     public Phong(String maPhong, LoaiPhong loaiPhong, int soNguoiLon, int soTreEm, TrangThaiPhong trangThaiPhong,
 			TinhTrangPhong tinhTrangPhong) {
