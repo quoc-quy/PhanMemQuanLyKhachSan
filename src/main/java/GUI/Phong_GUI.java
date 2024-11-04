@@ -2729,7 +2729,7 @@ public class Phong_GUI extends javax.swing.JPanel {
                  tang++; // Tăng biến đếm tầng
 
                  // Tạo một JPanel mới cho tầng tiếp theo với tiêu đề mới
-//                 tangPanel = createTangPanel(tang);
+                 tangPanel = createTangPanel(tang);
              }
         }
         
