@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -600,33 +601,51 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     public JDialog createUpdateKhachHangDialog(KhachHang khachHang, KhachHang_DAO khachHangDAO) {
     	JDialog  updateKhachHangDialog = new JDialog();
     	updateKhachHangDialog.setTitle("Cập nhật khách hàng");
-    	updateKhachHangDialog.setSize(500,400);
+    	updateKhachHangDialog.setSize(800,400);
     	updateKhachHangDialog.setLocationRelativeTo(this);
     	updateKhachHangDialog.setModal(true);
     	
 //  	UI
     	javax.swing.JTextField txtMaKhachHang = createTextField(khachHang.getMaKhachHang(), false);
-    	txtMaKhachHang.setEditable(false);
-    	txtMaKhachHang.setEnabled(false);
- 	   	javax.swing.JTextField txtTenKhachHang = new javax.swing.JTextField(khachHang.getTenKhachHang(),20);
- 	   	javax.swing.JTextField txtCCCD = new javax.swing.JTextField(khachHang.getCCCD(),20);
- 	   	javax.swing.JTextField txtPhai = new javax.swing.JTextField(khachHang.getPhai(), 20);
- 	   		
- 	   	JDateChooser dateChooserNgaySinh = new JDateChooser();
- 	   	dateChooserNgaySinh.setDateFormatString("dd/MM/yyyy");
- 	   	dateChooserNgaySinh.setDate(khachHang.getNgaySinh());
- 	   	
- 	   	javax.swing.JTextField txtSoDienThoai = new javax.swing.JTextField(khachHang.getDienThoai(), 20);
- 	   
- 	   	javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
-		javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+        txtMaKhachHang.setEditable(false);
+        txtMaKhachHang.setEnabled(false);
+        txtMaKhachHang.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        javax.swing.JTextField txtTenKhachHang = new javax.swing.JTextField(khachHang.getTenKhachHang(), 20);
+        txtTenKhachHang.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        javax.swing.JTextField txtCCCD = new javax.swing.JTextField(khachHang.getCCCD(), 20);
+        txtCCCD.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        // Sử dụng JComboBox cho trường "Phái"
+        javax.swing.JComboBox<String> cbPhai = new javax.swing.JComboBox<>(new String[]{"Nam", "Nữ"});
+        cbPhai.setSelectedItem(khachHang.getPhai()); // Đặt giá trị mặc định từ đối tượng khachHang
+        cbPhai.setPreferredSize(new java.awt.Dimension(180, 25));
+
+        JDateChooser dateChooserNgaySinh = new JDateChooser();
+        dateChooserNgaySinh.setDateFormatString("dd/MM/yyyy");
+        dateChooserNgaySinh.setDate(khachHang.getNgaySinh());
+        dateChooserNgaySinh.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        javax.swing.JTextField txtSoDienThoai = new javax.swing.JTextField(khachHang.getDienThoai(), 20);
+        txtSoDienThoai.setPreferredSize(new java.awt.Dimension(200, 25));
+
+        javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
+        btnSave.setBackground(new java.awt.Color(51, 153, 255)); // Màu xanh dương
+        btnSave.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+        
+        javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+        btnCancel.setBackground(new java.awt.Color(128, 128, 128)); // Màu xám
+        btnCancel.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+
+
 		
 		btnSave.addActionListener(e->updateKhachHangData(updateKhachHangDialog,khachHang,khachHangDAO,
-				txtTenKhachHang,txtCCCD,txtPhai,dateChooserNgaySinh,txtSoDienThoai));
+				txtTenKhachHang,txtCCCD,cbPhai,dateChooserNgaySinh,txtSoDienThoai));
 		
 		btnCancel.addActionListener(e -> updateKhachHangDialog.dispose());
 		
-		javax.swing.JPanel formPanel = createFormPanel(txtMaKhachHang, txtTenKhachHang, txtCCCD, txtPhai,
+		javax.swing.JPanel formPanel = createFormPanel(txtMaKhachHang, txtTenKhachHang, txtCCCD, cbPhai,
 				  dateChooserNgaySinh ,txtSoDienThoai);
 		javax.swing.JPanel buttonPanel = createButtonPanel(btnCancel, btnSave);
 		
@@ -641,43 +660,60 @@ public class KhachHang_GUI extends javax.swing.JPanel {
     }
     
  private JPanel createFormPanel(JTextField txtMaKhachHang, JTextField txtTenKhachHang, JTextField txtCCCD,
-			JTextField txtPhai, JDateChooser dateChooserNgaySinh, JTextField txtSoDienThoai) {
+		 JComboBox<String> cbPhai, JDateChooser dateChooserNgaySinh, JTextField txtSoDienThoai) {
 		// TODO Auto-generated method stub
 	 	javax.swing.JPanel formPanel = new javax.swing.JPanel();
 		formPanel.setLayout(new java.awt.GridBagLayout());
 		java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
-		gbc.insets = new java.awt.Insets(5, 5, 5, 5);
+		gbc.insets = new java.awt.Insets(10, 10, 10, 10);
 		gbc.anchor = java.awt.GridBagConstraints.WEST;
 		
+		txtMaKhachHang.setPreferredSize(new java.awt.Dimension(250, 30));
+	    txtTenKhachHang.setPreferredSize(new java.awt.Dimension(250, 30));
+	    txtCCCD.setPreferredSize(new java.awt.Dimension(250, 30));
+	    cbPhai.setPreferredSize(new java.awt.Dimension(250, 30));
+	    dateChooserNgaySinh.setPreferredSize(new java.awt.Dimension(250, 30));
+	    txtSoDienThoai.setPreferredSize(new java.awt.Dimension(250, 30));
+		
 		addComponent(formPanel, gbc, 0, 0, "Mã khách hàng:", txtMaKhachHang);
-		addComponent(formPanel, gbc, 0, 1, "Tên khách hàng:", txtTenKhachHang);
-		addComponent(formPanel, gbc, 0, 2, "CCCD:", txtCCCD);
-		addComponent(formPanel, gbc, 0, 3, "Phái:", txtPhai);
-		addComponent(formPanel, gbc, 0, 4, "Ngày sinh:", dateChooserNgaySinh);
-		addComponent(formPanel, gbc, 0, 5, "Số điện thoại:", txtSoDienThoai);
+	    addComponent(formPanel, gbc, 0, 1, "Tên khách hàng:", txtTenKhachHang);
+	    addComponent(formPanel, gbc, 0, 2, "CCCD:", txtCCCD);
+	    addComponent(formPanel, gbc, 1, 0, "Phái:", cbPhai);
+	    addComponent(formPanel, gbc, 1, 1, "Ngày sinh:", dateChooserNgaySinh);
+	    addComponent(formPanel, gbc, 1, 2, "Số điện thoại:", txtSoDienThoai);
 		return formPanel;
 	}
  
  
 
-private void addComponent(JPanel panel, GridBagConstraints gbc, int gridX, int gridY, String labelText,
-		javax.swing.JComponent component) {
-	// TODO Auto-generated method stub
-	gbc.gridx = gridX;
-	gbc.gridy = gridY;
-	panel.add(new javax.swing.JLabel(labelText), gbc);
-	gbc.gridx = gridX + 1;
-	panel.add(component, gbc);
+ private void addComponent(JPanel panel, GridBagConstraints gbc, int gridX, int gridY, String labelText,
+         javax.swing.JComponent component) {
+// Cấu hình cho nhãn
+		gbc.gridx = gridX * 2; // Cột đầu tiên của nhãn (0, 2, 4, ...)
+		gbc.gridy = gridY;
+		gbc.anchor = GridBagConstraints.LINE_START; // Căn trái nhãn
+		gbc.fill = GridBagConstraints.NONE; // Không cho nhãn giãn
+		panel.add(new javax.swing.JLabel(labelText), gbc);
+		
+		// Cấu hình cho thành phần nhập liệu
+		gbc.gridx = gridX * 2 + 1; // Cột tiếp theo của thành phần (1, 3, 5, ...)
+		gbc.fill = GridBagConstraints.HORIZONTAL; // Đặt giãn ngang cho trường nhập liệu
+		gbc.weightx = 1.0; // Cho phép thành phần giãn theo chiều ngang
+		panel.add(component, gbc);
+		
+		// Reset lại weightx để không ảnh hưởng đến các hàng sau
+		gbc.weightx = 0;
 }
 
+
 private void updateKhachHangData(JDialog dialog, KhachHang khachHang, KhachHang_DAO khachHangDAO,
-        JTextField txtTenKhachHang, JTextField txtCCCD, JTextField txtPhai, JDateChooser dateChooserNgaySinh,
+        JTextField txtTenKhachHang, JTextField txtCCCD, JComboBox<String> cbPhai, JDateChooser dateChooserNgaySinh,
         JTextField txtSoDienThoai) {
     
     // Lấy và chuẩn hóa dữ liệu đầu vào từ các trường văn bản
     String tenKhachHang = txtTenKhachHang.getText().trim();
     String CCCD = txtCCCD.getText().trim();
-    String phai = txtPhai.getText().trim();
+    String phai = cbPhai.getSelectedItem().toString().trim();
     String sdt = txtSoDienThoai.getText().trim();
 
     // Kiểm tra nếu ngày sinh chưa được chọn
