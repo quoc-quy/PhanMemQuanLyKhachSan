@@ -309,7 +309,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
     private JDialog createUpdateKhuyenMaiDialog(KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO) {
         JDialog updateKhuyenMaiDialog = new JDialog();
         updateKhuyenMaiDialog.setTitle("Cập nhật khuyến mãi");
-        updateKhuyenMaiDialog.setSize(800, 400);
+        updateKhuyenMaiDialog.setSize(700, 400);
         updateKhuyenMaiDialog.setLocationRelativeTo(this);
         updateKhuyenMaiDialog.setModal(true);
         
@@ -337,7 +337,12 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         txtChietKhau.setPreferredSize(new java.awt.Dimension(250, 30)); // Đặt kích thước phù hợp
 
         javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
+        btnSave.setBackground(new java.awt.Color(51, 153, 255)); // Màu xanh dương
+        btnSave.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+        
         javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+        btnCancel.setBackground(new java.awt.Color(128, 128, 128)); // Màu xám
+        btnCancel.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
 
         // Thêm sự kiện cho btnSave và btnCancel
         btnSave.addActionListener(e -> updateKhuyenmaiData(
@@ -378,12 +383,12 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
         gbc.anchor = java.awt.GridBagConstraints.WEST;
 
         // Đặt kích thước lớn hơn cho các trường nhập liệu
-        txtMaKhuyenMai.setPreferredSize(new java.awt.Dimension(250, 30));
-        txtMoTa.setPreferredSize(new java.awt.Dimension(250, 30));
-        dateChooserNgayBatDau.setPreferredSize(new java.awt.Dimension(250, 30));
-        dateChooserNgayKetThuc.setPreferredSize(new java.awt.Dimension(250, 30));
-        cbTrangThai.setPreferredSize(new java.awt.Dimension(250, 30));
-        txtChietKhau.setPreferredSize(new java.awt.Dimension(250, 30));
+        txtMaKhuyenMai.setPreferredSize(new java.awt.Dimension(300, 30));
+        txtMoTa.setPreferredSize(new java.awt.Dimension(300, 30));
+        dateChooserNgayBatDau.setPreferredSize(new java.awt.Dimension(300, 30));
+        dateChooserNgayKetThuc.setPreferredSize(new java.awt.Dimension(300, 30));
+        cbTrangThai.setPreferredSize(new java.awt.Dimension(300, 30));
+        txtChietKhau.setPreferredSize(new java.awt.Dimension(300, 30));
 
         addComponent(formPanel, gbc, 0, 0, "Mã khuyến mãi:", txtMaKhuyenMai);
         addComponent(formPanel, gbc, 1, 0, "Trạng thái:", cbTrangThai);
@@ -543,7 +548,12 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
 	   
 
 	    JButton btnSave = new JButton("Lưu");
+	    btnSave.setBackground(new java.awt.Color(51, 153, 255)); // Màu xanh dương
+	    btnSave.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+	    
 	    JButton btnCancel = new JButton("Hủy");
+	    btnCancel.setBackground(new java.awt.Color(128, 128, 128)); // Màu xám
+	    btnCancel.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
 
 	    // Layout components in a 2-column format
 	    JPanel formPanel = new JPanel(new GridBagLayout());

@@ -631,7 +631,13 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         txtSoDienThoai.setPreferredSize(new java.awt.Dimension(200, 25));
 
         javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
+        btnSave.setBackground(new java.awt.Color(51, 153, 255)); // Màu xanh dương
+        btnSave.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+        
         javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+        btnCancel.setBackground(new java.awt.Color(128, 128, 128)); // Màu xám
+        btnCancel.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+
 
 		
 		btnSave.addActionListener(e->updateKhachHangData(updateKhachHangDialog,khachHang,khachHangDAO,

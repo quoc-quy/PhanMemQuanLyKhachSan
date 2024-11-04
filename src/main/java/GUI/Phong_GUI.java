@@ -6,6 +6,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
+import GUI.ChiTietDatPhong_Dialog;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dialog;
@@ -2986,7 +2988,13 @@ public class Phong_GUI extends javax.swing.JPanel {
     
     //JDialogDatPhong
     private void showRoomDetailsDialog(Phong phong) {// Khởi tạo DAO để lấy thông tin phiếu đặt phòng theo mã phòng
-    	if(phong.getTrangThaiPhong() == TrangThaiPhong.PHONG_TRONG) {
+    	if (phong.getTrangThaiPhong() == TrangThaiPhong.DANG_SU_DUNG) { // Kiểm tra trạng thái "Đang Sử Dụng"
+            // Sử dụng RoomDetailDialog cho phòng đang sử dụng
+    		Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+    		ChiTietDatPhong_Dialog chiTietDatPhongDialog = new ChiTietDatPhong_Dialog(parentFrame, phong);
+    		chiTietDatPhongDialog.setVisible(true);
+        }
+    	else {
     		JDialog dialog = new JDialog();
             dialog.setTitle("Chi tiết phòng - " + phong.getMaPhong());
             dialog.setModal(true); // Chặn các thao tác bên ngoài khi mở dialog
@@ -3094,8 +3102,6 @@ public class Phong_GUI extends javax.swing.JPanel {
             dialog.add(buttonPanel, BorderLayout.SOUTH);
             dialog.setVisible(true);
     	}
-    	
-    	
     }
     
     
