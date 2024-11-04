@@ -2710,6 +2710,11 @@ public class Phong_GUI extends javax.swing.JPanel {
 			}
 		});
     }
+    
+    private void refreshData() {
+        panelMain.removeAll(); // Xóa toàn bộ dữ liệu cũ khỏi panelMain
+        loadDataToCards(); // Tải lại dữ liệu từ database
+    }
 
     private void loadDataToCards() {
         List<Phong> dsPhong = phongDAO.getAllPhong();
@@ -2729,7 +2734,7 @@ public class Phong_GUI extends javax.swing.JPanel {
                  tang++; // Tăng biến đếm tầng
 
                  // Tạo một JPanel mới cho tầng tiếp theo với tiêu đề mới
-//                 tangPanel = createTangPanel(tang);
+                 tangPanel = createTangPanel(tang);
              }
         }
         
@@ -2863,7 +2868,9 @@ public class Phong_GUI extends javax.swing.JPanel {
 		        lblGiaNgay.setAlignmentX(Component.LEFT_ALIGNMENT);
 		        lblGiaGio.setAlignmentX(Component.LEFT_ALIGNMENT);
 		        panelTinhTrang.setAlignmentX(Component.LEFT_ALIGNMENT);
+				refreshData();
 			}
+
 		});
         
         panelTinhTrang.setMaximumSize(new Dimension(lblTinhTrang.getPreferredSize().width + 20, lblTinhTrang.getPreferredSize().height + 10));
@@ -2875,7 +2882,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         lblGiaNgay.setAlignmentX(Component.LEFT_ALIGNMENT);
         lblGiaGio.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelTinhTrang.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+        
         // Thêm các thành phần vào card
         card.add(lblMaPhong);
         card.add(lblLoaiPhong);
@@ -2925,6 +2932,7 @@ public class Phong_GUI extends javax.swing.JPanel {
  // Phương thức để cập nhật màu của `card` dựa trên mã phòng
     public void updateRoomColor(String maPhong, Color color) {
         for (JPanel card : phongCards) {
+        	refreshData();
             JLabel lblMaPhong = (JLabel) card.getComponent(0); // Giả định nhãn mã phòng là phần tử đầu tiên
             if (lblMaPhong.getText().equals(maPhong)) {
                 card.setBackground(color); // Cập nhật màu

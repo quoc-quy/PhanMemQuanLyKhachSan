@@ -475,7 +475,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi đặt phòng.");
         }
     }//GEN-LAST:event_btnDatNhanhMouseClicked
                                      
