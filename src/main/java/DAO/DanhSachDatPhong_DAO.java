@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ConnectDB.ConnectDB;
+import ENTITY.KhachHang;
+import ENTITY.NhanVien;
 import ENTITY.PhieuDatPhong;
+import ENTITY.Phong;
 
 public class DanhSachDatPhong_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
@@ -138,4 +141,5 @@ public class DanhSachDatPhong_DAO {
              return false;
          }
      }
+ 	 
 }

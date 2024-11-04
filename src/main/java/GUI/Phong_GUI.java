@@ -46,6 +46,7 @@ import javax.swing.border.TitledBorder;
 import com.toedter.calendar.JDateChooser;
 
 import DAO.DanhSachDatPhong_DAO;
+import DAO.PhieuDatPhong_DAO;
 import DAO.Phong_DAO;
 import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
@@ -2913,7 +2914,7 @@ public class Phong_GUI extends javax.swing.JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				showRoomDetailsDialog(phong);
-				showRoomDetailDialog(phong);
+				
 			}
 		});
         phongCards.add(card);
@@ -2976,7 +2977,7 @@ public class Phong_GUI extends javax.swing.JPanel {
     }
     
     //JDialogDatPhong
-    private void showRoomDetailsDialog(Phong phong) {
+    private void showRoomDetailsDialog(Phong phong) {// Khởi tạo DAO để lấy thông tin phiếu đặt phòng theo mã phòng
     	if(phong.getTrangThaiPhong() == TrangThaiPhong.PHONG_TRONG) {
     		JDialog dialog = new JDialog();
             dialog.setTitle("Chi tiết phòng - " + phong.getMaPhong());
@@ -3085,88 +3086,11 @@ public class Phong_GUI extends javax.swing.JPanel {
             dialog.add(buttonPanel, BorderLayout.SOUTH);
             dialog.setVisible(true);
     	}
+    	
+    	
     }
     
-    public void showRoomDetailDialog(Phong phong) {
-    	DanhSachDatPhong_DAO phieuDatPhongDAO = new DanhSachDatPhong_DAO();
-        if(phong.getTrangThaiPhong() == TrangThaiPhong.DANG_SU_DUNG) {
-        	JDialog dialog = new JDialog();
-            dialog.setTitle("Chi tiết phòng - " + phong.getMaPhong());
-            dialog.setModal(true);
-            dialog.setSize(450, 450);
-            dialog.setLocationRelativeTo(null);
-
-            // Tạo JPanel chứa thông tin phòng
-            JPanel dialogPanel = new JPanel();
-            dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.Y_AXIS));
-            dialogPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            dialogPanel.setBackground(Color.white);
-
-            // Tiêu đề
-            JLabel lblMaPhong = new JLabel("P." + phong.getMaPhong());
-            lblMaPhong.setFont(new Font("Segoe UI", Font.BOLD, 28));
-            lblMaPhong.setAlignmentX(Component.LEFT_ALIGNMENT);
-            lblMaPhong.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-            dialogPanel.add(lblMaPhong);
-            dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-
-			// Thông tin khách hàng và phòng
-            addDetailRow(dialogPanel, "Khách hàng", phieuDatPhong .getKhachHang().getTenKhachHang());
-            addDetailRow(dialogPanel, "Loại hình", phieuDatPhong.getLoaiHinh());
-            addDetailRow(dialogPanel, "Check-in", phieuDatPhong.getNgayNhanPhong() + " " + phieuDatPhong.getGioCheckIn());
-            addDetailRow(dialogPanel, "Check-out", phieuDatPhong.getNgayTraPhong() + " " + phieuDatPhong.getGioCheckOut());
-            addDetailRow(dialogPanel, "Tiền cọc", String.format("%,d", phieuDatPhong.getTienCoc()));
-            addDetailRow(dialogPanel, "Tổng", String.format("%,d", phieuDatPhong.getTongTien()));
-
-            // Tạo panel nút ở cuối
-            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-            buttonPanel.setBackground(Color.white);
-
-            // Thêm các nút vào panel
-            buttonPanel.add(createButton("Trả phòng", "#FF3333"));
-            buttonPanel.add(createButton("Chuyển phòng", "#FF9900"));
-            buttonPanel.add(createButton("Đặt phòng", "#199FFE"));
-            buttonPanel.add(createButton("Dịch vụ", "#3333FF"));
-
-            // Thêm dialogPanel và buttonPanel vào JDialog
-            dialog.add(dialogPanel, BorderLayout.CENTER);
-            dialog.add(buttonPanel, BorderLayout.SOUTH);
-            dialog.setVisible(true);
-        }
-    }
-
-    private void addDetailRow(JPanel panel, String label, String value) {
-        JPanel row = new JPanel(new BorderLayout());
-        row.setBackground(Color.white);
-
-        JLabel lblLabel = new JLabel(label);
-        lblLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblLabel.setForeground(Color.BLACK);
-        lblLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-
-        JLabel lblValue = new JLabel(value);
-        lblValue.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        lblValue.setForeground(Color.BLACK);
-        lblValue.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        lblValue.setHorizontalAlignment(SwingConstants.RIGHT);
-
-        row.add(lblLabel, BorderLayout.WEST);
-        row.add(lblValue, BorderLayout.EAST);
-
-        panel.add(row);
-        panel.add(new JSeparator(SwingConstants.HORIZONTAL));
-    }
-
-    private JButton createButton(String text, String colorHex) {
-        JButton button = new JButton(text);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        button.setForeground(Color.WHITE);
-        button.setBackground(Color.decode(colorHex));
-        button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setPreferredSize(new Dimension(100, 40));
-        return button;
-    }
+    
 		
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
