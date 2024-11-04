@@ -24,6 +24,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -2589,26 +2590,52 @@ public class Phong_GUI extends javax.swing.JPanel {
 //    }//GEN-LAST:event_jDialog1WindowActivated
 
     private void initComponents() {
-    	String[] tangOptions = {"Tầng 1", "Tầng 2", "Tầng 3"};
+    	
+    	String[] tangOptions = {"Phòng đơn", "Phòng đôi", "Phòng gia đình"};
     	JPanel mainContainer = new JPanel();
         mainContainer.setLayout(new BorderLayout());
         JPanel headerPanel = new JPanel();
         JComboBox<String> tangComboBox = new JComboBox<>(tangOptions);
         
-        tangComboBox.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        tangComboBox.setFont(new Font("Segoe UI", Font.BOLD, 14));
         tangComboBox.setForeground(Color.decode("#004B97"));
         tangComboBox.setBackground(Color.white);
      // Đặt kích thước cho JComboBox
-        tangComboBox.setPreferredSize(new Dimension(150, 40)); // Kích thước phù hợp
+        tangComboBox.setPreferredSize(new Dimension(140, 40)); // Kích thước phù hợp
         
         headerPanel.setBackground(Color.white);        
         headerPanel.setLayout(new BorderLayout());
         headerPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
         
-     // Thêm tiêu đề vào bên trái của headerPanel
+     // Thêm lọc ngày tháng năm
+        Calendar calendar = Calendar.getInstance();
+        JPanel panelLocNgay = new JPanel();
+        JLabel lbLocTu = new JLabel("Từ");
+        lbLocTu.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        JDateChooser txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
+        JDateChooser txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
+		txtNgayCheckIn.setDateFormatString("dd/MM/yyyy");
+		txtNgayCheckOut.setDateFormatString("dd/MM/yyyy");
+
+        // Ngày Check-in là ngày hiện tại
+        java.util.Date checkInDate = calendar.getTime();
+        txtNgayCheckIn.setDate(checkInDate);
+        JLabel lbLocDen = new JLabel("Đến");
+        lbLocDen.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        // Ngày Check-out là ngày hôm sau
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        java.util.Date checkOutDate = calendar.getTime();
+        txtNgayCheckOut.setDate(checkOutDate);
+        panelLocNgay.add(lbLocTu);
+        panelLocNgay.add(txtNgayCheckIn);
+        panelLocNgay.add(lbLocDen);
+        panelLocNgay.add(txtNgayCheckOut);
+        
+        panelLocNgay.setBackground(Color.white);
+        
         JLabel lblTitle = new JLabel("Danh sách phòng");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        headerPanel.add(lblTitle, BorderLayout.WEST);
+        headerPanel.add(panelLocNgay, BorderLayout.WEST);
         //Panel bên phải
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.white);
@@ -2634,13 +2661,13 @@ public class Phong_GUI extends javax.swing.JPanel {
         
         // Thiết lập font hoặc màu cho các JLabel bên phải nếu cần
         lblFilter1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblFilter1.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
+        lblFilter1.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
         lblFilter2.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblFilter2.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
+        lblFilter2.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
         lblFilter3.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblFilter3.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
+        lblFilter3.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
         lblFilter4.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblFilter4.setBorder(BorderFactory.createEmptyBorder(5, 10, 2, 10));
+        lblFilter4.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
 
         // Thêm các JLabel vào rightPanel
         rightPanel.add(tangComboBox);
