@@ -10,7 +10,7 @@ public class ChiTietDatPhong_Dialog extends JDialog {
     public ChiTietDatPhong_Dialog(Frame parent, Phong phong) {
         super(parent, "Chi tiết phòng - " + phong.getMaPhong(), true);
         
-        setSize(450, 400);
+        setSize(600, 400);
         setLocationRelativeTo(parent);
 
         JPanel dialogPanel = new JPanel();
