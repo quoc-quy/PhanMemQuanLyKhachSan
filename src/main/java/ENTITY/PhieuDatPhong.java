@@ -24,16 +24,15 @@ public class PhieuDatPhong {
     private java.util.Date gioCheckIn; 
     private java.util.Date gioCheckOut; 
     private Double tongTien;
+    private String trangThai;
     
     public PhieuDatPhong(){
         
     }
 
-    
-
-    public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, java.util.Date ngayNhanPhong,
-			java.util.Date ngayTraPhong, Double tienCoc, String loaiHinh, java.util.Date gioCheckIn, java.util.Date gioCheckOut,
-			Double tongTien) {
+	public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, java.util.Date ngayNhanPhong,
+			java.util.Date ngayTraPhong, Double tienCoc, String loaiHinh, java.util.Date gioCheckIn,
+			java.util.Date gioCheckOut, Double tongTien, String trangThai) {
 		super();
 		this.khachHang = khachHang;
 		this.nhanVienLap = nhanVienLap;
@@ -45,7 +44,10 @@ public class PhieuDatPhong {
 		this.gioCheckIn = gioCheckIn;
 		this.gioCheckOut = gioCheckOut;
 		this.tongTien = tongTien;
+		this.trangThai = trangThai;
 	}
+
+
 
 
 
@@ -145,15 +147,20 @@ public class PhieuDatPhong {
 
 
 
+	public String getTrangThai() {
+		return trangThai;
+	}
+
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
+	}
+
 	@Override
 	public String toString() {
 		return "PhieuDatPhong [khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", phong=" + phong
 				+ ", ngayNhanPhong=" + ngayNhanPhong + ", ngayTraPhong=" + ngayTraPhong + ", tienCoc=" + tienCoc
 				+ ", loaiHinh=" + loaiHinh + ", gioCheckIn=" + gioCheckIn + ", gioCheckOut=" + gioCheckOut
-				+ ", tongTien=" + tongTien + "]";
+				+ ", tongTien=" + tongTien + ", trangThai=" + trangThai + "]";
 	}
-
-	
-    
     
 }

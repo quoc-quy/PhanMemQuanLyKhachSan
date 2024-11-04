@@ -854,6 +854,7 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
 				
 			}
 		}); 
+        tbKhachHang.revalidate();
     }
 
 
