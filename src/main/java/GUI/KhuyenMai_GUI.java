@@ -6,6 +6,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.Connection;
@@ -43,6 +44,7 @@ import javax.print.attribute.AttributeSet;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -298,147 +300,177 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
     	KhuyenMai_DAO khuyenMaiDAO = new KhuyenMai_DAO();
     	KhuyenMai khuyenMai = khuyenMaiDAO.getBangMaKhuyenMai(khuyenMaiID);
     	
-    	JDialog updateKhuyenMaiDialog = creatUpdateKhuyenMaiDialog(khuyenMai,khuyenMaiDAO);
-    		updateKhuyenMaiDialog.setVisible(true);
+    	JDialog updateKhuyenMaiDialog = createUpdateKhuyenMaiDialog(khuyenMai, khuyenMaiDAO);
+    	updateKhuyenMaiDialog.setVisible(true);
     }  	
-   private JDialog  creatUpdateKhuyenMaiDialog(KhuyenMai khuyenMai,KhuyenMai_DAO khuyenMaiDAO) {
-	   JDialog  updateKhuyenMaiDialog = new JDialog();
-	   updateKhuyenMaiDialog.setTitle("Cập nhật khuyến mãi");
-	   updateKhuyenMaiDialog.setSize(500,400);
-	   updateKhuyenMaiDialog.setLocationRelativeTo(this);
-	   updateKhuyenMaiDialog.setModal(true);
-	   
-	   // UI	
-	   javax.swing.JTextField txtMaKhuyenMai = createTextField(khuyenMai.getMakhuyenMai(), false);
-	   txtMaKhuyenMai.setEditable(false);
-	   txtMaKhuyenMai.setEnabled(false);
-	   javax.swing.JTextField txtMoTa = new javax.swing.JTextField(khuyenMai.getMoTa(), 20);
-	   
-	   JDateChooser dateChooserNgayBatDau = new JDateChooser();
-	    dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
-	    dateChooserNgayBatDau.setDate(khuyenMai.getNgayBatDau());
+    private JDialog createUpdateKhuyenMaiDialog(KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO) {
+        JDialog updateKhuyenMaiDialog = new JDialog();
+        updateKhuyenMaiDialog.setTitle("Cập nhật khuyến mãi");
+        updateKhuyenMaiDialog.setSize(800, 400);
+        updateKhuyenMaiDialog.setLocationRelativeTo(this);
+        updateKhuyenMaiDialog.setModal(true);
+        
+        // UI
+        javax.swing.JTextField txtMaKhuyenMai = createTextField(khuyenMai.getMakhuyenMai(), false);
+        txtMaKhuyenMai.setEditable(false);
+        txtMaKhuyenMai.setEnabled(false);
+        
+        javax.swing.JTextField txtMoTa = new javax.swing.JTextField(khuyenMai.getMoTa(), 20);
+        
+        JDateChooser dateChooserNgayBatDau = new JDateChooser();
+        dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
+        dateChooserNgayBatDau.setDate(khuyenMai.getNgayBatDau());
 
-	    JDateChooser dateChooserNgayKetThuc = new JDateChooser();
-	    dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
-	    dateChooserNgayKetThuc.setDate(khuyenMai.getNgayKetThuc());
+        JDateChooser dateChooserNgayKetThuc = new JDateChooser();
+        dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
+        dateChooserNgayKetThuc.setDate(khuyenMai.getNgayKetThuc());
 
-	   javax.swing.JTextField txtTrangThai = new javax.swing.JTextField(khuyenMai.getTrangThai(), 20);
-	   javax.swing.JTextField txtChietKhau = new javax.swing.JTextField(String.valueOf(khuyenMai.getChietKhau()),20);
-	   
-	   javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
-	   javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
-	   
-	   //btnSave add action 
-	   btnSave.addActionListener(e -> updateKhuyenmaiData(
-		        updateKhuyenMaiDialog, khuyenMai, khuyenMaiDAO, txtMoTa, dateChooserNgayBatDau, dateChooserNgayKetThuc, txtTrangThai, txtChietKhau));
-	   //btn cancel add action
-	   btnCancel.addActionListener(e->updateKhuyenMaiDialog.dispose());
-	   //Panel setup	
-	   javax.swing.JPanel formPanel = createFormPanel(txtMaKhuyenMai, txtMoTa, dateChooserNgayBatDau, dateChooserNgayKetThuc,
-				txtTrangThai, txtChietKhau);
-	   javax.swing.JPanel buttonPanel = createButtonPanel(btnCancel, btnSave);
-	   //main panel setup
-	   javax.swing.JPanel mainPanel = new javax.swing.JPanel();
-		mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
-		mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		mainPanel.add(formPanel, java.awt.BorderLayout.CENTER);
-		mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+        // Chuyển trạng thái thành JComboBox
+        javax.swing.JComboBox<String> cbTrangThai = new javax.swing.JComboBox<>(new String[]{"Hoạt động", "Hết hạn"});
+        cbTrangThai.setSelectedItem(khuyenMai.getTrangThai());
+        cbTrangThai.setPreferredSize(new java.awt.Dimension(250, 30)); // Đặt kích thước phù hợp
 
-		updateKhuyenMaiDialog.add(mainPanel);
-		return updateKhuyenMaiDialog;
-   }
-   private JPanel createButtonPanel(JButton btnCancel, JButton btnSave) {
-	// TODO Auto-generated method stub
-	   javax.swing.JPanel buttonPanel = new javax.swing.JPanel();
-		buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-		buttonPanel.add(btnCancel);
-		buttonPanel.add(btnSave);
-		return buttonPanel;  
+        javax.swing.JTextField txtChietKhau = new javax.swing.JTextField(String.valueOf(khuyenMai.getChietKhau()), 20);
+        txtChietKhau.setPreferredSize(new java.awt.Dimension(250, 30)); // Đặt kích thước phù hợp
+
+        javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
+        javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+
+        // Thêm sự kiện cho btnSave và btnCancel
+        btnSave.addActionListener(e -> updateKhuyenmaiData(
+                updateKhuyenMaiDialog, 
+                khuyenMai, 
+                khuyenMaiDAO, 
+                txtMoTa, 
+                dateChooserNgayBatDau, 
+                dateChooserNgayKetThuc, 
+                cbTrangThai,  // Đảm bảo đây là JComboBox<String> chứ không phải JTextField
+                txtChietKhau
+        ));
+        btnCancel.addActionListener(e -> updateKhuyenMaiDialog.dispose());
+
+        // Panel setup
+        javax.swing.JPanel formPanel = createFormPanel(txtMaKhuyenMai, txtMoTa, dateChooserNgayBatDau, dateChooserNgayKetThuc,
+                cbTrangThai, txtChietKhau);
+        javax.swing.JPanel buttonPanel = createButtonPanel(btnCancel, btnSave);
+
+        // Main panel setup
+        javax.swing.JPanel mainPanel = new javax.swing.JPanel();
+        mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
+        mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.add(formPanel, java.awt.BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+
+        updateKhuyenMaiDialog.add(mainPanel);
+        return updateKhuyenMaiDialog;
+    }
+
+    private javax.swing.JPanel createFormPanel(javax.swing.JTextField txtMaKhuyenMai, javax.swing.JTextField txtMoTa, 
+            JDateChooser dateChooserNgayBatDau, JDateChooser dateChooserNgayKetThuc, javax.swing.JComboBox<String> cbTrangThai, 
+            javax.swing.JTextField txtChietKhau) {
+        javax.swing.JPanel formPanel = new javax.swing.JPanel();
+        formPanel.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(10, 10, 10, 10); // Tăng khoảng cách giữa các thành phần
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        // Đặt kích thước lớn hơn cho các trường nhập liệu
+        txtMaKhuyenMai.setPreferredSize(new java.awt.Dimension(250, 30));
+        txtMoTa.setPreferredSize(new java.awt.Dimension(250, 30));
+        dateChooserNgayBatDau.setPreferredSize(new java.awt.Dimension(250, 30));
+        dateChooserNgayKetThuc.setPreferredSize(new java.awt.Dimension(250, 30));
+        cbTrangThai.setPreferredSize(new java.awt.Dimension(250, 30));
+        txtChietKhau.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        addComponent(formPanel, gbc, 0, 0, "Mã khuyến mãi:", txtMaKhuyenMai);
+        addComponent(formPanel, gbc, 1, 0, "Trạng thái:", cbTrangThai);
+        addComponent(formPanel, gbc, 0, 1, "Mô tả:", txtMoTa);
+        addComponent(formPanel, gbc, 1, 1, "Chiết khấu:", txtChietKhau);
+        addComponent(formPanel, gbc, 0, 2, "Ngày bắt đầu:", dateChooserNgayBatDau);
+        addComponent(formPanel, gbc, 1, 2, "Ngày kết thúc:", dateChooserNgayKetThuc);
+        return formPanel;
+    }
+
+    private void addComponent(javax.swing.JPanel panel, GridBagConstraints gbc, int gridX, int gridY, String labelText,
+                              javax.swing.JComponent component) {
+        // Thêm nhãn
+        gbc.gridx = gridX * 2;
+        gbc.gridy = gridY;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.NONE;
+        panel.add(new javax.swing.JLabel(labelText), gbc);
+
+        // Thêm trường nhập liệu
+        gbc.gridx = gridX * 2 + 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        panel.add(component, gbc);
+        
+        gbc.weightx = 0; // Reset để không ảnh hưởng đến các thành phần khác
+    }
+
+
+    private void updateKhuyenmaiData(JDialog dialog, KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO,
+            JTextField txtMoTa, JDateChooser dateChooserNgayBatDau, 
+            JDateChooser dateChooserNgayKetThuc, JComboBox<String> cbTrangThai,
+            JTextField txtChietKhau) {
+	String moTa = txtMoTa.getText().trim();
+	String chietKhauStr = txtChietKhau.getText().trim();
+	String trangThai = (String) cbTrangThai.getSelectedItem(); // Lấy trạng thái từ JComboBox
 	
-}
-
-private javax.swing.JPanel createFormPanel(javax.swing.JTextField txtMaKhuyenMai, javax.swing.JTextField txtMoTa, JDateChooser dateChooserNgayBatDau, JDateChooser dateChooserNgayKetThuc, javax.swing.JTextField txtTrangThai, javax.swing.JTextField txtChietKhau) {
-	// TODO Auto-generated method stub
-	javax.swing.JPanel formPanel = new javax.swing.JPanel();
-	formPanel.setLayout(new java.awt.GridBagLayout());
-	java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
-	gbc.insets = new java.awt.Insets(5, 5, 5, 5);
-	gbc.anchor = java.awt.GridBagConstraints.WEST;
+	// Lấy ngày bắt đầu và ngày kết thúc
+	java.util.Date ngayBatDauUtil = dateChooserNgayBatDau.getDate();
+	java.util.Date ngayKetThucUtil = dateChooserNgayKetThuc.getDate();
 	
-	addComponent(formPanel, gbc, 0, 0, "Mã khuyến mãi:", txtMaKhuyenMai);
-	addComponent(formPanel, gbc, 0, 1, "Mô tả:", txtMoTa);
-	addComponent(formPanel, gbc, 0, 2, "Ngày bắt đầu:", dateChooserNgayBatDau);
-	addComponent(formPanel, gbc, 0, 3, "Ngày kết thúc:", dateChooserNgayKetThuc);
-	addComponent(formPanel, gbc, 0, 4, "Trạng thái:", txtTrangThai);
-	addComponent(formPanel, gbc, 0, 5, "Chiết khấu:", txtChietKhau);
+	// Kiểm tra nếu ngày bắt đầu hoặc ngày kết thúc chưa được chọn
+	if (ngayBatDauUtil == null || ngayKetThucUtil == null) {
+	JOptionPane.showMessageDialog(dialog, "Vui lòng chọn ngày bắt đầu và ngày kết thúc.", "Thông báo",
+	JOptionPane.WARNING_MESSAGE);
+	return;
+	}
 	
+	// Chuyển đổi từ java.util.Date sang java.sql.Date
+	java.sql.Date ngayBatDau = new java.sql.Date(ngayBatDauUtil.getTime());
+	java.sql.Date ngayKetThuc = new java.sql.Date(ngayKetThucUtil.getTime());
 	
-	return formPanel;
-}
-
-private void addComponent(javax.swing.JPanel panel, GridBagConstraints gbc, int gridX, int gridY, String labelText,
-		javax.swing.JComponent component) {
-	// TODO Auto-generated method stub
-	gbc.gridx = gridX;
-	gbc.gridy = gridY;
-	panel.add(new javax.swing.JLabel(labelText), gbc);
-	gbc.gridx = gridX + 1;
-	panel.add(component, gbc);
+	// Kiểm tra đầu vào hợp lệ
+	if (isInputValid(moTa, ngayBatDau, ngayKetThuc, trangThai, chietKhauStr)) {
+	try {
+	int chietKhau = Integer.parseInt(chietKhauStr);
 	
-}
-
-private void updateKhuyenmaiData(JDialog dialog, KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO,
-		JTextField txtMoTa, JDateChooser dateChooserNgayBatDau, JDateChooser dateChooserNgayKetThuc, JTextField txtTrangThai,
-		JTextField txtChietKhau) {
-	// TODO Auto-generated method stub
-	   String moTa = txtMoTa.getText().trim();
-	   String trangThai =txtTrangThai.getText().trim();
-	   String chietKhauStr=txtChietKhau.getText().trim();
-	   
-	   java.util.Date ngayBatDauUtil = dateChooserNgayBatDau.getDate();
-	   java.util.Date ngayKetThucUtil = dateChooserNgayKetThuc.getDate();
-	   
-	   if (ngayBatDauUtil == null || ngayKetThucUtil == null) {
-	        JOptionPane.showMessageDialog(dialog, "Vui lòng chọn ngày bắt đầu và ngày kết thúc.", "Thông báo",
-	                JOptionPane.WARNING_MESSAGE);
-	        return;
-	    }
-	    java.sql.Date ngayBatDau = new java.sql.Date(ngayBatDauUtil.getTime());
-	    java.sql.Date ngayKetThuc = new java.sql.Date(ngayKetThucUtil.getTime());
-
-
-	   
-	    if (isInputValid(moTa, dateChooserNgayBatDau.getDate(), dateChooserNgayKetThuc.getDate(), trangThai, chietKhauStr)) {
-	        try {
-	            int chietKhau = Integer.parseInt(chietKhauStr);
-
-	            // Tự động cập nhật trạng thái nếu ngày hiện tại đã qua ngày kết thúc
-	            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-	            if (currentDate.after(ngayKetThuc)) {
-	                trangThai = "Het han";
-	            } else trangThai = "Hoat dong";
-
-	            khuyenMai.setMoTa(moTa);
-	            khuyenMai.setNgayBatDau(ngayBatDau);
-	            khuyenMai.setNgayKetThuc(ngayKetThuc);
-	            khuyenMai.setTrangThai(trangThai);
-	            khuyenMai.setChietKhau(chietKhau);
-
-	            if (khuyenMaiDAO.updateKhuyenMai(khuyenMai)) {
-	                loadDataToTable();
-	                JOptionPane.showMessageDialog(dialog, "Khuyến mãi cập nhật thành công");
-	                dialog.dispose();
-	            } else {
-	                JOptionPane.showMessageDialog(dialog, "Cập nhật không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-	            }
-	        } catch (NumberFormatException ex) {
-	            JOptionPane.showMessageDialog(dialog, "Chiết khấu phải là số nguyên.", "Lỗi định dạng",
-	                    JOptionPane.ERROR_MESSAGE);
-	        }
-	    } else {
-	        JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo",
-	                JOptionPane.WARNING_MESSAGE);
-	    }
+	// Tự động cập nhật trạng thái nếu ngày hiện tại đã qua ngày kết thúc
+	java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+	if (currentDate.after(ngayKetThuc)) {
+	trangThai = "Hết hạn";
+	cbTrangThai.setSelectedItem("Hết hạn"); // Cập nhật trạng thái trong ComboBox
+	} else {
+	trangThai = "Hoạt động";
+	cbTrangThai.setSelectedItem("Hoạt động"); // Cập nhật trạng thái trong ComboBox
+	}
+	
+	// Cập nhật thông tin khuyến mãi
+	khuyenMai.setMoTa(moTa);
+	khuyenMai.setNgayBatDau(ngayBatDau);
+	khuyenMai.setNgayKetThuc(ngayKetThuc);
+	khuyenMai.setTrangThai(trangThai);
+	khuyenMai.setChietKhau(chietKhau);
+	
+	// Gọi phương thức DAO để cập nhật khuyến mãi
+	if (khuyenMaiDAO.updateKhuyenMai(khuyenMai)) {
+	loadDataToTable(); // Tải lại dữ liệu vào bảng
+	JOptionPane.showMessageDialog(dialog, "Khuyến mãi cập nhật thành công");
+	dialog.dispose();
+	} else {
+	JOptionPane.showMessageDialog(dialog, "Cập nhật không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	}
+	} catch (NumberFormatException ex) {
+	JOptionPane.showMessageDialog(dialog, "Chiết khấu phải là số nguyên.", "Lỗi định dạng",
+	JOptionPane.ERROR_MESSAGE);
+	}
+	} else {
+	JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo",
+	JOptionPane.WARNING_MESSAGE);
+	}
 }
 
 private boolean isInputValid(String moTa, java.util.Date ngayBatDau, java.util.Date ngayKetThuc, String trangThai, String chietKhau) {
@@ -455,211 +487,218 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
 		java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
 		java.util.Date date = dateFormat.parse(dateString);
 		return new java.sql.Date(date.getTime());
+}
+   private JPanel createButtonPanel(JButton btnCancel, JButton btnSave) {
+	    JPanel buttonPanel = new JPanel();
+	    buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	    buttonPanel.add(btnCancel);
+	    buttonPanel.add(btnSave);
+	    return buttonPanel;
 	}
    
    public void showAddKhuyenMaiDialog(java.awt.event.MouseEvent evt) {
-	   JDialog addKhuyenMaiDialog = new JDialog((Frame) null,"Thêm khuyễn mãi",true);
-	   addKhuyenMaiDialog.setSize(500,400);
-	   addKhuyenMaiDialog.setLocationRelativeTo(this);
-	   
-	   
-	   //UI	
-	   String MaKhuyenMai = generateNewKhuyenMaiID();
-	   javax.swing.JLabel lblMaKhuyenMai = new javax.swing.JLabel("Mã khuyến mãi: ");
-	   javax.swing.JTextField txtMaKhuyenMai = new javax.swing.JTextField(MaKhuyenMai, 20);
-	   txtMaKhuyenMai.setEditable(false);
-	   txtMaKhuyenMai.setEnabled(false);
-	   
-	   JTextField txtMoTa=new JTextField(20);
-	   JDateChooser dateChooserNgayBatDau = new JDateChooser();
-	   JDateChooser dateChooserNgayKetThuc = new JDateChooser();
-	   dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
-       dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
-	   JTextField txtTrangThai = new JTextField(20);
-	   JTextField txtChietKhau=new JTextField(20);
+	    JDialog addKhuyenMaiDialog = new JDialog((Frame) null, "Thêm khuyến mãi", true);
+	    addKhuyenMaiDialog.setSize(800, 400);
+	    addKhuyenMaiDialog.setLocationRelativeTo(this);
 
-	   //chi cho nhap so chiet khau   
-	   ((AbstractDocument) txtChietKhau.getDocument()).setDocumentFilter(new DocumentFilter() {
-           public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws BadLocationException {
-               if (string.matches("\\d*")) { // Chỉ cho phép ký tự số
-                   super.insertString(fb, offset, string, attr);
-               }
-           }
+	    // UI
+	    KhuyenMai_DAO khuyenMaiDAO= new KhuyenMai_DAO();
+	    String maKhuyenMai = khuyenMaiDAO.generateNewKhuyenMaiID();
+	    if (maKhuyenMai == null) {
+	        JOptionPane.showMessageDialog(addKhuyenMaiDialog, "Lỗi khi tạo mã khuyến mãi mới.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+	    JTextField txtMaKhuyenMai = new JTextField(maKhuyenMai, 20);
+	    txtMaKhuyenMai.setEditable(false);
+	    txtMaKhuyenMai.setEnabled(false);
 
-           public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
-               if (text.matches("\\d*")) { // Chỉ cho phép ký tự số
-                   super.replace(fb, offset, length, text, attrs);
-               }
-           }
-       });
-	   
-	   JButton btnSave = new JButton("Lưu");
-	   JButton btnCancel = new JButton("Hủy");
-	   
-	   // layout components
-	   	JPanel formPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(5, 5, 5, 5);
-		gbc.anchor = GridBagConstraints.WEST;
-		
-		addFormRow(formPanel,gbc,0,"Mã khuyến mãi:",txtMaKhuyenMai);
-		addFormRow(formPanel,gbc,1,"Mô tả:",txtMoTa);
-		addFormRow(formPanel, gbc, 2, "Ngày bắt đầu:", dateChooserNgayBatDau);
-		addFormRow(formPanel, gbc, 3, "Ngày kết thúc:", dateChooserNgayKetThuc);
-		addFormRow(formPanel,gbc,4,"Trạng thái:",txtTrangThai);
-		addFormRow(formPanel,gbc,5,"Chiết khấu:",txtChietKhau);
-		
-		// Button panel setup
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		buttonPanel.add(btnCancel);
-		buttonPanel.add(btnSave);
-		
-		JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		mainPanel.add(formPanel, BorderLayout.CENTER);
-		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-		
-		//Event Listeners
-		btnSave.addActionListener(e -> {
-			if(saveKhuyenMaiData(addKhuyenMaiDialog,txtMoTa,dateChooserNgayBatDau,dateChooserNgayKetThuc,txtTrangThai,txtChietKhau)) {
-				addKhuyenMaiDialog.dispose();
-			}
-		});
-		btnCancel.addActionListener(e -> addKhuyenMaiDialog.dispose());
-		
-		addKhuyenMaiDialog.add(mainPanel);
-		addKhuyenMaiDialog.setVisible(true);
+	    JTextField txtMoTa = new JTextField(20);
+	    JDateChooser dateChooserNgayBatDau = new JDateChooser();
+	    JDateChooser dateChooserNgayKetThuc = new JDateChooser();
+	    dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
+	    dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
 
-   }
+	    // Sử dụng JComboBox cho trạng thái
+	    JComboBox<String> cbTrangThai = new JComboBox<>(new String[]{"Hoạt động", "Hết hạn"});
+	    JTextField txtChietKhau = new JTextField(20);
+
+	    // Chỉ cho phép nhập số trong trường "Chiết khấu"
+	    ((AbstractDocument) txtChietKhau.getDocument()).setDocumentFilter(new DocumentFilter() {
+	        public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws BadLocationException {
+	            if (string.matches("\\d*")) { // Chỉ cho phép ký tự số
+	                super.insertString(fb, offset, string, attr);
+	            }
+	        }
+
+	        public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
+	            if (text.matches("\\d*")) { // Chỉ cho phép ký tự số
+	                super.replace(fb, offset, length, text, attrs);
+	            }
+	        }
+	    });
+	    
+	   
+
+	    JButton btnSave = new JButton("Lưu");
+	    JButton btnCancel = new JButton("Hủy");
+
+	    // Layout components in a 2-column format
+	    JPanel formPanel = new JPanel(new GridBagLayout());
+	    GridBagConstraints gbc = new GridBagConstraints();
+	    gbc.insets = new Insets(10, 10, 10, 10);
+	    gbc.anchor = GridBagConstraints.WEST;
+	    gbc.fill = GridBagConstraints.HORIZONTAL;  // Giãn ngang các trường nhập liệu
+	    gbc.weightx = 1.0; 
+
+	    // Set preferred sizes for consistent UI
+	    txtMaKhuyenMai.setPreferredSize(new Dimension(250, 30));
+	    txtMoTa.setPreferredSize(new Dimension(250, 30));
+	    dateChooserNgayBatDau.setPreferredSize(new Dimension(250, 30));
+	    dateChooserNgayKetThuc.setPreferredSize(new Dimension(250, 30));
+	    cbTrangThai.setPreferredSize(new Dimension(250, 30));
+	    txtChietKhau.setPreferredSize(new Dimension(250, 30));
+
+	    // Add components to form panel with 2-column layout
+	    addFormRow(formPanel, gbc, 0, 0, "Mã khuyến mãi:", txtMaKhuyenMai);
+	    addFormRow(formPanel, gbc, 1, 0, "Trạng thái:", cbTrangThai);
+	    addFormRow(formPanel, gbc, 0, 1, "Mô tả:", txtMoTa);
+	    addFormRow(formPanel, gbc, 1, 1, "Chiết khấu:", txtChietKhau);
+	    addFormRow(formPanel, gbc, 0, 2, "Ngày bắt đầu:", dateChooserNgayBatDau);
+	    addFormRow(formPanel, gbc, 1, 2, "Ngày kết thúc:", dateChooserNgayKetThuc);
+
+	    // Button panel setup
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	    buttonPanel.add(btnCancel);
+	    buttonPanel.add(btnSave);
+
+	    JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+	    mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	    mainPanel.add(formPanel, BorderLayout.CENTER);
+	    mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+	    // Event Listeners
+	    btnSave.addActionListener(e -> {
+	        if (saveKhuyenMaiData(addKhuyenMaiDialog, txtMoTa, dateChooserNgayBatDau, dateChooserNgayKetThuc, cbTrangThai, txtChietKhau)) {
+	            addKhuyenMaiDialog.dispose();
+	        }
+	    });
+	    btnCancel.addActionListener(e -> addKhuyenMaiDialog.dispose());
+
+	    addKhuyenMaiDialog.add(mainPanel);
+	    addKhuyenMaiDialog.setVisible(true);
+	}
+
+	// Helper method to add components in a 2-column layout
+   private void addFormRow(JPanel panel, GridBagConstraints gbc, int gridX, int gridY, String labelText, JComponent component) {
+	    // Thêm nhãn
+	    gbc.gridx = gridX * 2;  // Đặt nhãn ở cột đầu tiên (0, 2, 4, ...)
+	    gbc.gridy = gridY;
+	    gbc.weightx = 0; 
+	    gbc.anchor = GridBagConstraints.LINE_START;
+	    panel.add(new JLabel(labelText), gbc);
+
+	    // Thêm trường nhập liệu
+	    gbc.gridx = gridX * 2 + 1;  // Đặt trường nhập liệu ở cột tiếp theo (1, 3, 5, ...)
+	    gbc.weightx = 1.0; 
+	    gbc.anchor = GridBagConstraints.LINE_START;
+	    panel.add(component, gbc);
+	}
    
-private boolean saveKhuyenMaiData(JDialog dialog, JTextField txtMoTa, JDateChooser dateChooserNgayBatDau,
-		JDateChooser dateChooserNgayKetThuc, JTextField txtTrangThai, JTextField txtChietKhau) {
-	// TODO Auto-generated method stub
-	String moTa=txtMoTa.getText().trim();
-	java.util.Date ngayBatDau = dateChooserNgayBatDau.getDate();
-	java.util.Date ngayKetThuc = dateChooserNgayKetThuc.getDate();
-	String trangThai =txtTrangThai.getText().trim();
-	String chietKhau =txtChietKhau.getText().trim();
-	
-	if (moTa.isEmpty() || ngayBatDau == null|| ngayKetThuc== null ||trangThai.isEmpty() || chietKhau.isEmpty()) {
-        JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo",
-                JOptionPane.WARNING_MESSAGE);
-        return false;
-    }
-	
-	
+   private boolean saveToDatabase(String maKhuyenMai, String moTa, String ngayBatDau, String ngayKetThuc, String trangThai, String chietKhau) {
+	    // Kết nối đến cơ sở dữ liệu
+	    ConnectDB connectDB = new ConnectDB(); // Giả định rằng bạn có một lớp ConnectDB để quản lý kết nối cơ sở dữ liệu
+	    try (Connection conn = connectDB.getConnection()) {
+	        if (conn == null) {
+	            JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu.", "Lỗi kết nối",
+	                    JOptionPane.ERROR_MESSAGE);
+	            return false;
+	        }
 
-    
-    
-    
-	String maKhuyenMai = generateNewKhuyenMaiID();
-	 if (maKhuyenMai == null) {
-	        // Hiển thị thông báo lỗi nếu không tạo được mã
-	        JOptionPane.showMessageDialog(dialog, "Lỗi khi tạo mã khuyến mãi mới.", "Lỗi",
+	        // Chuyển đổi chuỗi ngày thành java.sql.Date
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	        java.sql.Date sqlNgayBatDau;
+	        java.sql.Date sqlNgayKetThuc;
+
+	        try {
+	            java.util.Date utilNgayBatDau = dateFormat.parse(ngayBatDau);
+	            java.util.Date utilNgayKetThuc = dateFormat.parse(ngayKetThuc);
+	            sqlNgayBatDau = new java.sql.Date(utilNgayBatDau.getTime());
+	            sqlNgayKetThuc = new java.sql.Date(utilNgayKetThuc.getTime());
+	        } catch (ParseException e) {
+	            JOptionPane.showMessageDialog(null, "Định dạng ngày không hợp lệ.", "Lỗi định dạng ngày",
+	                    JOptionPane.ERROR_MESSAGE);
+	            return false;
+	        }
+
+	        // Tạo câu lệnh SQL để chèn dữ liệu vào bảng KhuyenMai
+	        String sql = "INSERT INTO KhuyenMai (MaKhuyenMai, MoTa, NgayBatDau, NgayKetThuc, TrangThai, ChietKhau) VALUES (?, ?, ?, ?, ?, ?)";
+	        
+	        // Chuẩn bị câu lệnh SQL
+	        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	            pstmt.setString(1, maKhuyenMai);        // Thiết lập mã khuyến mãi
+	            pstmt.setString(2, moTa);               // Thiết lập mô tả
+	            pstmt.setDate(3, sqlNgayBatDau);        // Thiết lập ngày bắt đầu
+	            pstmt.setDate(4, sqlNgayKetThuc);       // Thiết lập ngày kết thúc
+	            pstmt.setString(5, trangThai);          // Thiết lập trạng thái
+	            pstmt.setString(6, chietKhau);          // Thiết lập chiết khấu
+
+	            // Thực hiện câu lệnh SQL và kiểm tra xem có bản ghi nào được chèn không
+	            int rowInserted = pstmt.executeUpdate();
+	            return rowInserted > 0; // Trả về true nếu có ít nhất một bản ghi được thêm thành công
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Lỗi khi lưu dữ liệu vào cơ sở dữ liệu: " + e.getMessage(), "Lỗi",
 	                JOptionPane.ERROR_MESSAGE);
-	        return false; // Trả về false để chỉ ra rằng có lỗi xảy ra
-    }
-	 
-	 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	    String formattedNgayBatDau = dateFormat.format(ngayBatDau);
-	    String formattedNgayKetThuc = dateFormat.format(ngayKetThuc);
-
-	    // Lưu dữ liệu vào cơ sở dữ liệu với ngày định dạng dd/MM/yyyy
-	    if (saveToDatabase(maKhuyenMai, moTa, formattedNgayBatDau, formattedNgayKetThuc, trangThai, chietKhau)) {
-	        // Thêm dòng mới vào bảng với định dạng ngày dd/MM/yyyy
-	        DefaultTableModel tableModel = (DefaultTableModel) tbKhuyenMai.getModel();
-	        tableModel.addRow(new Object[]{maKhuyenMai, moTa, formattedNgayBatDau, formattedNgayKetThuc, chietKhau, trangThai});
-	        return true;
-	    }else {
-        JOptionPane.showMessageDialog(dialog, "Lỗi lưu dữ liệu vào cơ sở dữ liệu.", "Lỗi",
-                JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-	
-
-	
-}
-
-private boolean saveToDatabase(String maKhuyenMai, String moTa, String formattedNgayBatDau, String formattedNgayKetThuc,
-        String trangThai, String chietKhau) {
-    // Kết nối đến cơ sở dữ liệu
-    ConnectDB connectDB = new ConnectDB();
-    try (Connection conn = connectDB.getConnection()) {
-        if (conn == null) {
-            JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu.", "Lỗi kết nối",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        // Chuyển đổi chuỗi ngày thành java.sql.Date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        java.sql.Date sqlNgayBatDau;
-        java.sql.Date sqlNgayKetThuc;
-        
-        try {
-            java.util.Date utilNgayBatDau = dateFormat.parse(formattedNgayBatDau);
-            java.util.Date utilNgayKetThuc = dateFormat.parse(formattedNgayKetThuc);
-            sqlNgayBatDau = new java.sql.Date(utilNgayBatDau.getTime());
-            sqlNgayKetThuc = new java.sql.Date(utilNgayKetThuc.getTime());
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Định dạng ngày không hợp lệ.", "Lỗi định dạng ngày",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        String sql = "INSERT INTO KhuyenMai (MaKhuyenMai, MoTa, NgayBatDau, NgayKetThuc, TrangThai, ChietKhau) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, maKhuyenMai);
-            pstmt.setString(2, moTa);
-            pstmt.setDate(3, sqlNgayBatDau); // Thiết lập ngày bắt đầu
-            pstmt.setDate(4, sqlNgayKetThuc); // Thiết lập ngày kết thúc
-            pstmt.setString(5, trangThai);
-            pstmt.setString(6, chietKhau);
-
-            int rowInserted = pstmt.executeUpdate();
-            return rowInserted > 0;
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
-    }
-}
+	        return false;
+	    }
+	}
 
 
 
-	// TODO Auto-generated method stub
-	private String generateNewKhuyenMaiID() {
-		String nextCode = "KM001"; // Default code
-		try (Connection conn = ConnectDB.getConnection()) {
-			String sql = "SELECT MAX(maKhuyenMai) FROM KhuyenMai";
-			try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
-					String lastCode = rs.getString(1);
-					if (lastCode != null) {
-						int lastNumber = Integer.parseInt(lastCode.substring(2)); // Extract number part
-						nextCode = "KM" + String.format("%03d", lastNumber + 1); // Increment and format
-					}
-				}
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			javax.swing.JOptionPane.showMessageDialog(null, "Lỗi khi truy xuất mã dịch vụ: " + ex.getMessage(), "Lỗi",
-					javax.swing.JOptionPane.ERROR_MESSAGE);
-		}
-		return nextCode;
-	
-}
+	// Adjusted saveKhuyenMaiData method to use JComboBox for trangThai
+	private boolean saveKhuyenMaiData(JDialog dialog, JTextField txtMoTa, JDateChooser dateChooserNgayBatDau,
+	                                  JDateChooser dateChooserNgayKetThuc, JComboBox<String> cbTrangThai, JTextField txtChietKhau) {
+	    String moTa = txtMoTa.getText().trim();
+	    java.util.Date ngayBatDau = dateChooserNgayBatDau.getDate();
+	    java.util.Date ngayKetThuc = dateChooserNgayKetThuc.getDate();
+	    String trangThai = (String) cbTrangThai.getSelectedItem();
+	    String chietKhau = txtChietKhau.getText().trim();
+	    
+	    KhuyenMai_DAO khuyenMaiDAO= new KhuyenMai_DAO();
+	    String maKhuyenMai = khuyenMaiDAO.generateNewKhuyenMaiID();
 
+	    // Kiểm tra dữ liệu đầu vào
+	    if (moTa.isEmpty() || ngayBatDau == null || ngayKetThuc == null || trangThai.isEmpty() || chietKhau.isEmpty()) {
+	        JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+	        return false;
+	    }
 
-// Helper method to add components in formPanel
-   private void addFormRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, Component component) {
-	   	gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel(labelText), gbc);
+	    // Kiểm tra nếu chiết khấu là số nguyên
+	    try {
+	        int chietKhauInt = Integer.parseInt(chietKhau);
 
-		gbc.gridx = 1;
-		panel.add(component, gbc);
-   }
+	        // Định dạng ngày
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	        String formattedNgayBatDau = dateFormat.format(ngayBatDau);
+	        String formattedNgayKetThuc = dateFormat.format(ngayKetThuc);
+
+	        // Lưu dữ liệu vào cơ sở dữ liệu
+	        if (saveToDatabase(khuyenMaiDAO.generateNewKhuyenMaiID(), moTa, formattedNgayBatDau, formattedNgayKetThuc, trangThai, String.valueOf(chietKhauInt))) {
+	            // Cập nhật bảng
+	            DefaultTableModel tableModel = (DefaultTableModel) tbKhuyenMai.getModel();
+	            tableModel.addRow(new Object[]{khuyenMaiDAO.generateNewKhuyenMaiID(), moTa, formattedNgayBatDau, formattedNgayKetThuc, chietKhauInt, trangThai});
+	            return true;
+	        } else {
+	            JOptionPane.showMessageDialog(dialog, "Lỗi lưu dữ liệu vào cơ sở dữ liệu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	            return false;
+	        }
+	    } catch (NumberFormatException e) {
+	        JOptionPane.showMessageDialog(dialog, "Chiết khấu phải là số nguyên.", "Lỗi định dạng", JOptionPane.ERROR_MESSAGE);
+	        return false;
+	    }
+	}
+
    
    
     

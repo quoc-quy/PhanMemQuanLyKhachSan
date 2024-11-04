@@ -184,4 +184,25 @@ public class KhuyenMai_DAO {
     	}
     	return khuyenMai;
     }
+    public String generateNewKhuyenMaiID() {
+		String nextCode = "KM001"; // Default code
+		try (Connection conn = ConnectDB.getConnection()) {
+			String sql = "SELECT MAX(maKhuyenMai) FROM KhuyenMai";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					String lastCode = rs.getString(1);
+					if (lastCode != null) {
+						int lastNumber = Integer.parseInt(lastCode.substring(2)); // Extract number part
+						nextCode = "KM" + String.format("%03d", lastNumber + 1); // Increment and format
+					}
+				}
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			javax.swing.JOptionPane.showMessageDialog(null, "Lỗi khi truy xuất mã dịch vụ: " + ex.getMessage(), "Lỗi",
+					javax.swing.JOptionPane.ERROR_MESSAGE);
+		}
+		return nextCode;
+	
+}
 }
