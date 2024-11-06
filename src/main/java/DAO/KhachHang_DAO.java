@@ -46,6 +46,7 @@ public class KhachHang_DAO {
     	String query = "INSERT INTO KhachHang (MaKhachHang, TenKhachHang, CCCD, Phai, NgaySinh, DenThoai) VALUES (?, ?, ?, ?, ? ,?)";
     	try(Connection conn = connectDB.getConnection();
     		PreparedStatement ps = conn.prepareStatement(query)){
+    		
     		ps.setString(1, khachHang.getMaKhachHang());
     		ps.setString(2,khachHang.getTenKhachHang());
     		ps.setString(3, khachHang.getCCCD());
@@ -113,27 +114,46 @@ public class KhachHang_DAO {
     
     public String getNextCustomerID() {
         String lastCustomerID = null;
-        String sql = "SELECT MaKhachHang FROM KhachHang ORDER BY MaKhachHang DESC LIMIT 1";
+        String sql = "SELECT TOP 1 MaKhachHang FROM KhachHang ORDER BY MaKhachHang DESC";
 
-        try (Connection conn = ConnectDB.getConnection();
+        try (Connection conn = connectDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-            
+
             if (rs.next()) {
                 lastCustomerID = rs.getString("MaKhachHang");
+//                System.out.println("Last Customer ID: " + lastCustomerID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return "KH0001"; // Trả về mã mặc định nếu có lỗi truy vấn
         }
 
-        // Tạo mã mới dựa trên mã gần nhất
+        // Nếu có mã cuối cùng, tách phần tiền tố và phần số
         if (lastCustomerID != null) {
-            int nextID = Integer.parseInt(lastCustomerID.substring(2)) + 1;
-            return String.format("KH%04d", nextID); // Tạo mã dưới dạng KHxxxx
-        } else {
-            return "KH0001"; // Nếu không có mã nào thì bắt đầu từ KH0001
+            String prefix = lastCustomerID.substring(0, 2); // Lấy 2 ký tự đầu
+
+            // Đổi thành "KH" nếu tiền tố là "KM"
+            if (!prefix.equals("KH")) {
+                prefix = "KH";
+            }
+
+            String numberPart = lastCustomerID.substring(2); // Lấy phần số từ mã
+            
+            try {
+                int currentID = Integer.parseInt(numberPart); // Chuyển phần số thành số nguyên
+                int nextID = currentID + 1;
+                return String.format("%s%04d", prefix, nextID); // Tạo mã mới với tiền tố KH và tăng số
+            } catch (NumberFormatException e) {
+                e.printStackTrace(); // Ghi lại lỗi nếu phần số không hợp lệ
+                return "KH0001"; // Trả về mã mặc định nếu xảy ra lỗi
+            }
         }
+
+        // Nếu không có mã nào trong cơ sở dữ liệu, bắt đầu từ KH0001
+        return "KH0001";
     }
+
     
     // Phương thức lấy tất cả CCCD khách hàng từ cơ sở dữ liệu
     public List<String> getAllCustomerCCCD() {
@@ -176,4 +196,9 @@ public class KhachHang_DAO {
         }
         return khachHang;
     }
+   
+    
 }
+
+    
+

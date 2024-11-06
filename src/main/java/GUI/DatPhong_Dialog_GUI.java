@@ -50,13 +50,15 @@ import com.toedter.calendar.IDateEditor;
  * @author Admin
  */
 public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
-    private static Phong_GUI phongGUI;
+	public static Phong_GUI phongGUI;
     private static String maPhong;
     private Phong_DAO phongDAO = new Phong_DAO();
 	
 	
     private KhachHang_DAO khachHangDAO = new KhachHang_DAO();
 	private String maPhong2;
+	private KhachHang_GUI parentPanel;
+	private DatPhong_Dialog_GUI parentPanelPhong;
 
     /**
      * Creates new form DatPhong_Dialog_GUI

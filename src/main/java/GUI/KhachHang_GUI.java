@@ -49,6 +49,10 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 	private static KhachHang_GUI instance;
     private DefaultTableModel tableModel;
 	private KhachHang_DAO dsKHDAO = new KhachHang_DAO();
+	private DatPhong_Dialog_GUI parentPanelPhong;
+	private KhachHang_GUI parentPanel;
+	private String maPhong;
+	private Phong_GUI phongGUI;
 
 	/**
      * Creates new form KhachHang_GUI
@@ -492,7 +496,7 @@ public class KhachHang_GUI extends javax.swing.JPanel {
         txtTimKiem.setForeground(Color.BLACK);
     }//GEN-LAST:event_txtTimKiemFocusGained
 
-    private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {                                       
+    private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {
     	Window window = SwingUtilities.getWindowAncestor(this);
     	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(window, true);
     	dialog.setVisible(true);
@@ -938,25 +942,34 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
     
 //    làm mới bảng khi thêm mới dữ liệu
     public void refreshTable() {
+        // Lấy danh sách khách hàng
         List<KhachHang> danhSachKhachHang = dsKHDAO.getAllKhachHang();
 
+        // Lấy mô hình bảng và xóa dữ liệu cũ
         DefaultTableModel tableModel = (DefaultTableModel) tbKhachHang.getModel();
         tableModel.setRowCount(0); // Xóa dữ liệu cũ trong bảng
 
+        // Định dạng ngày tháng
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        for (KhachHang kh : danhSachKhachHang) {
-            Object[] row = {
-                kh.getMaKhachHang(),
-                kh.getTenKhachHang(),
-                kh.getCCCD(),
-                kh.getPhai(),
-                dateFormat.format(kh.getNgaySinh()),  // Định dạng ngày sinh
-                kh.getDienThoai()
-            };
-            tableModel.addRow(row);
+        // Kiểm tra danh sách khách hàng và cập nhật bảng
+        if (danhSachKhachHang != null) {
+            for (KhachHang kh : danhSachKhachHang) {
+                tableModel.addRow(new Object[]{
+                    kh.getMaKhachHang(),
+                    kh.getTenKhachHang(),
+                    kh.getCCCD(),
+                    kh.getPhai(),
+                    dateFormat.format(kh.getNgaySinh()), // Áp dụng định dạng ngày tháng
+                    kh.getDienThoai()
+                });
+            }
+        } else {
+            System.out.println("Danh sách khách hàng trống.");
         }
+        tableModel.fireTableDataChanged();
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

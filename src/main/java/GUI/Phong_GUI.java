@@ -584,6 +584,7 @@ public class Phong_GUI extends javax.swing.JPanel {
             btnDatPhong.addMouseListener(new MouseListener() {
     			
     			private Frame parentFrame;
+				private Phong_GUI phongGUI;
 
     			@Override
     			public void mouseReleased(MouseEvent e) {
@@ -617,7 +618,7 @@ public class Phong_GUI extends javax.swing.JPanel {
 
     				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
     			    Window window = SwingUtilities.getWindowAncestor(Phong_GUI.this);
-    			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(window, true, maPhong, Phong_GUI.this);
+    			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(parentFrame, true, maPhong, phongGUI);
     			    dialog.dispose();
     			    dialogDatPhong.setVisible(true);
     				
