@@ -21,18 +21,20 @@ public class PhieuDatPhong {
     private java.util.Date ngayTraPhong;
     private Double tienCoc;
     private String loaiHinh; 
-    private java.util.Date gioCheckIn; 
-    private java.util.Date gioCheckOut; 
+    private String gioNhanPhong;
+    private String gioTraPhong;
     private Double tongTien;
     private String trangThai;
     
     public PhieuDatPhong(){
         
     }
+    
+    
 
 	public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, java.util.Date ngayNhanPhong,
-			java.util.Date ngayTraPhong, Double tienCoc, String loaiHinh, java.util.Date gioCheckIn,
-			java.util.Date gioCheckOut, Double tongTien, String trangThai) {
+			java.util.Date ngayTraPhong, Double tienCoc, String loaiHinh, String gioNhanPhong, String gioTraPhong,
+			Double tongTien, String trangThai) {
 		super();
 		this.khachHang = khachHang;
 		this.nhanVienLap = nhanVienLap;
@@ -41,51 +43,85 @@ public class PhieuDatPhong {
 		this.ngayTraPhong = ngayTraPhong;
 		this.tienCoc = tienCoc;
 		this.loaiHinh = loaiHinh;
-		this.gioCheckIn = gioCheckIn;
-		this.gioCheckOut = gioCheckOut;
+		this.gioNhanPhong = gioNhanPhong;
+		this.gioTraPhong = gioTraPhong;
 		this.tongTien = tongTien;
 		this.trangThai = trangThai;
 	}
 
 
 
+	public KhachHang getKhachHang() {
+		return khachHang;
+	}
 
+	public void setKhachHang(KhachHang khachHang) {
+		this.khachHang = khachHang;
+	}
+
+	public NhanVien getNhanVienLap() {
+		return nhanVienLap;
+	}
+
+	public void setNhanVienLap(NhanVien nhanVienLap) {
+		this.nhanVienLap = nhanVienLap;
+	}
+
+	public Phong getPhong() {
+		return phong;
+	}
+
+	public void setPhong(Phong phong) {
+		this.phong = phong;
+	}
+
+	public java.util.Date getNgayNhanPhong() {
+		return ngayNhanPhong;
+	}
+
+	public void setNgayNhanPhong(java.util.Date ngayNhanPhong) {
+		this.ngayNhanPhong = ngayNhanPhong;
+	}
+
+	public java.util.Date getNgayTraPhong() {
+		return ngayTraPhong;
+	}
+
+	public void setNgayTraPhong(java.util.Date ngayTraPhong) {
+		this.ngayTraPhong = ngayTraPhong;
+	}
+
+	public Double getTienCoc() {
+		return tienCoc;
+	}
+
+	public void setTienCoc(Double tienCoc) {
+		this.tienCoc = tienCoc;
+	}
 
 	public String getLoaiHinh() {
 		return loaiHinh;
 	}
 
-
-
 	public void setLoaiHinh(String loaiHinh) {
 		this.loaiHinh = loaiHinh;
 	}
 
-
-
-	public java.util.Date getGioCheckIn() {
-		return gioCheckIn;
+	public String getGioNhanPhong() {
+		return gioNhanPhong;
 	}
 
-
-
-	public void setGioCheckIn(java.util.Date gioCheckIn) {
-		this.gioCheckIn = gioCheckIn;
+	public void setGioNhanPhong(String gioNhanPhong) {
+		this.gioNhanPhong = gioNhanPhong;
 	}
 
-
-
-	public java.util.Date getGioCheckOut() {
-		return gioCheckOut;
+	public String getGioTraPhong() {
+		return gioTraPhong;
 	}
 
-
-
-	public void setGioCheckOut(java.util.Date gioCheckOut) {
-		this.gioCheckOut = gioCheckOut;
+	public void setGioTraPhong(String gioTraPhong) {
+		this.gioTraPhong = gioTraPhong;
 	}
-
-
 
 	public Double getTongTien() {
 		return tongTien;
@@ -95,58 +131,6 @@ public class PhieuDatPhong {
 		this.tongTien = tongTien;
 	}
 
-
-
-	public KhachHang getKhachHang() {
-        return khachHang;
-    }
-
-    public void setKhachHang(KhachHang khachHang) {
-        this.khachHang = khachHang;
-    }
-
-    public NhanVien getNhanVienLap() {
-        return nhanVienLap;
-    }
-
-    public void setNhanVienLap(NhanVien nhanVienLap) {
-        this.nhanVienLap = nhanVienLap;
-    }
-
-    public Phong getPhong() {
-        return phong;
-    }
-
-    public void setPhong(Phong phong) {
-        this.phong = phong;
-    }
-
-    public java.util.Date getNgayNhanPhong() {
-        return ngayNhanPhong;
-    }
-
-    public void setNgayNhanPhong(java.util.Date ngayNhanPhong) {
-        this.ngayNhanPhong = ngayNhanPhong;
-    }
-
-    public java.util.Date getNgayTraPhong() {
-        return ngayTraPhong;
-    }
-
-    public void setNgayTraPhong(java.util.Date ngayTraPhong) {
-        this.ngayTraPhong = ngayTraPhong;
-    }
-    
-    public Double getTienCoc() {
-		return tienCoc;
-	}
-
-	public void setTienCoc(Double tienCoc) {
-		this.tienCoc = tienCoc;
-	}
-
-
-
 	public String getTrangThai() {
 		return trangThai;
 	}
@@ -155,12 +139,17 @@ public class PhieuDatPhong {
 		this.trangThai = trangThai;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "PhieuDatPhong [khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", phong=" + phong
 				+ ", ngayNhanPhong=" + ngayNhanPhong + ", ngayTraPhong=" + ngayTraPhong + ", tienCoc=" + tienCoc
-				+ ", loaiHinh=" + loaiHinh + ", gioCheckIn=" + gioCheckIn + ", gioCheckOut=" + gioCheckOut
+				+ ", loaiHinh=" + loaiHinh + ", gioNhanPhong=" + gioNhanPhong + ", gioTraPhong=" + gioTraPhong
 				+ ", tongTien=" + tongTien + ", trangThai=" + trangThai + "]";
 	}
+
+    
+    
     
 }

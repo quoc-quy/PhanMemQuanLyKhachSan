@@ -48,4 +48,23 @@ public class TaiKhoan_DAO {
         }
         return maTaiKhoan;
     }
+    
+ // Phương thức lấy mã nhân viên dựa vào tên đăng nhập
+    public String getMaNhanVienByTenDangNhap(String tenDangNhap) {
+        String maNhanVien = null;
+        String sql = "SELECT NhanVien.MaNhanVien FROM NhanVien "
+                + "JOIN TaiKhoan ON NhanVien.TaiKhoan = TaiKhoan.MaTaiKhoan "
+                + "WHERE TaiKhoan.TenDangNhap = ?";
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, tenDangNhap);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                maNhanVien = rs.getString("MaNhanVien");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return maNhanVien;
+    }
 }

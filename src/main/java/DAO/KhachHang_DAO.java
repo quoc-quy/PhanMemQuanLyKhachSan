@@ -197,7 +197,27 @@ public class KhachHang_DAO {
         return khachHang;
     }
    
-    
+    // Phương thức lấy mã khách hàng dựa vào CCCD
+    public String getMaKhachHangByCCCD(String cccd) {
+        String maKhachHang = null;
+        
+        String sql = "SELECT MaKhachHang FROM KhachHang WHERE CCCD = ?";
+        
+        try (Connection conn = connectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, cccd);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                maKhachHang = rs.getString("MaKhachHang");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return maKhachHang;
+    }
 }
 
     

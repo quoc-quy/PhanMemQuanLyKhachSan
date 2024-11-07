@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author Admin
  */
 public class Login_GUI extends javax.swing.JFrame {
-    
+	public static String maNhanVien; // Biến tĩnh để lưu mã nhân viên đăng nhập
     private TaiKhoan_DAO taiKhoanDAO = new TaiKhoan_DAO();
     private NhanVien_DAO nhanVienDAO = new NhanVien_DAO();
     
@@ -179,6 +179,7 @@ public class Login_GUI extends javax.swing.JFrame {
         // Mở trang chính và truyền vai trò vào Home_GUI
         Home_GUI home = new Home_GUI(userRole, userName);
         home.setVisible(true);
+        maNhanVien = taiKhoanDAO.getMaNhanVienByTenDangNhap(tenDangNhap);
         this.dispose();  // Đóng cửa sổ login
         } else {
             JOptionPane.showMessageDialog(null, "Sai tên đăng nhập hoặc mật khẩu!");
