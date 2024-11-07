@@ -93,40 +93,138 @@ public class Phong_DAO {
 	    }
 	}
 	
-	public List<Phong> getAllPhongTrong() {
-	    List<Phong> danhSachPhongTrong = new ArrayList<>();
-	    String sql = "SELECT * FROM Phong WHERE TrangThaiPhong = 'PHONG_TRONG'";
-
-	    try (Connection conn = ConnectDB.getConnection();
-	         Statement stmt = conn.createStatement();
-	         ResultSet rs = stmt.executeQuery(sql)) {
-
+	public List<Phong> getPhongTrong() {
+	    List<Phong> dsPhong = new ArrayList<>();
+	    String query = "SELECT MaPhong, SoNguoiLon, SoTreEm, TrangThaiPhong, TinhTrangPhong, " +
+	                   "LoaiPhong.MaLoaiPhong, LoaiPhong.TenLoaiPhong, " +
+	                   "LoaiPhong.GiaTienTheoNgay, LoaiPhong.GiaTienTheoGio " +
+	                   "FROM Phong " +
+	                   "JOIN LoaiPhong ON Phong.LoaiPhong = LoaiPhong.MaLoaiPhong " +
+	                   "WHERE TrangThaiPhong = 'PHONG_TRONG'"; // Chỉ điều kiện TrangThaiPhong
+	    
+	    try (Connection conn = connectDB.getConnection(); 
+	         Statement stmt = conn.createStatement(); 
+	         ResultSet rs = stmt.executeQuery(query)) {
+	        
 	        while (rs.next()) {
-	            Phong phong = new Phong();
-	            phong.setMaPhong(rs.getString("MaPhong"));
+	            // Tạo đối tượng LoaiPhong
+	            LoaiPhong loaiPhong = new LoaiPhong(
+	                rs.getString("MaLoaiPhong"),
+	                rs.getString("TenLoaiPhong"),
+	                rs.getDouble("GiaTienTheoGio"),
+	                rs.getDouble("GiaTienTheoNgay"),
+	                false
+	            );
 
-	            // Thiết lập đối tượng LoaiPhong
-	            LoaiPhong loaiPhong = new LoaiPhong();
-	            loaiPhong.setMaLoaiPhong(rs.getString("LoaiPhong"));
-	            phong.setLoaiPhong(loaiPhong);
+	            // Lấy giá trị enum từ chuỗi trong cơ sở dữ liệu
+	            TrangThaiPhong trangThai = TrangThaiPhong.valueOf(rs.getString("TrangThaiPhong"));
+	            TinhTrangPhong tinhTrang = TinhTrangPhong.valueOf(rs.getString("TinhTrangPhong"));
 
-	            phong.setSoNguoiLon(rs.getInt("SoNguoiLon"));
-	            phong.setSoTreEm(rs.getInt("SoTreEm"));
+	            // Tạo đối tượng Phong
+	            Phong phong = new Phong(
+	                rs.getString("MaPhong"),
+	                loaiPhong,
+	                rs.getInt("SoNguoiLon"),
+	                rs.getInt("SoTreEm"),
+	                trangThai,
+	                tinhTrang
+	            );
 
-	            // Thiết lập đối tượng TrangThaiPhong
-	            TrangThaiPhong trangThaiPhong = TrangThaiPhong.valueOf(rs.getString("TrangThaiPhong"));
-	            phong.setTrangThaiPhong(trangThaiPhong);
-
-	            // Thiết lập đối tượng TinhTrangPhong
-	            TinhTrangPhong tinhTrangPhong = TinhTrangPhong.valueOf(rs.getString("TinhTrangPhong"));
-	            phong.setTinhTrangPhong(tinhTrangPhong);
-
-	            danhSachPhongTrong.add(phong);
+	            dsPhong.add(phong);
 	        }
-	    } catch (SQLException e) {
+	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+	    return dsPhong;
+	}
+	
+	public List<Phong> getPhongDangSuDung() {
+	    List<Phong> dsPhong = new ArrayList<>();
+	    String query = "SELECT MaPhong, SoNguoiLon, SoTreEm, TrangThaiPhong, TinhTrangPhong, " +
+	                   "LoaiPhong.MaLoaiPhong, LoaiPhong.TenLoaiPhong, " +
+	                   "LoaiPhong.GiaTienTheoNgay, LoaiPhong.GiaTienTheoGio " +
+	                   "FROM Phong " +
+	                   "JOIN LoaiPhong ON Phong.LoaiPhong = LoaiPhong.MaLoaiPhong " +
+	                   "WHERE TrangThaiPhong = 'DANG_SU_DUNG'"; // Chỉ điều kiện TrangThaiPhong
+	    
+	    try (Connection conn = connectDB.getConnection(); 
+	         Statement stmt = conn.createStatement(); 
+	         ResultSet rs = stmt.executeQuery(query)) {
+	        
+	        while (rs.next()) {
+	            // Tạo đối tượng LoaiPhong
+	            LoaiPhong loaiPhong = new LoaiPhong(
+	                rs.getString("MaLoaiPhong"),
+	                rs.getString("TenLoaiPhong"),
+	                rs.getDouble("GiaTienTheoGio"),
+	                rs.getDouble("GiaTienTheoNgay"),
+	                false
+	            );
 
-	    return danhSachPhongTrong;
+	            // Lấy giá trị enum từ chuỗi trong cơ sở dữ liệu
+	            TrangThaiPhong trangThai = TrangThaiPhong.valueOf(rs.getString("TrangThaiPhong"));
+	            TinhTrangPhong tinhTrang = TinhTrangPhong.valueOf(rs.getString("TinhTrangPhong"));
+
+	            // Tạo đối tượng Phong
+	            Phong phong = new Phong(
+	                rs.getString("MaPhong"),
+	                loaiPhong,
+	                rs.getInt("SoNguoiLon"),
+	                rs.getInt("SoTreEm"),
+	                trangThai,
+	                tinhTrang
+	            );
+
+	            dsPhong.add(phong);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return dsPhong;
+	}
+
+	public List<Phong> getPhongChuaDon() {
+	    List<Phong> dsPhong = new ArrayList<>();
+	    String query = "SELECT MaPhong, SoNguoiLon, SoTreEm, TrangThaiPhong, TinhTrangPhong, " +
+	                   "LoaiPhong.MaLoaiPhong, LoaiPhong.TenLoaiPhong, " +
+	                   "LoaiPhong.GiaTienTheoNgay, LoaiPhong.GiaTienTheoGio " +
+	                   "FROM Phong " +
+	                   "JOIN LoaiPhong ON Phong.LoaiPhong = LoaiPhong.MaLoaiPhong " +
+	                   "WHERE TinhTrangPhong = 'CHUA_DON'"; // Chỉ điều kiện TrangThaiPhong
+	    
+	    try (Connection conn = connectDB.getConnection(); 
+	         Statement stmt = conn.createStatement(); 
+	         ResultSet rs = stmt.executeQuery(query)) {
+	        
+	        while (rs.next()) {
+	            // Tạo đối tượng LoaiPhong
+	            LoaiPhong loaiPhong = new LoaiPhong(
+	                rs.getString("MaLoaiPhong"),
+	                rs.getString("TenLoaiPhong"),
+	                rs.getDouble("GiaTienTheoGio"),
+	                rs.getDouble("GiaTienTheoNgay"),
+	                false
+	            );
+
+	            // Lấy giá trị enum từ chuỗi trong cơ sở dữ liệu
+	            TrangThaiPhong trangThai = TrangThaiPhong.valueOf(rs.getString("TrangThaiPhong"));
+	            TinhTrangPhong tinhTrang = TinhTrangPhong.valueOf(rs.getString("TinhTrangPhong"));
+
+	            // Tạo đối tượng Phong
+	            Phong phong = new Phong(
+	                rs.getString("MaPhong"),
+	                loaiPhong,
+	                rs.getInt("SoNguoiLon"),
+	                rs.getInt("SoTreEm"),
+	                trangThai,
+	                tinhTrang
+	            );
+
+	            dsPhong.add(phong);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return dsPhong;
 	}
 }

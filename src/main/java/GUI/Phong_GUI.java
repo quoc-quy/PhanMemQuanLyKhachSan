@@ -161,31 +161,101 @@ public class Phong_GUI extends javax.swing.JPanel {
         lblPhongTrong.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-trong.png")));
         lblPhongTrong.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lblPhongTrong.setForeground(Color.decode("#0094FE"));
-        JLabel lblFilter3 = new JLabel("Đang sử dụng()");
-        lblFilter3.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-ban.png")));
-        lblFilter3.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        lblFilter3.setForeground(Color.decode("#FA5950"));
-        JLabel lblFilter4 = new JLabel("Chưa dọn()");
-        lblFilter4.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-do.png")));
-        lblFilter4.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        lblFilter4.setForeground(Color.decode("#004B97"));
+        JLabel lblPhongBan = new JLabel("Đang sử dụng()");
+        lblPhongBan.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-ban.png")));
+        lblPhongBan.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lblPhongBan.setForeground(Color.decode("#FA5950"));
+        JLabel lblChuaDon = new JLabel("Chưa dọn()");
+        lblChuaDon.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-do.png")));
+        lblChuaDon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lblChuaDon.setForeground(Color.decode("#004B97"));
+        
+        lblChuaDon.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				panelMain.removeAll();
+		    	
+		    	getAllUncleanedRoom();
+			}
+		});
+        
+        lblPhongBan.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				panelMain.removeAll();
+		    	
+		    	getAllBusyRoom();
+			}
+		});
         
         // Thiết lập font hoặc màu cho các JLabel bên phải nếu cần
         lblFilter1.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblFilter1.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
         lblPhongTrong.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblPhongTrong.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
-        lblFilter3.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblFilter3.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
-        lblFilter4.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblFilter4.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
+        lblPhongBan.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblPhongBan.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
+        lblChuaDon.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblChuaDon.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
 
         // Thêm các JLabel vào rightPanel
         rightPanel.add(tangComboBox);
         rightPanel.add(lblFilter1);
         rightPanel.add(lblPhongTrong);
-        rightPanel.add(lblFilter3);
-        rightPanel.add(lblFilter4);
+        rightPanel.add(lblPhongBan);
+        rightPanel.add(lblChuaDon);
 
 
         // Thêm rightPanel vào bên phải của headerPanel
@@ -485,69 +555,139 @@ public class Phong_GUI extends javax.swing.JPanel {
         }
     }
     
-//    private void filterRoomsByFloor(int tang) {
-//        panelMain.removeAll(); // Xóa các phòng hiện có trong panelMain
-//
-//        // Đặt BoxLayout cho panelMain để các tầng hiển thị theo chiều dọc
-//        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
-//
-//        // Tạo một JPanel với TitledBorder cho tầng được chọn
-//        JPanel tangPanel = new JPanel();
-//        tangPanel.setLayout(new GridLayout(6, 4, 10, 10)); // 6 dòng x 4 cột
-//        TitledBorder border = BorderFactory.createTitledBorder("Tầng " + tang);
-//        border.setTitleFont(new Font("Segoe UI", Font.BOLD, 20));
-//        
-//        tangPanel.setBorder(border); // Đặt đường viền với tiêu đề tầng
-//
-//        // Gọi DAO để lấy danh sách phòng theo tầng
-//        List<Phong> danhSachPhong = phongDAO.getPhongTheoTang(tang);
-//
-//        // Thêm các phòng vào tangPanel
-//        for (Phong phong : danhSachPhong) {
-//            JPanel card = createRoomCard(phong);
-//            tangPanel.add(card);
-//        }
-//
-//        // Nếu số lượng phòng ít hơn 4 x 6 (24), thêm các JPanel trống vào tangPanel
-//        int totalSlots = 4 * 6; // 4 cột x 6 dòng
-//        int emptySlots = totalSlots - danhSachPhong.size();
-//        for (int i = 0; i < emptySlots; i++) {
-//            tangPanel.add(new JPanel()); // Thêm JPanel trống
-//        }
-//
-//        // Thêm tangPanel vào panelMain
-//        panelMain.add(tangPanel);
-//
-//        panelMain.revalidate(); // Cập nhật lại giao diện
-//        panelMain.repaint();
-//    }
-    
-    
-    private void hienThiTatCaPhongTrong() {
-        panelMain.removeAll(); // Xóa tất cả các phần tử hiện có trong panelMain
+    private void getAllEmptyRoom() {
+    	List<Phong> danhSachPhongTrong = phongDAO.getPhongTrong(); // Lấy danh sách phòng trống từ database
 
-        // Đặt bố cục GridLayout cho panelMain để hiển thị tất cả các phòng trống
-        panelMain.setLayout(new GridLayout(6, 4, 10, 10)); // 6 hàng x 4 cột, điều chỉnh tùy theo số phòng
+        // Thiết lập số lượng phòng mỗi tầng
+        int roomsPerFloor1And2 = 8; // Số phòng tối đa cho tầng 1 và 2
+        int roomsPerFloor3 = 4; // Số phòng tối đa cho tầng 3
+        int totalFloors = 3; // Tổng số tầng
+        int[] roomsPerFloor = {roomsPerFloor1And2, roomsPerFloor1And2, roomsPerFloor3}; // Mảng số phòng mỗi tầng
 
-        // Gọi phương thức getAllPhongTrong() để lấy danh sách các phòng trống
-        List<Phong> danhSachPhongTrong = phongDAO.getAllPhongTrong();
+        panelMain.removeAll(); // Xóa toàn bộ dữ liệu cũ trong panelMain
+        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
 
-        // Thêm các phòng trống vào panelMain
-        for (Phong phong : danhSachPhongTrong) {
-            JPanel card = createRoomCard(phong); // Phương thức tạo giao diện phòng
-            panelMain.add(card);
+        int count = 0;
+        int tang = 1;
+
+        // Vòng lặp qua từng tầng để thiết lập bố cục
+        for (int floor = 0; floor < totalFloors; floor++) {
+            JPanel tangPanel = createTangPanel(tang);
+            int roomsInThisFloor = roomsPerFloor[floor]; // Số phòng cần hiển thị cho tầng hiện tại
+
+            // Thêm các phòng thực tế vào tầng
+            for (int i = 0; i < roomsInThisFloor && count < danhSachPhongTrong.size(); i++) {
+                tangPanel.add(createRoomCard(danhSachPhongTrong.get(count))); // Thêm phòng thực tế
+                count++;
+            }
+
+            // Nếu số phòng thực tế ít hơn số phòng cần thiết, thêm ô trống để giữ bố cục
+            int emptyRoomsNeeded = roomsInThisFloor - (count % roomsInThisFloor);
+            if (emptyRoomsNeeded != roomsInThisFloor) { // Tránh thêm ô trống khi số phòng là bội số của roomsInThisFloor
+                for (int i = 0; i < emptyRoomsNeeded; i++) {
+                    tangPanel.add(createEmptyRoomCard()); // Thêm ô trống
+                }
+            }
+
+            panelMain.add(tangPanel); // Thêm tầng vào panelMain
+            tang++; // Tăng biến đếm tầng
         }
 
-        // Nếu số lượng phòng ít hơn 4 x 6 (24), thêm các JPanel trống vào panelMain để lấp đầy
-        int totalSlots = 4 * 6; // 4 cột x 6 dòng
-        int emptySlots = totalSlots - danhSachPhongTrong.size();
-        for (int i = 0; i < emptySlots; i++) {
-            panelMain.add(new JPanel()); // Thêm JPanel trống
-        }
-
-        panelMain.revalidate(); // Cập nhật lại giao diện
+        // Cập nhật lại giao diện sau khi thêm các phần tử
+        panelMain.revalidate();
         panelMain.repaint();
     }
+
+    // Phương thức tạo ô trống (empty room card) để giữ bố cục
+    private JPanel createEmptyRoomCard() {
+        JPanel emptyRoom = new JPanel();
+        emptyRoom.setPreferredSize(new Dimension(200, 150)); // Đặt kích thước cho ô trống (có thể tùy chỉnh)
+        emptyRoom.setBackground(Color.LIGHT_GRAY); // Đặt màu nền để phân biệt với phòng thực tế
+        emptyRoom.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1)); // Đặt viền mờ cho ô trống
+        return emptyRoom;
+    }
+    
+    private void getAllBusyRoom() {
+    	 List<Phong> danhSachPhongBan = phongDAO.getPhongDangSuDung(); // Lấy danh sách phòng trống từ database
+
+    	    // Thiết lập số lượng phòng mỗi tầng
+    	    int roomsPerFloor1And2 = 8; // Số phòng tối đa cho tầng 1 và 2
+    	    int roomsPerFloor3 = 4; // Số phòng tối đa cho tầng 3
+    	    int totalFloors = 3; // Tổng số tầng
+    	    int[] roomsPerFloor = {roomsPerFloor1And2, roomsPerFloor1And2, roomsPerFloor3}; // Mảng số phòng mỗi tầng
+
+    	    panelMain.removeAll(); // Xóa toàn bộ dữ liệu cũ trong panelMain
+    	    panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+
+    	    int count = 0;
+    	    int tang = 1;
+
+    	    // Vòng lặp qua từng tầng để thiết lập bố cục
+    	    for (int floor = 0; floor < totalFloors; floor++) {
+    	        JPanel tangPanel = createTangPanel(tang);
+    	        int roomsInThisFloor = roomsPerFloor[floor]; // Số phòng cần hiển thị cho tầng hiện tại
+
+    	        // Thêm các phòng thực tế vào tầng
+    	        for (int i = 0; i < roomsInThisFloor && count < danhSachPhongBan.size(); i++) {
+    	            tangPanel.add(createRoomCard(danhSachPhongBan.get(count))); // Thêm phòng thực tế
+    	            count++;
+    	        }
+
+    	        // Nếu số phòng thực tế ít hơn số phòng cần thiết, thêm ô trống để giữ bố cục
+    	        int emptyRoomsNeeded = roomsInThisFloor - (count % roomsInThisFloor);
+    	        for (int i = 0; i < emptyRoomsNeeded && emptyRoomsNeeded != roomsInThisFloor; i++) {
+    	            tangPanel.add(createEmptyRoomCard()); // Thêm ô trống
+    	        }
+
+    	        panelMain.add(tangPanel); // Thêm tầng vào panelMain
+    	        tang++; // Tăng biến đếm tầng
+    	    }
+
+    	    // Cập nhật lại giao diện sau khi thêm các phần tử
+    	    panelMain.revalidate();
+    	    panelMain.repaint();
+    }
+    
+    private void getAllUncleanedRoom() {
+   	 List<Phong> danhSachPhongChuaDon = phongDAO.getPhongChuaDon(); // Lấy danh sách phòng trống từ database
+
+   	    // Thiết lập số lượng phòng mỗi tầng
+   	    int roomsPerFloor1And2 = 8; // Số phòng tối đa cho tầng 1 và 2
+   	    int roomsPerFloor3 = 4; // Số phòng tối đa cho tầng 3
+   	    int totalFloors = 3; // Tổng số tầng
+   	    int[] roomsPerFloor = {roomsPerFloor1And2, roomsPerFloor1And2, roomsPerFloor3}; // Mảng số phòng mỗi tầng
+
+   	    panelMain.removeAll(); // Xóa toàn bộ dữ liệu cũ trong panelMain
+   	    panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+
+   	    int count = 0;
+   	    int tang = 1;
+
+   	    // Vòng lặp qua từng tầng để thiết lập bố cục
+   	    for (int floor = 0; floor < totalFloors; floor++) {
+   	        JPanel tangPanel = createTangPanel(tang);
+   	        int roomsInThisFloor = roomsPerFloor[floor]; // Số phòng cần hiển thị cho tầng hiện tại
+
+   	        // Thêm các phòng thực tế vào tầng
+   	        for (int i = 0; i < roomsInThisFloor && count < danhSachPhongChuaDon.size(); i++) {
+   	            tangPanel.add(createRoomCard(danhSachPhongChuaDon.get(count))); // Thêm phòng thực tế
+   	            count++;
+   	        }
+
+   	        // Nếu số phòng thực tế ít hơn số phòng cần thiết, thêm ô trống để giữ bố cục
+   	        int emptyRoomsNeeded = roomsInThisFloor - (count % roomsInThisFloor);
+   	        for (int i = 0; i < emptyRoomsNeeded && emptyRoomsNeeded != roomsInThisFloor; i++) {
+   	            tangPanel.add(createEmptyRoomCard()); // Thêm ô trống
+   	        }
+
+   	        panelMain.add(tangPanel); // Thêm tầng vào panelMain
+   	        tang++; // Tăng biến đếm tầng
+   	    }
+
+   	    // Cập nhật lại giao diện sau khi thêm các phần tử
+   	    panelMain.revalidate();
+   	    panelMain.repaint();
+   }
     
     private void getAllRooms() {
     	panelMain.removeAll();
@@ -556,7 +696,9 @@ public class Phong_GUI extends javax.swing.JPanel {
     }
     
     private void lblPhongTrongClicked(java.awt.event.MouseEvent evt) {
-    	hienThiTatCaPhongTrong();
+    	panelMain.removeAll();
+    	
+    	getAllEmptyRoom();
     }
     
     //JDialogDatPhong
