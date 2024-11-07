@@ -5,13 +5,17 @@ import ENTITY.Phong;
 import ENTITY.TinhTrangPhong;
 import ENTITY.TrangThaiPhong;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import ConnectDB.ConnectDB;
 
@@ -227,4 +231,65 @@ public class Phong_DAO {
 	    }
 	    return dsPhong;
 	}
+
+	
+	public List<Phong> getPhongByType(String loaiPhong) {
+	    List<Phong> dsPhong = new ArrayList<>();
+
+	    // Tạo câu truy vấn để tìm các phòng theo loại phòng (không sử dụng N)
+	    String query = "SELECT MaPhong, SoNguoiLon, SoTreEm, TrangThaiPhong, TinhTrangPhong, " +
+	               "LoaiPhong.MaLoaiPhong, LoaiPhong.TenLoaiPhong, " +
+	               "LoaiPhong.GiaTienTheoNgay, LoaiPhong.GiaTienTheoGio " +
+	               "FROM Phong " +
+	               "JOIN LoaiPhong ON Phong.LoaiPhong = LoaiPhong.MaLoaiPhong " +
+	               "WHERE LoaiPhong.TenLoaiPhong COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?";
+
+
+	    try (Connection conn = connectDB.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        
+	        // Đặt tham số cho câu truy vấn, thêm % để tìm kiếm gần đúng
+	        stmt.setString(1, "%" + loaiPhong + "%");
+	        System.out.println("Chuỗi truy vấn SQL: " + stmt);
+
+	        ResultSet rs = stmt.executeQuery();
+
+	        int resultCount = 0; // Biến đếm số kết quả
+	        while (rs.next()) {
+	            resultCount++;
+
+	            // Tạo đối tượng LoaiPhong từ kết quả truy vấn
+	            LoaiPhong loaiPhongObj = new LoaiPhong(
+	                rs.getString("MaLoaiPhong"),
+	                rs.getString("TenLoaiPhong"),
+	                rs.getDouble("GiaTienTheoGio"),
+	                rs.getDouble("GiaTienTheoNgay"),
+	                false
+	            );
+
+	            // Lấy giá trị enum từ chuỗi trong cơ sở dữ liệu
+	            TrangThaiPhong trangThai = TrangThaiPhong.valueOf(rs.getString("TrangThaiPhong"));
+	            TinhTrangPhong tinhTrang = TinhTrangPhong.valueOf(rs.getString("TinhTrangPhong"));
+
+	            // Tạo đối tượng Phong từ kết quả truy vấn
+	            Phong phong = new Phong(
+	                rs.getString("MaPhong"),
+	                loaiPhongObj,
+	                rs.getInt("SoNguoiLon"),
+	                rs.getInt("SoTreEm"),
+	                trangThai,
+	                tinhTrang
+	            );
+
+	            dsPhong.add(phong);
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace(); // In lỗi nếu có vấn đề khi thực hiện truy vấn
+	    }
+
+	    return dsPhong;
+	}
+
+
 }
