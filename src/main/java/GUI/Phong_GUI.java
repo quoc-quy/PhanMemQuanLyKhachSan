@@ -370,6 +370,12 @@ public class Phong_GUI extends javax.swing.JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				int confirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn chuyển trạng thái phòng này không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+			    if (confirm != JOptionPane.YES_OPTION) {
+			        // Nếu người dùng chọn "No", thoát khỏi sự kiện mà không thực hiện thêm
+			        return;
+			    }
 				// Lấy tình trạng hiện tại của phòng (là một enum)
 			    TinhTrangPhong tinhTrangHienTai = phong.getTinhTrangPhong();
 
