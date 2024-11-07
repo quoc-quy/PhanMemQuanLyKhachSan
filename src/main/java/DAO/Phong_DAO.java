@@ -125,7 +125,7 @@ public class Phong_DAO {
 	public void capNhatTrangThaiPhong(String maPhong, String trangThai) {
 	    String sql = "UPDATE Phong SET TrangThaiPhong = ? WHERE MaPhong = ?";
 	    
-	    try (Connection conn = connectDB.getConnection();
+	    try (Connection conn = ConnectDB.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql)) {
 	        
 	        ps.setString(1, trangThai);
@@ -136,5 +136,42 @@ public class Phong_DAO {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	}
+	
+	public List<Phong> getAllPhongTrong() {
+	    List<Phong> danhSachPhongTrong = new ArrayList<>();
+	    String sql = "SELECT * FROM Phong WHERE TrangThaiPhong = 'PHONG_TRONG'";
+
+	    try (Connection conn = ConnectDB.getConnection();
+	         Statement stmt = conn.createStatement();
+	         ResultSet rs = stmt.executeQuery(sql)) {
+
+	        while (rs.next()) {
+	            Phong phong = new Phong();
+	            phong.setMaPhong(rs.getString("MaPhong"));
+
+	            // Thiết lập đối tượng LoaiPhong
+	            LoaiPhong loaiPhong = new LoaiPhong();
+	            loaiPhong.setMaLoaiPhong(rs.getString("LoaiPhong"));
+	            phong.setLoaiPhong(loaiPhong);
+
+	            phong.setSoNguoiLon(rs.getInt("SoNguoiLon"));
+	            phong.setSoTreEm(rs.getInt("SoTreEm"));
+
+	            // Thiết lập đối tượng TrangThaiPhong
+	            TrangThaiPhong trangThaiPhong = TrangThaiPhong.valueOf(rs.getString("TrangThaiPhong"));
+	            phong.setTrangThaiPhong(trangThaiPhong);
+
+	            // Thiết lập đối tượng TinhTrangPhong
+	            TinhTrangPhong tinhTrangPhong = TinhTrangPhong.valueOf(rs.getString("TinhTrangPhong"));
+	            phong.setTinhTrangPhong(tinhTrangPhong);
+
+	            danhSachPhongTrong.add(phong);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return danhSachPhongTrong;
 	}
 }

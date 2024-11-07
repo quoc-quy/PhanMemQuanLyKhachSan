@@ -151,10 +151,16 @@ public class Phong_GUI extends javax.swing.JPanel {
         JLabel lblFilter1 = new JLabel("Tất cả(20)");
         lblFilter1.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-home.png")));
         lblFilter1.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        JLabel lblFilter2 = new JLabel("Phòng trống()");
-        lblFilter2.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-trong.png")));
-        lblFilter2.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        lblFilter2.setForeground(Color.decode("#0094FE"));
+        JLabel lblPhongTrong = new JLabel("Phòng trống()");
+        lblPhongTrong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	lblPhongTrongClicked(evt);
+            }
+        });
+        
+        lblPhongTrong.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-trong.png")));
+        lblPhongTrong.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lblPhongTrong.setForeground(Color.decode("#0094FE"));
         JLabel lblFilter3 = new JLabel("Đang sử dụng()");
         lblFilter3.setIcon(new ImageIcon(getClass().getResource("/IMAGES/phong-ban.png")));
         lblFilter3.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -167,8 +173,8 @@ public class Phong_GUI extends javax.swing.JPanel {
         // Thiết lập font hoặc màu cho các JLabel bên phải nếu cần
         lblFilter1.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblFilter1.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
-        lblFilter2.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblFilter2.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
+        lblPhongTrong.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblPhongTrong.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
         lblFilter3.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblFilter3.setBorder(BorderFactory.createEmptyBorder(5, 2, 2, 2));
         lblFilter4.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -177,7 +183,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         // Thêm các JLabel vào rightPanel
         rightPanel.add(tangComboBox);
         rightPanel.add(lblFilter1);
-        rightPanel.add(lblFilter2);
+        rightPanel.add(lblPhongTrong);
         rightPanel.add(lblFilter3);
         rightPanel.add(lblFilter4);
 
@@ -206,7 +212,7 @@ public class Phong_GUI extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 // Lấy tầng đã chọn và lọc danh sách phòng
                 int selectedTang = tangComboBox.getSelectedIndex() + 1; // Tầng 1, 2, 3 ứng với chỉ số 1, 2, 3
-                filterRoomsByFloor(selectedTang);
+//                filterRoomsByFloor(selectedTang);
             }
         });
         lblFilter1.addMouseListener(new MouseListener() {
@@ -473,38 +479,65 @@ public class Phong_GUI extends javax.swing.JPanel {
         }
     }
     
-    private void filterRoomsByFloor(int tang) {
-        panelMain.removeAll(); // Xóa các phòng hiện có trong panelMain
+//    private void filterRoomsByFloor(int tang) {
+//        panelMain.removeAll(); // Xóa các phòng hiện có trong panelMain
+//
+//        // Đặt BoxLayout cho panelMain để các tầng hiển thị theo chiều dọc
+//        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+//
+//        // Tạo một JPanel với TitledBorder cho tầng được chọn
+//        JPanel tangPanel = new JPanel();
+//        tangPanel.setLayout(new GridLayout(6, 4, 10, 10)); // 6 dòng x 4 cột
+//        TitledBorder border = BorderFactory.createTitledBorder("Tầng " + tang);
+//        border.setTitleFont(new Font("Segoe UI", Font.BOLD, 20));
+//        
+//        tangPanel.setBorder(border); // Đặt đường viền với tiêu đề tầng
+//
+//        // Gọi DAO để lấy danh sách phòng theo tầng
+//        List<Phong> danhSachPhong = phongDAO.getPhongTheoTang(tang);
+//
+//        // Thêm các phòng vào tangPanel
+//        for (Phong phong : danhSachPhong) {
+//            JPanel card = createRoomCard(phong);
+//            tangPanel.add(card);
+//        }
+//
+//        // Nếu số lượng phòng ít hơn 4 x 6 (24), thêm các JPanel trống vào tangPanel
+//        int totalSlots = 4 * 6; // 4 cột x 6 dòng
+//        int emptySlots = totalSlots - danhSachPhong.size();
+//        for (int i = 0; i < emptySlots; i++) {
+//            tangPanel.add(new JPanel()); // Thêm JPanel trống
+//        }
+//
+//        // Thêm tangPanel vào panelMain
+//        panelMain.add(tangPanel);
+//
+//        panelMain.revalidate(); // Cập nhật lại giao diện
+//        panelMain.repaint();
+//    }
+    
+    
+    private void hienThiTatCaPhongTrong() {
+        panelMain.removeAll(); // Xóa tất cả các phần tử hiện có trong panelMain
 
-        // Đặt BoxLayout cho panelMain để các tầng hiển thị theo chiều dọc
-        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        // Đặt bố cục GridLayout cho panelMain để hiển thị tất cả các phòng trống
+        panelMain.setLayout(new GridLayout(6, 4, 10, 10)); // 6 hàng x 4 cột, điều chỉnh tùy theo số phòng
 
-        // Tạo một JPanel với TitledBorder cho tầng được chọn
-        JPanel tangPanel = new JPanel();
-        tangPanel.setLayout(new GridLayout(6, 4, 10, 10)); // 6 dòng x 4 cột
-        TitledBorder border = BorderFactory.createTitledBorder("Tầng " + tang);
-        border.setTitleFont(new Font("Segoe UI", Font.BOLD, 20));
-        
-        tangPanel.setBorder(border); // Đặt đường viền với tiêu đề tầng
+        // Gọi phương thức getAllPhongTrong() để lấy danh sách các phòng trống
+        List<Phong> danhSachPhongTrong = phongDAO.getAllPhongTrong();
 
-        // Gọi DAO để lấy danh sách phòng theo tầng
-        List<Phong> danhSachPhong = phongDAO.getPhongTheoTang(tang);
-
-        // Thêm các phòng vào tangPanel
-        for (Phong phong : danhSachPhong) {
-            JPanel card = createRoomCard(phong);
-            tangPanel.add(card);
+        // Thêm các phòng trống vào panelMain
+        for (Phong phong : danhSachPhongTrong) {
+            JPanel card = createRoomCard(phong); // Phương thức tạo giao diện phòng
+            panelMain.add(card);
         }
 
-        // Nếu số lượng phòng ít hơn 4 x 6 (24), thêm các JPanel trống vào tangPanel
+        // Nếu số lượng phòng ít hơn 4 x 6 (24), thêm các JPanel trống vào panelMain để lấp đầy
         int totalSlots = 4 * 6; // 4 cột x 6 dòng
-        int emptySlots = totalSlots - danhSachPhong.size();
+        int emptySlots = totalSlots - danhSachPhongTrong.size();
         for (int i = 0; i < emptySlots; i++) {
-            tangPanel.add(new JPanel()); // Thêm JPanel trống
+            panelMain.add(new JPanel()); // Thêm JPanel trống
         }
-
-        // Thêm tangPanel vào panelMain
-        panelMain.add(tangPanel);
 
         panelMain.revalidate(); // Cập nhật lại giao diện
         panelMain.repaint();
@@ -514,6 +547,10 @@ public class Phong_GUI extends javax.swing.JPanel {
     	panelMain.removeAll();
     	
     	loadDataToCards();
+    }
+    
+    private void lblPhongTrongClicked(java.awt.event.MouseEvent evt) {
+    	hienThiTatCaPhongTrong();
     }
     
     //JDialogDatPhong
