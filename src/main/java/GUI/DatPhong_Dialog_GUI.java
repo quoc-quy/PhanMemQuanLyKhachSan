@@ -409,7 +409,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemKHMouseClicked
     	// TODO Auto-generated method stub
     	Window window = SwingUtilities.getWindowAncestor(this);
-    	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(window, true);
+    	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentPanel, true);
     	dialog.setVisible(true);
     }//GEN-LAST:event_btnThemKHMouseClicked
 

@@ -43,8 +43,9 @@ import ENTITY.KhachHang;
 /**
  *
  * @author 84837
+ * @param <btnLuuMouseClicked>
  */
-public class KhachHang_GUI extends javax.swing.JPanel {
+public class KhachHang_GUI<btnLuuMouseClicked> extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
 	private static KhachHang_GUI instance;
     private DefaultTableModel tableModel;
@@ -492,13 +493,13 @@ public class KhachHang_GUI extends javax.swing.JPanel {
 
     private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusGained
         // TODO add your handling code here:
-        txtTimKiem.setText("");
+    	txtTimKiem.setText("");
         txtTimKiem.setForeground(Color.BLACK);
     }//GEN-LAST:event_txtTimKiemFocusGained
 
     private void btnThemKHMouseClicked(java.awt.event.MouseEvent evt) {
     	Window window = SwingUtilities.getWindowAncestor(this);
-    	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(window, true);
+    	ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentPanel, true);
     	dialog.setVisible(true);
     }
 
@@ -809,6 +810,7 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
 
  // Hàm đổ dữ liệu từ database vào JTable
     public void loadDataToTable() {
+    	
 //    	KhachHang_DAO khachHangDAO = new KhachHang_DAO();
         List<KhachHang> dsKhachHang = dsKHDAO.getAllKhachHang();
         
@@ -833,7 +835,10 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
                 kh.getDienThoai()
             };
             tableModel.addRow(row);
+//            tableModel.fireTableDataChanged();
         }
+        
+       
         
         lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -858,7 +863,10 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
 				
 			}
 		}); 
+        tableModel.fireTableDataChanged();
+        tbKhachHang.repaint();
         tbKhachHang.revalidate();
+        
     }
 
 
@@ -944,7 +952,12 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
     public void refreshTable() {
         // Lấy danh sách khách hàng
         List<KhachHang> danhSachKhachHang = dsKHDAO.getAllKhachHang();
-
+        
+        if (danhSachKhachHang == null || danhSachKhachHang.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Danh sách khách hàng trống.");
+            return;
+        }
+        
         // Lấy mô hình bảng và xóa dữ liệu cũ
         DefaultTableModel tableModel = (DefaultTableModel) tbKhachHang.getModel();
         tableModel.setRowCount(0); // Xóa dữ liệu cũ trong bảng
@@ -953,8 +966,7 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         // Kiểm tra danh sách khách hàng và cập nhật bảng
-        if (danhSachKhachHang != null) {
-            for (KhachHang kh : danhSachKhachHang) {
+        for (KhachHang kh : danhSachKhachHang) {
                 tableModel.addRow(new Object[]{
                     kh.getMaKhachHang(),
                     kh.getTenKhachHang(),
@@ -964,10 +976,8 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
                     kh.getDienThoai()
                 });
             }
-        } else {
-            System.out.println("Danh sách khách hàng trống.");
-        }
         tableModel.fireTableDataChanged();
+            
     }
 
 
