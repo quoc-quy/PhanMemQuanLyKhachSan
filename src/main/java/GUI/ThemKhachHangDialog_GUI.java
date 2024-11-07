@@ -28,7 +28,7 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
 	/**
      * Creates new form ThemKhachHangDialog_GUI
      */
-	    public ThemKhachHangDialog_GUI(Window parent, boolean modal) {
+	    public ThemKhachHangDialog_GUI(KhachHang_GUI parentPanel, boolean modal) {
 	    	super();
 	        this.parentPanel = parentPanel;
 	        this.parentPanelPhong = parentPanelPhong;
@@ -340,29 +340,22 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         java.sql.Date sqlNgaySinh = new java.sql.Date(ngaySinh.getTime());
         KhachHang khachHang = new KhachHang(maKhachHang, tenKhachHang, cccd, phai, sqlNgaySinh, dienThoai);
         KhachHang_DAO khachHangDAO = new KhachHang_DAO();
-        boolean isSaved = khachHangDAO.addKhachHang(khachHang);
-
-        if (isSaved) {
-            JOptionPane.showMessageDialog(this, "Lưu khách hàng thành công!");
-            if (parentPanel != null) {
-            	SwingUtilities.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						 parentPanel.refreshTable(); // Cập nhật bảng khách hàng
-					}
-				});
-                
-            }
-            dispose();
+        
+        if (khachHangDAO.addKhachHang(khachHang)) {
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
             
+            // Đảm bảo bảng được cập nhật
+            if (parentPanel != null) {
+                
+                    parentPanel.loadDataToTable(); // Gọi phương thức cập nhật bảng
+                    System.out.println("Parent Panel: " + parentPanel);
+            }
+
+            // Đóng cửa sổ sau khi thêm
+            dispose();
         } else {
-        	
-            JOptionPane.showMessageDialog(this, "Lưu khách hàng thất bại.");
+            JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
     }
     
     
@@ -436,14 +429,15 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	 KhachHang_GUI khachHangGUI = new KhachHang_GUI();
-                ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(new javax.swing.JFrame(), true);
+                ThemKhachHangDialog_GUI dialog = new ThemKhachHangDialog_GUI(parentPanel, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                    	parentPanel.loadDataToTable();
+                        
                     }
                 });
-//                dialog.setVisible(true);
+                dialog.setVisible(true);
             }
         });
     }

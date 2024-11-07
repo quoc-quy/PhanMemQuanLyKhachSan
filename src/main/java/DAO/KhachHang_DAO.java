@@ -17,7 +17,9 @@ public class KhachHang_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
 
 //  lấy danh sách khách hàng
+	
     public List<KhachHang> getAllKhachHang() {
+    	
         List<KhachHang> dsKhachHang = new ArrayList<>();
         String query = "SELECT * FROM KhachHang";
 
@@ -57,7 +59,7 @@ public class KhachHang_DAO {
     	} catch(SQLException e ) {
     		
     	}
-    	return false;
+    	return true;
     } 
     public boolean xoaKhachHang(String maKhachHang) {
     	String query = "DELETE FROM KhachHang WHERE MaKhachHang = ?";
@@ -68,7 +70,7 @@ public class KhachHang_DAO {
    	 	} catch (SQLException e ) {
    	 		
    	 	}
-    	return false;
+    	return true;
     }
     
     public boolean updateKhachHang(KhachHang khachHang) {
