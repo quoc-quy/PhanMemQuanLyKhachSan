@@ -582,13 +582,13 @@ public class Phong_GUI extends javax.swing.JPanel {
  // Phương thức để cập nhật màu của `card` dựa trên mã phòng
     public void updateRoomColor(String maPhong, Color color) {
         for (JPanel card : phongCards) {
-        	refreshData();
             JLabel lblMaPhong = (JLabel) card.getComponent(0); // Giả định nhãn mã phòng là phần tử đầu tiên
             if (lblMaPhong.getText().equals(maPhong)) {
                 card.setBackground(color); // Cập nhật màu
                 break;
             }
         }
+    	refreshData();
     }
     
     private void getAllEmptyRoom() {
@@ -837,7 +837,7 @@ public class Phong_GUI extends javax.swing.JPanel {
 
     				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
     			    Window window = SwingUtilities.getWindowAncestor(Phong_GUI.this);
-    			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(parentFrame, true, maPhong, phongGUI);
+    			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(parentFrame, true, maPhong, Phong_GUI.this);
     			    dialog.dispose();
     			    dialogDatPhong.setVisible(true);
     				
