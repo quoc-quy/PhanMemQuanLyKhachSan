@@ -98,7 +98,7 @@ public class DanhSachDatPhong_DAO {
 	            }
 
 	            String soDienThoai = rs.getString("DenThoai") != null ? rs.getString("DenThoai") : "Không có";
-	            String phai = rs.getString("Phai") != null ? rs.getString("Phai") : "Không rõ";
+	            String phai = rs.getString("Phai") != null ? rs.getString("Phai") : "Không có";
 	            String maPhieuDatPhong = rs.getString("MaPhieuDatPhong");
 	            String maPhong = rs.getString("MaPhong");
 	            Date ngayNhanPhong = rs.getDate("NgayNhanPhong");

@@ -236,6 +236,11 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         btnDatTruoc.setForeground(new java.awt.Color(255, 255, 255));
         btnDatTruoc.setText("Đặt trước");
         btnDatTruoc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDatTruoc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDatTruocMouseClicked(evt);
+            }
+        });
         btnDatTruoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDatTruocActionPerformed(evt);
@@ -283,13 +288,12 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(txtSoTreEm, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(42, 42, 42))
+                                        .addComponent(txtSoTreEm, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(42, 42, 42)))
+                                        .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(42, 42, 42)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -490,6 +494,81 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	    ex.printStackTrace();
     	}
     }//GEN-LAST:event_btnDatNhanhMouseClicked
+
+    private void btnDatTruocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDatTruocMouseClicked
+    	try {
+    		KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+    		
+    	    // Lấy thông tin từ giao diện
+    	    String maPhong = lbMaPhong.getText();
+    	    String cccdKhachHang = (String) cboDSCCCD.getSelectedItem();
+    		String maKhachHang = khachHangDAO.getMaKhachHangByCCCD(cccdKhachHang);
+    	    java.util.Date ngayNhanPhong = txtNgayCheckIn.getDate();
+    	    java.util.Date ngayTraPhong = txtNgayCheckOut.getDate();
+    	    double tienCoc = txtTienCoc.getText().isEmpty() ? 0.0 : Double.parseDouble(txtTienCoc.getText());
+    	    String loaiHinh = (String) cboLoaiHinh.getSelectedItem();
+    	    
+    	 // Chuyển đổi giờ nhận phòng và giờ trả phòng từ Date sang String
+    	    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    	    String gioNhanPhongStr = timeFormat.format((Date) txtGioCheckIn.getValue());
+    	    String gioTraPhongStr = timeFormat.format((Date) txtGioCheckOut.getValue());
+    	    
+    	    double tongTien = lbTongTien.getText().isEmpty() ? 0.0 : Double.parseDouble(lbTongTien.getText().replace(".", ""));
+    	    String trangThai = "Chưa nhận"; // Trạng thái mặc định cho phiếu đặt phòng mới
+
+    	    // Kiểm tra thông tin bắt buộc
+    	    if (ngayNhanPhong == null || ngayTraPhong == null) {
+    	        JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày nhận phòng và ngày trả phòng.");
+    	        return;
+    	    }
+
+    	    // Tạo các đối tượng liên quan
+    	    KhachHang khachHang = new KhachHang();
+    	    khachHang.setMaKhachHang(maKhachHang); // Sử dụng mã khách hàng
+
+    	    String maNhanVienLap = Login_GUI.maNhanVien; // Lấy mã nhân viên từ đăng nhập
+    	    NhanVien nhanVien = new NhanVien(maNhanVienLap);
+
+    	    Phong phong = new Phong();
+    	    phong.setMaPhong(maPhong);
+
+    	    // Tạo đối tượng PhieuDatPhong
+    	    PhieuDatPhong phieuDatPhong = new PhieuDatPhong();
+    	    phieuDatPhong.setKhachHang(khachHang);
+    	    phieuDatPhong.setNhanVienLap(nhanVien);
+    	    phieuDatPhong.setPhong(phong);
+    	    phieuDatPhong.setNgayNhanPhong(ngayNhanPhong);
+    	    phieuDatPhong.setNgayTraPhong(ngayTraPhong);
+    	    phieuDatPhong.setTienCoc(tienCoc);
+    	    phieuDatPhong.setLoaiHinh(loaiHinh);
+    	    phieuDatPhong.setGioNhanPhong(gioNhanPhongStr);
+    	    phieuDatPhong.setGioTraPhong(gioTraPhongStr);
+    	    phieuDatPhong.setTongTien(tongTien);
+    	    phieuDatPhong.setTrangThai(trangThai);
+
+    	    // Gọi DAO để lưu vào cơ sở dữ liệu
+    	    DanhSachDatPhong_DAO phieuDatPhongDAO = new DanhSachDatPhong_DAO();
+    	    boolean success = phieuDatPhongDAO.addPhieuDatPhong(phieuDatPhong);
+    	    
+    	    // Thông báo kết quả
+    	    if (success) {
+    	        dispose();
+    	        JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thành công!");
+
+    	        String maPhongDat = phieuDatPhong.getPhong().getMaPhong();
+
+    	        // Cập nhật màu nền của phòng trong Phong_GUI thành #FA5950
+    	        phongGUI.updateRoomColor(maPhongDat, Color.decode("#FA5950"));
+    	     // Gọi listener để thông báo cập nhật dữ liệu
+
+    	        // Sau khi lưu thành công, bạn có thể cập nhật giao diện hoặc thực hiện hành động khác
+    	    } else {
+    	        JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thất bại. Vui lòng kiểm tra lại thông tin.");
+    	    }
+    	} catch (Exception ex) {
+    	    ex.printStackTrace();
+    	}
+    }//GEN-LAST:event_btnDatTruocMouseClicked
                                      
 
     /**
