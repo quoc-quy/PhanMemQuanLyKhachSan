@@ -103,7 +103,7 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel4.setText("Ngày sinh");
 
-        ngaySinhKH.setDateFormatString("dd/mm/yyyy");
+        ngaySinhKH.setDateFormatString("dd/MM/yyyy");
         ngaySinhKH.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -336,17 +336,19 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         java.sql.Date sqlNgaySinh = new java.sql.Date(ngaySinh.getTime());
         KhachHang khachHang = new KhachHang(maKhachHang, tenKhachHang, cccd, phai, sqlNgaySinh, dienThoai);
         KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+       
         
-        if (khachHangDAO.addKhachHang(khachHang)) {
-            if (parentPanel != null) {
-                parentPanel.loadDataToTable(); // Gọi phương thức cập nhật bảng nếu parentPanel không null
-            }
-            JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
-            
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
+       
+    	   if (khachHangDAO.addKhachHang(khachHang)) {
+               if (parentPanel != null) {
+                   parentPanel.loadDataToTable(); // Gọi phương thức cập nhật bảng nếu parentPanel không null
+               }
+               JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");            
+               dispose();
+           } else {
+               JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+           }
+       
     
     }
     
