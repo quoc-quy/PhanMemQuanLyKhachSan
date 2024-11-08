@@ -103,7 +103,7 @@ public class DanhSachDatPhong_DAO {
 	            String maPhong = rs.getString("MaPhong");
 	            Date ngayNhanPhong = rs.getDate("NgayNhanPhong");
 	            Date ngayTraPhong = rs.getDate("NgayTraPhong");
-	            int tienCoc = rs.getInt("TienCoc");
+	            Double tienCoc = rs.getDouble("TienCoc");
 
 	            // Thêm dòng dữ liệu vào danh sách
 	            Object[] row = {

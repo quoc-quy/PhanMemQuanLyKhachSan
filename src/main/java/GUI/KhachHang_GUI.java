@@ -954,7 +954,7 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
         List<KhachHang> danhSachKhachHang = dsKHDAO.getAllKhachHang();
         
         if (danhSachKhachHang == null || danhSachKhachHang.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Danh sách khách hàng trống.");
+            JOptionPane.showMessageDialog(this, "Danh sách khách hàng trống.");;
             return;
         }
         

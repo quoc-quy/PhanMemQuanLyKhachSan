@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import Components.OnDatPhongListener;
 import DAO.DanhSachDatPhong_DAO;
 import DAO.HoaDon_DAO;
 import ENTITY.PhieuDatPhong;
@@ -27,6 +26,7 @@ import ENTITY.PhieuDatPhong;
 public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
 	private DanhSachDatPhong_DAO danhSachDatPhongDAO = new DanhSachDatPhong_DAO();
+	private DanhSachDatPhong_DAO phieuDatPhongDAO;
 	
 
     /**
@@ -75,6 +75,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         txtNgayTra = new com.toedter.calendar.JDateChooser();
         jComboBox1 = new javax.swing.JComboBox<>();
 
+        setPreferredSize(new java.awt.Dimension(855, 634));
         setLayout(new java.awt.CardLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -236,7 +237,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                         .addComponent(txtNgayTra, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(87, 87, 87)
+                .addGap(78, 78, 78)
                 .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,13 +330,13 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         tbDanhSachDatPhong.getColumnModel().getColumn(4).setMaxWidth(120);
 	}
     
-    private void loadDataToTable() {
+    public void loadDataToTable() {
         DanhSachDatPhong_DAO danhSachDatPhongDAO = new DanhSachDatPhong_DAO();
         List<Object[]> dsDatPhong = danhSachDatPhongDAO.getAllDanhSachDatPhong();
 
         DefaultTableModel tableModel = new DefaultTableModel(
             new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-            new String[] { "Stt", "Mã Phiếu đặt phòng", "Tên khách hàng", "Số điện thoại", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc", "Trạng thái" }
+            new String[] { "Stt", "Mã Phiếu", "Tên khách hàng", "Số điện thoại", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc", "Trạng thái" }
         );
 
         tbDanhSachDatPhong.setModel(tableModel);
@@ -351,9 +352,9 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                 row[2],  
                 row[3],  
                 row[4],  
-                row[5],
+                dateFormat.format(row[5]),
                 dateFormat.format(row[6]), 
-                dateFormat.format(row[7]),
+                row[7],
                 row[8]
             });
             count++;
