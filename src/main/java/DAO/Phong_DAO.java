@@ -1,12 +1,14 @@
 package DAO;
 
 import ENTITY.LoaiPhong;
+import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
 import ENTITY.TinhTrangPhong;
 import ENTITY.TrangThaiPhong;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,6 +82,7 @@ public class Phong_DAO {
 	    }
 	    return false;
 	}
+	
 	
 	public void capNhatTrangThaiPhong(String maPhong, String trangThai) {
 	    String sql = "UPDATE Phong SET TrangThaiPhong = ? WHERE MaPhong = ?";
@@ -291,5 +294,38 @@ public class Phong_DAO {
 	    return dsPhong;
 	}
 
+	public List<Phong> getPhongTrongTrongKhoangThoiGian(java.util.Date selectedCheckInDate, java.util.Date selectedCheckOutDate) {
+	    List<Phong> dsPhongTrong = new ArrayList<>();
+
+	    // Lấy tất cả các phòng từ database
+	    List<Phong> dsPhong = getAllPhong(); // Phương thức này lấy tất cả phòng từ bảng Phong
+
+	    // Lấy danh sách tất cả các phiếu đặt phòng từ database
+	    PhieuDatPhong_DAO phieuDatPhongDAO = new PhieuDatPhong_DAO();
+	    List<PhieuDatPhong> dsPhieuDatPhong = phieuDatPhongDAO.getAllPhieuDatPhong(); // Phương thức này lấy tất cả phiếu đặt phòng
+
+	    for (Phong phong : dsPhong) {
+	        boolean isAvailable = true;
+
+	        for (PhieuDatPhong phieuDat : dsPhieuDatPhong) {
+	            if (phieuDat.getPhong().getMaPhong().equals(phong.getMaPhong())) {
+	                java.util.Date ngayNhan = phieuDat.getNgayNhanPhong();
+	                java.util.Date ngayTra = phieuDat.getNgayTraPhong();
+
+	                // Kiểm tra xem khoảng thời gian có trùng với ngày đặt phòng không
+	                if ((selectedCheckInDate.before(ngayTra) && selectedCheckOutDate.after(ngayNhan)) ||
+	                    selectedCheckInDate.equals(ngayNhan) || selectedCheckOutDate.equals(ngayTra)) {
+	                    isAvailable = false;
+	                    break;
+	                }
+	            }
+	        }
+
+	        if (isAvailable) {
+	            dsPhongTrong.add(phong);
+	        }
+	    }
+	    return dsPhongTrong;
+	}
 
 }

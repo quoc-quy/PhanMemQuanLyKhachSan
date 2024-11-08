@@ -1,11 +1,19 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import ConnectDB.ConnectDB;
+import ENTITY.NhanVien;
 import ENTITY.PhieuDatPhong;
+import ENTITY.Phong;
+import ENTITY.KhachHang;
 
 public class PhieuDatPhong_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
@@ -31,6 +39,54 @@ public class PhieuDatPhong_DAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+	public List<PhieuDatPhong> getAllPhieuDatPhong() {
+        List<PhieuDatPhong> dsPhieuDatPhong = new ArrayList<>();
+        String query = "SELECT MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, " +
+                       "TienCoc, LoaiHinh, GioNhanPhong, GioTraPhong, TongTien, TrangThai " +
+                       "FROM PhieuDatPhong";
+
+        try (Connection conn = connectDB.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                // Lấy các giá trị từ ResultSet
+                String maKhachHang = rs.getString("MaKhachHang");
+                String maPhong = rs.getString("MaPhong");
+                String maNhanVien = rs.getString("MaNhanVienLap");
+                Date ngayNhanPhong = rs.getDate("NgayNhanPhong");
+                Date ngayTraPhong = rs.getDate("NgayTraPhong");
+                double tienCoc = rs.getDouble("TienCoc");
+                String loaiHinh = rs.getString("LoaiHinh");
+                String gioNhanPhong = rs.getString("GioNhanPhong");
+                String gioTraPhong = rs.getString("GioTraPhong");
+                double tongTien = rs.getDouble("TongTien");
+                String trangThai = rs.getString("TrangThai");
+
+                // Tạo đối tượng PhieuDatPhong
+                PhieuDatPhong phieuDatPhong = new PhieuDatPhong(
+                    new KhachHang(maKhachHang), // Giả định rằng bạn có constructor cho KhachHang với mã khách hàng
+                    new NhanVien(maNhanVien),   // Giả định rằng bạn có constructor cho NhanVien với mã nhân viên
+                    new Phong(maPhong),         // Giả định rằng bạn có constructor cho Phong với mã phòng
+                    ngayNhanPhong,
+                    ngayTraPhong,
+                    tienCoc,
+                    loaiHinh,
+                    gioNhanPhong,
+                    gioTraPhong,
+                    tongTien,
+                    trangThai
+                );
+
+                // Thêm vào danh sách
+                dsPhieuDatPhong.add(phieuDatPhong);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsPhieuDatPhong;
     }
 
 }

@@ -23,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -67,6 +68,12 @@ public class Phong_GUI extends javax.swing.JPanel {
 	private Phong_DAO phongDAO;
 	private JPanel panelMain;
 	private PhieuDatPhong phieuDatPhong;
+    JDateChooser txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
+    JDateChooser txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
+    private List<Phong> dsPhongTrongTheoNgay = null;
+	String[] loaiPhongOptions = {"Phong Don", "Phong Doi", "Phong Gia Dinh"};
+    JComboBox<String> loaiPhongComboBox = new JComboBox<>(loaiPhongOptions);
+    
     /**
      * Creates new form Phong_GUI
      */
@@ -96,11 +103,9 @@ public class Phong_GUI extends javax.swing.JPanel {
 
     private void initComponents() {
     	
-    	String[] loaiPhongOptions = {"Phòng đơn", "Phòng đôi", "Phòng gia đình"};
     	JPanel mainContainer = new JPanel();
         mainContainer.setLayout(new BorderLayout());
         JPanel headerPanel = new JPanel();
-        JComboBox<String> loaiPhongComboBox = new JComboBox<>(loaiPhongOptions);
         
         loaiPhongComboBox.setFont(new Font("Segoe UI", Font.BOLD, 14));
         loaiPhongComboBox.setForeground(Color.decode("#004B97"));
@@ -109,11 +114,11 @@ public class Phong_GUI extends javax.swing.JPanel {
         loaiPhongComboBox.setPreferredSize(new Dimension(140, 40)); // Kích thước phù hợp
         
         loaiPhongComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedLoaiPhong = (String) loaiPhongComboBox.getSelectedItem();
-                filterRoomsByType(selectedLoaiPhong);
-            }
+        	 @Override
+        	    public void actionPerformed(ActionEvent e) {
+        	        // Mỗi khi thay đổi loại phòng, lọc danh sách phòng dựa trên loại phòng và ngày đã chọn (nếu có)
+        	        filterRoomsByType(loaiPhongComboBox.getSelectedItem().toString());
+        	    }
         });
         
         headerPanel.setBackground(Color.white);        
@@ -125,8 +130,6 @@ public class Phong_GUI extends javax.swing.JPanel {
         JPanel panelLocNgay = new JPanel();
         JLabel lbLocTu = new JLabel("Từ");
         lbLocTu.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        JDateChooser txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
-        JDateChooser txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
 		txtNgayCheckIn.setDateFormatString("dd/MM/yyyy");
 		txtNgayCheckOut.setDateFormatString("dd/MM/yyyy");
 
@@ -143,8 +146,11 @@ public class Phong_GUI extends javax.swing.JPanel {
         panelLocNgay.add(txtNgayCheckIn);
         panelLocNgay.add(lbLocDen);
         panelLocNgay.add(txtNgayCheckOut);
-        
         panelLocNgay.setBackground(Color.white);
+
+        txtNgayCheckIn.addPropertyChangeListener("date", evt -> checkAndDisplayAvailableRooms());
+        txtNgayCheckOut.addPropertyChangeListener("date", evt -> checkAndDisplayAvailableRooms());
+
         
         JLabel lblTitle = new JLabel("Danh sách phòng");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -542,43 +548,6 @@ public class Phong_GUI extends javax.swing.JPanel {
         return card;
     }
     
-    private void filterRoomsByType(String loaiPhong) {
-      panelMain.removeAll(); // Xóa các phòng hiện có trong panelMain
-
-      // Đặt BoxLayout cho panelMain để các tầng hiển thị theo chiều dọc
-      panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
-
-      // Tạo một JPanel với TitledBorder cho tầng được chọn
-      JPanel tangPanel = new JPanel();
-      tangPanel.setLayout(new GridLayout(6, 4, 10, 10)); // 6 dòng x 4 cột
-      TitledBorder border = BorderFactory.createTitledBorder(loaiPhong);
-      border.setTitleFont(new Font("Segoe UI", Font.BOLD, 20));
-      
-      tangPanel.setBorder(border); // Đặt đường viền với tiêu đề tầng
-
-      // Gọi DAO để lấy danh sách phòng theo tầng
-      List<Phong> danhSachPhong = phongDAO.getPhongByType(loaiPhong);
-
-      // Thêm các phòng vào tangPanel
-      for (Phong phong : danhSachPhong) {
-          JPanel card = createRoomCard(phong);
-          tangPanel.add(card);
-      }
-
-      // Nếu số lượng phòng ít hơn 4 x 6 (24), thêm các JPanel trống vào tangPanel
-      int totalSlots = 4 * 6; // 4 cột x 6 dòng
-      int emptySlots = totalSlots - danhSachPhong.size();
-      for (int i = 0; i < emptySlots; i++) {
-          tangPanel.add(new JPanel()); // Thêm JPanel trống
-      }
-
-      // Thêm tangPanel vào panelMain
-      panelMain.add(tangPanel);
-
-      panelMain.revalidate(); // Cập nhật lại giao diện
-      panelMain.repaint();
-    }
-    
  // Phương thức để cập nhật màu của `card` dựa trên mã phòng
     public void updateRoomColor(String maPhong, Color color) {
         for (JPanel card : phongCards) {
@@ -852,6 +821,125 @@ public class Phong_GUI extends javax.swing.JPanel {
             dialog.setVisible(true);
     	}
     }
+    
+    private void loadDataToCardsWithEmptyRooms(List<Phong> dsPhongTrong) {
+        panelMain.removeAll(); // Xóa toàn bộ dữ liệu cũ khỏi panelMain
+
+        int count = 0;
+        int tang = 1;
+
+        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        JPanel tangPanel = createTangPanel(tang);
+
+        for (Phong phong : dsPhongTrong) {
+            tangPanel.add(createRoomCard(phong));
+            count++;
+
+            if (count % 8 == 0) {
+                panelMain.add(tangPanel); // Thêm tầng hiện tại vào panelMain
+                tang++; // Tăng biến đếm tầng
+
+                // Tạo một JPanel mới cho tầng tiếp theo với tiêu đề mới
+                tangPanel = createTangPanel(tang);
+            }
+        }
+
+        // Thêm tầng cuối cùng nếu không đủ 8 phòng
+        if (count % 8 != 0) {
+            panelMain.add(tangPanel);
+        }
+
+        panelMain.revalidate(); // Cập nhật lại giao diện sau khi thêm card
+        panelMain.repaint();
+    }
+    
+    private void checkAndDisplayAvailableRooms() {
+    	// Lấy ngày Check-In và Check-Out từ người dùng
+        java.util.Date selectedCheckInDate = txtNgayCheckIn.getDate();
+        java.util.Date selectedCheckOutDate = txtNgayCheckOut.getDate();
+
+        // Kiểm tra tính hợp lệ của ngày
+        if (selectedCheckInDate == null || selectedCheckOutDate == null || selectedCheckOutDate.before(selectedCheckInDate)) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn khoảng ngày hợp lệ!");
+            return;
+        }
+
+        // Gọi phương thức DAO để lấy danh sách phòng trống trong khoảng thời gian đã chọn
+        Phong_DAO phongDAO = new Phong_DAO();
+        dsPhongTrongTheoNgay = phongDAO.getPhongTrongTrongKhoangThoiGian(selectedCheckInDate, selectedCheckOutDate);
+
+        if (dsPhongTrongTheoNgay == null || dsPhongTrongTheoNgay.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không có phòng trống trong khoảng thời gian này.");
+            dsPhongTrongTheoNgay = new ArrayList<>(); // Khởi tạo danh sách rỗng để tránh lỗi NullPointerException
+        } else {
+            // In kết quả để kiểm tra xem có phòng nào được trả về không
+            System.out.println("Danh sách phòng trống trong khoảng thời gian đã chọn:");
+            for (Phong phong : dsPhongTrongTheoNgay) {
+                System.out.println("Phòng: " + phong.getMaPhong() + ", Loại: " + phong.getLoaiPhong().getTenLoaiPhong());
+            }
+        }
+
+        // Hiển thị danh sách phòng trống theo loại phòng đã chọn (nếu có)
+        filterRoomsByType(loaiPhongComboBox.getSelectedItem().toString());
+    }
+    
+    public String removeDiacritics(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
+    
+    private void filterRoomsByType(String loaiPhong) {
+    	panelMain.removeAll(); // Xóa các phòng hiện có trong panelMain
+        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+
+        // Chuyển `loaiPhong` thành không dấu để so sánh với dữ liệu không dấu từ cơ sở dữ liệu
+        String loaiPhongNormalized = removeDiacritics(loaiPhong);
+
+        // Tạo một JPanel với TitledBorder cho loại phòng được chọn
+        JPanel tangPanel = new JPanel();
+        tangPanel.setLayout(new GridLayout(6, 4, 10, 10)); // 6 dòng x 4 cột
+        TitledBorder border = BorderFactory.createTitledBorder("Loại phòng: " + loaiPhong);
+        border.setTitleFont(new Font("Segoe UI", Font.BOLD, 20));
+        tangPanel.setBorder(border);
+
+        List<Phong> danhSachPhongHienThi = new ArrayList<>();
+        if (dsPhongTrongTheoNgay != null && !dsPhongTrongTheoNgay.isEmpty()) {
+            // Lọc danh sách phòng trống theo loại phòng (không dấu)
+            for (Phong phong : dsPhongTrongTheoNgay) {
+                String tenLoaiPhongNormalized = removeDiacritics(phong.getLoaiPhong().getTenLoaiPhong());
+                if (tenLoaiPhongNormalized.equalsIgnoreCase(loaiPhongNormalized)) {
+                    danhSachPhongHienThi.add(phong);
+                }
+            }
+        }
+
+        // Kiểm tra nếu không có phòng nào phù hợp
+        if (danhSachPhongHienThi.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không có phòng nào thuộc loại '" + loaiPhong + "' trong khoảng thời gian đã chọn.");
+        }
+
+        // Thêm các phòng vào tangPanel
+        for (Phong phong : danhSachPhongHienThi) {
+            JPanel card = createRoomCard(phong);
+            tangPanel.add(card);
+        }
+
+        // Nếu số lượng phòng ít hơn 4 x 6 (24), thêm các JPanel trống vào tangPanel
+        int totalSlots = 4 * 6; // 4 cột x 6 dòng
+        int emptySlots = totalSlots - danhSachPhongHienThi.size();
+        for (int i = 0; i < emptySlots; i++) {
+            tangPanel.add(new JPanel()); // Thêm JPanel trống
+        }
+
+        // Thêm tangPanel vào panelMain
+        panelMain.add(tangPanel);
+
+        panelMain.revalidate(); // Cập nhật lại giao diện
+        panelMain.repaint();
+      }
+
+
+
     
     
 		
