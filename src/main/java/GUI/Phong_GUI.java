@@ -67,6 +67,8 @@ public class Phong_GUI extends javax.swing.JPanel {
 	private Phong_DAO phongDAO;
 	private JPanel panelMain;
 	private PhieuDatPhong phieuDatPhong;
+    JDateChooser txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
+    JDateChooser txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
     /**
      * Creates new form Phong_GUI
      */
@@ -125,8 +127,6 @@ public class Phong_GUI extends javax.swing.JPanel {
         JPanel panelLocNgay = new JPanel();
         JLabel lbLocTu = new JLabel("Từ");
         lbLocTu.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        JDateChooser txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
-        JDateChooser txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
 		txtNgayCheckIn.setDateFormatString("dd/MM/yyyy");
 		txtNgayCheckOut.setDateFormatString("dd/MM/yyyy");
 
@@ -143,8 +143,11 @@ public class Phong_GUI extends javax.swing.JPanel {
         panelLocNgay.add(txtNgayCheckIn);
         panelLocNgay.add(lbLocDen);
         panelLocNgay.add(txtNgayCheckOut);
-        
         panelLocNgay.setBackground(Color.white);
+
+        txtNgayCheckIn.addPropertyChangeListener("date", evt -> checkAndDisplayAvailableRooms());
+        txtNgayCheckOut.addPropertyChangeListener("date", evt -> checkAndDisplayAvailableRooms());
+
         
         JLabel lblTitle = new JLabel("Danh sách phòng");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -853,6 +856,63 @@ public class Phong_GUI extends javax.swing.JPanel {
             dialog.setVisible(true);
     	}
     }
+    
+    private void loadDataToCardsWithEmptyRooms(List<Phong> dsPhongTrong) {
+        panelMain.removeAll(); // Xóa toàn bộ dữ liệu cũ khỏi panelMain
+
+        int count = 0;
+        int tang = 1;
+
+        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
+        JPanel tangPanel = createTangPanel(tang);
+
+        for (Phong phong : dsPhongTrong) {
+            tangPanel.add(createRoomCard(phong));
+            count++;
+
+            if (count % 8 == 0) {
+                panelMain.add(tangPanel); // Thêm tầng hiện tại vào panelMain
+                tang++; // Tăng biến đếm tầng
+
+                // Tạo một JPanel mới cho tầng tiếp theo với tiêu đề mới
+                tangPanel = createTangPanel(tang);
+            }
+        }
+
+        // Thêm tầng cuối cùng nếu không đủ 8 phòng
+        if (count % 8 != 0) {
+            panelMain.add(tangPanel);
+        }
+
+        panelMain.revalidate(); // Cập nhật lại giao diện sau khi thêm card
+        panelMain.repaint();
+    }
+    
+    private void checkAndDisplayAvailableRooms() {
+        // Lấy ngày Check-In và Check-Out từ người dùng
+        java.util.Date selectedCheckInDate = txtNgayCheckIn.getDate();
+        java.util.Date selectedCheckOutDate = txtNgayCheckOut.getDate();
+
+        // Kiểm tra tính hợp lệ của ngày
+        if (selectedCheckInDate == null || selectedCheckOutDate == null || selectedCheckOutDate.before(selectedCheckInDate)) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn khoảng ngày hợp lệ!");
+            return;
+        }
+
+        // Gọi phương thức DAO để lấy danh sách phòng trống trong khoảng thời gian đã chọn
+        Phong_DAO phongDAO = new Phong_DAO();
+        List<Phong> dsPhongTrong = phongDAO.getPhongTrongTrongKhoangThoiGian(selectedCheckInDate, selectedCheckOutDate);
+
+        // Hiển thị danh sách phòng trống
+        if (dsPhongTrong.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không có phòng trống trong khoảng thời gian này.");
+        } else {
+            loadDataToCardsWithEmptyRooms(dsPhongTrong); // Hiển thị danh sách phòng trống lên giao diện
+        }
+    }
+
+
+
     
     
 		

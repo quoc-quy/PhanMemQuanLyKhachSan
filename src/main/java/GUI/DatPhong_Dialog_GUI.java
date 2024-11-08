@@ -25,6 +25,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalTime;
 import java.util.Calendar;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -436,7 +437,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	    String gioNhanPhongStr = timeFormat.format((Date) txtGioCheckIn.getValue());
     	    String gioTraPhongStr = timeFormat.format((Date) txtGioCheckOut.getValue());
     	    
-    	    double tongTien = lbTongTien.getText().isEmpty() ? 0.0 : Double.parseDouble(lbTongTien.getText().replace(".", ""));
+    	    double tongTien = lbTongTien.getText().isEmpty() ? 0.0 : Double.parseDouble(lbTongTien.getText().replace(",", ""));
     	    String trangThai = "Đã nhận"; // Trạng thái mặc định cho phiếu đặt phòng mới
 
     	    // Kiểm tra thông tin bắt buộc
@@ -513,7 +514,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	    String gioNhanPhongStr = timeFormat.format((Date) txtGioCheckIn.getValue());
     	    String gioTraPhongStr = timeFormat.format((Date) txtGioCheckOut.getValue());
     	    
-    	    double tongTien = lbTongTien.getText().isEmpty() ? 0.0 : Double.parseDouble(lbTongTien.getText().replace(".", ""));
+    	    double tongTien = lbTongTien.getText().isEmpty() ? 0.0 : Double.parseDouble(lbTongTien.getText().replace(",", ""));
     	    String trangThai = "Chưa nhận"; // Trạng thái mặc định cho phiếu đặt phòng mới
 
     	    // Kiểm tra thông tin bắt buộc
@@ -887,8 +888,8 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
             }
 
             // Định dạng lại lbTongTien với tối đa 2 chữ số thập phân
-            lbTongTien.setText(String.format("%,.0f", tongTien));
-
+            lbTongTien.setText(String.format("%.0f", tongTien));
+            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Lỗi nhập liệu: Khuyến mãi hoặc tiền cọc không hợp lệ.");
         }
