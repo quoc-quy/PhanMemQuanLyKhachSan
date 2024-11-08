@@ -22,7 +22,7 @@ import java.util.List;
  * @author Snowy
  */
 public class KhuyenMai_DAO {
-	private ConnectDB dbConnection = new ConnectDB();
+	private final ConnectDB dbConnection = new ConnectDB();
 	
 //	 Kiểm tra mã khuyến mãi
 	 public boolean isExp(String maKhuyenMai) {

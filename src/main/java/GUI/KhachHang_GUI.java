@@ -839,6 +839,10 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
         }
         
        
+        tableModel.fireTableDataChanged();
+        tbKhachHang.repaint();
+        tbKhachHang.revalidate();
+        
         
         lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -863,10 +867,6 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
 				
 			}
 		}); 
-        tableModel.fireTableDataChanged();
-        tbKhachHang.repaint();
-        tbKhachHang.revalidate();
-        
     }
 
 

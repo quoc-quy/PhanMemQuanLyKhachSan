@@ -23,7 +23,7 @@ public class KhachHang_DAO {
         List<KhachHang> dsKhachHang = new ArrayList<>();
         String query = "SELECT * FROM KhachHang";
 
-        try (Connection conn = connectDB.getConnection();
+        try (Connection conn = ConnectDB.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
@@ -46,7 +46,7 @@ public class KhachHang_DAO {
     
     public boolean addKhachHang(KhachHang khachHang) {
     	String query = "INSERT INTO KhachHang (MaKhachHang, TenKhachHang, CCCD, Phai, NgaySinh, DenThoai) VALUES (?, ?, ?, ?, ? ,?)";
-    	try(Connection conn = connectDB.getConnection();
+    	try(Connection conn = ConnectDB.getConnection();
     		PreparedStatement ps = conn.prepareStatement(query)){
     		
     		ps.setString(1, khachHang.getMaKhachHang());
@@ -58,12 +58,12 @@ public class KhachHang_DAO {
     		return ps.executeUpdate()>0;
     	} catch(SQLException e ) {
     		
+    		return false;
     	}
-    	return true;
     } 
     public boolean xoaKhachHang(String maKhachHang) {
     	String query = "DELETE FROM KhachHang WHERE MaKhachHang = ?";
-    	try(Connection conn = connectDB.getConnection();
+    	try(Connection conn = ConnectDB.getConnection();
    			 PreparedStatement ps = conn.prepareStatement(query)){
 	    		 ps.setString(1, maKhachHang);
 	    		 return ps.executeUpdate() > 0;
@@ -75,7 +75,7 @@ public class KhachHang_DAO {
     
     public boolean updateKhachHang(KhachHang khachHang) {
     	String query = "UPDATE KhachHang SET TenKhachHang = ?, CCCD = ?, Phai = ?, NgaySinh = ?, DenThoai = ? WHERE MaKhachHang = ?";
-    	try(Connection conn = connectDB.getConnection();
+    	try(Connection conn = ConnectDB.getConnection();
     			PreparedStatement ps = conn.prepareStatement(query)){
     		ps.setString(1, khachHang.getTenKhachHang());
     		ps.setString(2, khachHang.getCCCD());
@@ -93,7 +93,7 @@ public class KhachHang_DAO {
     public KhachHang findMaKhachHangID(String maKhachHang) {
     	KhachHang khachHang = null;
     	String query = "SELECT * FROM KhachHang WHERE MaKhachHang = ?";
-    	try(Connection conn = connectDB.getConnection();
+    	try(Connection conn = ConnectDB.getConnection();
     			PreparedStatement ps = conn.prepareStatement(query)){
     		ps.setString(1, maKhachHang);
     		ResultSet rs = ps.executeQuery();
@@ -118,7 +118,7 @@ public class KhachHang_DAO {
         String lastCustomerID = null;
         String sql = "SELECT TOP 1 MaKhachHang FROM KhachHang ORDER BY MaKhachHang DESC";
 
-        try (Connection conn = connectDB.getConnection();
+        try (Connection conn = ConnectDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
@@ -205,7 +205,7 @@ public class KhachHang_DAO {
         
         String sql = "SELECT MaKhachHang FROM KhachHang WHERE CCCD = ?";
         
-        try (Connection conn = connectDB.getConnection();
+        try (Connection conn = ConnectDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, cccd);
