@@ -25,25 +25,25 @@ public class ChiTietDatPhong_Dialog extends JDialog {
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
         JLabel lblLoaiPhong = new JLabel("Loại phòng: " + phong.getLoaiPhong().getTenLoaiPhong());
-        lblLoaiPhong.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblLoaiPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblLoaiPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogPanel.add(lblLoaiPhong);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
         JLabel lblGiaNgay = new JLabel("Giá ngày: " + phong.getLoaiPhong().getGiaTienTheoNgay());
-        lblGiaNgay.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblGiaNgay.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogPanel.add(lblGiaNgay);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
         JLabel lblGiaGio = new JLabel("Giá giờ: " + phong.getLoaiPhong().getGiaTienTheoGio());
-        lblGiaGio.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblGiaGio.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblGiaGio.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogPanel.add(lblGiaGio);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
         JLabel lblTinhTrang = new JLabel("Tình trạng: Đang sử dụng");
-        lblTinhTrang.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblTinhTrang.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblTinhTrang.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogPanel.add(lblTinhTrang);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
