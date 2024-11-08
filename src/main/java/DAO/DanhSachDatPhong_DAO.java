@@ -78,8 +78,8 @@ public class DanhSachDatPhong_DAO {
 	    List<Object[]> danhSachDatPhong = new ArrayList<>();
 
 	    String sql = 
-	        "SELECT kh.TenKhachHang, kh.DenThoai, kh.Phai, " +
-	        "pdp.MaPhieuDatPhong, pdp.MaKhachHang, pdp.MaPhong, pdp.NgayNhanPhong, pdp.NgayTraPhong, pdp.TienCoc " +
+	        "SELECT kh.TenKhachHang, kh.DenThoai, " +
+	        "pdp.MaPhieuDatPhong, pdp.MaKhachHang, pdp.MaPhong, pdp.NgayNhanPhong, pdp.NgayTraPhong, pdp.TienCoc, pdp.TrangThai " +
 	        "FROM PhieuDatPhong pdp " +
 	        "LEFT JOIN KhachHang kh ON pdp.MaKhachHang = kh.MaKhachHang";
 
@@ -98,7 +98,7 @@ public class DanhSachDatPhong_DAO {
 	            }
 
 	            String soDienThoai = rs.getString("DenThoai") != null ? rs.getString("DenThoai") : "Không có";
-	            String phai = rs.getString("Phai") != null ? rs.getString("Phai") : "Không có";
+	            String trangThai = rs.getString("TrangThai");
 	            String maPhieuDatPhong = rs.getString("MaPhieuDatPhong");
 	            String maPhong = rs.getString("MaPhong");
 	            Date ngayNhanPhong = rs.getDate("NgayNhanPhong");
@@ -111,11 +111,11 @@ public class DanhSachDatPhong_DAO {
 	                maPhieuDatPhong,
 	                tenKhachHang,
 	                soDienThoai,
-	                phai,
 	                maPhong,
 	                ngayNhanPhong,
 	                ngayTraPhong,
-	                tienCoc
+	                tienCoc,
+	                trangThai
 	            };
 	            danhSachDatPhong.add(row);
 	            index++; // Tăng biến đếm lên 1 cho dòng tiếp theo
