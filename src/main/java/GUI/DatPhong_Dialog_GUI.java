@@ -484,8 +484,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
 
     	        // Cập nhật màu nền của phòng trong Phong_GUI thành #FA5950
     	        phongGUI.updateRoomColor(maPhongDat, Color.decode("#FA5950"));
-    	        
-    	        dsdpGUI.loadDataToTable();
     	        // Sau khi lưu thành công, bạn có thể cập nhật giao diện hoặc thực hiện hành động khác
     	    } else {
     	        JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thất bại. Vui lòng kiểm tra lại thông tin.");

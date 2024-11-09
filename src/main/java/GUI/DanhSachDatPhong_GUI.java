@@ -7,11 +7,14 @@ package GUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -27,7 +30,8 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
 	private DanhSachDatPhong_DAO danhSachDatPhongDAO = new DanhSachDatPhong_DAO();
 	private DanhSachDatPhong_DAO phieuDatPhongDAO;
-	
+	// Tạo một Timer với thời gian lặp lại là 5000ms (5 giây)
+    private Timer timer;
 
     /**
      * Creates new form DanhSachDatPhong
@@ -46,6 +50,17 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         
 //        Chức năng tìm kiếm
         btnTimKiem.addActionListener(e -> filterTableData());
+        
+        
+     // Khởi tạo timer và cài đặt hành động lặp lại
+        timer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Kiểm tra sự thay đổi trong cơ sở dữ liệu
+            	loadDataToTable();
+            }
+        });
+        timer.start(); // Bắt đầu timer
     }
 
     /**
@@ -359,6 +374,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
             });
             count++;
         }
+        tableModel.fireTableDataChanged();
     }
     
     // Phương thức lọc dữ liệu
@@ -413,7 +429,6 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu phù hợp!");
         }
     }
-    
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnCapNhat;
