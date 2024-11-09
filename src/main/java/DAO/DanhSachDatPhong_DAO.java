@@ -242,4 +242,42 @@ public class DanhSachDatPhong_DAO {
 
  	    return danhSachDatPhong;
  	}
+ 	
+ 	
+ 	public PhieuDatPhong getChiTietPhieuDatPhong(String maPhieuDatPhong) {
+        PhieuDatPhong phieuDatPhong = null;
+        String sql = "SELECT pdp.MaPhieuDatPhong, kh.TenKhachHang, nv.TenNhanVien, p.MaPhong, kh.MaKhachHang, " +
+                     "pdp.NgayNhanPhong, pdp.NgayTraPhong, pdp.TienCoc, pdp.LoaiHinh, " +
+                     "pdp.GioNhanPhong, pdp.GioTraPhong, pdp.TongTien, pdp.TrangThai " +
+                     "FROM PhieuDatPhong pdp " +
+                     "LEFT JOIN KhachHang kh ON pdp.MaKhachHang = kh.MaKhachHang " +
+                     "LEFT JOIN NhanVien nv ON pdp.MaNhanVienLap = nv.MaNhanVien " +
+                     "LEFT JOIN Phong p ON pdp.MaPhong = p.MaPhong " +
+                     "WHERE pdp.MaPhieuDatPhong = ?";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, maPhieuDatPhong);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    phieuDatPhong = new PhieuDatPhong();
+                    
+                    // Thiết lập các thuộc tính của PhieuDatPhong
+                    phieuDatPhong.setKhachHang(new KhachHang(rs.getString("MaKhachHang")));
+                    phieuDatPhong.setPhong(new Phong(rs.getString("MaPhong")));
+                    phieuDatPhong.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
+                    phieuDatPhong.setNgayTraPhong(rs.getDate("NgayTraPhong"));
+                    phieuDatPhong.setTienCoc(rs.getDouble("TienCoc"));
+                    phieuDatPhong.setLoaiHinh(rs.getString("LoaiHinh"));
+                    phieuDatPhong.setGioNhanPhong(rs.getString("GioNhanPhong"));
+                    phieuDatPhong.setGioTraPhong(rs.getString("GioTraPhong"));
+                    phieuDatPhong.setTongTien(rs.getDouble("TongTien"));
+                    phieuDatPhong.setTrangThai(rs.getString("TrangThai"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return phieuDatPhong;
+    }
 }

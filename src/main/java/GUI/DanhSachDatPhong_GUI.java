@@ -50,7 +50,6 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         setDefaultDate();
         
         
-        
         setWidthColumns();
         
         // Lưu model ban đầu ngay khi khởi tạo
@@ -295,9 +294,9 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(titleHoaDon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
@@ -317,7 +316,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                                 .addComponent(btnNhanPhong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnCapNhat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnHuy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)))
+                        .addGap(27, 27, 27)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -341,11 +340,8 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         locDanhSachDatPhong();
     }//GEN-LAST:event_cboTrangThaiActionPerformed
 
-    private void btnNhanPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanPhongMouseClicked
-
-	    Window window = SwingUtilities.getWindowAncestor(DanhSachDatPhong_GUI.this);
-	    NhanPhong_Dialog dialogNhanPhong = new NhanPhong_Dialog(window, true, DanhSachDatPhong_GUI.this);
-	    dialogNhanPhong.setVisible(true);
+    private void btnNhanPhongMouseClicked(java.awt.event.MouseEvent evt) {
+    	hienThiThongTinDatPhong();
     }//GEN-LAST:event_btnNhanPhongMouseClicked
 
     private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {
@@ -472,7 +468,8 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                     originalModel.getValueAt(i, 4),
                     originalModel.getValueAt(i, 5), 
                     originalModel.getValueAt(i, 6),
-                    originalModel.getValueAt(i, 7) 
+                    originalModel.getValueAt(i, 7), 
+                    originalModel.getValueAt(i, 8),
                 });
                 found = true; // Đánh dấu là đã tìm thấy dữ liệu
             }
@@ -559,6 +556,22 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         if (!timer.isRunning()) {
             timer.start(); // Bắt đầu timer khi nó chưa chạy
             setWidthColumns();
+        }
+    }
+    
+    private void hienThiThongTinDatPhong() {
+        int selectedRow = tbDanhSachDatPhong.getSelectedRow();
+        if (selectedRow != -1) { // Kiểm tra nếu có dòng nào được chọn
+            // Lấy mã phiếu từ bảng
+            String maPhieuDatPhong = (String) tbDanhSachDatPhong.getValueAt(selectedRow, 1);
+
+            // Tạo một dialog NhanPhong_Dialog và truyền mã phiếu đặt phòng vào
+		    Window window = SwingUtilities.getWindowAncestor(DanhSachDatPhong_GUI.this);
+            NhanPhong_Dialog nhanPhongDialog = new NhanPhong_Dialog(window, true, maPhieuDatPhong);
+            nhanPhongDialog.setVisible(true); // Hiển thị dialog
+        }else {
+        	JOptionPane.showMessageDialog(this, "Chọn thông tin để nhận phòng !");
+			return;
         }
     }
   
