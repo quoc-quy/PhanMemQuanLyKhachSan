@@ -811,7 +811,7 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
  // Hàm đổ dữ liệu từ database vào JTable
     public void loadDataToTable() {
     	
-//    	KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+    	KhachHang_DAO khachHangDAO = new KhachHang_DAO();
         List<KhachHang> dsKhachHang = dsKHDAO.getAllKhachHang();
         
       DefaultTableModel tableModel = new DefaultTableModel(
@@ -835,14 +835,11 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
                 kh.getDienThoai()
             };
             tableModel.addRow(row);
-//            tableModel.fireTableDataChanged();
         }
+        tableModel.fireTableDataChanged();
         
        
-        tableModel.fireTableDataChanged();
-        tbKhachHang.repaint();
-        tbKhachHang.revalidate();
-        
+      
         
         lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
