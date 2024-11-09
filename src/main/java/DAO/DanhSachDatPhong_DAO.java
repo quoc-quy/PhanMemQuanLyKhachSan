@@ -12,9 +12,11 @@ import java.util.List;
 
 import ConnectDB.ConnectDB;
 import ENTITY.KhachHang;
+import ENTITY.LoaiPhong;
 import ENTITY.NhanVien;
 import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
+import ENTITY.TrangThaiPhong;
 
 public class DanhSachDatPhong_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
@@ -166,5 +168,78 @@ public class DanhSachDatPhong_DAO {
          }
      }
  	 
-// 	
+ 	// Lấy danh sách đặt phòng theo điều kiện ngày nhận, ngày trả, và trạng thái
+ 	public List<Object[]> getDanhSachDatPhongTheoDieuKien(java.util.Date ngayNhan, java.util.Date ngayTra, String trangThai) {
+ 	    List<Object[]> danhSachDatPhong = new ArrayList<>();
+
+ 	    // Xây dựng câu truy vấn SQL động dựa trên các điều kiện
+ 	    String sql = "SELECT kh.TenKhachHang, kh.DenThoai, " +
+ 	                 "pdp.MaPhieuDatPhong, pdp.MaKhachHang, pdp.MaPhong, pdp.NgayNhanPhong, pdp.NgayTraPhong, pdp.TienCoc, pdp.TrangThai " +
+ 	                 "FROM PhieuDatPhong pdp " +
+ 	                 "LEFT JOIN KhachHang kh ON pdp.MaKhachHang = kh.MaKhachHang " +
+ 	                 "WHERE pdp.NgayNhanPhong >= ? AND pdp.NgayTraPhong <= ?";
+
+ 	    // Nếu trạng thái không phải là "Tất cả", thêm điều kiện lọc theo trạng thái
+ 	    if (!"Tất cả".equals(trangThai)) {
+ 	        sql += " AND pdp.TrangThai = ?";
+ 	    }
+
+ 	    try (Connection conn = ConnectDB.getConnection();
+ 	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+ 	        // Khởi tạo chỉ số cho tham số
+ 	        int paramIndex = 1;
+
+ 	        // Thiết lập tham số cho ngày nhận (nếu `ngayNhan` là null, dùng ngày mặc định)
+ 	        if (ngayNhan == null) {
+ 	            ngayNhan = new java.util.Date(0); // Ngày mặc định
+ 	        }
+ 	        ps.setDate(paramIndex++, new java.sql.Date(ngayNhan.getTime()));
+
+ 	        // Thiết lập tham số cho ngày trả (nếu `ngayTra` là null, dùng ngày hiện tại)
+ 	        if (ngayTra == null) {
+ 	            ngayTra = new java.util.Date(); // Ngày hiện tại
+ 	        }
+ 	        ps.setDate(paramIndex++, new java.sql.Date(ngayTra.getTime()));
+
+ 	        // Nếu lọc theo trạng thái, thiết lập thêm tham số cho trạng thái
+ 	        if (!"Tất cả".equals(trangThai)) {
+ 	            ps.setString(paramIndex++, trangThai);
+ 	        }
+
+ 	        try (ResultSet rs = ps.executeQuery()) {
+ 	            int index = 1; // Biến đếm để thêm số thứ tự dòng
+ 	            while (rs.next()) {
+ 	                String maKhachHang = rs.getString("MaKhachHang");
+ 	                String tenKhachHang = rs.getString("TenKhachHang") != null ? rs.getString("TenKhachHang") : "Khách lẻ";
+ 	                String soDienThoai = rs.getString("DenThoai") != null ? rs.getString("DenThoai") : "Không có";
+ 	                String maPhieuDatPhong = rs.getString("MaPhieuDatPhong");
+ 	                String maPhong = rs.getString("MaPhong");
+ 	                Date ngayNhanPhong = rs.getDate("NgayNhanPhong");
+ 	                Date ngayTraPhong = rs.getDate("NgayTraPhong");
+ 	                Double tienCoc = rs.getDouble("TienCoc");
+ 	                String trangThaiPhong = rs.getString("TrangThai");
+
+ 	                // Thêm dòng dữ liệu vào danh sách
+ 	                Object[] row = {
+ 	                    index,
+ 	                    maPhieuDatPhong,
+ 	                    tenKhachHang,
+ 	                    soDienThoai,
+ 	                    maPhong,
+ 	                    ngayNhanPhong,
+ 	                    ngayTraPhong,
+ 	                    tienCoc,
+ 	                    trangThaiPhong
+ 	                };
+ 	                danhSachDatPhong.add(row);
+ 	                index++;
+ 	            }
+ 	        }
+ 	    } catch (SQLException e) {
+ 	        e.printStackTrace();
+ 	    }
+
+ 	    return danhSachDatPhong;
+ 	}
 }

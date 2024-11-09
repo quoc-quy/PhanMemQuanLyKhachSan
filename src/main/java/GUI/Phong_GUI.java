@@ -871,13 +871,7 @@ public class Phong_GUI extends javax.swing.JPanel {
         if (dsPhongTrongTheoNgay == null || dsPhongTrongTheoNgay.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Không có phòng trống trong khoảng thời gian này.");
             dsPhongTrongTheoNgay = new ArrayList<>(); // Khởi tạo danh sách rỗng để tránh lỗi NullPointerException
-        } else {
-            // In kết quả để kiểm tra xem có phòng nào được trả về không
-            System.out.println("Danh sách phòng trống trong khoảng thời gian đã chọn:");
-            for (Phong phong : dsPhongTrongTheoNgay) {
-                System.out.println("Phòng: " + phong.getMaPhong() + ", Loại: " + phong.getLoaiPhong().getTenLoaiPhong());
-            }
-        }
+        } 
 
         // Hiển thị danh sách phòng trống theo loại phòng đã chọn (nếu có)
         filterRoomsByType(loaiPhongComboBox.getSelectedItem().toString());

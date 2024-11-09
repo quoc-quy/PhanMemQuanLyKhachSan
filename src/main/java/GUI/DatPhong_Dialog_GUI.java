@@ -56,10 +56,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
 	
 	
     private KhachHang_DAO khachHangDAO = new KhachHang_DAO();
-	private String maPhong2;
 	private KhachHang_GUI parentPanel;
-	private DatPhong_Dialog_GUI parentPanelPhong;
-	private static DanhSachDatPhong_GUI danhSachDatPhongGUI;
 
     /**
      * Creates new form DatPhong_Dialog_GUI
@@ -469,9 +466,9 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	    phieuDatPhong.setTrangThai(trangThai);
 
     	    // Gọi DAO để lưu vào cơ sở dữ liệu
-    	    DanhSachDatPhong_DAO phieuDatPhongDAO = new DanhSachDatPhong_DAO();
+    	    DanhSachDatPhong_DAO dsDatPhongDAO = new DanhSachDatPhong_DAO();
     	    DanhSachDatPhong_GUI dsdpGUI = new DanhSachDatPhong_GUI();
-    	    boolean success = phieuDatPhongDAO.addPhieuDatPhong(phieuDatPhong);
+    	    boolean success = dsDatPhongDAO.addPhieuDatPhong(phieuDatPhong);
     	    
     	    // Thông báo kết quả
     	    if (success) {
@@ -546,7 +543,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
 
     	    // Gọi DAO để lưu vào cơ sở dữ liệu
     	    DanhSachDatPhong_DAO phieuDatPhongDAO = new DanhSachDatPhong_DAO();
-    	    DanhSachDatPhong_GUI dsdpGUI = new DanhSachDatPhong_GUI();
     	    boolean success = phieuDatPhongDAO.addPhieuDatPhong(phieuDatPhong);
     	    
     	    // Thông báo kết quả
@@ -558,8 +554,6 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
 
     	        // Cập nhật màu nền của phòng trong Phong_GUI thành #FA5950
     	        phongGUI.updateRoomColor(maPhongDat, Color.decode("#FA5950"));
-    	        	
-    	        dsdpGUI.loadDataToTable();
     	        // Sau khi lưu thành công, bạn có thể cập nhật giao diện hoặc thực hiện hành động khác
     	    } else {
     	        JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thất bại. Vui lòng kiểm tra lại thông tin.");

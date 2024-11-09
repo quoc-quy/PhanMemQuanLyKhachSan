@@ -4,18 +4,23 @@
  */
 package GUI;
 
+import java.awt.Window;
+
 /**
  *
  * @author Admin
  */
 public class NhanPhong_Dialog extends javax.swing.JDialog {
 
-    /**
+    private static DanhSachDatPhong_GUI dsNhanPhong;
+	/**
      * Creates new form NhanPhong_Dialog
      */
-    public NhanPhong_Dialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public NhanPhong_Dialog(Window parent, boolean modal, DanhSachDatPhong_GUI dsNhanPhong) {
+        super();
+        this.dsNhanPhong = dsNhanPhong;
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -335,7 +340,7 @@ public class NhanPhong_Dialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NhanPhong_Dialog dialog = new NhanPhong_Dialog(new javax.swing.JFrame(), true);
+                NhanPhong_Dialog dialog = new NhanPhong_Dialog(new javax.swing.JFrame(), true, dsNhanPhong);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

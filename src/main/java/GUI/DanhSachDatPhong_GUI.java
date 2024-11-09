@@ -6,6 +6,7 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,7 +60,6 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 //        Chức năng tìm kiếm
         btnTimKiem.addActionListener(e -> filterTableData());
         
-        
      // Khởi tạo timer và cài đặt hành động lặp lại (hàm load lại dữ liệu khi database thay đổi)
         timer = new Timer(5000, new ActionListener() {
             @Override
@@ -69,7 +69,8 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                 setWidthColumns();
             }
         });
-        timer.start(); // Bắt đầu timer
+//        timer.start();
+        
     }
 
     /**
@@ -183,6 +184,11 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
         btnNhanPhong.setBackground(new java.awt.Color(25, 159, 254));
         btnNhanPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNhanPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNhanPhongMouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -236,7 +242,24 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Từ");
 
+        txtNgayCheckIn.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtNgayCheckInPropertyChange(evt);
+            }
+        });
+
+        txtNgayCheckOut.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtNgayCheckOutPropertyChange(evt);
+            }
+        });
+
         cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Chưa nhận", "Đã nhận" }));
+        cboTrangThai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTrangThaiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -305,6 +328,25 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void txtNgayCheckInPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtNgayCheckInPropertyChange
+        locDanhSachDatPhong();
+    }//GEN-LAST:event_txtNgayCheckInPropertyChange
+
+    private void txtNgayCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtNgayCheckOutPropertyChange
+        locDanhSachDatPhong();
+    }//GEN-LAST:event_txtNgayCheckOutPropertyChange
+
+    private void cboTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTrangThaiActionPerformed
+        locDanhSachDatPhong();
+    }//GEN-LAST:event_cboTrangThaiActionPerformed
+
+    private void btnNhanPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanPhongMouseClicked
+
+	    Window window = SwingUtilities.getWindowAncestor(DanhSachDatPhong_GUI.this);
+	    NhanPhong_Dialog dialogNhanPhong = new NhanPhong_Dialog(window, true, DanhSachDatPhong_GUI.this);
+	    dialogNhanPhong.setVisible(true);
+    }//GEN-LAST:event_btnNhanPhongMouseClicked
 
     private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {
         txtTimKiem.setText("");
@@ -404,7 +446,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
         // Tạo model mới để chứa dữ liệu lọc
         DefaultTableModel filteredModel = new DefaultTableModel(
-        		new String[] { "Stt", "Mã Phiếu đặt phòng", "Tên khách hàng", "Số điện thoại", "Phái", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc" }, 
+                new String[] { "Stt", "Mã Phiếu", "Tên khách hàng", "Số điện thoại", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc", "Trạng thái" }, 
                 0
         );
 
@@ -465,6 +507,59 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date checkOutDate = calendar.getTime();
         txtNgayCheckOut.setDate(checkOutDate);
+    }
+    
+    private void locDanhSachDatPhong() {
+        // Lấy giá trị từ ComboBox và DateChooser
+        String trangThai = cboTrangThai.getSelectedItem().toString();
+        Date ngayNhan = txtNgayCheckIn.getDate();
+        Date ngayTra = txtNgayCheckOut.getDate();
+
+        // Khởi tạo đối tượng DAO
+        DanhSachDatPhong_DAO dao = new DanhSachDatPhong_DAO();
+
+        // Lấy danh sách đặt phòng đã lọc
+        List<Object[]> danhSachLoc = dao.getDanhSachDatPhongTheoDieuKien(ngayNhan, ngayTra, trangThai);
+        
+        if (trangThai.equals("Tất cả")) {
+        	loadDataToTable();
+        } else {
+
+            // Cập nhật bảng hiển thị với dữ liệu đã lọc
+            capNhatBangDatPhong(danhSachLoc);
+        }
+    }
+    
+    private void capNhatBangDatPhong(List<Object[]> danhSachLoc) {
+    	
+    	DanhSachDatPhong_DAO danhSachDatPhongDAO = new DanhSachDatPhong_DAO();
+        List<Object[]> dsDatPhong = danhSachDatPhongDAO.getAllDanhSachDatPhong();
+
+        DefaultTableModel tableModel = new DefaultTableModel(
+            new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+            new String[] { "Stt", "Mã Phiếu", "Tên khách hàng", "Số điện thoại", "Phòng", "Ngày nhận", "Ngày trả", "Tiền cọc", "Trạng thái" }
+        );
+
+        tbDanhSachDatPhong.setModel(tableModel);
+        tableModel.setRowCount(0);
+
+        // Định dạng ngày theo dd/MM/yyyy
+       
+        tableModel.fireTableDataChanged();
+        // Xóa dữ liệu hiện tại trên bảng
+        tableModel.setRowCount(0);
+
+        // Duyệt qua danh sách đã lọc và thêm vào bảng
+        for (Object[] row : danhSachLoc) {
+        	tableModel.addRow(row);
+        }
+    }
+    
+    public void startTimer() {
+        if (!timer.isRunning()) {
+            timer.start(); // Bắt đầu timer khi nó chưa chạy
+            setWidthColumns();
+        }
     }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
