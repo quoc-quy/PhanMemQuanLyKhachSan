@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
  * @author 84837
  */
 public class PhieuDatPhong {
+    private String maPDP;
     private KhachHang khachHang;
     private NhanVien nhanVienLap;
     private Phong phong;
@@ -32,10 +33,11 @@ public class PhieuDatPhong {
     
     
 
-	public PhieuDatPhong(KhachHang khachHang, NhanVien nhanVienLap, Phong phong, java.util.Date ngayNhanPhong,
+	public PhieuDatPhong(String  maPDP,KhachHang khachHang, NhanVien nhanVienLap, Phong phong, java.util.Date ngayNhanPhong,
 			java.util.Date ngayTraPhong, Double tienCoc, String loaiHinh, String gioNhanPhong, String gioTraPhong,
 			Double tongTien, String trangThai) {
 		super();
+		this.maPDP = maPDP;
 		this.khachHang = khachHang;
 		this.nhanVienLap = nhanVienLap;
 		this.phong = phong;
@@ -47,6 +49,17 @@ public class PhieuDatPhong {
 		this.gioTraPhong = gioTraPhong;
 		this.tongTien = tongTien;
 		this.trangThai = trangThai;
+	}
+
+	
+
+	public String getMaPDP() {
+		return maPDP;
+	}
+
+
+	public void setMaPDP(String maPDP) {
+		this.maPDP = maPDP;
 	}
 
 
@@ -139,17 +152,13 @@ public class PhieuDatPhong {
 		this.trangThai = trangThai;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "PhieuDatPhong [khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap + ", phong=" + phong
-				+ ", ngayNhanPhong=" + ngayNhanPhong + ", ngayTraPhong=" + ngayTraPhong + ", tienCoc=" + tienCoc
-				+ ", loaiHinh=" + loaiHinh + ", gioNhanPhong=" + gioNhanPhong + ", gioTraPhong=" + gioTraPhong
-				+ ", tongTien=" + tongTien + ", trangThai=" + trangThai + "]";
+		return "PhieuDatPhong [maPDP=" + maPDP + ", khachHang=" + khachHang + ", nhanVienLap=" + nhanVienLap
+				+ ", phong=" + phong + ", ngayNhanPhong=" + ngayNhanPhong + ", ngayTraPhong=" + ngayTraPhong
+				+ ", tienCoc=" + tienCoc + ", loaiHinh=" + loaiHinh + ", gioNhanPhong=" + gioNhanPhong
+				+ ", gioTraPhong=" + gioTraPhong + ", tongTien=" + tongTien + ", trangThai=" + trangThai + "]";
 	}
 
-    
-    
     
 }
