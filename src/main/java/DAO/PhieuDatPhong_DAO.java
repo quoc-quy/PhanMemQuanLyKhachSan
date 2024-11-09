@@ -43,7 +43,7 @@ public class PhieuDatPhong_DAO {
 
 	public List<PhieuDatPhong> getAllPhieuDatPhong() {
         List<PhieuDatPhong> dsPhieuDatPhong = new ArrayList<>();
-        String query = "SELECT MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, " +
+        String query = "SELECT MaPhieuDatPhong MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, " +
                        "TienCoc, LoaiHinh, GioNhanPhong, GioTraPhong, TongTien, TrangThai " +
                        "FROM PhieuDatPhong";
 
@@ -53,6 +53,7 @@ public class PhieuDatPhong_DAO {
 
             while (rs.next()) {
                 // Lấy các giá trị từ ResultSet
+            	String maPDP = rs.getString("MaPhieuDatPhong");
                 String maKhachHang = rs.getString("MaKhachHang");
                 String maPhong = rs.getString("MaPhong");
                 String maNhanVien = rs.getString("MaNhanVienLap");
@@ -67,6 +68,7 @@ public class PhieuDatPhong_DAO {
 
                 // Tạo đối tượng PhieuDatPhong
                 PhieuDatPhong phieuDatPhong = new PhieuDatPhong(
+                	maPDP,
                     new KhachHang(maKhachHang), // Giả định rằng bạn có constructor cho KhachHang với mã khách hàng
                     new NhanVien(maNhanVien),   // Giả định rằng bạn có constructor cho NhanVien với mã nhân viên
                     new Phong(maPhong),         // Giả định rằng bạn có constructor cho Phong với mã phòng
