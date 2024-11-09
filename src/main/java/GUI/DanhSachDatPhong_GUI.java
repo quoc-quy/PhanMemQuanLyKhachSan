@@ -10,6 +10,8 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -44,6 +46,10 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         updateHeader();
         
         loadDataToTable();
+        setDefaultDate();
+        
+        
+        
         setWidthColumns();
         
         // Lưu model ban đầu ngay khi khởi tạo
@@ -89,9 +95,9 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         btnTimKiem = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtNgayNhan = new com.toedter.calendar.JDateChooser();
-        txtNgayTra = new com.toedter.calendar.JDateChooser();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
+        txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
+        cboTrangThai = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(855, 634));
         setLayout(new java.awt.CardLayout());
@@ -230,7 +236,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Từ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Chưa nhận", "Đã nhận" }));
+        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Chưa nhận", "Đã nhận" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -248,13 +254,13 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                         .addGap(36, 36, 36)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNgayNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNgayCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNgayTra, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNgayCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(78, 78, 78)
                 .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -278,13 +284,13 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                         .addGap(28, 28, 28))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtTimKiem)
                                     .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                                .addComponent(txtNgayNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtNgayTra, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNgayCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNgayCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnNhanPhong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnCapNhat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnHuy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -438,13 +444,35 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu phù hợp!");
         }
     }
+    
+    private void setDefaultDate() {
+    	Calendar calendar = Calendar.getInstance();
+
+        // Đặt giờ về 0:00 để tránh sai lệch thời gian
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        
+        txtNgayCheckIn.setDateFormatString("dd/MM/yyyy");
+        txtNgayCheckOut.setDateFormatString("dd/MM/yyyy");
+
+        // Ngày Check-in là ngày hiện tại
+        Date checkInDate = calendar.getTime();
+        txtNgayCheckIn.setDate(checkInDate);
+
+        // Ngày Check-out là ngày hôm sau
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date checkOutDate = calendar.getTime();
+        txtNgayCheckOut.setDate(checkOutDate);
+    }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnCapNhat;
     private javax.swing.JPanel btnHuy;
     private javax.swing.JPanel btnNhanPhong;
     private javax.swing.JButton btnTimKiem;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -454,8 +482,8 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbDanhSachDatPhong;
     private javax.swing.JLabel titleHoaDon;
-    private com.toedter.calendar.JDateChooser txtNgayNhan;
-    private com.toedter.calendar.JDateChooser txtNgayTra;
+    private com.toedter.calendar.JDateChooser txtNgayCheckIn;
+    private com.toedter.calendar.JDateChooser txtNgayCheckOut;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

@@ -48,13 +48,13 @@
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" pref="27" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtNgayNhan" min="-2" pref="128" max="-2" attributes="0"/>
+                          <Component id="txtNgayCheckIn" min="-2" pref="128" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jLabel5" min="-2" pref="27" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txtNgayTra" min="-2" pref="122" max="-2" attributes="0"/>
+                          <Component id="txtNgayCheckOut" min="-2" pref="122" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" min="-2" pref="117" max="-2" attributes="0"/>
+                          <Component id="cboTrangThai" min="-2" pref="117" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
@@ -84,14 +84,14 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jComboBox1" min="-2" pref="42" max="-2" attributes="0"/>
+                              <Component id="cboTrangThai" min="-2" pref="42" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="txtTimKiem" max="32767" attributes="0"/>
                                       <Component id="btnTimKiem" pref="42" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="txtNgayNhan" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
-                                  <Component id="txtNgayTra" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="txtNgayCheckIn" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="txtNgayCheckOut" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
                                   <Component id="btnNhanPhong" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnCapNhat" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnHuy" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -310,11 +310,11 @@
             <Property name="text" type="java.lang.String" value="T&#x1eeb;"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="txtNgayNhan">
+        <Component class="com.toedter.calendar.JDateChooser" name="txtNgayCheckIn">
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="txtNgayTra">
+        <Component class="com.toedter.calendar.JDateChooser" name="txtNgayCheckOut">
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="cboTrangThai">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="3">
