@@ -353,4 +353,58 @@ public class Phong_DAO {
 
 	    return maPhong; // Trả về mã phòng (có thể là null nếu không tìm thấy)
 	}
+	public boolean chuyenPhong(String maKhachHang, String maPhongCu, String maPhongMoi) {
+        String updateOldRoomQuery = "UPDATE Phong SET TrangThaiPhong = 'PHONG_TRONG', TinhTrangPhong = 'CHUA_DON' WHERE MaPhong = ?";
+        String updateNewRoomQuery = "UPDATE Phong SET TrangThaiPhong = 'DANG_SU_DUNG', TinhTrangPhong = 'SACH' WHERE MaPhong = ?";
+        String updatePhieuDatPhongQuery = "UPDATE PhieuDatPhong SET MaPhong = ? WHERE MaKhachHang = ? AND MaPhong = ?";
+
+        try {
+            // Bắt đầu transaction
+            ((Connection) connectDB).setAutoCommit(false);
+
+            // 1. Cập nhật trạng thái phòng cũ
+            try (PreparedStatement stmtOldRoom = ((Connection) connectDB).prepareStatement(updateOldRoomQuery)) {
+                stmtOldRoom.setString(1, maPhongCu);
+                stmtOldRoom.executeUpdate();
+            }
+
+            // 2. Cập nhật trạng thái phòng mới
+            try (PreparedStatement stmtNewRoom = ((Connection) connectDB).prepareStatement(updateNewRoomQuery)) {
+                stmtNewRoom.setString(1, maPhongMoi);
+                stmtNewRoom.executeUpdate();
+            }
+
+            // 3. Cập nhật phiếu đặt phòng
+            try (PreparedStatement stmtUpdatePhieuDatPhong = ((Connection) connectDB).prepareStatement(updatePhieuDatPhongQuery)) {
+                stmtUpdatePhieuDatPhong.setString(1, maPhongMoi);
+                stmtUpdatePhieuDatPhong.setString(2, maKhachHang);
+                stmtUpdatePhieuDatPhong.setString(3, maPhongCu);
+                stmtUpdatePhieuDatPhong.executeUpdate();
+            }
+
+            // Commit transaction
+            ((Connection) connectDB).commit();
+            System.out.println("Chuyển phòng thành công!");
+            return true;
+
+        } catch (SQLException e) {
+            // Rollback nếu có lỗi
+            try {
+            	((Connection) connectDB).rollback();
+                System.err.println("Lỗi khi chuyển phòng, rollback các thay đổi.");
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            try {
+                // Khôi phục lại trạng thái auto-commit
+            	((Connection) connectDB).setAutoCommit(true);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

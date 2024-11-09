@@ -2,12 +2,17 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import ENTITY.Phong;
 import ENTITY.PhieuDatPhong;
 
 public class ChiTietDatPhong_Dialog extends JDialog {
 
-    public ChiTietDatPhong_Dialog(Frame parent, Phong phong) {
+    public ChiTietDatPhong_Dialog(Frame parent, Phong phong, PhieuDatPhong phieuDatPhong) {
         super(parent, "Chi tiết phòng - " + phong.getMaPhong(), true);
         
         setSize(600, 400);
@@ -18,34 +23,34 @@ public class ChiTietDatPhong_Dialog extends JDialog {
         dialogPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogPanel.setBackground(Color.white);
 
-        JLabel lblMaPhong = new JLabel("Mã phòng: " + phong.getMaPhong());
-        lblMaPhong.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblMaPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        dialogPanel.add(lblMaPhong);
+        JLabel lblKhachHang = new JLabel("Khách hàng: " + phieuDatPhong.getKhachHang().getTenKhachHang());
+        lblKhachHang.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblKhachHang.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialogPanel.add(lblKhachHang);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JLabel lblLoaiPhong = new JLabel("Loại phòng: " + phong.getLoaiPhong().getTenLoaiPhong());
-        lblLoaiPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblLoaiPhong.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        dialogPanel.add(lblLoaiPhong);
+        JLabel lblLoaiHinh = new JLabel("Loại hình: " + phieuDatPhong.getLoaiHinh());
+        lblLoaiHinh.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblLoaiHinh.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialogPanel.add(lblLoaiHinh);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JLabel lblGiaNgay = new JLabel("Giá ngày: " + phong.getLoaiPhong().getGiaTienTheoNgay());
-        lblGiaNgay.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        dialogPanel.add(lblGiaNgay);
+        JLabel lblCheckIn = new JLabel("Check-in: " + phieuDatPhong.getNgayNhanPhong());
+        lblCheckIn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblCheckIn.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialogPanel.add(lblCheckIn);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-        JLabel lblGiaGio = new JLabel("Giá giờ: " + phong.getLoaiPhong().getGiaTienTheoGio());
-        lblGiaGio.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblGiaGio.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        dialogPanel.add(lblGiaGio);
+        JLabel lblCheckOut = new JLabel("Check-out: " + phieuDatPhong.getNgayTraPhong());
+        lblCheckOut.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblCheckOut.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialogPanel.add(lblCheckOut);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-
-        JLabel lblTinhTrang = new JLabel("Tình trạng: Đang sử dụng");
-        lblTinhTrang.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblTinhTrang.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        dialogPanel.add(lblTinhTrang);
+        
+        JLabel lblTongTien = new JLabel("Tổng tiền: " + phieuDatPhong.getTongTien());
+        lblTongTien.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTongTien.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialogPanel.add(lblTongTien);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
         // Thêm các nút chức năng
@@ -72,6 +77,39 @@ public class ChiTietDatPhong_Dialog extends JDialog {
         btnChuyenPhong.setForeground(Color.white);
         btnChuyenPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonPanel.setBackground(Color.white);
+        
+        btnChuyenPhong.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				showChangeRoomGUI(phong, phieuDatPhong);
+			}
+		});
         
         btnDatPhong.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btnDatPhong.setBackground(Color.decode("#199FFE"));
@@ -100,5 +138,10 @@ public class ChiTietDatPhong_Dialog extends JDialog {
 
         add(dialogPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
+    }
+    private void showChangeRoomGUI(Phong phong, PhieuDatPhong phieuDatPhong) {
+    	Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+		ChuyenPhong_Dialog_GUI chuyenPhong_Dialog_GUI = new ChuyenPhong_Dialog_GUI(parentFrame, phong, phieuDatPhong);
+		chuyenPhong_Dialog_GUI.setVisible(true);
     }
 }

@@ -706,11 +706,19 @@ public class Phong_GUI extends javax.swing.JPanel {
     
     //JDialogDatPhong
     private void showRoomDetailsDialog(Phong phong) {// Khởi tạo DAO để lấy thông tin phiếu đặt phòng theo mã phòng
-    	if (phong.getTrangThaiPhong() == TrangThaiPhong.DANG_SU_DUNG) { // Kiểm tra trạng thái "Đang Sử Dụng"
-            // Sử dụng RoomDetailDialog cho phòng đang sử dụng
-    		Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
-    		ChiTietDatPhong_Dialog chiTietDatPhongDialog = new ChiTietDatPhong_Dialog(parentFrame, phong);
-    		chiTietDatPhongDialog.setVisible(true);
+    	if (phong.getTrangThaiPhong() == TrangThaiPhong.DANG_SU_DUNG) {
+            // Sử dụng DAO để lấy thông tin phiếu đặt phòng dựa trên mã phòng
+            PhieuDatPhong_DAO phieuDatPhongDAO = new PhieuDatPhong_DAO();
+            PhieuDatPhong phieuDatPhong = phieuDatPhongDAO.getPhieuDatPhongByMaPhong(phong.getMaPhong());
+
+            // Kiểm tra xem phieuDatPhong có dữ liệu không
+            if (phieuDatPhong != null) {
+                Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
+                ChiTietDatPhong_Dialog chiTietDatPhongDialog = new ChiTietDatPhong_Dialog(parentFrame, phong, phieuDatPhong);
+                chiTietDatPhongDialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy phiếu đặt phòng cho phòng này.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            }
         }
     	else {
     		JDialog dialog = new JDialog();
