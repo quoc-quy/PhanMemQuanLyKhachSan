@@ -327,5 +327,30 @@ public class Phong_DAO {
 	    }
 	    return dsPhongTrong;
 	}
+	
+	// Phương thức lấy mã phòng dựa trên mã phiếu đặt phòng
+	public String getMaPhongByMaPhieuDatPhong(String maPhieuDatPhong) {
+	    String maPhong = null;
+	    String query = "SELECT MaPhong FROM PhieuDatPhong WHERE MaPhieuDatPhong = ?";
 
+	    try (Connection conn = connectDB.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+	        // Thiết lập giá trị cho tham số truy vấn
+	        pstmt.setString(1, maPhieuDatPhong);
+
+	        // Thực hiện truy vấn
+	        ResultSet rs = pstmt.executeQuery();
+
+	        // Nếu có kết quả, lấy mã phòng
+	        if (rs.next()) {
+	            maPhong = rs.getString("MaPhong");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return maPhong; // Trả về mã phòng (có thể là null nếu không tìm thấy)
+	}
 }

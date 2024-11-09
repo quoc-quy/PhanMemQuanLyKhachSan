@@ -20,6 +20,7 @@ import javax.swing.table.JTableHeader;
 
 import DAO.DanhSachDatPhong_DAO;
 import DAO.HoaDon_DAO;
+import DAO.Phong_DAO;
 import ENTITY.PhieuDatPhong;
 
 /**
@@ -30,6 +31,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
 	private DanhSachDatPhong_DAO danhSachDatPhongDAO = new DanhSachDatPhong_DAO();
 	private DanhSachDatPhong_DAO phieuDatPhongDAO;
+    private Phong_DAO phongDAO = new Phong_DAO();
 	// Tạo một Timer với thời gian lặp lại là 5000ms (5 giây)
     private Timer timer;
 
@@ -52,12 +54,13 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         btnTimKiem.addActionListener(e -> filterTableData());
         
         
-     // Khởi tạo timer và cài đặt hành động lặp lại
+     // Khởi tạo timer và cài đặt hành động lặp lại (hàm load lại dữ liệu khi database thay đổi)
         timer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Kiểm tra sự thay đổi trong cơ sở dữ liệu
             	loadDataToTable();
+                setWidthColumns();
             }
         });
         timer.start(); // Bắt đầu timer
@@ -318,7 +321,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
             // Nếu người dùng chọn YES thì thực hiện xóa
             if (confirm == JOptionPane.YES_OPTION) {
                 String maPhieuDatPhong = tbDanhSachDatPhong.getValueAt(selectedRow, 1).toString(); // Giả sử mã hóa đơn ở cột thứ 2
-
+                String maPhong = phongDAO.getMaPhongByMaPhieuDatPhong(maPhieuDatPhong);
                 // Gọi phương thức xóa từ DAO
                 boolean isDeleted = danhSachDatPhongDAO.deletePhieuDatPhong(maPhieuDatPhong);
 
@@ -326,6 +329,12 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                     // Xóa dòng khỏi bảng giao diện sau khi xóa thành công
                     ((DefaultTableModel) tbDanhSachDatPhong.getModel()).removeRow(selectedRow);
                     JOptionPane.showMessageDialog(this, "Xóa thành công!");
+                 // Cập nhật trạng thái phòng thành "PHONG_TRONG"
+                    if (maPhong != null) {
+                        phongDAO.capNhatTrangThaiPhong(maPhong, "PHONG_TRONG");
+                    }else {
+                    	System.out.println("Phong chua cap nhat");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this, "Xóa không thành công!");
                 }
