@@ -23,8 +23,8 @@ public class KhachHang {
 		
 	}
 
-	public KhachHang(String maKhachHang) {
-		this.maKhachHang = maKhachHang;
+	public KhachHang(String cccd) {
+		this.CCCD = cccd;
 	}
 
 

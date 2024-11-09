@@ -564,11 +564,17 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         if (selectedRow != -1) { // Kiểm tra nếu có dòng nào được chọn
             // Lấy mã phiếu từ bảng
             String maPhieuDatPhong = (String) tbDanhSachDatPhong.getValueAt(selectedRow, 1);
-
+            String trangThai = (String) tbDanhSachDatPhong.getValueAt(selectedRow, 8);
+            
+            if (trangThai.equals("Đã nhận")) {
+            	JOptionPane.showMessageDialog(this, "Phòng này đã được nhận");
+            }else {
             // Tạo một dialog NhanPhong_Dialog và truyền mã phiếu đặt phòng vào
 		    Window window = SwingUtilities.getWindowAncestor(DanhSachDatPhong_GUI.this);
             NhanPhong_Dialog nhanPhongDialog = new NhanPhong_Dialog(window, true, maPhieuDatPhong);
             nhanPhongDialog.setVisible(true); // Hiển thị dialog
+            nhanPhongDialog.setLocationRelativeTo(null);
+            }
         }else {
         	JOptionPane.showMessageDialog(this, "Chọn thông tin để nhận phòng !");
 			return;

@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +32,7 @@ public class NhanPhong_Dialog extends javax.swing.JDialog {
 	private DanhSachDatPhong_DAO dsDatPhongDAO;
 	private KhachHang_DAO khachHangDAO = new KhachHang_DAO();
 	private static String maPhieuDatPhong;
+	 private String maPhong;
 
     /**
      * Creates new form NhanPhong_Dialog
@@ -317,8 +319,17 @@ public class NhanPhong_Dialog extends javax.swing.JDialog {
         
     }//GEN-LAST:event_txtTienCocActionPerformed
 
-    private void btnNhanPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNhanPhongMouseClicked
-       
+    private void btnNhanPhongMouseClicked(java.awt.event.MouseEvent evt) {
+    	// Cập nhật trạng thái phòng và trạng thái phiếu đặt phòng
+        boolean phongCapNhat = dsDatPhongDAO.capNhatTrangThaiPhong(maPhong, "DANG_SU_DUNG");
+        boolean phieuCapNhat = dsDatPhongDAO.capNhatTrangThaiPhieuDatPhong(maPhieuDatPhong, "Đã nhận");
+
+        if (phongCapNhat && phieuCapNhat) {
+            JOptionPane.showMessageDialog(this, "Nhận phòng thành công!");
+            this.dispose(); // Đóng dialog sau khi cập nhật thành công
+        } else {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi nhận phòng.");
+        }
     }//GEN-LAST:event_btnNhanPhongMouseClicked
 
     private void btnNhanPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanPhongActionPerformed
@@ -446,6 +457,7 @@ public class NhanPhong_Dialog extends javax.swing.JDialog {
         PhieuDatPhong phieuDatPhong = dsDatPhongDAO.getChiTietPhieuDatPhong(maPhieuDatPhong);
         
         if (phieuDatPhong != null) {
+        	maPhong = phieuDatPhong.getPhong().getMaPhong();
             lbMaPhong.setText(phieuDatPhong.getPhong().getMaPhong());
             txtNgayCheckIn.setDate(phieuDatPhong.getNgayNhanPhong());
             txtNgayCheckOut.setDate(phieuDatPhong.getNgayTraPhong());
@@ -468,8 +480,6 @@ public class NhanPhong_Dialog extends javax.swing.JDialog {
             }
             
             cboDSCCCD.setSelectedItem(phieuDatPhong.getKhachHang().getCCCD());
-        } else {
-            System.out.println("Không có phiếu đặt phòng"+ maPhieuDatPhong);
         }
     }
     

@@ -246,7 +246,7 @@ public class DanhSachDatPhong_DAO {
  	
  	public PhieuDatPhong getChiTietPhieuDatPhong(String maPhieuDatPhong) {
         PhieuDatPhong phieuDatPhong = null;
-        String sql = "SELECT pdp.MaPhieuDatPhong, kh.TenKhachHang, nv.TenNhanVien, p.MaPhong, kh.MaKhachHang, " +
+        String sql = "SELECT pdp.MaPhieuDatPhong, kh.TenKhachHang, nv.TenNhanVien, p.MaPhong, kh.CCCD, " +
                      "pdp.NgayNhanPhong, pdp.NgayTraPhong, pdp.TienCoc, pdp.LoaiHinh, " +
                      "pdp.GioNhanPhong, pdp.GioTraPhong, pdp.TongTien, pdp.TrangThai " +
                      "FROM PhieuDatPhong pdp " +
@@ -263,7 +263,7 @@ public class DanhSachDatPhong_DAO {
                     phieuDatPhong = new PhieuDatPhong();
                     
                     // Thiết lập các thuộc tính của PhieuDatPhong
-                    phieuDatPhong.setKhachHang(new KhachHang(rs.getString("MaKhachHang")));
+                    phieuDatPhong.setKhachHang(new KhachHang(rs.getString("CCCD")));
                     phieuDatPhong.setPhong(new Phong(rs.getString("MaPhong")));
                     phieuDatPhong.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
                     phieuDatPhong.setNgayTraPhong(rs.getDate("NgayTraPhong"));
@@ -279,5 +279,36 @@ public class DanhSachDatPhong_DAO {
             e.printStackTrace();
         }
         return phieuDatPhong;
+    }
+ 	
+ 	
+ // Phương thức cập nhật trạng thái của phòng
+    public boolean capNhatTrangThaiPhong(String maPhong, String trangThai) {
+        String sql = "UPDATE Phong SET TrangThaiPhong = ? WHERE MaPhong = ?";
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, trangThai);
+            ps.setString(2, maPhong);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0; // Trả về true nếu cập nhật thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Phương thức cập nhật trạng thái của phiếu đặt phòng
+    public boolean capNhatTrangThaiPhieuDatPhong(String maPhieuDatPhong, String trangThai) {
+        String sql = "UPDATE PhieuDatPhong SET TrangThai = ? WHERE MaPhieuDatPhong = ?";
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, trangThai);
+            ps.setString(2, maPhieuDatPhong);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0; // Trả về true nếu cập nhật thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
