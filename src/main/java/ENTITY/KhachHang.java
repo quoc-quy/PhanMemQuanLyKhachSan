@@ -26,6 +26,11 @@ public class KhachHang {
 	public KhachHang(String cccd) {
 		this.CCCD = cccd;
 	}
+	
+	public KhachHang(String tenKhachHang, String maKhachHang) {
+		this.tenKhachHang = tenKhachHang;
+		this.maKhachHang = maKhachHang;
+	}
 
 
 	public KhachHang(String maKhachHang, String tenKhachHang, String CCCD, String phai, java.util.Date ngaySinh,

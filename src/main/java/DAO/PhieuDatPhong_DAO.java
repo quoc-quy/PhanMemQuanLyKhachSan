@@ -40,10 +40,11 @@ public class PhieuDatPhong_DAO {
             return false;
         }
     }
+	
 
 	public List<PhieuDatPhong> getAllPhieuDatPhong() {
         List<PhieuDatPhong> dsPhieuDatPhong = new ArrayList<>();
-        String query = "SELECT MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, " +
+        String query = "SELECT MaPhieuDatPhong MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, " +
                        "TienCoc, LoaiHinh, GioNhanPhong, GioTraPhong, TongTien, TrangThai " +
                        "FROM PhieuDatPhong";
 
@@ -53,6 +54,7 @@ public class PhieuDatPhong_DAO {
 
             while (rs.next()) {
                 // Lấy các giá trị từ ResultSet
+            	String maPDP = rs.getString("MaPhieuDatPhong");
                 String maKhachHang = rs.getString("MaKhachHang");
                 String maPhong = rs.getString("MaPhong");
                 String maNhanVien = rs.getString("MaNhanVienLap");
@@ -67,6 +69,7 @@ public class PhieuDatPhong_DAO {
 
                 // Tạo đối tượng PhieuDatPhong
                 PhieuDatPhong phieuDatPhong = new PhieuDatPhong(
+                	maPDP,
                     new KhachHang(maKhachHang), // Giả định rằng bạn có constructor cho KhachHang với mã khách hàng
                     new NhanVien(maNhanVien),   // Giả định rằng bạn có constructor cho NhanVien với mã nhân viên
                     new Phong(maPhong),         // Giả định rằng bạn có constructor cho Phong với mã phòng
@@ -88,5 +91,73 @@ public class PhieuDatPhong_DAO {
         }
         return dsPhieuDatPhong;
     }
+	public PhieuDatPhong getPhieuDatPhongByMaPhong(String maPhong) {
+	    // Kiểm tra xem mã phòng có hợp lệ không
+	    if (maPhong == null || maPhong.isEmpty()) {
+	        System.out.println("Mã phòng không hợp lệ.");
+	        return null;
+	    }
+	    
+	    PhieuDatPhong phieuDatPhong = null;
+	    Connection conn = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        // Kết nối với cơ sở dữ liệu
+	        conn = connectDB.getConnection();
+	        if (conn == null) {
+	            throw new SQLException("Không thể kết nối với cơ sở dữ liệu.");
+	        }
+	        
+	        // Câu lệnh SQL để lấy phiếu đặt phòng theo mã phòng
+	        String sql = "SELECT pdp.*, kh.* " +
+                    "FROM PhieuDatPhong pdp " +
+                    "LEFT JOIN KhachHang kh ON pdp.MaKhachHang = kh.MaKhachHang " +
+                    "WHERE pdp.MaPhong = ?";
+	        stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, maPhong);
+	        
+	        // Thực hiện truy vấn
+	        rs = stmt.executeQuery();
+	        
+	        // Kiểm tra kết quả
+	        if (rs.next()) {
+	            String ma = rs.getString("MaKhachHang");
+	            String ten = rs.getString("TenKhachHang");
+	            if(ma == null) {
+	            	ten = "Khách lẻ";
+	            }
+	            System.out.println("Đã tìm thấy phiếu đặt phòng cho phòng: " + maPhong);
+	            phieuDatPhong = new PhieuDatPhong();
+	            
+	            // Gán các giá trị từ ResultSet vào phieuDatPhong với các tên cột chính xác
+	            phieuDatPhong.setMaPDP(rs.getString("MaPhieuDatPhong")); // Sửa "maPDP" thành "MaPhieuDatPhong"
+	            phieuDatPhong.setKhachHang(new KhachHang(ten, ma)); 
+	            phieuDatPhong.setNhanVienLap(new NhanVien(rs.getString("MaNhanVienLap"))); 
+	            phieuDatPhong.setPhong(new Phong(rs.getString("MaPhong"))); 
+	            phieuDatPhong.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
+	            phieuDatPhong.setNgayTraPhong(rs.getDate("NgayTraPhong"));
+	            phieuDatPhong.setTienCoc(rs.getDouble("TienCoc"));
+	            phieuDatPhong.setLoaiHinh(rs.getString("LoaiHinh"));
+	            phieuDatPhong.setGioNhanPhong(rs.getString("GioNhanPhong"));
+	            phieuDatPhong.setGioTraPhong(rs.getString("GioTraPhong"));
+	            phieuDatPhong.setTongTien(rs.getDouble("TongTien"));
+	            phieuDatPhong.setTrangThai(rs.getString("TrangThai"));
+	            
+	            
+	        } else {
+	            System.out.println("Không tìm thấy phiếu đặt phòng cho mã phòng: " + maPhong);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Đóng kết nối và tài nguyên
+	        connectDB.closeConnection(conn, stmt, rs);
+	    }
+
+	    return phieuDatPhong;
+	}
 
 }
