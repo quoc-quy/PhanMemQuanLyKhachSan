@@ -7,6 +7,7 @@ package ENTITY;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,22 +20,30 @@ public class HoaDon {
     private KhuyenMai khuyenMai;
     private NhanVien nhanVienLap;
     private KhachHang khachHang;
-    private LocalDate ngayLap;
-    private LocalDate ngayNhanPhong;
-    private LocalDate ngayTraPhong;
+    private java.util.Date ngayLap;
+    private java.util.Date ngayNhanPhong;
+    private java.util.Date ngayTraPhong;
     private int thue;
     private Double tienTraKhach;
     private Double tongTien;
 
     
 
-    public HoaDon(String maHoaDon) {
+    public HoaDon() {
+		super();
+	}
+
+
+
+	public HoaDon(String maHoaDon) {
 		super();
 		this.maHoaDon = maHoaDon;
 	}
 
-	public HoaDon(String maHoaDon, KhuyenMai khuyenMai, NhanVien nhanVienLap, KhachHang khachHang, LocalDate ngayLap,
-			LocalDate ngayNhanPhong, LocalDate ngayTraPhong, int thue, Double tienTraKhach, Double tongTien) {
+	
+
+	public HoaDon(String maHoaDon, KhuyenMai khuyenMai, NhanVien nhanVienLap, KhachHang khachHang, java.util.Date ngayLap,
+			java.util.Date ngayNhanPhong, java.util.Date ngayTraPhong, int thue, Double tienTraKhach, Double tongTien) {
 		super();
 		this.maHoaDon = maHoaDon;
 		this.khuyenMai = khuyenMai;
@@ -47,6 +56,8 @@ public class HoaDon {
 		this.tienTraKhach = tienTraKhach;
 		this.tongTien = tongTien;
 	}
+
+
 
 	public String getMaHoaDon() {
         return maHoaDon;
@@ -80,27 +91,27 @@ public class HoaDon {
         this.khachHang = khachHang;
     }
 
-    public LocalDate getNgayLap() {
+    public java.util.Date getNgayLap() {
         return ngayLap;
     }
 
-    public void setNgayLap(LocalDate ngayLap) {
+    public void setNgayLap(java.util.Date ngayLap) {
         this.ngayLap = ngayLap;
     }
 
-    public LocalDate getNgayNhanPhong() {
+    public java.util.Date getNgayNhanPhong() {
         return ngayNhanPhong;
     }
 
-    public void setNgayNhanPhong(LocalDate ngayNhanPhong) {
+    public void setNgayNhanPhong(java.util.Date ngayNhanPhong) {
         this.ngayNhanPhong = ngayNhanPhong;
     }
 
-    public LocalDate getNgayTraPhong() {
+    public java.util.Date getNgayTraPhong() {
         return ngayTraPhong;
     }
 
-    public void setNgayTraPhong(LocalDate ngayTraPhong) {
+    public void setNgayTraPhong(java.util.Date ngayTraPhong) {
         this.ngayTraPhong = ngayTraPhong;
     }
 
@@ -173,9 +184,16 @@ public class HoaDon {
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DecimalFormat dFormat = new DecimalFormat("#,###.##$");
 		return "HoaDon [maHoaDon=" + maHoaDon + ", khuyenMai=" + khuyenMai + ", nhanVienLap=" + nhanVienLap
-				+ ", khachHang=" + khachHang + ", ngayLap=" + ngayLap.format(formatter) + ", ngayNhanPhong=" + ngayNhanPhong.format(formatter)
-				+ ", ngayTraPhong=" + ngayTraPhong.format(formatter) + ", thue=" + thue + ", tienKhachDua=" + tienTraKhach
+				+ ", khachHang=" + khachHang + ", ngayLap=" + ngayLap + ", ngayNhanPhong=" + ngayNhanPhong
+				+ ", ngayTraPhong=" + ngayTraPhong + ", thue=" + thue + ", tienKhachDua=" + tienTraKhach
 				+  ", tongTien=" + tongTien + "]";
+	}
+
+
+
+	public void setTongTien(double tongTien2) {
+		// TODO Auto-generated method stub
+		
 	}
     
     

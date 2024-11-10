@@ -17,8 +17,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.ChiTietDichVu_DAO;
 import DAO.DichVu_DAO;
+import ENTITY.ChiTietDichVu;
 import ENTITY.DichVu;
+import ENTITY.HoaDon;
 
 /**
  *
@@ -154,6 +157,11 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         btnLuu.setForeground(new java.awt.Color(255, 255, 255));
         btnLuu.setText("Lưu");
         btnLuu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLuu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLuuMouseClicked(evt);
+            }
+        });
 
         btnHuy.setBackground(new java.awt.Color(153, 153, 153));
         btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -256,7 +264,6 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void tbSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSanPhamMouseClicked
@@ -312,6 +319,16 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
     private void btnHuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHuyMouseClicked
         dispose();
     }//GEN-LAST:event_btnHuyMouseClicked
+
+    private void btnLuuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLuuMouseClicked
+    	 // Tạo đối tượng HoaDon
+    	double tongTien = Double.parseDouble(lbTongTien.getText());
+    	
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setTongTien(tongTien); // Tổng tiền từ lbTongTien
+        dispose();
+        
+    }//GEN-LAST:event_btnLuuMouseClicked
 
     /**
      * @param args the command line arguments

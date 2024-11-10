@@ -311,4 +311,35 @@ public class DanhSachDatPhong_DAO {
         }
         return false;
     }
+    
+    public PhieuDatPhong layThongTinPhieuDatPhong(String maPhong) {
+        PhieuDatPhong phieuDatPhong = null;
+        String query = "SELECT * FROM PhieuDatPhong WHERE MaPhong = ? AND TrangThai = 'Đã nhận phòng'";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, maPhong);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                phieuDatPhong = new PhieuDatPhong();
+                phieuDatPhong.setMaPDP(rs.getString("MaPhieuDatPhong"));
+                phieuDatPhong.getNhanVienLap().setMaNhanVien(rs.getString("MaNhanVienLap"));;
+                phieuDatPhong.getKhachHang().setMaKhachHang(rs.getString("MaKhachHang"));
+                phieuDatPhong.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
+                phieuDatPhong.setNgayTraPhong(rs.getDate("NgayTraPhong"));
+                phieuDatPhong.getPhong().setMaPhong(rs.getString("MaPhong"));
+                phieuDatPhong.setTienCoc(rs.getDouble("TienCoc"));
+                phieuDatPhong.setLoaiHinh(rs.getString("LoaHinh"));
+                phieuDatPhong.setTongTien(rs.getDouble("TongTien"));
+                phieuDatPhong.setTrangThai(rs.getString("TrangThai"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return phieuDatPhong;
+    }
 }

@@ -129,6 +129,37 @@ public class HoaDon_DAO {
         }
         return chiTietDichVuList;
     }
+    
+    // Phương thức lưu hóa đơn, trả về mã hóa đơn đã tạo
+    public String luuHoaDon(HoaDon hoaDon) {
+        String maHoaDon = "";
+        String query = "INSERT INTO HoaDon (MaKhuyenMai, MaNhanVienLap, MaKhachHang, NgayLap, NgayNhanPhong, NgayTraPhong, TongTien, Thue) "
+                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setString(1, hoaDon.getKhuyenMai().getMakhuyenMai());
+            pstmt.setString(2, hoaDon.getNhanVienLap().getMaNhanVien());
+            pstmt.setString(3, hoaDon.getKhachHang().getMaKhachHang());
+            pstmt.setDate(4, new java.sql.Date(hoaDon.getNgayLap().getTime()));
+            pstmt.setDate(5, new java.sql.Date(hoaDon.getNgayNhanPhong().getTime()));
+            pstmt.setDate(6, new java.sql.Date(hoaDon.getNgayTraPhong().getTime()));
+            pstmt.setDouble(7, hoaDon.getTongTien());
+            pstmt.setDouble(8, hoaDon.getThue());
+
+            pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                maHoaDon = rs.getString(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return maHoaDon;
+    }
 }
 
 
