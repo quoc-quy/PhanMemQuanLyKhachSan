@@ -128,7 +128,6 @@ public class PhieuDatPhong_DAO {
 	            if(ma == null) {
 	            	ten = "Khách lẻ";
 	            }
-	            System.out.println("Đã tìm thấy phiếu đặt phòng cho phòng: " + maPhong);
 	            phieuDatPhong = new PhieuDatPhong();
 	            
 	            // Gán các giá trị từ ResultSet vào phieuDatPhong với các tên cột chính xác
