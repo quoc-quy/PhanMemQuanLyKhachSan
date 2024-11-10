@@ -44,7 +44,7 @@ public class PhieuDatPhong_DAO {
 
 	public List<PhieuDatPhong> getAllPhieuDatPhong() {
         List<PhieuDatPhong> dsPhieuDatPhong = new ArrayList<>();
-        String query = "SELECT MaPhieuDatPhong MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, " +
+        String query = "SELECT MaPhieuDatPhong, MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, " +
                        "TienCoc, LoaiHinh, GioNhanPhong, GioTraPhong, TongTien, TrangThai " +
                        "FROM PhieuDatPhong";
 
