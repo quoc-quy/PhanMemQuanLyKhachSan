@@ -24,9 +24,11 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
     private JDateChooser checkOutDateChooser;
     private JLabel lblTongTien; // Thêm nhãn hiển thị tổng tiền
     private JComboBox<String> cboLoaiHinh; // Thêm JComboBox cho Loại hình
+    private ChiTietDatPhong_Dialog chiTietDatPhongDialog;
 
-    public ChuyenPhong_Dialog_GUI(Frame parent, Phong phong, PhieuDatPhong phieuDatPhong) {
+    public ChuyenPhong_Dialog_GUI(Frame parent, Phong phong, PhieuDatPhong phieuDatPhong, ChiTietDatPhong_Dialog chiTietDatPhongDialog) {
         super(parent, "Phòng hiện tại - " + phong.getMaPhong(), true);
+        this.chiTietDatPhongDialog = chiTietDatPhongDialog;
 
         setSize(500, 400);
         setLocationRelativeTo(parent);
@@ -145,6 +147,8 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
                     JOptionPane.showMessageDialog(this, "Đổi phòng thành công nhưng không thể cập nhật trạng thái phòng mới.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Đổi phòng thành công.");
+                    dispose(); // Đóng ChuyenPhong_Dialog_GUI
+                    chiTietDatPhongDialog.dispose();
                 }
                 dispose();
             } else {

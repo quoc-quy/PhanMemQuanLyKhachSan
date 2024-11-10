@@ -180,7 +180,7 @@ public class ChiTietDatPhong_Dialog extends javax.swing.JDialog {
     }
     private void showChangeRoomGUI(Phong phong, PhieuDatPhong phieuDatPhong) {
     	Frame parentFrame = (Frame) SwingUtilities.getWindowAncestor(this);
-		ChuyenPhong_Dialog_GUI chuyenPhong_Dialog_GUI = new ChuyenPhong_Dialog_GUI(parentFrame, phong, phieuDatPhong);
+		ChuyenPhong_Dialog_GUI chuyenPhong_Dialog_GUI = new ChuyenPhong_Dialog_GUI(parentFrame, phong, phieuDatPhong, this);
 		chuyenPhong_Dialog_GUI.setVisible(true);
     }
 }
