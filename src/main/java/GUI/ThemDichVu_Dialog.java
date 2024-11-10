@@ -5,8 +5,14 @@
 package GUI;
 
 import java.awt.Window;
+import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import DAO.DichVu_DAO;
+import ENTITY.DichVu;
 
 /**
  *
@@ -14,6 +20,7 @@ import javax.swing.SwingUtilities;
  */
 public class ThemDichVu_Dialog extends javax.swing.JDialog {
 	private static ChiTietDatPhong_Dialog chiTietDP;
+	private DefaultTableModel originalModel;
 
     private static String maPhong;
 	/**
@@ -26,6 +33,13 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         lbMaPhong.setText(maPhong);
+        
+        loadDichVuData();
+        setWidthColumns();
+        // Lưu model ban đầu ngay khi khởi tạo
+        originalModel = (DefaultTableModel) tbSanPham.getModel();
+//      Chức năng tìm kiếm
+      btnTimKiem.addActionListener(e -> filterTableData());
     }
 
     /**
@@ -40,8 +54,8 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtTimKiem = new javax.swing.JTextField();
+        btnTimKiem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSanPham = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -63,17 +77,16 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Danh sách sản phẩm");
 
-        jTextField1.setText("Tìm ");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtTimKiemActionPerformed(evt);
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnTimKiemActionPerformed(evt);
             }
         });
 
@@ -149,9 +162,9 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                                        .addComponent(txtTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(56, 56, 56)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,8 +185,8 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
+                            .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                            .addComponent(txtTimKiem))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -203,13 +216,13 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtTimKiemActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -257,9 +270,74 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
             }
         });
     }
+    
+    private void setWidthColumns() {
+        tbSanPham.getColumnModel().getColumn(0).setMaxWidth(50); // Đặt chiều rộng tối thiểu cho cột STT
+	}
+    
+ // Phương thức load dữ liệu dịch vụ vào bảng
+    private void loadDichVuData() {
+        DichVu_DAO dichVuDAO = new DichVu_DAO();
+        List<DichVu> danhSachDichVu = dichVuDAO.getAllDichVu();
+        DefaultTableModel tableModel = new DefaultTableModel(
+                new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+                new String[] { "Stt", "Tên sản phẩm" }
+            );
+        tbSanPham.setModel(tableModel);
+        tableModel.setRowCount(0); // Xóa dữ liệu cũ
+
+        int stt = 1;
+        for (DichVu dichVu : danhSachDichVu) {
+            Object[] row = {stt++, dichVu.getTenDichVu()};
+            tableModel.addRow(row);
+        }
+    }
+    // Phương thức lọc dữ liệu
+    private void filterTableData() {
+        String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
+
+        // Kiểm tra nếu từ khóa rỗng, khôi phục dữ liệu ban đầu
+        if (keyword.isEmpty()) {
+            tbSanPham.setModel(originalModel); // Khôi phục model ban đầu
+            return;
+        }
+
+        // Tạo model mới để chứa dữ liệu lọc
+        DefaultTableModel filteredModel = new DefaultTableModel(
+                new String[] { "Stt", "Tên sản phẩm" }, 
+                0
+        );
+
+        boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
+
+        // Duyệt qua từng hàng trong originalModel và lọc dữ liệu
+        for (int i = 0; i < originalModel.getRowCount(); i++) {// Lấy tên khách hàng và mã phòng, kiểm tra null và loại bỏ khoảng trắng
+            String tenSP = originalModel.getValueAt(i, 1) != null 
+                    ? originalModel.getValueAt(i, 1).toString().trim().toLowerCase() 
+                    : "";
+			
+
+            // Kiểm tra nếu từ khóa xuất hiện trong tên khách hàng hoặc mã phòng
+            if (tenSP.contains(keyword)) {
+                filteredModel.addRow(new Object[]{
+                    originalModel.getValueAt(i, 0),
+                    originalModel.getValueAt(i, 1), 
+                });
+                found = true; // Đánh dấu là đã tìm thấy dữ liệu
+            }
+        }
+
+        // Cập nhật JTable với model đã lọc hoặc hiển thị thông báo nếu không tìm thấy
+        if (found) {
+            tbSanPham.setModel(filteredModel);
+            setWidthColumns();// Cập nhật model đã lọc
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu phù hợp!");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
@@ -268,9 +346,9 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbMaPhong;
     private javax.swing.JTable tbChiTietSP;
     private javax.swing.JTable tbSanPham;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

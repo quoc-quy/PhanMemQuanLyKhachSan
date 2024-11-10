@@ -94,7 +94,6 @@ public class PhieuDatPhong_DAO {
 	public PhieuDatPhong getPhieuDatPhongByMaPhong(String maPhong) {
 	    // Kiểm tra xem mã phòng có hợp lệ không
 	    if (maPhong == null || maPhong.isEmpty()) {
-	        System.out.println("Mã phòng không hợp lệ.");
 	        return null;
 	    }
 	    
@@ -128,7 +127,6 @@ public class PhieuDatPhong_DAO {
 	            if(ma == null) {
 	            	ten = "Khách lẻ";
 	            }
-	            System.out.println("Đã tìm thấy phiếu đặt phòng cho phòng: " + maPhong);
 	            phieuDatPhong = new PhieuDatPhong();
 	            
 	            // Gán các giá trị từ ResultSet vào phieuDatPhong với các tên cột chính xác
@@ -146,8 +144,6 @@ public class PhieuDatPhong_DAO {
 	            phieuDatPhong.setTrangThai(rs.getString("TrangThai"));
 	            
 	            
-	        } else {
-	            System.out.println("Không tìm thấy phiếu đặt phòng cho mã phòng: " + maPhong);
 	        }
 
 	    } catch (SQLException e) {

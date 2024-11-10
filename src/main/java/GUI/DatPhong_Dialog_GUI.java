@@ -61,7 +61,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     /**
      * Creates new form DatPhong_Dialog_GUI
      */
-    public DatPhong_Dialog_GUI(Window parent, boolean modal, String maPhong, Phong_GUI phongGUI) {
+    public DatPhong_Dialog_GUI(Window parent, boolean modal, String maPhong, Phong_GUI phongGU) {
         super();
         this.phongGUI = phongGUI;
         this.maPhong = maPhong;

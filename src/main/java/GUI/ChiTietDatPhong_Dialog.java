@@ -119,6 +119,43 @@ public class ChiTietDatPhong_Dialog extends javax.swing.JDialog {
         btnDatPhong.setForeground(Color.white);
         btnDatPhong.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonPanel.setBackground(Color.white);
+        btnDatPhong.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+//
+//				String maPhong = phong.getMaPhong(); 
+//				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
+//			    Window window = SwingUtilities.getWindowAncestor(ChiTietDatPhong_Dialog.this);
+//			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(window, true, maPhong, null);
+//			    ChiTietDatPhong_Dialog.this.dispose();
+//			    dialogDatPhong.setVisible(true);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
         
         btnDichVu.setFont(new Font("Segoe UI", Font.BOLD, 16));
         btnDichVu.setBackground(Color.decode("#130CB7"));
