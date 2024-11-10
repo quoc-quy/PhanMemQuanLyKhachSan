@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 import ENTITY.Phong;
 import ENTITY.PhieuDatPhong;
 
-public class ChiTietDatPhong_Dialog extends JDialog {
+public class ChiTietDatPhong_Dialog extends javax.swing.JDialog {
 
     public ChiTietDatPhong_Dialog(Frame parent, Phong phong, PhieuDatPhong phieuDatPhong) {
         super(parent, "Chi tiết phòng - " + phong.getMaPhong(), true);
@@ -128,7 +128,46 @@ public class ChiTietDatPhong_Dialog extends JDialog {
         btnDichVu.setForeground(Color.white);
         btnDichVu.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttonPanel.setBackground(Color.white);
+        btnDichVu.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String maphong = phong.getMaPhong();
 
+			    Window window = SwingUtilities.getWindowAncestor(ChiTietDatPhong_Dialog.this);
+			    ThemDichVu_Dialog dialogThemDV = new ThemDichVu_Dialog(window, true, maphong, ChiTietDatPhong_Dialog.this);
+			    ChiTietDatPhong_Dialog.this.dispose();
+			    dialogThemDV.setModal(true);
+			    dialogThemDV.toFront();
+			    dialogThemDV.requestFocus();
+			    dialogThemDV.setVisible(true);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
+        
         buttonPanel.add(btnTraPhong);
         buttonPanel.add(btnChuyenPhong);
         buttonPanel.add(btnDatPhong);
