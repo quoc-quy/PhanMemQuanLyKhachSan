@@ -106,5 +106,28 @@ public class DichVu_DAO {
  		}
  		return dichVu;
  	}
+ 	
+ // Lấy đơn giá bằng tên dịch vụ
+ 	public Double layDonGiaBytenDichVu(String tenDV) {
+ 	    String query = "SELECT DonGia FROM DichVu WHERE TenDichVu = ?";
+ 	    double dongia = 0;
 
+ 	    try (Connection conn = ConnectDB.getConnection();
+ 	         PreparedStatement pstmt = conn.prepareStatement(query)) {
+ 	        
+ 	        // Đặt giá trị cho tham số tenDV
+ 	        pstmt.setString(1, tenDV);
+
+ 	        // Thực thi câu lệnh truy vấn
+ 	        ResultSet rs = pstmt.executeQuery();
+
+ 	        // Kiểm tra kết quả và lấy giá trị DonGia
+ 	        if (rs.next()) {
+ 	            dongia = rs.getDouble(1); // Lấy giá trị từ cột đầu tiên (DonGia)
+ 	        }
+ 	    } catch (SQLException e) {
+ 	        e.printStackTrace();
+ 	    }
+ 	    return dongia;
+ 	}
 }

@@ -4,11 +4,17 @@
  */
 package GUI;
 
+import java.awt.Component;
 import java.awt.Window;
 import java.util.List;
+import java.util.Objects;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.DichVu_DAO;
@@ -60,9 +66,9 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         tbSanPham = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbChiTietSP = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        lbTongTien = new javax.swing.JLabel();
+        btnLuu = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
         lbMaPhong = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -101,40 +107,66 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
                 "Stt", "Tên sản phẩm"
             }
         ));
+        tbSanPham.setCellSelectionEnabled(false);
         tbSanPham.setRowHeight(40);
+        tbSanPham.setShowVerticalLines(true);
+        tbSanPham.setUpdateSelectionOnSort(false);
+        tbSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbSanPhamMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbSanPham);
 
         tbChiTietSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Stt", "Tên sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"
+                "Stt", "Tên sản phẩm", "Số lượng", "Đơn giá", "Thành tiền", ""
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         tbChiTietSP.setAlignmentX(5.0F);
         tbChiTietSP.setRowHeight(40);
+        tbChiTietSP.setShowVerticalLines(true);
+        tbChiTietSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbChiTietSPMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbChiTietSP);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/money.png"))); // NOI18N
-        jLabel3.setText("0");
+        lbTongTien.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbTongTien.setForeground(new java.awt.Color(255, 0, 51));
+        lbTongTien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/money.png"))); // NOI18N
+        lbTongTien.setText("0");
 
-        jButton2.setBackground(new java.awt.Color(25, 159, 254));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Lưu");
+        btnLuu.setBackground(new java.awt.Color(25, 159, 254));
+        btnLuu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnLuu.setForeground(new java.awt.Color(255, 255, 255));
+        btnLuu.setText("Lưu");
+        btnLuu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jButton3.setBackground(new java.awt.Color(153, 153, 153));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setText("Hủy");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnHuy.setBackground(new java.awt.Color(153, 153, 153));
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnHuy.setText("Hủy");
+        btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHuy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHuyMouseClicked(evt);
+            }
+        });
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnHuyActionPerformed(evt);
             }
         });
 
@@ -152,20 +184,19 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(29, 29, 29)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(txtTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                             .addGap(56, 56, 56)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,9 +223,9 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbTongTien))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -224,9 +255,63 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void tbSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSanPhamMouseClicked
+    	DichVu_DAO dvDao = new DichVu_DAO();
+        int selectedRow = tbSanPham.getSelectedRow();// Gắn IconRenderer cho cột "Xóa"
+        tbChiTietSP.getColumnModel().getColumn(tbChiTietSP.getColumnCount() - 1).setCellRenderer(new IconRenderer());
+        DefaultTableModel model = (DefaultTableModel) tbChiTietSP.getModel();
+        ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/IMAGES/minus.png"));
+        if (selectedRow >= 0) {
+            // Lấy thông tin sản phẩm từ dòng được chọn
+            String tenSanPham = tbSanPham.getValueAt(selectedRow, 1).toString();
+            double donGia = dvDao.layDonGiaBytenDichVu(tenSanPham);
+
+            // Kiểm tra xem sản phẩm đã có trong tbChiTietSP chưa
+            boolean sanPhamTonTai = false;
+            for (int i = 0; i < tbChiTietSP.getRowCount(); i++) {
+                Object cellValue = tbChiTietSP.getValueAt(i, 1);
+
+                if (Objects.equals(cellValue, tenSanPham)) {
+                    // Sản phẩm đã tồn tại, cập nhật số lượng và thành tiền
+                    int soLuong = Integer.parseInt(tbChiTietSP.getValueAt(i, 2).toString()) + 1;
+                    tbChiTietSP.setValueAt(soLuong, i, 2); // Cập nhật số lượng
+                    tbChiTietSP.setValueAt(donGia * soLuong, i, 4); // Cập nhật thành tiền
+                    sanPhamTonTai = true;
+                    break;
+                }
+            }
+
+            // Nếu sản phẩm chưa tồn tại, thêm một dòng mới
+            if (!sanPhamTonTai) {
+//                DefaultTableModel model = (DefaultTableModel) tbChiTietSP.getModel();
+                Object[] row = {model.getRowCount() + 1, tenSanPham, 1, donGia, donGia, deleteIcon};
+                model.addRow(row);
+            }
+
+            // Cập nhật tổng tiền sau khi thay đổi
+            capNhatTongTien();
+        }
+    }//GEN-LAST:event_tbSanPhamMouseClicked
+
+    private void tbChiTietSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbChiTietSPMouseClicked
+    	int column = tbChiTietSP.columnAtPoint(evt.getPoint());
+        int row = tbChiTietSP.rowAtPoint(evt.getPoint());
+
+        // Kiểm tra nếu nhấn vào cột "Xóa"
+        if (column == tbChiTietSP.getColumnCount() - 1) { // Cột "Xóa" là cột cuối cùng
+            ((DefaultTableModel) tbChiTietSP.getModel()).removeRow(row); // Xóa dòng
+            capNhatTongTien(); // Cập nhật tổng tiền sau khi xóa
+        }
+        setWidthColumns();
+    }//GEN-LAST:event_tbChiTietSPMouseClicked
+
+    private void btnHuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHuyMouseClicked
+        dispose();
+    }//GEN-LAST:event_btnHuyMouseClicked
 
     /**
      * @param args the command line arguments
@@ -329,24 +414,55 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
 
         // Cập nhật JTable với model đã lọc hoặc hiển thị thông báo nếu không tìm thấy
         if (found) {
-            tbSanPham.setModel(filteredModel);
             setWidthColumns();// Cập nhật model đã lọc
+            tbSanPham.setModel(filteredModel);
         } else {
             JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu phù hợp!");
         }
     }
+    
+ // Phương thức tính tổng tiền và cập nhật vào lbTongTien
+    private void capNhatTongTien() {
+        double tongTien = 0;
 
+        // Duyệt qua các hàng trong bảng tbChiTietSP để tính tổng tiền
+        for (int i = 0; i < tbChiTietSP.getRowCount(); i++) {
+            Object thanhTienValue = tbChiTietSP.getValueAt(i, 4); // Cột "Thành tiền"
+            
+            if (thanhTienValue != null) {
+                tongTien += Double.parseDouble(thanhTienValue.toString());
+            }
+        }
+
+        // Cập nhật tổng tiền vào lbTongTien (Giả sử lbTongTien là JLabel hiển thị tổng tiền)
+        lbTongTien.setText(String.format("%.0f", tongTien));
+    }
+
+    public class IconRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            if (value instanceof Icon) {
+                setIcon((Icon) value); // Thiết lập icon
+                setText(null); // Không hiển thị văn bản
+            } else {
+                setIcon(null);
+                setText(value != null ? value.toString() : "");
+            }
+            return this;
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHuy;
+    private javax.swing.JButton btnLuu;
     private javax.swing.JButton btnTimKiem;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbMaPhong;
+    private javax.swing.JLabel lbTongTien;
     private javax.swing.JTable tbChiTietSP;
     private javax.swing.JTable tbSanPham;
     private javax.swing.JTextField txtTimKiem;
