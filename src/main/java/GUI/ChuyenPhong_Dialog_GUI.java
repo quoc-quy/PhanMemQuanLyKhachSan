@@ -2,6 +2,9 @@ package GUI;
 
 import javax.swing.*;
 
+import com.toedter.calendar.JDateChooser;
+
+import DAO.Phong_DAO;
 import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
 
@@ -10,12 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ChuyenPhong_Dialog_GUI extends JDialog {
 	public ChuyenPhong_Dialog_GUI(Frame parent, Phong phong, PhieuDatPhong phieuDatPhong) {
         super(parent, "Phòng hiện tại - " + phieuDatPhong.getPhong().getMaPhong(), true);
         
-        setSize(600, 400);
+        setSize(700, 500);
         setLocationRelativeTo(parent);
 
         JPanel dialogPanel = new JPanel();
@@ -40,6 +45,29 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
         lblGiaNgay.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogPanel.add(lblGiaNgay);
         dialogPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        JDateChooser txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
+        JDateChooser txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
+        Calendar calendar = Calendar.getInstance();
+        JPanel panelLocNgay = new JPanel();
+        JLabel lbLocTu = new JLabel("Từ");
+        lbLocTu.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		txtNgayCheckIn.setDateFormatString("dd/MM/yyyy");
+		txtNgayCheckOut.setDateFormatString("dd/MM/yyyy");
+
+        // Ngày Check-in là ngày hiện tại
+        java.util.Date checkInDate = calendar.getTime();
+        txtNgayCheckIn.setDate(checkInDate);
+        JLabel lbLocDen = new JLabel("Đến");
+        lbLocDen.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        // Ngày Check-out là ngày hôm sau
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        java.util.Date checkOutDate = calendar.getTime();
+        txtNgayCheckOut.setDate(checkOutDate);
+        panelLocNgay.add(lbLocTu);
+        panelLocNgay.add(txtNgayCheckIn);
+        panelLocNgay.add(lbLocDen);
+        panelLocNgay.add(txtNgayCheckOut);
+        panelLocNgay.setBackground(Color.white);
 
         JLabel lblGiaGio = new JLabel("Check-in: " + phieuDatPhong.getNgayNhanPhong());
         lblGiaGio.setFont(new Font("Segoe UI", Font.BOLD, 16));
