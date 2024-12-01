@@ -5,10 +5,19 @@
 package GUI;
 
 import javax.swing.text.*;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.RenderingHints;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,9 +25,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -328,127 +339,147 @@ public class DichVu_GUI extends javax.swing.JPanel {
 	}
 
 	private void openUpdateServiceDialog() {
-		int selectedRow = jTable1.getSelectedRow();
-		if (selectedRow == -1) {
-			javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng chọn dịch vụ ở danh sách bên dưới để cập nhật.",
-					"Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
+	    int selectedRow = jTable1.getSelectedRow();
+	    if (selectedRow == -1) {
+	        javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng chọn dịch vụ ở danh sách bên dưới để cập nhật.",
+	                "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+	        return;
+	    }
 
-		// Tạo hộp thoại cập nhật dịch vụ
-		JDialog updateServiceDialog = new JDialog();
-		updateServiceDialog.setTitle("Cập Nhật Dịch Vụ");
-		updateServiceDialog.setSize(450, 350);
-		updateServiceDialog.setLocationRelativeTo(this);
-		updateServiceDialog.setModal(true);
+	    // Create update dialog
+	    JDialog updateServiceDialog = new JDialog();
+	    updateServiceDialog.setTitle("Cập Nhật Dịch Vụ");
+	    updateServiceDialog.setSize(700, 400);
+	    updateServiceDialog.setLocationRelativeTo(this);
+	    updateServiceDialog.setModal(true);
 
-		// Lấy dữ liệu hiện tại từ dòng được chọn
-		String maDichVu = (String) jTable1.getValueAt(selectedRow, 0);
-		String tenDichVu = (String) jTable1.getValueAt(selectedRow, 1);
-		int soLuong = (Integer) jTable1.getValueAt(selectedRow, 2);
-		double donGia = (Double) jTable1.getValueAt(selectedRow, 3);
-		String donViTinh = (String) jTable1.getValueAt(selectedRow, 4);
+	    // Retrieve current data from the selected row
+	    String maDichVu = (String) jTable1.getValueAt(selectedRow, 0);
+	    String tenDichVu = (String) jTable1.getValueAt(selectedRow, 1);
+	    int soLuong = (Integer) jTable1.getValueAt(selectedRow, 2);
+	    double donGia = (Double) jTable1.getValueAt(selectedRow, 3);
+	    String donViTinh = (String) jTable1.getValueAt(selectedRow, 4);
 
-		// Tạo các thành phần UI cho hộp thoại
-		javax.swing.JTextField txtMaDichVu = new javax.swing.JTextField(maDichVu);
-		javax.swing.JTextField txtTenDichVu = new javax.swing.JTextField(tenDichVu);
-		javax.swing.JTextField txtSoLuong = new javax.swing.JTextField(String.valueOf(soLuong));
-		javax.swing.JTextField txtDonGia = new javax.swing.JTextField(String.valueOf(donGia));
-		javax.swing.JTextField txtDonViTinh = new javax.swing.JTextField(donViTinh);
+	    // Create UI components
+	    JLabel titleLabel = new JLabel("Cập Nhật Dịch Vụ");
+	    titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 22)); // Tăng kích cỡ chữ
+	    titleLabel.setForeground(Color.BLACK);
 
-		javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
-		javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+	    JLabel lblMaDichVu = new JLabel("Mã Dịch Vụ:");
+	    JTextField txtMaDichVu = new JTextField(maDichVu, 20);
+	    txtMaDichVu.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+	    txtMaDichVu.setEnabled(false); // Make this field non-editable
 
-		// Thêm sự kiện cho nút Lưu
-		btnSave.addActionListener(e -> {
-			// Biểu thức chính quy cho các trường
-			String maDichVuRegex = "^[A-Za-z0-9]+$"; // ví dụ: chỉ chứa chữ và số
-			String tenDichVuRegex = "^[\\p{L} ]{3,50}$"; // ví dụ: chữ cái và khoảng trắng, từ 3 đến 50 ký tự
-			String soLuongRegex = "^[1-9][0-9]*$"; // số nguyên dương
-			String donGiaRegex = "^\\d+(\\.\\d{1,2})?$"; // số thực dương với tối đa 2 chữ số sau dấu thập phân
-			String donViTinhRegex = "^[\\p{L} ]+$"; // chỉ chứa chữ cái và khoảng trắng
+	    JLabel lblTenDichVu = new JLabel("Tên dịch vụ:");
+	    JTextField txtTenDichVu = new JTextField(tenDichVu, 20);
+	    txtTenDichVu.setFont(new Font("Segoe UI", Font.PLAIN, 20)); // Tăng kích cỡ chữ cho JTextField
 
-			// Kiểm tra dữ liệu đầu vào
-			if (!txtMaDichVu.getText().matches(maDichVuRegex)) {
-				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Mã dịch vụ không hợp lệ.");
-				return;
-			}
-			if (!txtTenDichVu.getText().matches(tenDichVuRegex)) {
-				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Tên dịch vụ không hợp lệ.");
-				return;
-			}
-			if (!txtSoLuong.getText().matches(soLuongRegex)) {
-				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Số lượng không hợp lệ.");
-				return;
-			}
-			if (!txtDonGia.getText().matches(donGiaRegex)) {
-				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Đơn giá không hợp lệ.");
-				return;
-			}
-			if (!txtDonViTinh.getText().matches(donViTinhRegex)) {
-				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Đơn vị tính không hợp lệ.");
-				return;
-			}
+	    JLabel lblSoLuong = new JLabel("Số lượng:");
+	    JTextField txtSoLuong = new JTextField(String.valueOf(soLuong), 20);
+	    txtSoLuong.setFont(new Font("Segoe UI", Font.PLAIN, 20)); // Tăng kích cỡ chữ cho JTextField
 
-			// Nếu tất cả hợp lệ, cập nhật dữ liệu
-			jTable1.setValueAt(txtMaDichVu.getText(), selectedRow, 0);
-			jTable1.setValueAt(txtTenDichVu.getText(), selectedRow, 1);
-			jTable1.setValueAt(Integer.parseInt(txtSoLuong.getText()), selectedRow, 2);
-			jTable1.setValueAt(Double.parseDouble(txtDonGia.getText()), selectedRow, 3);
-			jTable1.setValueAt(txtDonViTinh.getText(), selectedRow, 4);
+	    JLabel lblDonGia = new JLabel("Đơn giá:");
+	    JTextField txtDonGia = new JTextField(String.valueOf(donGia), 20);
+	    txtDonGia.setFont(new Font("Segoe UI", Font.PLAIN, 20)); // Tăng kích cỡ chữ cho JTextField
 
-			updateServiceDialog.dispose();
-		});
-		// Nút lưu cập nhật dữ liệu vào JTable
-		btnSave.addActionListener(e -> {
-			try {
-				jTable1.setValueAt(txtMaDichVu.getText(), selectedRow, 0);
-				jTable1.setValueAt(txtTenDichVu.getText(), selectedRow, 1);
-				jTable1.setValueAt(Integer.parseInt(txtSoLuong.getText()), selectedRow, 2);
-				jTable1.setValueAt(Double.parseDouble(txtDonGia.getText()), selectedRow, 3);
-				jTable1.setValueAt(txtDonViTinh.getText(), selectedRow, 4);
+	    JLabel lblDonViTinh = new JLabel("Đơn vị tính:");
+	    JTextField txtDonViTinh = new JTextField(donViTinh, 20);
+	    txtDonViTinh.setFont(new Font("Segoe UI", Font.PLAIN, 20)); // Tăng kích cỡ chữ cho JTextField
 
-				// Update in the database
-				try (Connection conn = ConnectDB.getConnection()) {
-					String sql = "UPDATE DichVu SET tenDichVu = ?, soLuong = ?, donGia = ?, donViTinh = ? WHERE maDichVu = ?";
-					try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-						pstmt.setString(1, txtTenDichVu.getText());
-						pstmt.setInt(2, Integer.parseInt(txtSoLuong.getText()));
-						pstmt.setDouble(3, Double.parseDouble(txtDonGia.getText()));
-						pstmt.setString(4, txtDonViTinh.getText());
-						pstmt.setString(5, txtMaDichVu.getText());
-						pstmt.executeUpdate();
-					}
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-					javax.swing.JOptionPane.showMessageDialog(updateServiceDialog,
-							"Lỗi khi cập nhật dịch vụ: " + ex.getMessage(), "Lỗi",
-							javax.swing.JOptionPane.ERROR_MESSAGE);
-				}
+	    // Save and Cancel buttons
+	    JButton btnSave = new JButton("Lưu");
+	    JButton btnCancel = new JButton("Hủy");
 
-				updateServiceDialog.dispose(); // Close dialog
-			} catch (NumberFormatException ex) {
-				javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Số lượng và đơn giá phải là số hợp lệ.",
-						"Lỗi định dạng", javax.swing.JOptionPane.ERROR_MESSAGE);
-			}
-		});
+	    Dimension buttonSize = new Dimension(120, 45); // Tăng kích thước nút
+	    btnSave.setPreferredSize(buttonSize);
+	    btnCancel.setPreferredSize(buttonSize);
 
-		// Nút hủy để đóng hộp thoại
-		btnCancel.addActionListener(e -> updateServiceDialog.dispose());
+	    btnSave.setFont(new Font("Segoe UI", Font.BOLD, 16)); // Tăng kích cỡ chữ cho nút
+	    btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 16)); // Tăng kích cỡ chữ cho nút
+	    btnSave.setBackground(Color.decode("#199FFE"));
+	    btnSave.setForeground(Color.WHITE);
+	    btnCancel.setBackground(Color.decode("#D3D3D3"));
 
-		// Thiết lập bố cục cho hộp thoại
-		javax.swing.JPanel formPanel = createFormPanel(txtMaDichVu, txtTenDichVu, txtSoLuong, txtDonGia, txtDonViTinh);
-		javax.swing.JPanel buttonPanel = createButtonPanel(btnCancel, btnSave);
+	    // Save button action listener
+	    btnSave.addActionListener(e -> {
+	        try {
+	            // Update the table model
+	            jTable1.setValueAt(txtTenDichVu.getText(), selectedRow, 1);
+	            jTable1.setValueAt(Integer.parseInt(txtSoLuong.getText()), selectedRow, 2);
+	            jTable1.setValueAt(Double.parseDouble(txtDonGia.getText()), selectedRow, 3);
+	            jTable1.setValueAt(txtDonViTinh.getText(), selectedRow, 4);
 
-		javax.swing.JPanel mainPanel = new javax.swing.JPanel();
-		mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
-		mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		mainPanel.add(formPanel, java.awt.BorderLayout.CENTER);
-		mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+	            // Update in the database
+	            try (Connection conn = ConnectDB.getConnection()) {
+	                String sql = "UPDATE DichVu SET tenDichVu = ?, soLuong = ?, donGia = ?, donViTinh = ? WHERE maDichVu = ?";
+	                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	                    pstmt.setString(1, txtTenDichVu.getText());
+	                    pstmt.setInt(2, Integer.parseInt(txtSoLuong.getText()));
+	                    pstmt.setDouble(3, Double.parseDouble(txtDonGia.getText()));
+	                    pstmt.setString(4, txtDonViTinh.getText());
+	                    pstmt.setString(5, maDichVu);
+	                    pstmt.executeUpdate();
+	                }
+	            } catch (SQLException ex) {
+	                ex.printStackTrace();
+	                javax.swing.JOptionPane.showMessageDialog(updateServiceDialog,
+	                        "Lỗi khi cập nhật dịch vụ: " + ex.getMessage(), "Lỗi",
+	                        javax.swing.JOptionPane.ERROR_MESSAGE);
+	            }
 
-		updateServiceDialog.add(mainPanel);
-		updateServiceDialog.setVisible(true);
+	            updateServiceDialog.dispose(); // Close dialog
+	        } catch (NumberFormatException ex) {
+	            javax.swing.JOptionPane.showMessageDialog(updateServiceDialog, "Số lượng và đơn giá phải là số hợp lệ.",
+	                    "Lỗi định dạng", javax.swing.JOptionPane.ERROR_MESSAGE);
+	        }
+	    });
+
+	    // Cancel button action listener
+	    btnCancel.addActionListener(e -> updateServiceDialog.dispose());
+
+	    // Form panel setup
+	    JPanel formPanel = new JPanel();
+	    Font labelFont = new Font("Segoe UI", Font.BOLD, 20); // Tăng kích cỡ chữ cho nhãn
+	    Dimension textFieldSize = new Dimension(250, 45); // Kích thước JTextField
+
+	    formPanel.setLayout(new GridBagLayout());
+	    GridBagConstraints gbc = new GridBagConstraints();
+	    gbc.insets = new Insets(5, 5, 5, 5);
+	    gbc.anchor = GridBagConstraints.WEST;
+
+	    // Add components to the form panel
+	    gbc.gridx = 0; gbc.gridy = 0; formPanel.add(lblMaDichVu, gbc);
+	    gbc.gridx = 1; formPanel.add(txtMaDichVu, gbc);
+
+	    gbc.gridx = 0; gbc.gridy = 1; formPanel.add(lblTenDichVu, gbc);
+	    gbc.gridx = 1; formPanel.add(txtTenDichVu, gbc);
+
+	    gbc.gridx = 0; gbc.gridy = 2; formPanel.add(lblSoLuong, gbc);
+	    gbc.gridx = 1; formPanel.add(txtSoLuong, gbc);
+
+	    gbc.gridx = 0; gbc.gridy = 3; formPanel.add(lblDonGia, gbc);
+	    gbc.gridx = 1; formPanel.add(txtDonGia, gbc);
+
+	    gbc.gridx = 0; gbc.gridy = 4; formPanel.add(lblDonViTinh, gbc);
+	    gbc.gridx = 1; formPanel.add(txtDonViTinh, gbc);
+
+	    // Button panel
+	    JPanel buttonPanel = new JPanel();
+	    buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	    buttonPanel.add(btnCancel);
+	    buttonPanel.add(btnSave);
+
+	    // Main panel setup
+	    JPanel mainPanel = new JPanel();
+	    mainPanel.setLayout(new BorderLayout(10, 10));
+	    mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	    mainPanel.add(formPanel, BorderLayout.CENTER);
+	    mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+	    updateServiceDialog.add(mainPanel);
+	    updateServiceDialog.setVisible(true);
 	}
+
 
 	private javax.swing.JPanel createFormPanel(javax.swing.JTextField txtMaDichVu, javax.swing.JTextField txtTenDichVu,
 			javax.swing.JTextField txtSoLuong, javax.swing.JTextField txtDonGia, javax.swing.JTextField txtDonViTinh) {
@@ -503,50 +534,54 @@ public class DichVu_GUI extends javax.swing.JPanel {
 		// Create a new dialog for adding services
 		JDialog addServiceDialog = new JDialog();
 		addServiceDialog.setTitle("Thêm mới dịch vụ");
-		addServiceDialog.setSize(450, 400);
+		addServiceDialog.setSize(700, 400);
 		addServiceDialog.setLocationRelativeTo(this);
 		addServiceDialog.setModal(true);
 
 		// Automatically generate Ma Dịch Vụ from database
 		String generatedMaDichVu = generateServiceCode();
 
-		JLabel titleLabel = new JLabel("Thêm nhân viên");
+		// Create and set up UI components
+		JLabel titleLabel = new JLabel("Thêm dịch vụ");
 		titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		titleLabel.setForeground(Color.BLACK);
 
-		javax.swing.JLabel lblMaDichVu = new javax.swing.JLabel("Mã Dịch Vụ:");
-		javax.swing.JTextField txtMaDichVu = new javax.swing.JTextField(generatedMaDichVu, 20);
+		JLabel lblMaDichVu = new JLabel("Mã Dịch Vụ:");
+		JTextField txtMaDichVu = new JTextField(generatedMaDichVu, 20);
 		lblMaDichVu.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		txtMaDichVu.setEnabled(false);
-		txtMaDichVu.setEditable(false); // Make this field non-editable
+		txtMaDichVu.setEnabled(false); // Make this field non-editable
 
-		// Other UI components (same as in your code)
 		JLabel lblTenDichVu = new JLabel("Tên dịch vụ:");
 		lblTenDichVu.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		JTextField txtTenDichVu = new JTextField(20);
+
 		JLabel lblSoLuong = new JLabel("Số lượng:");
 		lblSoLuong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		JTextField txtSoLuong = new JTextField(20);
-		((AbstractDocument) txtSoLuong.getDocument()).setDocumentFilter(new NumericDocumentFilter()); // Apply filter
 
 		JLabel lblDonGia = new JLabel("Đơn giá:");
 		lblDonGia.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		JTextField txtDonGia = new JTextField(20);
-		((AbstractDocument) txtDonGia.getDocument()).setDocumentFilter(new NumericDocumentFilter()); // Apply filter
 
 		JLabel lblDonViTinh = new JLabel("Đơn vị tính:");
 		lblDonViTinh.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		JTextField txtDonViTinh = new JTextField(20);
 
-		javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
-		javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
+		// Save and Cancel buttons
+		JButton btnSave = new JButton("Lưu");
+		JButton btnCancel = new JButton("Hủy");
+
+		Dimension buttonSize = new Dimension(100, 40);
+		btnSave.setPreferredSize(buttonSize);
+		btnCancel.setPreferredSize(buttonSize);
+
 		btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnSave.setBackground(Color.decode("#199FFE"));
 		btnSave.setForeground(Color.WHITE);
 		btnCancel.setBackground(Color.decode("#D3D3D3"));
 
-		// Save button action listener to add data to JTable
+		// Save button action listener
 		btnSave.addActionListener(e -> {
 			// Retrieve and validate input
 			String maDichVu = txtMaDichVu.getText().trim();
@@ -555,99 +590,142 @@ public class DichVu_GUI extends javax.swing.JPanel {
 			String donGiaStr = txtDonGia.getText().trim();
 			String donViTinh = txtDonViTinh.getText().trim();
 
-			if (tenDichVu.isEmpty() || soLuongStr.isEmpty() || donGiaStr.isEmpty() || donViTinh.isEmpty()) {
-				javax.swing.JOptionPane.showMessageDialog(addServiceDialog, "Vui lòng điền đầy đủ thông tin.",
-						"Thông báo", javax.swing.JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			if (isInputValid(tenDichVu, soLuongStr, donGiaStr, donViTinh)) {
+				try {
+					int soLuong = Integer.parseInt(soLuongStr);
+					double donGia = Double.parseDouble(donGiaStr);
 
-			try {
-				int soLuong = Integer.parseInt(soLuongStr);
-				double donGia = Double.parseDouble(donGiaStr);
+					// Add new row to table model
+					DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+					tableModel.addRow(new Object[] { maDichVu, tenDichVu, soLuong, donGia, donViTinh });
 
-				// Add new row to table model
-				DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
-				tableModel.addRow(new Object[] { maDichVu, tenDichVu, soLuong, donGia, donViTinh });
+					// Insert into the database
+					insertServiceIntoDatabase(maDichVu, tenDichVu, soLuong, donGia, donViTinh);
 
-				// Insert into the database
-				try (Connection conn = ConnectDB.getConnection()) {
-					String sql = "INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, donGia, donViTinh) VALUES (?, ?, ?, ?, ?)";
-					try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-						pstmt.setString(1, maDichVu);
-						pstmt.setString(2, tenDichVu);
-						pstmt.setInt(3, soLuong);
-						pstmt.setDouble(4, donGia);
-						pstmt.setString(5, donViTinh);
-						pstmt.executeUpdate();
-					}
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-					javax.swing.JOptionPane.showMessageDialog(addServiceDialog,
-							"Lỗi khi thêm dịch vụ: " + ex.getMessage(), "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+					addServiceDialog.dispose(); // Close the dialog after saving
+				} catch (NumberFormatException ex) {
+					showErrorMessage(addServiceDialog, "Số lượng và đơn giá phải là số hợp lệ.");
 				}
-
-				addServiceDialog.dispose(); // Close the dialog after saving
-			} catch (NumberFormatException ex) {
-				javax.swing.JOptionPane.showMessageDialog(addServiceDialog, "Số lượng và đơn giá phải là số hợp lệ.",
-						"Lỗi định dạng", javax.swing.JOptionPane.ERROR_MESSAGE);
+			} else {
+				showWarningMessage(addServiceDialog, "Vui lòng điền đầy đủ thông tin.");
 			}
 		});
 
-		// Cancel button action listener to close the dialog
+		// Cancel button action listener
 		btnCancel.addActionListener(e -> addServiceDialog.dispose());
 
-		// Panel setup (same as in your code)
-		javax.swing.JPanel formPanel = new javax.swing.JPanel();
-		formPanel.setLayout(new java.awt.GridBagLayout());
-		java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
-		gbc.insets = new java.awt.Insets(5, 5, 5, 5);
-		gbc.anchor = java.awt.GridBagConstraints.WEST;
+		// Panel setup
+		// Create a JPanel for the form
+		JPanel formPanel = new JPanel();
+		formPanel.setLayout(new GridBagLayout());
 
+		// Define fonts and dimensions
+		Font labelFont = new Font("Segoe UI", Font.BOLD, 20);
+		Font textFieldFont = new Font("Segoe UI", Font.PLAIN, 20);
+		Dimension textFieldSize = new Dimension(250, 45);
+
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.anchor = GridBagConstraints.WEST;
+
+		// Set label font
+		lblMaDichVu.setFont(labelFont);
+		lblTenDichVu.setFont(labelFont);
+		lblSoLuong.setFont(labelFont);
+		lblDonGia.setFont(labelFont);
+		lblDonViTinh.setFont(labelFont);
+
+		// Add components to the form panel
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		formPanel.add(lblMaDichVu, gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtMaDichVu, gbc);
+		txtMaDichVu.setPreferredSize(textFieldSize);
+		txtMaDichVu.setFont(textFieldFont);
+		txtMaDichVu.setEnabled(false); // Make this field non-editable
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		formPanel.add(lblTenDichVu, gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtTenDichVu, gbc);
+		txtTenDichVu.setPreferredSize(textFieldSize);
+		txtTenDichVu.setFont(textFieldFont);
 
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		formPanel.add(lblSoLuong, gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtSoLuong, gbc);
+		txtSoLuong.setPreferredSize(textFieldSize);
+		txtSoLuong.setFont(textFieldFont);
 
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		formPanel.add(lblDonGia, gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtDonGia, gbc);
+		txtDonGia.setPreferredSize(textFieldSize);
+		txtDonGia.setFont(textFieldFont);
 
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		formPanel.add(lblDonViTinh, gbc);
 		gbc.gridx = 1;
 		formPanel.add(txtDonViTinh, gbc);
+		txtDonViTinh.setPreferredSize(textFieldSize);
+		txtDonViTinh.setFont(textFieldFont);
 
 		// Button panel
-		javax.swing.JPanel buttonPanel = new javax.swing.JPanel();
-		buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
 		buttonPanel.add(btnCancel);
 		buttonPanel.add(btnSave);
 
 		// Main panel setup
-		javax.swing.JPanel mainPanel = new javax.swing.JPanel();
-		mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
-		mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		mainPanel.add(formPanel, java.awt.BorderLayout.CENTER);
-		mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout(10, 10));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		mainPanel.add(formPanel, BorderLayout.CENTER);
+		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 		addServiceDialog.add(mainPanel);
 		addServiceDialog.setVisible(true);
+	}
+
+	// Method to validate input fields
+	private boolean isInputValid(String tenDichVu, String soLuongStr, String donGiaStr, String donViTinh) {
+		return !tenDichVu.isEmpty() && !soLuongStr.isEmpty() && !donGiaStr.isEmpty() && !donViTinh.isEmpty();
+	}
+
+	// Method to insert service into the database
+	private void insertServiceIntoDatabase(String maDichVu, String tenDichVu, int soLuong, double donGia,
+			String donViTinh) {
+		try (Connection conn = ConnectDB.getConnection()) {
+			String sql = "INSERT INTO DichVu (maDichVu, tenDichVu, soLuong, donGia, donViTinh) VALUES (?, ?, ?, ?, ?)";
+			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				pstmt.setString(1, maDichVu);
+				pstmt.setString(2, tenDichVu);
+				pstmt.setInt(3, soLuong);
+				pstmt.setDouble(4, donGia);
+				pstmt.setString(5, donViTinh);
+				pstmt.executeUpdate();
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			showErrorMessage(null, "Lỗi khi thêm dịch vụ: " + ex.getMessage());
+		}
+	}
+
+	// Utility method to show error messages
+	private void showErrorMessage(Component parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, "Lỗi", JOptionPane.ERROR_MESSAGE);
+	}
+
+	// Utility method to show warning messages
+	private void showWarningMessage(Component parent, String message) {
+		JOptionPane.showMessageDialog(parent, message, "Thông báo", JOptionPane.WARNING_MESSAGE);
 	}
 
 	// Method to generate the next service code
@@ -666,8 +744,7 @@ public class DichVu_GUI extends javax.swing.JPanel {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			javax.swing.JOptionPane.showMessageDialog(null, "Lỗi khi truy xuất mã dịch vụ: " + ex.getMessage(), "Lỗi",
-					javax.swing.JOptionPane.ERROR_MESSAGE);
+			showErrorMessage(null, "Lỗi khi truy xuất mã dịch vụ: " + ex.getMessage());
 		}
 		return nextCode;
 	}
