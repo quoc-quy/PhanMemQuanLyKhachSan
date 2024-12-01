@@ -4,12 +4,17 @@
  */
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,10 +22,12 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -32,6 +39,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -603,66 +612,148 @@ public class KhachHang_GUI<btnLuuMouseClicked> extends javax.swing.JPanel {
         JDialog updateKhachHangDialog = createUpdateKhachHangDialog(khachHang, khachHangDAO);
         updateKhachHangDialog.setVisible(true);
     }
-    public JDialog createUpdateKhachHangDialog(KhachHang khachHang, KhachHang_DAO khachHangDAO) {
-    	JDialog  updateKhachHangDialog = new JDialog();
-    	updateKhachHangDialog.setTitle("Cập nhật khách hàng");
-    	updateKhachHangDialog.setSize(800,400);
-    	updateKhachHangDialog.setLocationRelativeTo(this);
-    	updateKhachHangDialog.setModal(true);
-    	
-//  	UI
-    	javax.swing.JTextField txtMaKhachHang = createTextField(khachHang.getMaKhachHang(), false);
-        txtMaKhachHang.setEditable(false);
-        txtMaKhachHang.setEnabled(false);
-        txtMaKhachHang.setPreferredSize(new java.awt.Dimension(200, 25));
+    private JDialog createUpdateKhachHangDialog(KhachHang khachHang, KhachHang_DAO khachHangDAO) {
+        JDialog updateKhachHangDialog = new JDialog();
+        updateKhachHangDialog.setTitle("Cập nhật khách hàng");
+        updateKhachHangDialog.setSize(900, 400);
+        updateKhachHangDialog.setLocationRelativeTo(this);
+        updateKhachHangDialog.setModal(true);
+        
 
-        javax.swing.JTextField txtTenKhachHang = new javax.swing.JTextField(khachHang.getTenKhachHang(), 20);
-        txtTenKhachHang.setPreferredSize(new java.awt.Dimension(200, 25));
+        // Create UI components
+        JTextField txtMaKhachHang = new JTextField(khachHang.getMaKhachHang(), 20);
+        txtMaKhachHang.setEnabled(false); // Make this field non-editable
+        txtMaKhachHang.setPreferredSize(new Dimension(250, 45));
+        
 
-        javax.swing.JTextField txtCCCD = new javax.swing.JTextField(khachHang.getCCCD(), 20);
-        txtCCCD.setPreferredSize(new java.awt.Dimension(200, 25));
+        JTextField txtTenKhachHang = new JTextField(khachHang.getTenKhachHang(), 20);
+        txtTenKhachHang.setPreferredSize(new Dimension(250, 45));
 
-        // Sử dụng JComboBox cho trường "Phái"
-        javax.swing.JComboBox<String> cbPhai = new javax.swing.JComboBox<>(new String[]{"Nam", "Nữ"});
-        cbPhai.setSelectedItem(khachHang.getPhai()); // Đặt giá trị mặc định từ đối tượng khachHang
-        cbPhai.setPreferredSize(new java.awt.Dimension(180, 25));
+        JTextField txtCCCD = new JTextField(khachHang.getCCCD(), 20);
+        ((AbstractDocument) txtCCCD.getDocument()).setDocumentFilter(new DocumentFilter());
+        txtCCCD.setPreferredSize(new Dimension(250, 45));
+
+        JComboBox<String> cbPhai = new JComboBox<>(new String[]{"Nam", "Nữ", "Khác"});
+        cbPhai.setSelectedItem(khachHang.getPhai());
+        cbPhai.setPreferredSize(new Dimension(250, 45));
 
         JDateChooser dateChooserNgaySinh = new JDateChooser();
-        dateChooserNgaySinh.setDateFormatString("dd/MM/yyyy");
         dateChooserNgaySinh.setDate(khachHang.getNgaySinh());
-        dateChooserNgaySinh.setPreferredSize(new java.awt.Dimension(200, 25));
+        dateChooserNgaySinh.setDateFormatString("dd/MM/yyyy");
+        dateChooserNgaySinh.setPreferredSize(new Dimension(250, 45));
 
-        javax.swing.JTextField txtSoDienThoai = new javax.swing.JTextField(khachHang.getDienThoai(), 20);
-        txtSoDienThoai.setPreferredSize(new java.awt.Dimension(200, 25));
+        JTextField txtSoDienThoai = new JTextField(khachHang.getDienThoai(), 20);
+        ((AbstractDocument) txtSoDienThoai.getDocument()).setDocumentFilter(new DocumentFilter());
+        txtSoDienThoai.setPreferredSize(new Dimension(250, 45));
 
-        javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
-        btnSave.setBackground(new java.awt.Color(51, 153, 255)); // Màu xanh dương
-        btnSave.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
-        
-        javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
-        btnCancel.setBackground(new java.awt.Color(128, 128, 128)); // Màu xám
-        btnCancel.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+        JButton btnSave = new JButton("Lưu");
+        JButton btnCancel = new JButton("Hủy");
+        btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnSave.setBackground(Color.decode("#199FFE"));
+        btnSave.setForeground(Color.WHITE);
+        btnCancel.setBackground(Color.decode("#D3D3D3"));
 
+        // Set button sizes
+        Dimension buttonSize = new Dimension(100, 40);
+        btnSave.setPreferredSize(buttonSize);
+        btnCancel.setPreferredSize(buttonSize);
 
-		
-		btnSave.addActionListener(e->updateKhachHangData(updateKhachHangDialog,khachHang,khachHangDAO,
-				txtTenKhachHang,txtCCCD,cbPhai,dateChooserNgaySinh,txtSoDienThoai));
-		
-		btnCancel.addActionListener(e -> updateKhachHangDialog.dispose());
-		
-		javax.swing.JPanel formPanel = createFormPanel(txtMaKhachHang, txtTenKhachHang, txtCCCD, cbPhai,
-				  dateChooserNgaySinh ,txtSoDienThoai);
-		javax.swing.JPanel buttonPanel = createButtonPanel(btnCancel, btnSave);
-		
-		javax.swing.JPanel mainPanel = new javax.swing.JPanel();
-		mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
-		mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		mainPanel.add(formPanel, java.awt.BorderLayout.CENTER);
-		mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+        // Layout components
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        Font labelFont = new Font("Segoe UI", Font.BOLD, 20);
+        Font textFieldFont = new Font("Segoe UI", Font.PLAIN, 20);
+        Dimension textFieldSize = new Dimension(250, 45);
 
-		updateKhachHangDialog.add(mainPanel);
-		return updateKhachHangDialog;
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Row 1: Mã khách hàng and Tên khách hàng
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        JLabel lblMaKhachHang = new JLabel("Mã khách hàng:");
+        lblMaKhachHang.setFont(labelFont);
+        formPanel.add(lblMaKhachHang, gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(txtMaKhachHang, gbc);
+        txtMaKhachHang.setPreferredSize(textFieldSize);
+
+        gbc.gridx = 2;
+        JLabel lblTenKhachHang = new JLabel("Tên khách hàng:");
+        lblTenKhachHang.setFont(labelFont);
+        formPanel.add(lblTenKhachHang, gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(txtTenKhachHang, gbc);
+        txtTenKhachHang.setPreferredSize(textFieldSize);
+
+        // Row 2: Số CCCD and Phái
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        JLabel lblCCCD = new JLabel("Số CCCD:");
+        lblCCCD.setFont(labelFont);
+        formPanel.add(lblCCCD, gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(txtCCCD, gbc);
+        txtCCCD.setPreferredSize(textFieldSize);
+
+        gbc.gridx = 2;
+        JLabel lblPhai = new JLabel("Giới tính:");
+        lblPhai.setFont(labelFont);
+        formPanel.add(lblPhai, gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(cbPhai, gbc);
+        cbPhai.setPreferredSize(textFieldSize);
+
+        // Row 3: Ngày sinh and Số điện thoại
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        JLabel lblNgaySinh = new JLabel("Ngày sinh:");
+        lblNgaySinh.setFont(labelFont);
+        formPanel.add(lblNgaySinh, gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(dateChooserNgaySinh, gbc);
+        dateChooserNgaySinh.setPreferredSize(textFieldSize);
+
+        gbc.gridx = 2;
+        JLabel lblSoDienThoai = new JLabel("Điện thoại:");
+        lblSoDienThoai.setFont(labelFont);
+        formPanel.add(lblSoDienThoai, gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(txtSoDienThoai, gbc);
+        txtSoDienThoai.setPreferredSize(textFieldSize);
+
+        // Button panel setup
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.add(btnCancel);
+        buttonPanel.add(btnSave);
+
+        // Main panel setup
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Button actions
+        btnSave.addActionListener(e -> {
+            // Gọi hàm updateCustomerData và kiểm tra xem việc cập nhật có thành công hay không
+            if (updateKhachHangData(updateKhachHangDialog, khachHang, khachHangDAO, txtTenKhachHang, txtCCCD,
+                    cbPhai, dateChooserNgaySinh, txtSoDienThoai)) {
+                updateKhachHangDialog.dispose(); // Đóng dialog nếu thành công
+            }
+        });
+        btnCancel.addActionListener(e -> updateKhachHangDialog.dispose());
+
+        updateKhachHangDialog.add(mainPanel);
+        return updateKhachHangDialog;
     }
+
     
  private JPanel createFormPanel(JTextField txtMaKhachHang, JTextField txtTenKhachHang, JTextField txtCCCD,
 		 JComboBox<String> cbPhai, JDateChooser dateChooserNgaySinh, JTextField txtSoDienThoai) {
@@ -711,7 +802,7 @@ public class KhachHang_GUI<btnLuuMouseClicked> extends javax.swing.JPanel {
 }
 
 
-private void updateKhachHangData(JDialog dialog, KhachHang khachHang, KhachHang_DAO khachHangDAO,
+private boolean updateKhachHangData(JDialog dialog, KhachHang khachHang, KhachHang_DAO khachHangDAO,
         JTextField txtTenKhachHang, JTextField txtCCCD, JComboBox<String> cbPhai, JDateChooser dateChooserNgaySinh,
         JTextField txtSoDienThoai) {
     
@@ -726,7 +817,7 @@ private void updateKhachHangData(JDialog dialog, KhachHang khachHang, KhachHang_
     if (ngaySinhUtil == null) {
         JOptionPane.showMessageDialog(dialog, "Vui lòng chọn ngày sinh.", "Thông báo",
                 JOptionPane.WARNING_MESSAGE);
-        return;
+       
     }
 
     // Chuyển đổi từ java.util.Date sang java.sql.Date
@@ -761,6 +852,7 @@ private void updateKhachHangData(JDialog dialog, KhachHang khachHang, KhachHang_
         JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo",
                 JOptionPane.WARNING_MESSAGE);
     }
+	return false;
 }
 
 private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java.util.Date ngaySinh, String sdt) {
@@ -804,67 +896,48 @@ private boolean isInputValid(String tenKhachHang, String CCCD, String phai, java
 			buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 			buttonPanel.add(btnCancel);
 			buttonPanel.add(btnSave);
-			return buttonPanel;  
-		
-	}
+			return buttonPanel;  	
+}
 
  // Hàm đổ dữ liệu từ database vào JTable
-    public void loadDataToTable() {
-    	
-    	KhachHang_DAO khachHangDAO = new KhachHang_DAO();
-        List<KhachHang> dsKhachHang = dsKHDAO.getAllKhachHang();
-        
-      DefaultTableModel tableModel = new DefaultTableModel(
-		    new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-		    new String[] { "Mã khách hàng", "Tên khách hàng", "CCCD", "Phái", "Ngày sinh", "Điện thoại" }
-		);
-  	tbKhachHang.setModel(tableModel);
-        
-        tableModel.setRowCount(0);
+ public void loadDataToTable() {
+	    KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+	    List<KhachHang> dsKhachHang = khachHangDAO.getAllKhachHang();
+	    DefaultTableModel tableModel = new DefaultTableModel(
+	        new Object[][] {},  // Bắt đầu với dữ liệu rỗng
+	        new String[] { "Mã khách hàng", "Tên khách hàng", "CCCD", "Phái", "Ngày sinh", "Điện thoại" }
+	    );
+	    tbKhachHang.setModel(tableModel);
+	    tableModel.setRowCount(0);
 
-        // Định dạng ngày theo dd/MM/yyyy
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    // Định dạng ngày theo dd/MM/yyyy
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        for (KhachHang kh : dsKhachHang) {
-            Object[] row = {
-                kh.getMaKhachHang(),
-                kh.getTenKhachHang(),
-                kh.getCCCD(),
-                kh.getPhai(),
-                dateFormat.format(kh.getNgaySinh()),  // Định dạng ngày sinh
-                kh.getDienThoai()
-            };
-            tableModel.addRow(row);
-        }
-        tableModel.fireTableDataChanged();
-        
-       
-      
-        
-        lblCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				if (tbKhachHang.getSelectedRow() != -1) { // Check if a row is selected
-					updateKhachHang();
-					; // Call update service dialog method
-				}
-			}
-		});
-        
-        btnCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				if (tbKhachHang.getSelectedRow() != -1) { // Check if a row is selected
-					updateKhachHang(); // Call update service dialog method
-				}
-			}
-		});
-        
-        btnCapNhat.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				updateKhachHang(); // Call update service dialog method
-				
-			}
-		}); 
-    }
+	    for (KhachHang kh : dsKhachHang) {
+	        Object[] row = {
+	            kh.getMaKhachHang(),
+	            kh.getTenKhachHang(),
+	            kh.getCCCD(),
+	            kh.getPhai(),
+	            dateFormat.format(kh.getNgaySinh()),  // Định dạng ngày sinh
+	            kh.getDienThoai()
+	        };
+	        tableModel.addRow(row);
+	    }
+
+	    // Đặt sự kiện cập nhật khi nhấn vào lblCapNhat hoặc btnCapNhat
+	    MouseAdapter updateListener = new java.awt.event.MouseAdapter() {
+	        public void mouseClicked(java.awt.event.MouseEvent evt) {
+	            if (tbKhachHang.getSelectedRow() != -1) { // Kiểm tra nếu có dòng được chọn
+	                updateKhachHang(); // Gọi phương thức cập nhật
+	            }
+	        }
+	    };
+
+	    lblCapNhat.addMouseListener(updateListener);
+	    btnCapNhat.addMouseListener(updateListener);
+	}
+
 
 
     

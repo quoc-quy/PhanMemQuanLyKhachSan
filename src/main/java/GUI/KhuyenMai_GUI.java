@@ -309,69 +309,144 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
     private JDialog createUpdateKhuyenMaiDialog(KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO) {
         JDialog updateKhuyenMaiDialog = new JDialog();
         updateKhuyenMaiDialog.setTitle("Cập nhật khuyến mãi");
-        updateKhuyenMaiDialog.setSize(700, 400);
+        updateKhuyenMaiDialog.setSize(900, 400);
         updateKhuyenMaiDialog.setLocationRelativeTo(this);
         updateKhuyenMaiDialog.setModal(true);
+
+        // Create UI components
+        JTextField txtMaKhuyenMai = new JTextField(khuyenMai.getMakhuyenMai(), 20);
+        txtMaKhuyenMai.setEnabled(false); // Make this field non-editable
+        txtMaKhuyenMai.setPreferredSize(new Dimension(250, 45));
         
-        // UI
-        javax.swing.JTextField txtMaKhuyenMai = createTextField(khuyenMai.getMakhuyenMai(), false);
-        txtMaKhuyenMai.setEditable(false);
-        txtMaKhuyenMai.setEnabled(false);
-        
-        javax.swing.JTextField txtMoTa = new javax.swing.JTextField(khuyenMai.getMoTa(), 20);
-        
+
+        JTextField txtMoTa = new JTextField(khuyenMai.getMoTa(), 20);
+        txtMoTa.setPreferredSize(new Dimension(250, 45));
+
         JDateChooser dateChooserNgayBatDau = new JDateChooser();
         dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
         dateChooserNgayBatDau.setDate(khuyenMai.getNgayBatDau());
+        dateChooserNgayBatDau.setPreferredSize(new Dimension(250, 45));
 
         JDateChooser dateChooserNgayKetThuc = new JDateChooser();
         dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
         dateChooserNgayKetThuc.setDate(khuyenMai.getNgayKetThuc());
+        dateChooserNgayKetThuc.setPreferredSize(new Dimension(250, 45));
 
-        // Chuyển trạng thái thành JComboBox
-        javax.swing.JComboBox<String> cbTrangThai = new javax.swing.JComboBox<>(new String[]{"Hoạt động", "Hết hạn"});
+        JComboBox<String> cbTrangThai = new JComboBox<>(new String[]{"Hoạt động", "Hết hạn"});
         cbTrangThai.setSelectedItem(khuyenMai.getTrangThai());
-        cbTrangThai.setPreferredSize(new java.awt.Dimension(250, 30)); // Đặt kích thước phù hợp
+        cbTrangThai.setPreferredSize(new Dimension(250, 45));
 
-        javax.swing.JTextField txtChietKhau = new javax.swing.JTextField(String.valueOf(khuyenMai.getChietKhau()), 20);
-        txtChietKhau.setPreferredSize(new java.awt.Dimension(250, 30)); // Đặt kích thước phù hợp
+        JTextField txtChietKhau = new JTextField(String.valueOf(khuyenMai.getChietKhau()), 20);
+        txtChietKhau.setPreferredSize(new Dimension(250, 45));
 
-        javax.swing.JButton btnSave = new javax.swing.JButton("Lưu");
-        btnSave.setBackground(new java.awt.Color(51, 153, 255)); // Màu xanh dương
-        btnSave.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
-        
-        javax.swing.JButton btnCancel = new javax.swing.JButton("Hủy");
-        btnCancel.setBackground(new java.awt.Color(128, 128, 128)); // Màu xám
-        btnCancel.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+        JButton btnSave = new JButton("Lưu");
+        JButton btnCancel = new JButton("Hủy");
+        btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnSave.setBackground(Color.decode("#199FFE"));
+        btnSave.setForeground(Color.WHITE);
+        btnCancel.setBackground(Color.decode("#D3D3D3"));
 
-        // Thêm sự kiện cho btnSave và btnCancel
-        btnSave.addActionListener(e -> updateKhuyenmaiData(
-                updateKhuyenMaiDialog, 
-                khuyenMai, 
-                khuyenMaiDAO, 
-                txtMoTa, 
-                dateChooserNgayBatDau, 
-                dateChooserNgayKetThuc, 
-                cbTrangThai,  // Đảm bảo đây là JComboBox<String> chứ không phải JTextField
-                txtChietKhau
-        ));
-        btnCancel.addActionListener(e -> updateKhuyenMaiDialog.dispose());
+        // Set button sizes
+        Dimension buttonSize = new Dimension(100, 40);
+        btnSave.setPreferredSize(buttonSize);
+        btnCancel.setPreferredSize(buttonSize);
 
-        // Panel setup
-        javax.swing.JPanel formPanel = createFormPanel(txtMaKhuyenMai, txtMoTa, dateChooserNgayBatDau, dateChooserNgayKetThuc,
-                cbTrangThai, txtChietKhau);
-        javax.swing.JPanel buttonPanel = createButtonPanel(btnCancel, btnSave);
+        // Layout components
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        Font labelFont = new Font("Segoe UI", Font.BOLD, 20);
+        Font textFieldFont = new Font("Segoe UI", Font.PLAIN, 20);
+        Dimension textFieldSize = new Dimension(250, 45);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Row 1: Mã khuyến mãi and Mô tả
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        JLabel lblMaKhuyenMai = new JLabel("Mã khuyến mãi:");
+        lblMaKhuyenMai.setFont(labelFont);
+        formPanel.add(lblMaKhuyenMai, gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(txtMaKhuyenMai, gbc);
+        txtMaKhuyenMai.setPreferredSize(textFieldSize);
+
+        gbc.gridx = 2;
+        JLabel lblMoTa = new JLabel("Mô tả:");
+        lblMoTa.setFont(labelFont);
+        formPanel.add(lblMoTa, gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(txtMoTa, gbc);
+        txtMoTa.setPreferredSize(textFieldSize);
+
+        // Row 2: Ngày bắt đầu and Ngày kết thúc
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        JLabel lblNgayBatDau = new JLabel("Ngày bắt đầu:");
+        lblNgayBatDau.setFont(labelFont);
+        formPanel.add(lblNgayBatDau, gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(dateChooserNgayBatDau, gbc);
+        dateChooserNgayBatDau.setPreferredSize(textFieldSize);
+
+        gbc.gridx = 2;
+        JLabel lblNgayKetThuc = new JLabel("Ngày kết thúc:");
+        lblNgayKetThuc.setFont(labelFont);
+        formPanel.add(lblNgayKetThuc, gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(dateChooserNgayKetThuc, gbc);
+        dateChooserNgayKetThuc.setPreferredSize(textFieldSize);
+
+        // Row 3: Trạng thái and Chiết khấu
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        JLabel lblTrangThai = new JLabel("Trạng thái:");
+        lblTrangThai.setFont(labelFont);
+        formPanel.add(lblTrangThai, gbc);
+
+        gbc.gridx = 1;
+        formPanel.add(cbTrangThai, gbc);
+        cbTrangThai.setPreferredSize(textFieldSize);
+
+        gbc.gridx = 2;
+        JLabel lblChietKhau = new JLabel("Chiết khấu:");
+        lblChietKhau.setFont(labelFont);
+        formPanel.add(lblChietKhau, gbc);
+
+        gbc.gridx = 3;
+        formPanel.add(txtChietKhau, gbc);
+        txtChietKhau.setPreferredSize(textFieldSize);
+
+        // Button panel setup
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.add(btnCancel);
+        buttonPanel.add(btnSave);
 
         // Main panel setup
-        javax.swing.JPanel mainPanel = new javax.swing.JPanel();
-        mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
-        mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        mainPanel.add(formPanel, java.awt.BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Button actions
+        btnSave.addActionListener(e -> {
+            // Gọi hàm updateKhuyenMaiData và kiểm tra xem việc cập nhật có thành công hay không
+            if (updateKhuyenmaiData(updateKhuyenMaiDialog, khuyenMai, khuyenMaiDAO, txtMoTa, dateChooserNgayBatDau,
+                    dateChooserNgayKetThuc, cbTrangThai, txtChietKhau)) {
+                updateKhuyenMaiDialog.dispose(); // Đóng dialog nếu thành công
+            }
+        });
+        btnCancel.addActionListener(e -> updateKhuyenMaiDialog.dispose());
 
         updateKhuyenMaiDialog.add(mainPanel);
         return updateKhuyenMaiDialog;
     }
+
 
     private javax.swing.JPanel createFormPanel(javax.swing.JTextField txtMaKhuyenMai, javax.swing.JTextField txtMoTa, 
             JDateChooser dateChooserNgayBatDau, JDateChooser dateChooserNgayKetThuc, javax.swing.JComboBox<String> cbTrangThai, 
@@ -418,7 +493,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
     }
 
 
-    private void updateKhuyenmaiData(JDialog dialog, KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO,
+    private boolean updateKhuyenmaiData(JDialog dialog, KhuyenMai khuyenMai, KhuyenMai_DAO khuyenMaiDAO,
             JTextField txtMoTa, JDateChooser dateChooserNgayBatDau, 
             JDateChooser dateChooserNgayKetThuc, JComboBox<String> cbTrangThai,
             JTextField txtChietKhau) {
@@ -434,7 +509,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 	if (ngayBatDauUtil == null || ngayKetThucUtil == null) {
 	JOptionPane.showMessageDialog(dialog, "Vui lòng chọn ngày bắt đầu và ngày kết thúc.", "Thông báo",
 	JOptionPane.WARNING_MESSAGE);
-	return;
+	return false;
 	}
 	
 	// Chuyển đổi từ java.util.Date sang java.sql.Date
@@ -479,6 +554,7 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 	JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ thông tin.", "Thông báo",
 	JOptionPane.WARNING_MESSAGE);
 	}
+	return false;
 }
 
 private boolean isInputValid(String moTa, java.util.Date ngayBatDau, java.util.Date ngayKetThuc, String trangThai, String chietKhau) {
@@ -506,84 +582,124 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
    
    public void showAddKhuyenMaiDialog(java.awt.event.MouseEvent evt) {
 	    JDialog addKhuyenMaiDialog = new JDialog((Frame) null, "Thêm khuyến mãi", true);
-	    addKhuyenMaiDialog.setSize(800, 400);
+	    addKhuyenMaiDialog.setSize(900, 400);
 	    addKhuyenMaiDialog.setLocationRelativeTo(this);
 
 	    // UI
-	    KhuyenMai_DAO khuyenMaiDAO= new KhuyenMai_DAO();
+	    KhuyenMai_DAO khuyenMaiDAO = new KhuyenMai_DAO();
 	    String maKhuyenMai = khuyenMaiDAO.generateNewKhuyenMaiID();
 	    if (maKhuyenMai == null) {
 	        JOptionPane.showMessageDialog(addKhuyenMaiDialog, "Lỗi khi tạo mã khuyến mãi mới.", "Lỗi", JOptionPane.ERROR_MESSAGE);
 	        return;
 	    }
+
+	    // Font for labels and text fields
+	    Font labelFont = new Font("Segoe UI", Font.BOLD, 20);
+	    Font textFieldFont = new Font("Segoe UI", Font.PLAIN, 20);
+	    Dimension textFieldSize = new Dimension(250, 45);
+
+	    // Create form fields
 	    JTextField txtMaKhuyenMai = new JTextField(maKhuyenMai, 20);
-	    txtMaKhuyenMai.setEditable(false);
-	    txtMaKhuyenMai.setEnabled(false);
+	    txtMaKhuyenMai.setEnabled(false); // Make this field non-editable
+	    txtMaKhuyenMai.setPreferredSize(textFieldSize);
 
 	    JTextField txtMoTa = new JTextField(20);
+	    txtMoTa.setPreferredSize(textFieldSize);
+
 	    JDateChooser dateChooserNgayBatDau = new JDateChooser();
-	    JDateChooser dateChooserNgayKetThuc = new JDateChooser();
 	    dateChooserNgayBatDau.setDateFormatString("dd/MM/yyyy");
+	    dateChooserNgayBatDau.setPreferredSize(textFieldSize);
+
+	    JDateChooser dateChooserNgayKetThuc = new JDateChooser();
 	    dateChooserNgayKetThuc.setDateFormatString("dd/MM/yyyy");
+	    dateChooserNgayKetThuc.setPreferredSize(textFieldSize);
 
-	    // Sử dụng JComboBox cho trạng thái
 	    JComboBox<String> cbTrangThai = new JComboBox<>(new String[]{"Hoạt động", "Hết hạn"});
+	    cbTrangThai.setPreferredSize(textFieldSize);
+
 	    JTextField txtChietKhau = new JTextField(20);
+	    txtChietKhau.setPreferredSize(textFieldSize);
 
-	    // Chỉ cho phép nhập số trong trường "Chiết khấu"
-	    ((AbstractDocument) txtChietKhau.getDocument()).setDocumentFilter(new DocumentFilter() {
-	        public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws BadLocationException {
-	            if (string.matches("\\d*")) { // Chỉ cho phép ký tự số
-	                super.insertString(fb, offset, string, attr);
-	            }
-	        }
-
-	        public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
-	            if (text.matches("\\d*")) { // Chỉ cho phép ký tự số
-	                super.replace(fb, offset, length, text, attrs);
-	            }
-	        }
-	    });
-	    
-	   
-
+	    // Buttons
 	    JButton btnSave = new JButton("Lưu");
-	    btnSave.setBackground(new java.awt.Color(51, 153, 255)); // Màu xanh dương
-	    btnSave.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
-	    
 	    JButton btnCancel = new JButton("Hủy");
-	    btnCancel.setBackground(new java.awt.Color(128, 128, 128)); // Màu xám
-	    btnCancel.setForeground(java.awt.Color.WHITE); // Màu chữ trắng
+	    btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14));
+	    btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+	    btnSave.setBackground(Color.decode("#199FFE"));
+	    btnSave.setForeground(Color.WHITE);
+	    btnCancel.setBackground(Color.decode("#D3D3D3"));
 
-	    // Layout components in a 2-column format
+	    // Set button sizes
+	    Dimension buttonSize = new Dimension(100, 40);
+	    btnSave.setPreferredSize(buttonSize);
+	    btnCancel.setPreferredSize(buttonSize);
+
+	    // Layout components
 	    JPanel formPanel = new JPanel(new GridBagLayout());
 	    GridBagConstraints gbc = new GridBagConstraints();
-	    gbc.insets = new Insets(10, 10, 10, 10);
-	    gbc.anchor = GridBagConstraints.WEST;
-	    gbc.fill = GridBagConstraints.HORIZONTAL;  // Giãn ngang các trường nhập liệu
-	    gbc.weightx = 1.0; 
+	    gbc.insets = new Insets(5, 5, 5, 5);
+	    gbc.fill = GridBagConstraints.HORIZONTAL;
 
-	    // Set preferred sizes for consistent UI
-	    txtMaKhuyenMai.setPreferredSize(new Dimension(250, 30));
-	    txtMoTa.setPreferredSize(new Dimension(250, 30));
-	    dateChooserNgayBatDau.setPreferredSize(new Dimension(250, 30));
-	    dateChooserNgayKetThuc.setPreferredSize(new Dimension(250, 30));
-	    cbTrangThai.setPreferredSize(new Dimension(250, 30));
-	    txtChietKhau.setPreferredSize(new Dimension(250, 30));
+	    // Row 1: Mã khuyến mãi and Mô tả
+	    gbc.gridx = 0;
+	    gbc.gridy = 0;
+	    JLabel lblMaKhuyenMai = new JLabel("Mã khuyến mãi:");
+	    lblMaKhuyenMai.setFont(labelFont);
+	    formPanel.add(lblMaKhuyenMai, gbc);
 
-	    // Add components to form panel with 2-column layout
-	    addFormRow(formPanel, gbc, 0, 0, "Mã khuyến mãi:", txtMaKhuyenMai);
-	    addFormRow(formPanel, gbc, 1, 0, "Trạng thái:", cbTrangThai);
-	    addFormRow(formPanel, gbc, 0, 1, "Mô tả:", txtMoTa);
-	    addFormRow(formPanel, gbc, 1, 1, "Chiết khấu:", txtChietKhau);
-	    addFormRow(formPanel, gbc, 0, 2, "Ngày bắt đầu:", dateChooserNgayBatDau);
-	    addFormRow(formPanel, gbc, 1, 2, "Ngày kết thúc:", dateChooserNgayKetThuc);
+	    gbc.gridx = 1;
+	    formPanel.add(txtMaKhuyenMai, gbc);
+
+	    gbc.gridx = 2;
+	    JLabel lblMoTa = new JLabel("Mô tả:");
+	    lblMoTa.setFont(labelFont);
+	    formPanel.add(lblMoTa, gbc);
+
+	    gbc.gridx = 3;
+	    formPanel.add(txtMoTa, gbc);
+
+	    // Row 2: Ngày bắt đầu and Ngày kết thúc
+	    gbc.gridx = 0;
+	    gbc.gridy = 1;
+	    JLabel lblNgayBatDau = new JLabel("Ngày bắt đầu:");
+	    lblNgayBatDau.setFont(labelFont);
+	    formPanel.add(lblNgayBatDau, gbc);
+
+	    gbc.gridx = 1;
+	    formPanel.add(dateChooserNgayBatDau, gbc);
+
+	    gbc.gridx = 2;
+	    JLabel lblNgayKetThuc = new JLabel("Ngày kết thúc:");
+	    lblNgayKetThuc.setFont(labelFont);
+	    formPanel.add(lblNgayKetThuc, gbc);
+
+	    gbc.gridx = 3;
+	    formPanel.add(dateChooserNgayKetThuc, gbc);
+
+	    // Row 3: Trạng thái and Chiết khấu
+	    gbc.gridx = 0;
+	    gbc.gridy = 2;
+	    JLabel lblTrangThai = new JLabel("Trạng thái:");
+	    lblTrangThai.setFont(labelFont);
+	    formPanel.add(lblTrangThai, gbc);
+
+	    gbc.gridx = 1;
+	    formPanel.add(cbTrangThai, gbc);
+
+	    gbc.gridx = 2;
+	    JLabel lblChietKhau = new JLabel("Chiết khấu:");
+	    lblChietKhau.setFont(labelFont);
+	    formPanel.add(lblChietKhau, gbc);
+
+	    gbc.gridx = 3;
+	    formPanel.add(txtChietKhau, gbc);
 
 	    // Button panel setup
 	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	    buttonPanel.add(btnCancel);
 	    buttonPanel.add(btnSave);
 
+	    // Main panel setup
 	    JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
 	    mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	    mainPanel.add(formPanel, BorderLayout.CENTER);

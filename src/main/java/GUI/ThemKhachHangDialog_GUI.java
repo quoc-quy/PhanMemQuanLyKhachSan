@@ -322,6 +322,7 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
 
         if (!isCCCDValid(cccd)) {
             JOptionPane.showMessageDialog(this, "Số CCCD phải có từ 9 đến 12 chữ số.", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -336,10 +337,12 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
         java.sql.Date sqlNgaySinh = new java.sql.Date(ngaySinh.getTime());
         KhachHang khachHang = new KhachHang(maKhachHang, tenKhachHang, cccd, phai, sqlNgaySinh, dienThoai);
         KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+        
+        boolean success = khachHangDAO.addKhachHang(khachHang);
        
         
        
-    	   if (khachHangDAO.addKhachHang(khachHang)) {
+    	   if (success) {
                if (parentPanel != null) {
                    parentPanel.loadDataToTable(); // Gọi phương thức cập nhật bảng nếu parentPanel không null
                }
