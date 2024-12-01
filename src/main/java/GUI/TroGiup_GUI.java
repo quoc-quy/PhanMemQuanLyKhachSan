@@ -4,11 +4,25 @@
  */
 package GUI;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
 /**
  *
  * @author 84837
  */
 public class TroGiup_GUI extends javax.swing.JPanel {
+	
+    private JButton jButtonCustomerCare;
+    private JButton jButtonContactDetails;
 
     /**
      * Creates new form TroGiup_GUI
@@ -27,37 +41,253 @@ public class TroGiup_GUI extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelTitle = new javax.swing.JLabel();
+        JButton jButtonExchange = new JButton("Đổi tiền");
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaFAQ = new javax.swing.JTextArea();
+        jLabelContact = new javax.swing.JLabel();
+        jLabelPhone = new javax.swing.JLabel();
+        jLabelEmail = new javax.swing.JLabel();
+        
 
-        setLayout(new java.awt.CardLayout());
+        jPanel1.setBackground(new java.awt.Color(240, 240, 240));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        jPanel1.setLayout(new java.awt.BorderLayout());  // Thiết lập layout BorderLayout cho jPanel1
+        
+        
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new java.awt.BorderLayout());
+        topPanel.setBackground(new java.awt.Color(240, 240, 240));
+        
+        jButtonExchange.setFont(new java.awt.Font("Tahoma", 0, 14));
+        jButtonExchange.setBackground(new Color(100, 150, 200));
+        jButtonExchange.setForeground(Color.WHITE);
+        
+        jLabelTitle.setFont(new java.awt.Font("Tahoma", 1, 20));
+        jLabelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTitle.setText("Trợ Giúp Quản Lý Khách Sạn");
+        
+        topPanel.add(jLabelTitle, java.awt.BorderLayout.CENTER); // Tiêu đề ở giữa
+        topPanel.add(jButtonExchange, java.awt.BorderLayout.EAST); // Nút ở góc phải
+        
+        jButtonExchange.setText("Đổi tiền");
+        jButtonExchange.setFont(new java.awt.Font("Tahoma", 0, 20));
+        
+        jButtonExchange.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Mở cửa sổ đổi tiền khi nút được nhấn
+                CurrencyExchangeDialog dialog = new CurrencyExchangeDialog(null); // Không có parent, có thể thay thế nếu cần
+                dialog.setVisible(true); // Hiển thị JDialog
+            }
+        });
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextAreaFAQ.setEditable(false);
+        jTextAreaFAQ.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextAreaFAQ.setRows(5);
+        jTextAreaFAQ.setText("\n I. Quản lý phòng\r\n"
+        		+ "\s\s1. Khó khăn gì trong việc quản lý phòng không? Nếu có, hãy mô tả chi tiết.\r\n"
+        		+ "\s\s  Khó khăn lớn nhất là kiểm soát chính xác tình trạng phòng trống trong giờ cao điểm và đảm bảo các phòng được chuẩn bị sạch sẽ kịp thời cho khách mới.\r\n"
+        		+ "\s\s2. Có hệ thống nào hỗ trợ bạn quản lý tình trạng phòng trống và phòng đã đặt không?\r\n"
+        		+ "\s\s  Khách sạn sử dụng phần mềm quản lý phòng giúp theo dõi tình trạng phòng trống, phòng đã đặt, và phòng đang chờ vệ sinh.\r\n"
+        		+ "\s\s3. Có quy trình cụ thể nào để vệ sinh và bảo trì phòng không?\r\n"
+        		+ "\s\s  Sau khi khách trả phòng, nhân viên dọn phòng sẽ kiểm tra và vệ sinh phòng theo quy chuẩn. Ngoài ra, định kỳ hàng tháng, khách sạn thực hiện bảo trì các thiết bị trong phòng.\r\n"
+        		+ "\s\s4. Hệ thống có tự động cập nhật trạng thái phòng khi khách check-in và check-out không?\r\n"
+        		+ "\s\s  Có, hệ thống sẽ tự động cập nhật trạng thái phòng ngay khi nhân viên xác nhận check-in hoặc check-out của khách.\r\n"
+        		+ "\n II. Đặt phòng\r\n"
+        		+ "\s\s1. Khách sạn có hỗ trợ đặt phòng trực tuyến không? Nếu có, bạn sử dụng kênh nào (website, ứng dụng, mạng xã hội)?\r\n"
+        		+ "\s\s  Có, khách sạn hỗ trợ đặt phòng qua website và các ứng dụng như Facebook, Zalo.\r\n"
+        		+ "\s\s2. Quy trình xử lý khi khách yêu cầu thay đổi hoặc hủy đặt phòng như thế nào?\r\n"
+        		+ "\s\s  Nhân viên sẽ xác nhận yêu cầu thay đổi hoặc hủy đặt phòng và cập nhật vào hệ thống. Nếu khách đã đặt cọc, khách sạn có quy định rõ về việc hoàn trả tùy thuộc vào thời điểm hủy phòng.\r\n"
+        		+ "\s\s3. Khách sạn có quy định gì về thời gian nhận phòng và trả phòng không?\r\n"
+        		+ "\s\s  Có, thời gian nhận phòng là 14:00 và trả phòng là 12:00. Khách trả phòng sau 6 giờ chiều sẽ tính phí thêm một đêm.\r\n"
+        		+ "\n III. Quản lý dịch vụ khách hàng\r\n"
+        		+ "\s\s1. Khách sạn có cung cấp các dịch vụ bổ sung như giặt ủi, ăn uống tại phòng không?\r\n"
+        		+ "\s\s  Có, khách sạn cung cấp dịch vụ giặt ủi và phục vụ đồ ăn tại phòng theo yêu cầu của khách.\r\n"
+        		+ "\s\s2. Làm cách nào khách sạn đảm bảo chất lượng dịch vụ khách hàng?\r\n"
+        		+ "\s\s  Khách sạn thường xuyên đào tạo nhân viên về kỹ năng phục vụ khách hàng và kiểm tra định kỳ chất lượng dịch vụ để đảm bảo sự hài lòng của khách.\r\n"
+        		+ "\s\s3. Bộ phận nào chịu trách nhiệm chính trong việc tiếp nhận và xử lý phản hồi của khách hàng?\r\n"
+        		+ "\s\s  Bộ phận lễ tân là nơi tiếp nhận phản hồi đầu tiên, sau đó chuyển thông tin đến các bộ phận liên quan để xử lý.\r\n"
+        		+ "\s\s4. Bạn có quy trình nào để giải quyết các khiếu nại từ khách hàng không?\r\n"
+        		+ "\s\s  Có, nhân viên sẽ ghi nhận khiếu nại và giải quyết ngay trong khả năng của mình. Nếu cần thiết, quản lý sẽ tham gia để đưa ra phương án xử lý phù hợp.\r\n"
+        		+ "\n IV. Thanh toán và hóa đơn\r\n"
+        		+ "\s\s1. Hệ thống có hỗ trợ nhiều hình thức thanh toán không (tiền mặt, thẻ tín dụng, chuyển khoản)?\r\n"
+        		+ "\s\s  Có, khách sạn chấp nhận thanh toán bằng tiền mặt, thẻ tín dụng, và chuyển khoản.\r\n"
+        		+ "\s\s2. Khách sạn có yêu cầu khách đặt cọc trước không? Nếu có, số tiền đặt cọc chiếm bao nhiêu phần trăm?\r\n"
+        		+ "\s\s  Có, khách sạn yêu cầu khách đặt cọc 30% tổng số tiền phòng để đảm bảo giữ chỗ.\r\n"
+        		+ "\s\s3. Quy trình lập và gửi hóa đơn cho khách hàng diễn ra như thế nào?\r\n"
+        		+ "\s\sSau khi thanh toán, hệ thống sẽ lập hóa đơn và gửi bản sao qua email cho khách hàng. Nếu khách cần bản giấy, khách sạn sẽ cung cấp tại quầy lễ tân.\r\n"
+        		+ "\n V. Quản lý nhân viên\r\n"
+        		+ "\s\s1. Nhân viên khách sạn được đào tạo và hướng dẫn về quy trình làm việc như thế nào?\r\n"
+        		+ "\s\s  Nhân viên mới sẽ được hướng dẫn quy trình làm việc qua các buổi đào tạo và tập huấn thực tế tại khách sạn.\r\n"
+        		+ "\s\s2. Khách sạn có phần mềm hỗ trợ quản lý nhân sự không?\r\n"
+        		+ "\s\s  Có, khách sạn sử dụng phần mềm quản lý nhân sự để theo dõi hồ sơ và lịch làm việc của nhân viên.\r\n"
+        		+ "\s\s3. Làm thế nào để theo dõi lịch làm việc và phân công công việc của nhân viên?\r\n"
+        		+ "\s\s  Lịch làm việc và phân công công việc được quản lý qua phần mềm, cho phép các nhân viên xem lịch làm của mình.\r\n"
+        		+ "\n VI. Hệ thống hỗ trợ và an ninh\r\n"
+        		+ "\s\s1. Khách sạn có hệ thống camera an ninh không? Hệ thống này bao phủ khu vực nào?\r\n"
+        		+ "\s\s  Có, hệ thống camera an ninh bao phủ khu vực lễ tân, hành lang các tầng và khu vực công cộng để đảm bảo an toàn cho khách.\r\n"
+        		+ "\s\s2. Có quy trình nào đảm bảo an toàn cho khách và tài sản của khách không?\r\n"
+        		+ "\s\s  Có, khách sạn có quy trình kiểm tra an ninh định kỳ và cung cấp két an toàn trong phòng cho khách giữ tài sản cá nhân.\r\n"
+        		+ "\s\s3. Hệ thống có lưu trữ thông tin khách hàng và có bảo mật không? Thông tin này được lưu trữ trong bao lâu?\r\n"
+        		+ "\s\s  Có, thông tin khách hàng được lưu trữ và bảo mật trong hệ thống trong vòng 1 năm trước khi xóa.\r\n"
+        		+ "\n VII. Đánh giá và cải tiến\r\n"
+        		+ "\s\s1. Khách sạn có thu thập phản hồi của khách hàng để cải thiện dịch vụ không? Làm cách nào?\r\n"
+        		+ "\s\s  Có, khách sạn thu thập phản hồi thông qua khảo sát khách hàng và qua các đánh giá trực tuyến.\r\n"
+        		+ "\s\s2. Định kỳ có các buổi đánh giá và họp báo cáo về tình hình hoạt động của khách sạn không?\r\n"
+        		+ "\s\s  Có, mỗi tháng khách sạn tổ chức buổi họp để đánh giá tình hình hoạt động và đề xuất cải tiến.\r\n"
+        		+ "\s\s3. Bạn có đề xuất gì để nâng cao hiệu quả quản lý và chất lượng dịch vụ khách sạn?\r\n"
+        		+ "\s\s  Cải tiến phần mềm quản lý để tự động hóa nhiều quy trình hơn, đồng thời đầu tư vào đào tạo nhân viên nhằm nâng cao kỹ năng phục vụ khách hàng.");
+        jTextAreaFAQ.setWrapStyleWord(true);
+        jTextAreaFAQ.setLineWrap(true);
+        jTextAreaFAQ.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        
+        // Đặt kích thước mới cho JScrollPane
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(1150, 600));
+        jScrollPane1.setViewportView(jTextAreaFAQ);
 
-        jLabel1.setText("Updating....");
+        jLabelContact.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelContact.setText("Thông tin liên hệ:");
+        jLabelContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabelPhone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelPhone.setText("Điện thoại: 0123 456 789");
+        jLabelPhone.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabelEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelEmail.setText("Email: hotro@quanlykhachsanTQSN.com");
+        jLabelEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
+        // Create buttons for "Chăm Sóc Khách Hàng" and "Thông Tin Liên Hệ Chi Tiết"
+        jButtonCustomerCare = new JButton("Chăm Sóc Khách Hàng");
+        jButtonCustomerCare.setFont(new java.awt.Font("Tahoma", 0, 14));
+        
+        jButtonContactDetails = new JButton("Thông Tin Liên Hệ Chi Tiết");
+        jButtonContactDetails.setFont(new java.awt.Font("Tahoma", 0, 14));
+
+        // Create a bottom panel for the two new buttons
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        bottomPanel.setBackground(new java.awt.Color(240, 240, 240));
+        bottomPanel.add(jButtonCustomerCare);
+        bottomPanel.add(jButtonContactDetails);
+        jPanel1.add(bottomPanel, java.awt.BorderLayout.SOUTH); // Add bottom panel
+
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
+        
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(354, 354, 354)
-                .addComponent(jLabel1)
-                .addContainerGap(422, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(269, 269, 269)
-                .addComponent(jLabel1)
-                .addContainerGap(287, Short.MAX_VALUE))
-        );
+        	    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        	    .addComponent(topPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.CENTER, 1150, 1150, 1150)
+        	    .addGroup(jPanel1Layout.createSequentialGroup()
+        	        .addGap(50, 50, 50)
+        	        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+        	            .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	            .addComponent(jLabelPhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	            .addComponent(jLabelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	        .addContainerGap(50, Short.MAX_VALUE))
+        	);
+        	jPanel1Layout.setVerticalGroup(
+        	    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        	    .addGroup(jPanel1Layout.createSequentialGroup()
+        	        .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        	        .addGap(20, 20, 20)
+        	        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+        	        .addGap(30, 30, 30)
+        	        .addComponent(jLabelContact)
+        	        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        	        .addComponent(jLabelPhone)
+        	        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        	        .addComponent(jLabelEmail)
+        	        .addContainerGap(30, Short.MAX_VALUE))
+        	);
 
-        add(jPanel1, "card2");
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+    
+    public class CurrencyExchangeDialog extends JDialog {
+        private JTextField usdField, vndField;
+        private JButton convertButton, cancelButton;
+        private final double EXCHANGE_RATE = 23500; // Tỷ giá giả định 1 USD = 23,500 VND
 
+        public CurrencyExchangeDialog(JFrame parent) {
+            super(parent, "Đổi Tiền USD sang VND", true); // true: Modal Dialog
+            setSize(400, 250); // Kích thước dialog (tăng kích thước để có chỗ cho nút hủy)
+            setLocationRelativeTo(parent); // Đặt dialog ở giữa màn hình
+
+            // Sử dụng GridBagLayout để kiểm soát bố cục chính xác
+            setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(10, 10, 10, 10); // Cách đều các thành phần
+
+            // Thành phần nhập tiền USD
+            JLabel usdLabel = new JLabel("Nhập số tiền (USD): ");
+            usdField = new JTextField(15);
+
+            // Thành phần hiển thị số tiền VND
+            JLabel vndLabel = new JLabel("Số tiền (VND): ");
+            vndField = new JTextField(15);
+            vndField.setEditable(false); // Không cho phép người dùng chỉnh sửa VND trực tiếp
+
+            // Nút "Đổi Tiền"
+            convertButton = new JButton("Đổi Tiền");
+            convertButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        double usdAmount = Double.parseDouble(usdField.getText());
+                        double vndAmount = usdAmount * EXCHANGE_RATE;
+                        vndField.setText(String.format("%.0f", vndAmount));
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(CurrencyExchangeDialog.this, "Vui lòng nhập số tiền hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+
+            // Nút "Hủy"
+            cancelButton = new JButton("Thoát");
+            cancelButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Đóng dialog khi nhấn nút Hủy
+                    dispose();
+                }
+            });
+
+            // Cấu hình GridBagLayout để thêm các thành phần vào dialog
+            gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2; // USD label
+            add(usdLabel, gbc);
+            
+            gbc.gridx = 2; gbc.gridy = 0; gbc.gridwidth = 1; // Trường nhập số tiền USD
+            add(usdField, gbc);
+
+            gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 2; // VND label
+            add(vndLabel, gbc);
+
+            gbc.gridx = 2; gbc.gridy = 1; gbc.gridwidth = 1; // Trường hiển thị số tiền VND
+            add(vndField, gbc);
+
+            gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2; // Nút "Đổi Tiền"
+            add(convertButton, gbc);
+
+            // Nút "Hủy" ở góc dưới bên phải, nhỏ hơn nút Đổi Tiền
+            gbc.gridx = 2; gbc.gridy = 3; gbc.gridwidth = 1; // Nút "Hủy" nhỏ
+            gbc.anchor = GridBagConstraints.ABOVE_BASELINE; // Đặt vị trí nút ở góc dưới bên phải
+            cancelButton.setPreferredSize(new Dimension(70, 30)); // Đặt kích thước cho nút Hủy nhỏ hơn
+            add(cancelButton, gbc);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelTitle;
+    private javax.swing.JLabel jLabelContact;
+    private javax.swing.JLabel jLabelPhone;
+    private javax.swing.JLabel jLabelEmail;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaFAQ;
+    private JButton jButtonExchange;  // 
     // End of variables declaration//GEN-END:variables
 }
