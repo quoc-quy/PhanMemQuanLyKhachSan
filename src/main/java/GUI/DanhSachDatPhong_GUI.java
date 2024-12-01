@@ -342,7 +342,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
 
     private void btnNhanPhongMouseClicked(java.awt.event.MouseEvent evt) {
     	hienThiThongTinDatPhong();
-    }//GEN-LAST:event_btnNhanPhongMouseClicked
+    }                                         
 
     private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {
         txtTimKiem.setText("");

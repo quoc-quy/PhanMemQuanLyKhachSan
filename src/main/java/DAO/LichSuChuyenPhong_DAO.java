@@ -20,7 +20,7 @@ public class LichSuChuyenPhong_DAO {
 	    List<Object[]> danhSachLichSu = new ArrayList<>();
 
 	    String sql = 
-	        "SELECT lscp.MaChuyenPhong, lscp.PhongCu, lscp.PhongMoi, lscp.LyDo, lscp.NgayChuyenPhong " +
+	        "SELECT lscp.MaChuyenPhong, lscp.MaPhieuDatPhong, lscp.PhongCu, lscp.PhongMoi, lscp.LyDo, lscp.NgayChuyenPhong " +
 	        "FROM LichSuChuyenPhong lscp";
 
 	    try (Connection conn = ConnectDB.getConnection();
@@ -30,6 +30,7 @@ public class LichSuChuyenPhong_DAO {
 	        int index = 1; // Biến đếm bắt đầu từ 1 cho số thứ tự dòng
 	        while (rs.next()) {
 	            String maChuyenPhong = rs.getString("MaChuyenPhong");
+	            String maPhieuDatPhong = rs.getString("MaPhieuDatPhong");
 	            String phongCu = rs.getString("PhongCu");
 	            String phongMoi = rs.getString("PhongMoi");
 	            String lyDo = rs.getString("LyDo");
@@ -38,7 +39,8 @@ public class LichSuChuyenPhong_DAO {
 	            // Thêm dòng dữ liệu vào danh sách
 	            Object[] row = {
 	                index,  // Số thứ tự dòng
-	                maChuyenPhong,  // Mã chuyển phòng
+	                maChuyenPhong,
+	                maPhieuDatPhong,
 	                phongCu,  // Phòng cũ
 	                phongMoi,  // Phòng mới
 	                lyDo,  // Lí do chuyển phòng
@@ -55,33 +57,55 @@ public class LichSuChuyenPhong_DAO {
 	    return danhSachLichSu;  // Trả về danh sách các dòng dữ liệu
 	}
 	
-	public boolean saveLichSuChuyenPhong(LichSuChuyenPhong lichSuChuyenPhong) {
-	    // Kết nối tới cơ sở dữ liệu thông qua ConnectDB
-	    try (Connection conn = ConnectDB.getConnection()) {  
-	        // Câu lệnh SQL để chèn dữ liệu vào bảng LichSuChuyenPhong
-	        String sql = "INSERT INTO LichSuChuyenPhong (maChuyenPhong, phongCu, phongMoi, lyDo, ngayChuyenPhong) VALUES (?, ?, ?, ?, ?)";
+	public boolean checkMaPDPExists(String maPDP) {
+	    String sql = "SELECT COUNT(*) FROM PhieuDatPhong WHERE MaPhieuDatPhong = ?";
+	    try (Connection conn = ConnectDB.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-	        // Tạo PreparedStatement từ kết nối
+	        stmt.setString(1, maPDP);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt(1) > 0;  // Trả về true nếu MaPDP tồn tại
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;  // Trả về false nếu không tồn tại
+	}
+
+	public boolean saveLichSuChuyenPhong(LichSuChuyenPhong lichSuChuyenPhong) {
+	    // In giá trị MaPDP ra console trước khi thực hiện INSERT
+	    String maPDP = lichSuChuyenPhong.getMaPDP();
+	    System.out.println("MaPhieuDatPhong cần chèn vào LichSuChuyenPhong: " + maPDP);
+
+	    // Tiến hành kiểm tra và chèn dữ liệu vào bảng LichSuChuyenPhong
+	    if (!checkMaPDPExists(maPDP)) {
+	        System.out.println("Mã Phiếu Đặt Phòng không tồn tại.");
+	        return false;
+	    }
+
+	    // Tiến hành thực hiện INSERT vào bảng LichSuChuyenPhong
+	    try (Connection conn = ConnectDB.getConnection()) {
+	        String sql = "INSERT INTO LichSuChuyenPhong (maChuyenPhong, maPhieuDatPhong, phongCu, phongMoi, lyDo, ngayChuyenPhong) "
+	                   + "VALUES (?, ?, ?, ?, ?, ?)";
 	        PreparedStatement stmt = conn.prepareStatement(sql);
 	        
-	        // Gán giá trị cho các tham số trong câu lệnh SQL
 	        stmt.setString(1, lichSuChuyenPhong.getMaChuyenPhong());
-	        stmt.setString(2, lichSuChuyenPhong.getPhongCu());
-	        stmt.setString(3, lichSuChuyenPhong.getPhongMoi());
-	        stmt.setString(4, lichSuChuyenPhong.getLyDo());
-	        stmt.setDate(5, new java.sql.Date(lichSuChuyenPhong.getNgayChuyenPhong().getTime()));
-	        
-	        // Thực thi câu lệnh SQL
+	        stmt.setString(2, maPDP);  // Chèn MaPDP vào
+	        stmt.setString(3, lichSuChuyenPhong.getPhongCu());
+	        stmt.setString(4, lichSuChuyenPhong.getPhongMoi());
+	        stmt.setString(5, lichSuChuyenPhong.getLyDo());
+	        stmt.setDate(6, new java.sql.Date(lichSuChuyenPhong.getNgayChuyenPhong().getTime()));
+
 	        int rowsAffected = stmt.executeUpdate();
-	        
-	        // Nếu có ít nhất 1 bản ghi bị thay đổi (chèn thành công), trả về true
 	        return rowsAffected > 0;
 	    } catch (SQLException e) {
-	        // Nếu có lỗi xảy ra, in ra thông báo lỗi
 	        e.printStackTrace();
-	        return false;  // Nếu có lỗi, trả về false
+	        return false;
 	    }
 	}
+
+
 	
 	public String generateMaChuyenPhong() {
 	    String maChuyenPhong = "CP";

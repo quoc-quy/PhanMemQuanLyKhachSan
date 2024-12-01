@@ -40,7 +40,7 @@ public class DanhSachDatPhong_DAO {
 	               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try (Connection conn = connectDB.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 	        // Tự động tạo mã phiếu đặt phòng
 	        String maPhieuDatPhong = generateMaPhieuDatPhong(new java.sql.Date(phieuDatPhong.getNgayNhanPhong().getTime()), phieuDatPhong.getPhong().getMaPhong());
@@ -49,31 +49,37 @@ public class DanhSachDatPhong_DAO {
 	            return false;
 	        }
 
+	        // Gán mã phiếu cho đối tượng PhieuDatPhong
+	        phieuDatPhong.setMaPDP(maPhieuDatPhong);
+
 	        // Thiết lập các tham số cho PreparedStatement
-	        ps.setString(1, maPhieuDatPhong);
+	        ps.setString(1, maPhieuDatPhong);  // Sử dụng mã đã tạo
 	        ps.setString(2, phieuDatPhong.getKhachHang().getMaKhachHang());
 	        ps.setString(3, phieuDatPhong.getPhong().getMaPhong());
 	        ps.setString(4, phieuDatPhong.getNhanVienLap().getMaNhanVien());
 	        ps.setDate(5, new java.sql.Date(phieuDatPhong.getNgayNhanPhong().getTime()));
 	        ps.setDate(6, new java.sql.Date(phieuDatPhong.getNgayTraPhong().getTime()));
 	        ps.setDouble(7, phieuDatPhong.getTienCoc());
-	        
-	        // Các cột bổ sung
 	        ps.setString(8, phieuDatPhong.getLoaiHinh());
 	        ps.setString(9, phieuDatPhong.getGioNhanPhong());
-	        ps.setString(10, phieuDatPhong.getGioTraPhong()); 
+	        ps.setString(10, phieuDatPhong.getGioTraPhong());
 	        ps.setDouble(11, phieuDatPhong.getTongTien());
 	        ps.setString(12, phieuDatPhong.getTrangThai());
 
-	        // Thực thi câu lệnh và kiểm tra kết quả
+	        // Thực thi câu lệnh
 	        int rowsAffected = ps.executeUpdate();
-	        return rowsAffected > 0;
+	        if (rowsAffected > 0) {
+	            return true;
+	        } else {
+	            return false;
+	        }
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	        return false;
 	    }
 	}
+
 	
 //	Lấy danh sách đặt phòng
 	public List<Object[]> getAllDanhSachDatPhong() {

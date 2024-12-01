@@ -156,6 +156,9 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
             boolean bookingSuccess = bookingDAO.addPhieuDatPhong(newBooking);
 
             if (bookingSuccess) {
+                // Sau khi thêm phiếu mới thành công, lấy mã của phiếu đặt phòng mới
+                String newMaPDP = newBooking.getMaPDP(); // Lấy mã mới của phiếu đặt phòng
+
                 boolean updateNewRoomStatus = bookingDAO.capNhatTrangThaiPhong(selectedRoom, "DANG_SU_DUNG");
                 if (!updateNewRoomStatus) {
                     JOptionPane.showMessageDialog(this, "Đổi phòng thành công nhưng không thể cập nhật trạng thái phòng mới.");
@@ -163,13 +166,14 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
                     JOptionPane.showMessageDialog(this, "Đổi phòng thành công.");
 
                     // Tạo mã chuyển phòng tự động (có thể sử dụng timestamp hoặc một giá trị tự động khác)
-                      // Ví dụ mã chuyển phòng dựa trên timestamp
+                    // Ví dụ mã chuyển phòng dựa trên timestamp
 
                     // Thêm bản ghi vào bảng LichSuChuyenPhong
                     LichSuChuyenPhong_DAO lichSuDAO = new LichSuChuyenPhong_DAO();
                     LichSuChuyenPhong lichSuChuyenPhong = new LichSuChuyenPhong();
                     String maChuyenPhong = lichSuDAO.generateMaChuyenPhong(); 
                     lichSuChuyenPhong.setMaChuyenPhong(maChuyenPhong);
+                    lichSuChuyenPhong.setMaPDP(newMaPDP); // Lấy mã mới từ newBooking
                     lichSuChuyenPhong.setPhongCu(phieuDatPhong.getPhong().getMaPhong());
                     lichSuChuyenPhong.setPhongMoi(selectedRoom);
                     lichSuChuyenPhong.setLyDo((String) reasonComboBox.getSelectedItem()); // Lí do từ combo box
@@ -189,6 +193,7 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
                 JOptionPane.showMessageDialog(this, "Không thể đặt phòng mới.");
             }
         });
+
 
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         southPanel.setBackground(Color.white);

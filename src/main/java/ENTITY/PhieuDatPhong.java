@@ -28,7 +28,7 @@ public class PhieuDatPhong {
     private String trangThai;
     
     public PhieuDatPhong(){
-        
+
     }
     
     

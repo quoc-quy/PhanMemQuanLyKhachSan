@@ -73,7 +73,7 @@ public class LichSuChuyenPhong_GUI extends javax.swing.JPanel {
         
         tbLichSuChuyenPhong.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-                new String[] { "Mã chuyển phòng", "Phòng cũ", "Phòng mới", "Lý do", "Ngày chuyển phòng"}
+                new String[] { "Mã chuyển phòng", "Mã phiếu đặt phòng","Phòng cũ", "Phòng mới", "Lý do", "Ngày chuyển phòng"}
             ) {
                 Class<?>[] types = new Class<?>[] {
                     java.lang.String.class, java.lang.String.class, java.lang.String.class,
@@ -127,7 +127,7 @@ public class LichSuChuyenPhong_GUI extends javax.swing.JPanel {
 
         DefaultTableModel tableModel = new DefaultTableModel(
             new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-            new String[] { "Mã chuyển phòng", "Phòng cũ", "Phòng mới", "Lý do", "Ngày chuyển phòng" }
+            new String[] { "Mã chuyển phòng", "Mã phiếu đặt phòng", "Phòng cũ", "Phòng mới", "Lý do", "Ngày chuyển phòng" }
         );
 
         tbLichSuChuyenPhong.setModel(tableModel);
@@ -141,8 +141,9 @@ public class LichSuChuyenPhong_GUI extends javax.swing.JPanel {
                 row[1],
                 row[2],  
                 row[3],  
-                row[4],  
-                dateFormat.format(row[5]),
+                row[4],
+                row[5],
+                dateFormat.format(row[6]),
             });
             count++;
         }
