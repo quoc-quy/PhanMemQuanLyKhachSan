@@ -7,11 +7,17 @@ import org.apache.xmlbeans.impl.store.Cur;
 import com.toedter.calendar.JDateChooser;
 
 import DAO.DanhSachDatPhong_DAO;
+import DAO.KhachHang_DAO;
+import DAO.LichSuChuyenPhong_DAO;
 import DAO.LoaiPhong_DAO;
 import DAO.Phong_DAO;
+import ENTITY.KhachHang;
+import ENTITY.LichSuChuyenPhong;
+import ENTITY.NhanVien;
 import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class ChuyenPhong_Dialog_GUI extends JDialog {
     private JComboBox<String> loaiPhongComboBox;
     private JComboBox<String> availableRoomsComboBox;
+    private JComboBox<String> reasonComboBox;
     private JDateChooser checkInDateChooser;
     private JDateChooser checkOutDateChooser;
     private JLabel lblTongTien; // Thêm nhãn hiển thị tổng tiền
@@ -37,7 +44,7 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
         dialogPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogPanel.setBackground(Color.white);
 
-        JPanel centerPanel = new JPanel(new GridLayout(6, 2, 5, 5)); // Thêm hàng để chứa loại hình
+        JPanel centerPanel = new JPanel(new GridLayout(7, 2, 5, 5)); // Thêm hàng để chứa loại hình
         centerPanel.setBackground(Color.white);
 
         // Thêm phần Loại hình
@@ -82,6 +89,13 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
         availableRoomsComboBox = new JComboBox<>();
         availableRoomsComboBox.addActionListener(e -> calculateTotalAmount());
         centerPanel.add(availableRoomsComboBox);
+        
+        JLabel lblLiDo = new JLabel("Lí do: ");
+        lblLiDo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        centerPanel.add(lblLiDo);
+        
+        reasonComboBox = new JComboBox<>(new String[] {"Phòng lỗi kỹ thuật", "Phòng chưa dọn", "Khách yêu cầu", "Nâng cấp phòng"});
+        centerPanel.add(reasonComboBox);
 
         JLabel lblTongTienTitle = new JLabel("Tổng tiền:");
         lblTongTienTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -147,6 +161,26 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
                     JOptionPane.showMessageDialog(this, "Đổi phòng thành công nhưng không thể cập nhật trạng thái phòng mới.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Đổi phòng thành công.");
+
+                    // Tạo mã chuyển phòng tự động (có thể sử dụng timestamp hoặc một giá trị tự động khác)
+                      // Ví dụ mã chuyển phòng dựa trên timestamp
+
+                    // Thêm bản ghi vào bảng LichSuChuyenPhong
+                    LichSuChuyenPhong_DAO lichSuDAO = new LichSuChuyenPhong_DAO();
+                    LichSuChuyenPhong lichSuChuyenPhong = new LichSuChuyenPhong();
+                    String maChuyenPhong = lichSuDAO.generateMaChuyenPhong(); 
+                    lichSuChuyenPhong.setMaChuyenPhong(maChuyenPhong);
+                    lichSuChuyenPhong.setPhongCu(phieuDatPhong.getPhong().getMaPhong());
+                    lichSuChuyenPhong.setPhongMoi(selectedRoom);
+                    lichSuChuyenPhong.setLyDo((String) reasonComboBox.getSelectedItem()); // Lí do từ combo box
+                    lichSuChuyenPhong.setNgayChuyenPhong(new java.util.Date());  // Lấy thời gian hiện tại
+
+                    boolean historySuccess = lichSuDAO.saveLichSuChuyenPhong(lichSuChuyenPhong);
+                    if (!historySuccess) {
+                        JOptionPane.showMessageDialog(this, "Lưu lịch sử chuyển phòng thất bại.");
+                    }
+
+                    // Đóng cửa sổ sau khi đổi phòng thành công
                     dispose(); // Đóng ChuyenPhong_Dialog_GUI
                     chiTietDatPhongDialog.dispose();
                 }
@@ -260,4 +294,5 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
         }
     }
 
+    
 }

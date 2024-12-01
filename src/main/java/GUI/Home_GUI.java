@@ -42,6 +42,7 @@ public class Home_GUI extends javax.swing.JFrame {
         cardPanel.add(new KhachHang_GUI(), "khachhang");
         cardPanel.add(new NhanVien_GUI(), "nhanvien");
         cardPanel.add(new TroGiup_GUI(), "trogiup");
+        cardPanel.add(new LichSuChuyenPhong_GUI(), "lichsuchuyenphong");
         
          adjustMenuBasedOnRole(userRole);  // Điều chỉnh menu theo vai trò
     }
@@ -97,6 +98,9 @@ public class Home_GUI extends javax.swing.JFrame {
         jLabel34 = new javax.swing.JLabel();
         lbThongKeGiaoCa = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        panelLichSuChuyenPhong = new javax.swing.JPanel();
+        jLabel39 = new javax.swing.JLabel();
+        lbLichSuChuyenPhong = new javax.swing.JLabel();
         panelDanhSachDatPhong = new javax.swing.JPanel();
         jLabel36 = new javax.swing.JLabel();
         lblDanhSachDatPhong = new javax.swing.JLabel();
@@ -140,7 +144,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelUser3Layout.setVerticalGroup(
@@ -189,7 +193,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         panelPhongLayout.setVerticalGroup(
             panelPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +232,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         panelKhachHangLayout.setVerticalGroup(
             panelKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,7 +270,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbDichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         panelDichVuLayout.setVerticalGroup(
             panelDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +308,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         panelHoaDonLayout.setVerticalGroup(
             panelHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,7 +347,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         panelThongKeLayout.setVerticalGroup(
             panelThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -383,7 +387,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         panelKhuyenMaiLayout.setVerticalGroup(
             panelKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,7 +426,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         panelNhanVienLayout.setVerticalGroup(
             panelNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,7 +465,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbThongKeGiaoCa, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
             .addGroup(panelThongKeGiaoCaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator1)
@@ -480,6 +484,45 @@ public class Home_GUI extends javax.swing.JFrame {
         );
 
         jPanel1.add(panelThongKeGiaoCa);
+
+        panelLichSuChuyenPhong.setBackground(new java.awt.Color(255, 255, 255));
+        panelLichSuChuyenPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        panelLichSuChuyenPhong.setMaximumSize(new java.awt.Dimension(300, 60));
+        panelLichSuChuyenPhong.setPreferredSize(new java.awt.Dimension(300, 60));
+        panelLichSuChuyenPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLichSuChuyenPhongMouseClicked(evt);
+            }
+        });
+
+        jLabel39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/changeRoom.png"))); // NOI18N
+        jLabel39.setText("jLabel20");
+
+        lbLichSuChuyenPhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbLichSuChuyenPhong.setText("Lịch sử chuyển phòng");
+
+        javax.swing.GroupLayout panelLichSuChuyenPhongLayout = new javax.swing.GroupLayout(panelLichSuChuyenPhong);
+        panelLichSuChuyenPhong.setLayout(panelLichSuChuyenPhongLayout);
+        panelLichSuChuyenPhongLayout.setHorizontalGroup(
+            panelLichSuChuyenPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLichSuChuyenPhongLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lbLichSuChuyenPhong)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+        panelLichSuChuyenPhongLayout.setVerticalGroup(
+            panelLichSuChuyenPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLichSuChuyenPhongLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(panelLichSuChuyenPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39)
+                    .addComponent(lbLichSuChuyenPhong))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(panelLichSuChuyenPhong);
 
         panelDanhSachDatPhong.setBackground(new java.awt.Color(255, 255, 255));
         panelDanhSachDatPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -506,7 +549,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblDanhSachDatPhong)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         panelDanhSachDatPhongLayout.setVerticalGroup(
             panelDanhSachDatPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,7 +588,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbTroGiup)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
         panelTroGiupLayout.setVerticalGroup(
             panelTroGiupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -584,7 +627,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lbDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         panelDangXuatLayout.setVerticalGroup(
             panelDangXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -636,11 +679,11 @@ public class Home_GUI extends javax.swing.JFrame {
         
         JPanel[] allPanels = { panelPhong, panelKhachHang, panelDichVu, panelHoaDon, 
                 panelThongKe, panelKhuyenMai, panelNhanVien, panelThongKeGiaoCa, 
-                panelDanhSachDatPhong, panelTroGiup, panelDangXuat };
+                panelDanhSachDatPhong, panelLichSuChuyenPhong,panelTroGiup, panelDangXuat };
 
 		JLabel[] allLabels = { lbPhong, lbKhachHang, lbDichVu, lbHoaDon, 
 		                lbThongKe, lbKhuyenMai, lbNhanVien, lbThongKeGiaoCa, 
-		                lblDanhSachDatPhong, lbTroGiup, lbDangXuat };
+		                lblDanhSachDatPhong, lbLichSuChuyenPhong, lbTroGiup, lbDangXuat };
 
         for (int i = 0; i < allPanels.length; i++) {
         	if (allPanels[i] != null && allPanels[i] != selectedPanel ) {  // Kiểm tra nếu panel không null
@@ -662,6 +705,13 @@ public class Home_GUI extends javax.swing.JFrame {
         
         showPanel("trogiup");
     }//GEN-LAST:event_panelTroGiupMouseClicked
+
+    private void panelLichSuChuyenPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLichSuChuyenPhongMouseClicked
+    	// TODO add your handling code here:
+        changePanelColor(panelLichSuChuyenPhong, lbLichSuChuyenPhong);
+        
+        showPanel("lichsuchuyenphong");
+    }//GEN-LAST:event_panelLichSuChuyenPhongMouseClicked
 
     private void panelPhongMouseClicked(java.awt.event.MouseEvent evt) {
     	changePanelColor(panelPhong, lbPhong);
@@ -771,6 +821,7 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -782,6 +833,7 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lbHoaDon;
     private javax.swing.JLabel lbKhachHang;
     private javax.swing.JLabel lbKhuyenMai;
+    private javax.swing.JLabel lbLichSuChuyenPhong;
     private javax.swing.JLabel lbNhanVien;
     private javax.swing.JLabel lbPhong;
     private javax.swing.JLabel lbThongKe;
@@ -795,6 +847,7 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JPanel panelHoaDon;
     private javax.swing.JPanel panelKhachHang;
     private javax.swing.JPanel panelKhuyenMai;
+    private javax.swing.JPanel panelLichSuChuyenPhong;
     private javax.swing.JPanel panelNhanVien;
     private javax.swing.JPanel panelPhong;
     private javax.swing.JPanel panelThongKe;
