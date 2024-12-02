@@ -5,6 +5,8 @@
 package DAO;
 
 import ConnectDB.ConnectDB;
+import UTIL.MaHoa;
+
 import java.sql.*;
 
 /**
@@ -21,16 +23,24 @@ public class TaiKhoan_DAO {
             String query = "SELECT * FROM TAIKHOAN WHERE TenDangNhap=? AND MatKhau=?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, tenDangNhap);
-            ps.setString(2, matKhau);
-            ResultSet rs = ps.executeQuery();
+            ps.setString(2, matKhau);  // Mật khẩu đã mã hóa trong Java
 
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                isValid = true;
+                isValid = true; // Đăng nhập thành công
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return isValid;
     }
+
+
+
+
+
+
+
 
     public String getTaiKhoanByTenDangNhap(String tenDangNhap) {
         String maTaiKhoan = "";

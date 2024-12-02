@@ -134,7 +134,6 @@ CREATE TABLE PhieuDatPhong (
     NgayTraPhong DATE,
     CONSTRAINT fk_khachHang FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang),
     CONSTRAINT fk_nhanVienLap FOREIGN KEY (MaNhanVienLap) REFERENCES NhanVien(MaNhanVien),
-    CONSTRAINT fk_phong FOREIGN KEY (MaPhong) REFERENCES Phong(MaPhong)
 );
 
 INSERT INTO PhieuDatPhong (MaPhieuDatPhong, MaKhachHang, MaNhanVienLap, MaPhong, NgayNhanPhong, NgayTraPhong) VALUES

@@ -7,6 +7,8 @@ package GUI;
 import ConnectDB.ConnectDB;
 import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
+import UTIL.MaHoa;
+
 import java.awt.event.KeyEvent;
 import java.sql.*;
 
@@ -165,7 +167,8 @@ public class Login_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String tenDangNhap = txtUserName.getText();
         String matKhau = new String(txtPassword.getPassword());
-          if (taiKhoanDAO.checkLogin(tenDangNhap, matKhau)) {
+        String matKhauMaHoa = MaHoa.toSHA1(matKhau);
+          if (taiKhoanDAO.checkLogin(tenDangNhap, matKhauMaHoa)) {
         String maTaiKhoan = taiKhoanDAO.getTaiKhoanByTenDangNhap(tenDangNhap);
         String userRole;
         String userName = nhanVienDAO.getTenNhanVienByMaTaiKhoan(maTaiKhoan);
@@ -183,6 +186,7 @@ public class Login_GUI extends javax.swing.JFrame {
         this.dispose();  // Đóng cửa sổ login
         } else {
             JOptionPane.showMessageDialog(null, "Sai tên đăng nhập hoặc mật khẩu!");
+            System.out.println(matKhauMaHoa);
         }
 
     }//GEN-LAST:event_btnLoginActionPerformed
