@@ -43,6 +43,7 @@ import java.awt.event.MouseEvent;
 
 import javax.print.attribute.AttributeSet;
 import javax.swing.BorderFactory;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -338,6 +339,23 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 
         JTextField txtChietKhau = new JTextField(String.valueOf(khuyenMai.getChietKhau()), 20);
         txtChietKhau.setPreferredSize(new Dimension(250, 45));
+        
+        txtChietKhau.setInputVerifier(new InputVerifier() {
+    	    @Override
+    	    public boolean verify(JComponent input) {
+    	        JTextField textField = (JTextField) input;
+    	        String text = textField.getText().trim();
+    	        // Kiểm tra nếu chuỗi không phải là số nguyên
+    	        try {
+    	            Integer.parseInt(text);
+    	            return true; // Chấp nhận nếu là số nguyên
+    	        } catch (NumberFormatException e) {
+    	            // Hiển thị thông báo nếu không phải là số nguyên
+    	            JOptionPane.showMessageDialog(null, "Chiết khấu phải là số nguyên.", "Lỗi định dạng", JOptionPane.ERROR_MESSAGE);
+    	            return false; // Không chấp nhận nếu không phải số nguyên
+    	        }
+    	    }
+    	});
 
         JButton btnSave = new JButton("Lưu");
         JButton btnCancel = new JButton("Hủy");
@@ -531,6 +549,8 @@ public class KhuyenMai_GUI extends javax.swing.JPanel {
 	cbTrangThai.setSelectedItem("Hoạt động"); // Cập nhật trạng thái trong ComboBox
 	}
 	
+	
+	
 	// Cập nhật thông tin khuyến mãi
 	khuyenMai.setMoTa(moTa);
 	khuyenMai.setNgayBatDau(ngayBatDau);
@@ -619,6 +639,23 @@ private javax.swing.JTextField createTextField(String text, boolean editable) {
 
 	    JTextField txtChietKhau = new JTextField(20);
 	    txtChietKhau.setPreferredSize(textFieldSize);
+	    
+	    AbstractDocument doc = (AbstractDocument) txtChietKhau.getDocument();
+	    doc.setDocumentFilter(new DocumentFilter() {
+	        public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws BadLocationException {
+	            // Kiểm tra nếu chuỗi nhập vào là số
+	            if (string.matches("[0-9]")) {
+	                super.insertString(fb, offset, string, attr);
+	            }
+	        }
+
+	        public void replace(FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
+	            // Kiểm tra nếu chuỗi thay thế là số
+	            if (text.matches("[0-9]")) {
+	                super.replace(fb, offset, length, text, attrs);
+	            }
+	        }
+	    });
 
 	    // Buttons
 	    JButton btnSave = new JButton("Lưu");
