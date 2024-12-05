@@ -320,7 +320,7 @@ public class DanhSachDatPhong_DAO {
     
     public PhieuDatPhong layThongTinPhieuDatPhong(String maPhong) {
         PhieuDatPhong phieuDatPhong = null;
-        String query = "SELECT * FROM PhieuDatPhong WHERE MaPhong = ? AND TrangThai = 'Đã nhận phòng'";
+        String query = "SELECT * FROM PhieuDatPhong WHERE MaPhong = ? AND TrangThai = N'Đã nhận'";
 
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -338,6 +338,53 @@ public class DanhSachDatPhong_DAO {
                 phieuDatPhong.getPhong().setMaPhong(rs.getString("MaPhong"));
                 phieuDatPhong.setTienCoc(rs.getDouble("TienCoc"));
                 phieuDatPhong.setLoaiHinh(rs.getString("LoaHinh"));
+                phieuDatPhong.setTongTien(rs.getDouble("TongTien"));
+                phieuDatPhong.setTrangThai(rs.getString("TrangThai"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return phieuDatPhong;
+    }
+    
+    public PhieuDatPhong getRoomInfo(String maPhong) {
+    	KhachHang_DAO khDAO = new KhachHang_DAO();
+        PhieuDatPhong phieuDatPhong = null;
+        String query = "SELECT * FROM PhieuDatPhong WHERE MaPhong = ? AND TrangThai = N'Đã nhận'";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, maPhong);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                phieuDatPhong = new PhieuDatPhong();
+
+                // Gán thông tin cho PhieuDatPhong
+                phieuDatPhong.setMaPDP(rs.getString("MaPhieuDatPhong"));
+                phieuDatPhong.setNhanVienLap(new NhanVien(rs.getString("MaNhanVienLap")));
+                
+                // Kiểm tra nếu MaKhachHang là NULL
+                String maKhachHang = rs.getString("MaKhachHang");
+                if (maKhachHang == null || maKhachHang.isEmpty()) {
+                    // Nếu MaKhachHang là NULL hoặc rỗng, gán "Khách lẻ" cho tên khách hàng
+                    KhachHang khachHang = new KhachHang();
+                    khachHang.setTenKhachHang("Khách lẻ");  // Gán "Khách lẻ" nếu không có khách hàng
+                    phieuDatPhong.setKhachHang(khachHang);
+                } else {
+                    // Nếu có MaKhachHang, tạo đối tượng KhachHang với MaKhachHang
+                    phieuDatPhong.setKhachHang(khDAO.findMaKhachHangID(maKhachHang));
+                }
+
+                // Cập nhật các thông tin khác
+                phieuDatPhong.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
+                phieuDatPhong.setNgayTraPhong(rs.getDate("NgayTraPhong"));
+                phieuDatPhong.setPhong(new Phong(rs.getString("MaPhong")));
+                phieuDatPhong.setTienCoc(rs.getDouble("TienCoc"));
+                phieuDatPhong.setLoaiHinh(rs.getString("LoaiHinh"));
                 phieuDatPhong.setTongTien(rs.getDouble("TongTien"));
                 phieuDatPhong.setTrangThai(rs.getString("TrangThai"));
             }

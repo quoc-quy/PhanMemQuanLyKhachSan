@@ -4,21 +4,39 @@
  */
 package GUI;
 
+import java.awt.Window;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import DAO.DanhSachDatPhong_DAO;
+import ENTITY.PhieuDatPhong;
+
 /**
  *
  * @author Admin
  */
-public class TraPhong_Dialog extends javax.swing.JDialog {
+public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
+	private static ChiTietDatPhong_Dialog chiTietDP;
+    private static String maPhong;
+    private DanhSachDatPhong_DAO dsDatPhongDAO= new DanhSachDatPhong_DAO();  // Khởi tạo DAO
+
 
     /**
      * Creates new form TraPhong_Dialog
      */
-    public TraPhong_Dialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public TraPhong_Dialog_GUI(Window parent, boolean modal, String maPhong, ChiTietDatPhong_Dialog chiTietDP) {
+        super();
+        this.maPhong = maPhong;
+        this.chiTietDP = chiTietDP;
         initComponents();
         setLocationRelativeTo(null);
+        
+        lbMaPhong.setText(maPhong);
+        updateRoomInfo(maPhong);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -472,20 +490,21 @@ public class TraPhong_Dialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TraPhong_Dialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraPhong_Dialog_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TraPhong_Dialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraPhong_Dialog_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TraPhong_Dialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraPhong_Dialog_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TraPhong_Dialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraPhong_Dialog_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TraPhong_Dialog dialog = new TraPhong_Dialog(new javax.swing.JFrame(), true);
+                Window window = SwingUtilities.getWindowAncestor(chiTietDP);
+                TraPhong_Dialog_GUI dialog = new TraPhong_Dialog_GUI(window, true, maPhong, chiTietDP);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -495,6 +514,31 @@ public class TraPhong_Dialog extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+
+ // Phương thức cập nhật thông tin phòng lên giao diện
+    public void updateRoomInfo(String maPhong) {
+        // Lấy thông tin về phòng từ DAO
+        PhieuDatPhong pdp = dsDatPhongDAO.getRoomInfo(maPhong);
+
+        // Kiểm tra pdp có phải là null không
+        if (pdp == null) {
+            // Nếu pdp là null, thông báo lỗi hoặc xử lý theo yêu cầu
+            JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin phòng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra nếu khách hàng là null hoặc tên khách hàng là rỗng, gán "Khách lẻ"
+        if (pdp.getKhachHang() == null) {
+        	System.out.println("Khách lẻ");
+            txtTenKH.setText("Khách lẻ");
+        } else {
+            txtTenKH.setText(pdp.getKhachHang().getTenKhachHang());
+        }
+
+        // Cập nhật các trường thông tin còn lại
+        txtTienCoc.setText(String.valueOf(pdp.getTienCoc()));
+        cboLoaiHinh.setSelectedItem(pdp.getLoaiHinh());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
