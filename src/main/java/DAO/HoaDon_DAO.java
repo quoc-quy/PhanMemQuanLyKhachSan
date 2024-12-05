@@ -1,10 +1,12 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import GUI.HoaDon_GUI;
 
 public class HoaDon_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
-//	// Lấy tất cả các hóa đơn từ CSDL
+	// Lấy tất cả các hóa đơn từ CSDL
 //    public List<HoaDon> getAllHoaDon() {
 //        List<HoaDon> danhSachHoaDon = new ArrayList<>();
 //        String sql = 
@@ -53,9 +55,9 @@ public class HoaDon_DAO {
 //                    khuyenMai,
 //                    nhanVien,
 //                    khachHang,
-//                    rs.getDate("NgayLap").toLocalDate(),
-//                    rs.getDate("NgayNhanPhong").toLocalDate(),
-//                    rs.getDate("NgayTraPhong").toLocalDate(),
+//                    rs.getDate("NgayLap"),
+//                    rs.getDate("NgayNhanPhong"),
+//                  	  rs.getDate("NgayTraPhong"),
 //                    rs.getInt("Thue"),
 //                    rs.getDouble("TienTraKhach"),
 //                    rs.getDouble("TongTien")
@@ -106,30 +108,30 @@ public class HoaDon_DAO {
 	}
 
     // Lấy số lượng dịch vụ đã sử dụng cho một hóa đơn cụ thể
-    public List<ChiTietDichVu> getDichVuByHoaDon(String maHoaDon) {
-        List<ChiTietDichVu> chiTietDichVuList = new ArrayList<>();
-        String sql = "SELECT dv.TenDichVu, ctdv.soLuong FROM ChiTietDichVu ctdv " +
-                     "JOIN DichVu dv ON ctdv.MaDichVu = dv.MaDichVu " +
-                     "WHERE ctdv.MaHoaDon = ?";
-
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, maHoaDon);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                DichVu dichVu = new DichVu(rs.getString("TenDichVu"));
-                int soLuong = rs.getInt("soLuong");
-                ChiTietDichVu chiTietDichVu = new ChiTietDichVu(dichVu, null, soLuong);
-                chiTietDichVuList.add(chiTietDichVu);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return chiTietDichVuList;
-    }
-    
+//    public List<ChiTietDichVu> getDichVuByHoaDon(String maHoaDon) {
+//        List<ChiTietDichVu> chiTietDichVuList = new ArrayList<>();
+//        String sql = "SELECT dv.TenDichVu, ctdv.soLuong FROM ChiTietDichVu ctdv " +
+//                     "JOIN DichVu dv ON ctdv.MaDichVu = dv.MaDichVu " +
+//                     "WHERE ctdv.MaHoaDon = ?";
+//
+//        try (Connection conn = ConnectDB.getConnection();
+//             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//
+//            pstmt.setString(1, maHoaDon);
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            while (rs.next()) {
+//                DichVu dichVu = new DichVu(rs.getString("TenDichVu"));
+//                int soLuong = rs.getInt("soLuong");
+//                ChiTietDichVu chiTietDichVu = new ChiTietDichVu(dichVu, null, soLuong);
+//                chiTietDichVuList.add(chiTietDichVu);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return chiTietDichVuList;
+//    }
+//    
     // Phương thức lưu hóa đơn, trả về mã hóa đơn đã tạo
     public String luuHoaDon(HoaDon hoaDon) {
         String maHoaDon = "";
@@ -159,6 +161,45 @@ public class HoaDon_DAO {
             e.printStackTrace();
         }
         return maHoaDon;
+    }
+    
+    private String generateMaHD() {
+        String query = "SELECT MAX(CAST(SUBSTRING(MaHoaDon, 3, LEN(MaHoaDon)) AS INT)) AS MaxId FROM HoaDon";
+        int nextId = 1;  // Mặc định bắt đầu từ 1
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                nextId = rs.getInt("MaxId") + 1;  // Lấy giá trị lớn nhất và cộng 1
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi lấy ID hóa đơn: " + ex.getMessage());
+        }
+        return "HD" + String.format("%05d", nextId);  // Tạo mã hóa đơn, ví dụ HD00001
+    }
+
+ // Phương thức tạo mã hóa đơn và lưu vào bảng HoaDon
+    public String createHoaDon() {
+        String maHoaDon = generateMaHD();  // Tạo mã hóa đơn theo quy tắc "HDxxxxx"
+        
+        String query = "INSERT INTO HoaDon (MaHoaDon) VALUES (?)";
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            // Gán giá trị vào câu lệnh SQL
+            ps.setString(1, maHoaDon);  // Mã hóa đơn
+            
+            // Thực thi câu lệnh SQL
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return maHoaDon;  // Trả về mã hóa đơn vừa tạo
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi tạo hóa đơn: " + ex.getMessage());
+        }
+        return null;  // Trả về null nếu có lỗi
     }
 }
 

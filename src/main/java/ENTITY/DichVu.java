@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  * @author 84837
  */
 public class DichVu {
-    private String maDichvu;
+    private String maDichVu;
     private String tenDichVu;
     private int soLuong;
     private Double donGia;
@@ -21,23 +21,23 @@ public class DichVu {
     
 
     public DichVu(String maDichvu) {
-		this.maDichvu = maDichvu;
+		this.maDichVu = maDichvu;
 	}
 
 	public DichVu(String maDichvu, String tenDichVu, int soLuong, Double donGia, String donViTinh) {
-        this.maDichvu = maDichvu;
+        this.maDichVu = maDichvu;
         this.tenDichVu = tenDichVu;
         this.soLuong = soLuong;
         this.donGia = donGia;
         this.donViTinh = donViTinh;
     }
 
-    public String getMaDichvu() {
-        return maDichvu;
+    public String getMaDichVu() {
+        return maDichVu;
     }
 
-    public void setMaDichvu(String maDichvu) {
-        this.maDichvu = maDichvu;
+    public void setMaDichVu(String maDichvu) {
+        this.maDichVu = maDichvu;
     }
 
     public String getTenDichVu() {
@@ -76,7 +76,7 @@ public class DichVu {
     public String toString() {
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DecimalFormat dFormat = new DecimalFormat("#,###.##$");
-        return "DichVu{" + "maDichvu=" + maDichvu + ", tenDichVu=" + tenDichVu + ", soLuong=" + soLuong + ", donGia=" + dFormat.format(this.donGia) + ", donViTinh=" + donViTinh + '}';
+        return "DichVu{" + "maDichvu=" + maDichVu + ", tenDichVu=" + tenDichVu + ", soLuong=" + soLuong + ", donGia=" + dFormat.format(this.donGia) + ", donViTinh=" + donViTinh + '}';
     }
     
     

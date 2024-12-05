@@ -6,6 +6,7 @@ package GUI;
 
 import java.awt.Component;
 import java.awt.Window;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,15 +14,26 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 
+import Components.SpinnerEditor;
 import DAO.ChiTietDichVu_DAO;
+import DAO.ChiTietHoaDon_DAO;
 import DAO.DichVu_DAO;
+import DAO.HoaDon_DAO;
 import ENTITY.ChiTietDichVu;
+import ENTITY.ChiTietHoaDon;
 import ENTITY.DichVu;
 import ENTITY.HoaDon;
+import ENTITY.Phong;
+
+import javax.swing.DefaultCellEditor;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -49,6 +61,7 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         originalModel = (DefaultTableModel) tbSanPham.getModel();
 //      Chức năng tìm kiếm
       btnTimKiem.addActionListener(e -> filterTableData());
+      
     }
 
     /**
@@ -140,6 +153,7 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
         tbChiTietSP.setAlignmentX(5.0F);
         tbChiTietSP.setRowHeight(40);
         tbChiTietSP.setShowVerticalLines(true);
+        tbChiTietSP.getTableHeader().setReorderingAllowed(false);
         tbChiTietSP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbChiTietSPMouseClicked(evt);
@@ -205,10 +219,10 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
                                     .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addGap(56, 56, 56)
+                            .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbMaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbMaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -217,7 +231,7 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lbMaPhong))
                 .addGap(18, 18, 18)
@@ -321,11 +335,58 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyMouseClicked
 
     private void btnLuuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLuuMouseClicked
-    	 // Tạo đối tượng HoaDon
-    	double tongTien = Double.parseDouble(lbTongTien.getText());
-    	
-        HoaDon hoaDon = new HoaDon();
-        hoaDon.setTongTien(tongTien); // Tổng tiền từ lbTongTien
+    	// Tạo mã hóa đơn và lấy MaHoaDon
+        HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+        String maHoaDon = hoaDonDAO.createHoaDon();  // Tạo mã hóa đơn mới
+
+        String maPhong = lbMaPhong.getText();
+
+        if (maHoaDon != null) {
+            boolean isAllSaved = true;  // Biến cờ để theo dõi trạng thái lưu thành công
+
+            // Lặp qua các dòng trong bảng để lấy thông tin dịch vụ và lưu vào ChiTietHoaDon
+            for (int i = 0; i < tbChiTietSP.getRowCount(); i++) {
+                String tenDichVu = tbChiTietSP.getValueAt(i, 1).toString();  // Tên dịch vụ
+                int soLuong = Integer.parseInt(tbChiTietSP.getValueAt(i, 2).toString());  // Số lượng
+                double tongTienDichVu = Double.parseDouble(tbChiTietSP.getValueAt(i, 4).toString());  // Đơn giá
+
+                // Lấy mã dịch vụ từ tên dịch vụ
+                DichVu_DAO dichVuDAO = new DichVu_DAO();
+                String maDichVu = dichVuDAO.getIdDichVuByName(tenDichVu);  // Lấy mã dịch vụ từ DAO
+
+                if (maDichVu == null) {
+                    // Nếu không tìm thấy mã dịch vụ, thông báo lỗi và dừng lại
+                    JOptionPane.showMessageDialog(this, "Mã dịch vụ không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Lấy thời gian dịch vụ từ hệ thống (hoặc từ giao diện)
+                java.sql.Date ngayDichVu = new java.sql.Date(System.currentTimeMillis());  // Ví dụ lấy ngày hiện tại, có thể lấy từ giao diện nếu cần
+
+                // Tạo đối tượng ChiTietHoaDon và lưu vào cơ sở dữ liệu
+                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+                chiTietHoaDon.setHoaDon(new HoaDon(maHoaDon));  // Gắn mã hóa đơn
+                chiTietHoaDon.setPhong(new Phong(maPhong));  // Mã phòng (có thể lấy từ giao diện)
+                chiTietHoaDon.setDichVu(new DichVu(maDichVu));  // Mã dịch vụ, tên dịch vụ và đơn giá
+                chiTietHoaDon.setSoLuong(soLuong);  // Số lượng
+                chiTietHoaDon.setTongTienDichVu(tongTienDichVu);  // Thành tiền
+
+                // Lưu chi tiết hóa đơn vào cơ sở dữ liệu
+                ChiTietHoaDon_DAO chiTietDAO = new ChiTietHoaDon_DAO();
+                if (!chiTietDAO.addOrUpdateChiTietHoaDon(chiTietHoaDon, maHoaDon, maPhong)) {
+                    isAllSaved = false;  // Nếu có lỗi khi lưu dịch vụ, đánh dấu trạng thái là lỗi
+                }
+            }
+
+            // Hiển thị thông báo chỉ khi tất cả dịch vụ đã được lưu thành công
+            if (isAllSaved) {
+                JOptionPane.showMessageDialog(this, "Lưu thành công!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Có lỗi khi lưu một số dịch vụ!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thể tạo mã hóa đơn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
         dispose();
         
     }//GEN-LAST:event_btnLuuMouseClicked

@@ -11,44 +11,85 @@ package ENTITY;
 public class ChiTietHoaDon {
     private HoaDon hoaDon;
     private Phong phong;
+    private DichVu dichVu;
     private int soLuong;
+    private Double tongTienDichVu;
     
-    public ChiTietHoaDon(){
-        this.soLuong = 0;
-    }
-
-    public ChiTietHoaDon(HoaDon hoaDon, Phong phong, int soLuong) {
-        this.hoaDon = hoaDon;
-        this.phong = phong;
-        this.soLuong = soLuong;
-    }
     
-
-    public HoaDon getHoaDon() {
-        return hoaDon;
-    }
-
-    public void setHoaDon(HoaDon hoaDon) {
-        this.hoaDon = hoaDon;
-    }
-
-    public Phong getPhong() {
-        return phong;
-    }
-
-    public void setPhong(Phong phong) {
-        this.phong = phong;
-    }
-
-    public int getSoLuong() {
-        return soLuong;
-    }
-
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
-    }
     
- // Phương thức tính tiền phòng
+    public ChiTietHoaDon() {
+		super();
+	}
+
+	public ChiTietHoaDon(HoaDon hoaDon, Phong phong, DichVu dichVu, int soLuong, Double tongTienDichVu) {
+		super();
+		this.hoaDon = hoaDon;
+		this.phong = phong;
+		this.dichVu = dichVu;
+		this.soLuong = soLuong;
+		this.tongTienDichVu = tongTienDichVu;
+	}
+
+	public HoaDon getHoaDon() {
+		return hoaDon;
+	}
+
+
+	public void setHoaDon(HoaDon hoaDon) {
+		this.hoaDon = hoaDon;
+	}
+
+
+
+	public Phong getPhong() {
+		return phong;
+	}
+
+
+
+	public void setPhong(Phong phong) {
+		this.phong = phong;
+	}
+
+
+
+	public DichVu getDichVu() {
+		return dichVu;
+	}
+
+
+
+	public void setDichVu(DichVu dichVu) {
+		this.dichVu = dichVu;
+	}
+
+
+
+	public int getSoLuong() {
+		return soLuong;
+	}
+
+
+
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
+
+
+
+	public Double getTongTienDichVu() {
+		return tongTienDichVu;
+	}
+
+
+
+	public void setTongTienDichVu(Double tongTienDichVu) {
+		this.tongTienDichVu = tongTienDichVu;
+	}
+
+
+
+	// Phương thức tính tiền phòng
     public double tinhTienPhong() {
         double tienPhong = 0;
 
@@ -64,10 +105,12 @@ public class ChiTietHoaDon {
         return tienPhong;
     }
 
-    @Override
-    public String toString() {
-        return "ChiTietHoaDon{" + "hoaDon=" + hoaDon + ", phong=" + phong + ", soLuong=" + soLuong + '}';
-    }
-    
+
+
+	@Override
+	public String toString() {
+		return "ChiTietHoaDon [hoaDon=" + hoaDon + ", phong=" + phong + ", dichVu=" + dichVu + ", soLuong=" + soLuong
+				+ ", tongTienDichVu=" + tongTienDichVu + "]";
+	}
     
 }

@@ -36,13 +36,13 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         
         updateHeader();
         
-        loadDataToTable();
         
         
         // Lưu model ban đầu ngay khi khởi tạo
         originalModel = (DefaultTableModel) tbHoaDon.getModel();
 
-        
+
+        loadDataToTable();
 //        Chức năng tìm kiếm
         btnTimKiem.addActionListener(e -> filterTableData());
     }

@@ -11,13 +11,13 @@ package ENTITY;
 public class ChiTietDichVu {
     private DichVu dichVu;
     private HoaDon hoaDon;
-    private int soLuong;
+    private Double soLuong;
     
     public ChiTietDichVu(){
         
     }
 
-    public ChiTietDichVu(DichVu dichVu, HoaDon hoaDon, int soLuong) {
+    public ChiTietDichVu(DichVu dichVu, HoaDon hoaDon, Double soLuong) {
         this.dichVu = dichVu;
         this.hoaDon = hoaDon;
         this.soLuong = soLuong;
@@ -39,11 +39,11 @@ public class ChiTietDichVu {
         this.hoaDon = hoaDon;
     }
 
-    public int getSoLuong() {
+    public Double getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(int soLuong) {
+    public void setSoLuong(Double soLuong) {
         this.soLuong = soLuong;
     } 
 

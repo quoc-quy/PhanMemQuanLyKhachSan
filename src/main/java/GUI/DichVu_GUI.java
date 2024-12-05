@@ -226,7 +226,7 @@ public class DichVu_GUI extends javax.swing.JPanel {
 		tableModel.setRowCount(0);
 
 		for (DichVu dv : dsDichVu) {
-			Object[] row = { dv.getMaDichvu(), dv.getTenDichVu(), dv.getSoLuong(), dv.getDonGia(), dv.getDonViTinh() };
+			Object[] row = { dv.getMaDichVu(), dv.getTenDichVu(), dv.getSoLuong(), dv.getDonGia(), dv.getDonViTinh() };
 			tableModel.addRow(row);
 		}
 

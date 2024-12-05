@@ -40,7 +40,7 @@ public class DichVu_DAO {
 
  		try (Connection conn = connectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
 
- 			pstmt.setString(1, dv.getMaDichvu());
+ 			pstmt.setString(1, dv.getMaDichVu());
  			pstmt.setString(2, dv.getTenDichVu());
  			pstmt.setInt(3, dv.getSoLuong());
  			pstmt.setDouble(4, dv.getDonGia());
@@ -63,7 +63,7 @@ public class DichVu_DAO {
  			pstmt.setInt(2, dv.getSoLuong());
  			pstmt.setDouble(3, dv.getDonGia());
  			pstmt.setString(4, dv.getDonViTinh());
- 			pstmt.setString(5, dv.getMaDichvu());
+ 			pstmt.setString(5, dv.getMaDichVu());
 
  			return pstmt.executeUpdate() > 0;
  		} catch (SQLException e) {
@@ -102,7 +102,7 @@ public class DichVu_DAO {
  						rs.getDouble("donGia"), rs.getString("donViTinh"));
  			}
  		} catch (SQLException e) {
- 			e.printStackTrace();
+ 			e.printStackTrace(); 
  		}
  		return dichVu;
  	}
@@ -130,4 +130,23 @@ public class DichVu_DAO {
  	    }
  	    return dongia;
  	}
+ 	
+ // Lấy mã dịch vụ theo bằng tên
+  	public String getIdDichVuByName(String tenDV) {
+  		String query = "SELECT * FROM DichVu WHERE TenDichVu = ?";
+  		String maDichVu = null;
+
+  		try (Connection conn = connectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+ 	        pstmt.setString(1, tenDV);
+  			ResultSet rs = pstmt.executeQuery();
+
+  			if (rs.next()) {
+  				 maDichVu = rs.getString("MaDichVu");  // Lấy MaDichVu từ kết quả truy vấn
+  			}
+  		} catch (SQLException e) {
+  			e.printStackTrace(); 
+  		}
+  		return maDichVu;
+  	}
 }
