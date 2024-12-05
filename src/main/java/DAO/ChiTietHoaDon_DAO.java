@@ -31,18 +31,15 @@ public class ChiTietHoaDon_DAO {
     public boolean addOrUpdateChiTietHoaDon(ChiTietHoaDon chiTietHoaDon, String maHoaDon, String maPhong) {
         // Kiểm tra nếu ngày hiện tại nằm trong khoảng ngày nhận phòng và ngày trả phòng
         if (!checkIfServiceTimeIsValid(maPhong)) {
-        	System.out.println("Ngày hiện tại không hợp lệ");
             return false;  // Nếu thời gian không hợp lệ, trả về false
         }
 
         // Kiểm tra xem dịch vụ đã tồn tại chưa
         if (checkIfDichVuExists(maPhong, chiTietHoaDon.getDichVu().getMaDichVu())) {
             // Nếu dịch vụ đã tồn tại, cập nhật số lượng và tổng tiền dịch vụ
-        	System.out.println("Dịch vụ tồn tại");
             return updateChiTietHoaDon(chiTietHoaDon, maPhong);
         } else {
             // Nếu dịch vụ chưa tồn tại, thêm mới chi tiết hóa đơn
-        	System.out.println("Dịch vụ không tồn tại");
             return addNewChiTietHoaDon(chiTietHoaDon, maHoaDon);
         }
     }
@@ -101,7 +98,6 @@ public class ChiTietHoaDon_DAO {
             ps.setString(4, chiTietHoaDon.getDichVu().getMaDichVu());
 
             int rowsAffected = ps.executeUpdate();
-            System.out.println("hoàn thành cập nhật chi tiết hóa đơn: ");
             return rowsAffected > 0;  // Nếu có dòng bị ảnh hưởng, tức là cập nhật thành công
         } catch (SQLException ex) {
             System.out.println("Lỗi khi cập nhật chi tiết hóa đơn: " + ex.getMessage());
