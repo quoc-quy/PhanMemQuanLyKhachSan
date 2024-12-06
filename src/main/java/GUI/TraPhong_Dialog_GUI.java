@@ -8,6 +8,7 @@ import java.awt.Window;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
@@ -45,6 +46,8 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         
         // Khởi tạo các listeners để theo dõi sự thay đổi của txtPhuThu
         initializeListeners();
+        
+        handleTotalAmountChange();
         lbMaPhong.setText(maPhong);
         txtKhuyenMai.setText("5");
         updateRoomInfo(maPhong);
@@ -668,8 +671,181 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
                 tinhTongThanhToan(); // Tính lại tổng thanh toán khi txtPhuThu thay đổi
             }
         });
+        
+        txtTienKhachDua.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                formatInput();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                formatInput();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                formatInput();
+            }
+
+            private void formatInput() {
+                try {
+                    // Lấy giá trị hiện tại và xóa dấu chấm
+                    String input = txtTienKhachDua.getText().replace(".", "").replace(",", "");
+                    double value = Double.parseDouble(input);
+
+                    // Định dạng lại
+                    txtTienKhachDua.setText(formatCurrency(value));
+                } catch (NumberFormatException ex) {
+                    txtTienKhachDua.setText("");
+                }
+            }
+        });
+    }
+ 
+
+ // Phương thức tính số tiền khách hàng sẽ đưa
+    private void updateTienButtons() {
+        // Lấy tổng thanh toán từ txtTongThanhToan
+        double tongThanhToan = Double.parseDouble(txtTongThanhToan.getText().replace(".", "").replace(",", "")); // Xóa dấu phẩy để lấy giá trị dạng số
+
+        // Mảng các mệnh giá tiền phổ biến
+        double[] tienKhachDua = {
+            100000, 110000, 120000, 150000, 160000, 170000, 180000, 190000,
+            200000, 210000, 220000, 250000, 260000, 270000, 280000, 290000,
+            300000, 310000, 320000, 350000, 360000, 370000, 380000, 390000,
+            400000, 410000, 420000, 450000, 460000, 470000, 480000, 490000,
+            500000, 510000, 520000, 550000, 560000, 570000, 580000, 590000,
+            600000, 610000, 620000, 650000, 660000, 670000, 680000, 690000,
+            700000, 710000, 720000, 750000, 760000, 770000, 780000, 790000,
+            800000, 810000, 820000, 850000, 860000, 870000, 880000, 890000,
+            900000, 910000, 920000, 950000, 960000, 970000, 980000, 990000,
+            1000000
+        };
+
+        // Nút đầu tiên: Làm tròn gần nhất lớn hơn hoặc bằng tổng thanh toán
+        double tienKhachDua1 = roundUpToNearest(tongThanhToan);
+
+        // Tính các mệnh giá tiếp theo cho btnTien2 và btnTien3
+        double tienKhachDua2 = getNextHigherAmount(tongThanhToan, tienKhachDua, tienKhachDua1);
+        double tienKhachDua3 = getNextHigherAmount(tongThanhToan, tienKhachDua, tienKhachDua2);
+
+        // Nút thứ tư: Là mệnh giá lớn hơn mệnh giá của btnTien3
+        double tienKhachDua4 = getNextHigherAmount(tongThanhToan, tienKhachDua, tienKhachDua3, true);
+
+        // Cập nhật text cho các nút với mệnh giá tính được
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+            	btnTien1.setText(formatCurrency(tienKhachDua1));
+                btnTien2.setText(formatCurrency(tienKhachDua2));
+                btnTien3.setText(formatCurrency(tienKhachDua3));
+                btnTien4.setText(formatCurrency(tienKhachDua4));
+            }
+        });
     }
 
+    // Phương thức làm tròn lên theo quy tắc (tới số chẵn gần nhất)
+    private double roundUpToNearest(double amount) {
+        // Làm tròn lên đến đơn vị nghìn gần nhất
+        return Math.ceil(amount / 1000.0) * 1000;
+    }
+
+    // Phương thức trả về mệnh giá lớn hơn tổng thanh toán và không trùng với mệnh giá trước đó
+    private double getNextHigherAmount(double tongThanhToan, double[] tienKhachDua, double previousAmount) {
+        for (double tien : tienKhachDua) {
+            // Tìm mệnh giá lớn hơn tổng thanh toán và không trùng với mệnh giá trước đó
+            if (tongThanhToan < tien && tien != previousAmount) {
+                return tien;
+            }
+        }
+        return tienKhachDua[tienKhachDua.length - 1]; // Nếu không tìm được mệnh giá lớn hơn, trả về mệnh giá lớn nhất trong mảng
+    }
+
+    // Phương thức trả về mệnh giá lớn hơn mệnh giá của btnTien3
+    private double getNextHigherAmount(double tongThanhToan, double[] tienKhachDua, double previousAmount, boolean isForBtn4) {
+        // Tìm mệnh giá lớn hơn mệnh giá của btnTien3
+        boolean found = false;
+        for (double tien : tienKhachDua) {
+            if (tien > previousAmount) {
+                found = true;
+                return tien;
+            }
+        }
+
+        // Nếu không tìm được, trả về mệnh giá lớn nhất trong dãy
+        if (!found) {
+            return tienKhachDua[tienKhachDua.length - 1];
+        }
+        return previousAmount;
+    }
+
+    // Phương thức định dạng tiền theo kiểu "###.###" với dấu chấm
+    private String formatCurrency(double amount) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(amount).replace(",", ".");
+    }
+
+
+    
+ // Phương thức tính tổng thanh toán và cập nhật các nút tiền
+    private void handleTotalAmountChange() {
+        // Tính toán lại tổng thanh toán sau khi thay đổi các trường nhập liệu (Phụ thu, Khuyến mãi, Thuế)
+        tinhTongThanhToan();
+
+        // Cập nhật lại các nút tiền dựa trên tổng thanh toán mới
+        updateTienButtons();
+        addButtonEvents();
+        addTienKhachDuaListener();
+    }
+
+    private void addButtonEvents() {
+        btnTien1.addActionListener(e -> txtTienKhachDua.setText(btnTien1.getText()));
+        btnTien2.addActionListener(e -> txtTienKhachDua.setText(btnTien2.getText()));
+        btnTien3.addActionListener(e -> txtTienKhachDua.setText(btnTien3.getText()));
+        btnTien4.addActionListener(e -> txtTienKhachDua.setText(btnTien4.getText()));
+    }
+    
+ // Phương thức để thêm listener vào txtTienKhachDua khi người dùng thay đổi giá trị
+    private void addTienKhachDuaListener() {
+        txtTienKhachDua.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTienTraKhach();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTienTraKhach();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateTienTraKhach();
+            }
+        });
+    }
+
+    // Phương thức cập nhật txtTienTraKhach dựa trên giá trị của txtTienKhachDua và txtTongThanhToan
+    private void updateTienTraKhach() {
+        try {
+            // Lấy tổng thanh toán từ txtTongThanhToan
+            double tongThanhToan = Double.parseDouble(txtTongThanhToan.getText().replace(".", "").replace(",", ""));
+
+            // Lấy tiền khách đưa từ txtTienKhachDua
+            double tienKhachDua = Double.parseDouble(txtTienKhachDua.getText().replace(".", "").replace(",", ""));
+
+            // Tính tiền trả lại (có thể âm nếu tiền khách đưa nhỏ hơn tổng thanh toán)
+            double tienTraKhach = tienKhachDua - tongThanhToan;
+
+            // Cập nhật giá trị vào txtTienTraKhach
+            txtTienTraKhach.setText(formatCurrency(tienTraKhach));
+
+        } catch (NumberFormatException ex) {
+            // Nếu có lỗi khi parse dữ liệu (trong trường hợp dữ liệu không hợp lệ), đặt giá trị trả lại bằng 0
+            txtTienTraKhach.setText("0");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
