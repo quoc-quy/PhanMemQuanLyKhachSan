@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ConnectDB.ConnectDB;
 import ENTITY.ChiTietHoaDon;
@@ -130,5 +132,48 @@ public class ChiTietHoaDon_DAO {
             System.out.println("Lỗi khi thêm chi tiết hóa đơn: " + ex.getMessage());
             return false;
         }
+    }
+    
+ // Phương thức lấy thông tin dịch vụ và chi tiết hóa đơn cho mã phòng
+    public List<Object[]> getChiTietHoaDonByMaPhong(String maPhong) {
+        List<Object[]> ds = new ArrayList<>();
+        
+        // Câu truy vấn SQL
+        String sql = "SELECT " +
+                     "dv.TenDichVu, " +
+                     "dv.DonGia, " +
+                     "ct.SoLuong, " +
+                     "ct.TongTienDichVu " +
+                     "FROM ChiTietHoaDon ct " +
+                     "JOIN HoaDon hd ON ct.MaHoaDon = hd.MaHoaDon " +
+                     "JOIN DichVu dv ON ct.MaDichVu = dv.MaDichVu " +
+                     "WHERE ct.MaPhong = ? AND hd.MaNhanVienLap IS NULL";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Thiết lập tham số cho câu truy vấn
+            stmt.setString(1, maPhong);  // Gán giá trị cho maPhong
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Lấy kết quả từ ResultSet và thêm vào danh sách
+            	int index = 1;
+                while (rs.next()) {
+                    String tenDichVu = rs.getString("TenDichVu");
+                    double donGia = rs.getDouble("DonGia");
+                    int soLuong = rs.getInt("SoLuong");
+                    double tongTienDichVu = rs.getDouble("TongTienDichVu");
+
+                    // Thêm dữ liệu vào danh sách
+                    Object[] row = new Object[] {index, tenDichVu, soLuong, donGia, tongTienDichVu};
+                    ds.add(row);
+                    index++;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ds;
     }
 }

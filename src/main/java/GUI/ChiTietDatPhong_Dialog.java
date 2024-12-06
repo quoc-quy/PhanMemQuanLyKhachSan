@@ -75,7 +75,7 @@ public class ChiTietDatPhong_Dialog extends javax.swing.JDialog {
 						String maPhong = phong.getMaPhong(); 
 		//				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
 					    Window window = SwingUtilities.getWindowAncestor(ChiTietDatPhong_Dialog.this);
-					    TraPhong_Dialog_GUI dialogTraPhong = new TraPhong_Dialog_GUI(window, true, maPhong, ChiTietDatPhong_Dialog.this);
+					    TraPhong_Dialog_GUI dialogTraPhong = new TraPhong_Dialog_GUI(window, true, maPhong,phieuDatPhong, ChiTietDatPhong_Dialog.this);
 					    ChiTietDatPhong_Dialog.this.dispose();
 					    dialogTraPhong.setVisible(true);
 					}

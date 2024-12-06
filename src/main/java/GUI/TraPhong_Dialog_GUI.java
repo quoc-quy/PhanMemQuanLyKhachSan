@@ -5,11 +5,16 @@
 package GUI;
 
 import java.awt.Window;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
+import DAO.ChiTietHoaDon_DAO;
 import DAO.DanhSachDatPhong_DAO;
 import ENTITY.PhieuDatPhong;
 
@@ -19,21 +24,29 @@ import ENTITY.PhieuDatPhong;
  */
 public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
 	private static ChiTietDatPhong_Dialog chiTietDP;
+	private static PhieuDatPhong phieuDatPhong;
     private static String maPhong;
     private DanhSachDatPhong_DAO dsDatPhongDAO= new DanhSachDatPhong_DAO();  // Khởi tạo DAO
+    private ChiTietHoaDon_DAO ctHoaDonDAO = new ChiTietHoaDon_DAO();
 
 
     /**
      * Creates new form TraPhong_Dialog
      */
-    public TraPhong_Dialog_GUI(Window parent, boolean modal, String maPhong, ChiTietDatPhong_Dialog chiTietDP) {
+    public TraPhong_Dialog_GUI(Window parent, boolean modal, String maPhong,PhieuDatPhong phieuDatPhong, ChiTietDatPhong_Dialog chiTietDP) {
         super();
         this.maPhong = maPhong;
         this.chiTietDP = chiTietDP;
         initComponents();
         setLocationRelativeTo(null);
         
+        loadDuLieuDSHD(phieuDatPhong.getMaPDP());
+        loadDuLieuDSDV(maPhong);
+        
+        // Khởi tạo các listeners để theo dõi sự thay đổi của txtPhuThu
+        initializeListeners();
         lbMaPhong.setText(maPhong);
+        txtKhuyenMai.setText("5");
         updateRoomInfo(maPhong);
     }
     
@@ -504,7 +517,7 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Window window = SwingUtilities.getWindowAncestor(chiTietDP);
-                TraPhong_Dialog_GUI dialog = new TraPhong_Dialog_GUI(window, true, maPhong, chiTietDP);
+                TraPhong_Dialog_GUI dialog = new TraPhong_Dialog_GUI(window, true, maPhong,phieuDatPhong, chiTietDP);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -540,6 +553,123 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         txtTienCoc.setText(String.valueOf(pdp.getTienCoc()));
         cboLoaiHinh.setSelectedItem(pdp.getLoaiHinh());
     }
+    
+    // Phương thức để tải dữ liệu vào JTable từ phương thức DAO
+    public void loadDuLieuDSHD(String maPDP) {
+        // Lấy dữ liệu từ DAO
+        List<Object[]> danhSach = dsDatPhongDAO.getDanhSachDatPhong(maPDP);
+
+        // Lấy DefaultTableModel của JTable
+        DefaultTableModel model = (DefaultTableModel) tbDanhSachHoaDon.getModel();
+
+        // Xóa các dòng cũ trong bảng nếu có
+        model.setRowCount(0);
+
+        // Thêm dữ liệu vào bảng
+        for (Object[] row : danhSach) {
+            model.addRow(row);
+        }
+        tinhTongThanhToan();
+    }
+    
+ // Phương thức để tải dữ liệu vào JTable từ DAO
+    public void loadDuLieuDSDV(String maPhong) {
+        List<Object[]> danhSach = ctHoaDonDAO.getChiTietHoaDonByMaPhong(maPhong);
+
+        DefaultTableModel model = (DefaultTableModel) tbDanhSachDichVu.getModel();
+
+        // Xóa dữ liệu cũ trong bảng
+        model.setRowCount(0);
+
+        // Thêm dòng dữ liệu vào bảng
+        for (Object[] row : danhSach) {
+            model.addRow(row);
+        }
+        tinhTongThanhToan();
+    }
+    
+    private void tinhTongThanhToan() {
+        double tongTienHoaDon = 0.0;
+        double tongTienDichVu = 0.0;
+
+        // Tính tổng tiền từ bảng tbDanhSachHoaDon (cột Tổng tiền)
+        for (int i = 0; i < tbDanhSachHoaDon.getRowCount(); i++) {
+            Object value = tbDanhSachHoaDon.getValueAt(i, 5); // Cột 5: Tổng tiền
+            if (value != null) {
+                tongTienHoaDon += Double.parseDouble(value.toString());
+            }
+        }
+
+        // Tính tổng tiền từ bảng tbDanhSachDichVu (cột Thành tiền)
+        for (int i = 0; i < tbDanhSachDichVu.getRowCount(); i++) {
+            Object value = tbDanhSachDichVu.getValueAt(i, 4); // Cột 4: Thành tiền
+            if (value != null) {
+                tongTienDichVu += Double.parseDouble(value.toString());
+            }
+        }
+
+        // Tính tổng thanh toán cơ bản
+        double tongThanhToan = tongTienHoaDon + tongTienDichVu;
+
+        // Lấy giá trị từ các trường txtPhuThu, txtKhuyenMai, txtThue
+        double phuThu = 0.0;
+        double khuyenMai = 0.0;
+        double thue = 0.0;
+
+        // Kiểm tra và lấy giá trị từ các trường (nếu có giá trị hợp lệ)
+        try {
+            phuThu = Double.parseDouble(txtPhuThu.getText().trim());
+        } catch (NumberFormatException e) {
+            phuThu = 0.0;
+        }
+
+        try {
+            khuyenMai = Double.parseDouble(txtKhuyenMai.getText().trim()) / 100; // Khuyến mãi tính theo %
+        } catch (NumberFormatException e) {
+            khuyenMai = 0.0;
+        }
+
+        try {
+            thue = Double.parseDouble(txtThue.getText().trim()) / 100; // Thuế tính theo %
+        } catch (NumberFormatException e) {
+            thue = 0.0;
+        }
+
+        // Tính tổng thanh toán: Áp dụng khuyến mãi và thuế
+        double tongThanhToanSauKhuyenMai = tongThanhToan * (1 - khuyenMai); // Áp dụng khuyến mãi
+        double tongThanhToanSauThue = tongThanhToanSauKhuyenMai * (1 + thue); // Áp dụng thuế
+
+        // Cộng thêm phụ thu vào tổng thanh toán
+        tongThanhToan = tongThanhToanSauThue + phuThu;
+
+        // Định dạng số để hiển thị theo kiểu 380.000
+        DecimalFormat formatter = new DecimalFormat("###,###");
+        String formattedTongThanhToan = formatter.format(tongThanhToan);
+
+        // Hiển thị tổng thanh toán lên txtTongThanhToan
+        txtTongThanhToan.setText(formattedTongThanhToan);
+    }
+    
+    private void initializeListeners() {
+    	// Lắng nghe sự thay đổi của txtPhuThu
+        txtPhuThu.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                tinhTongThanhToan(); // Tính lại tổng thanh toán khi txtPhuThu thay đổi
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                tinhTongThanhToan(); // Tính lại tổng thanh toán khi txtPhuThu thay đổi
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                tinhTongThanhToan(); // Tính lại tổng thanh toán khi txtPhuThu thay đổi
+            }
+        });
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;

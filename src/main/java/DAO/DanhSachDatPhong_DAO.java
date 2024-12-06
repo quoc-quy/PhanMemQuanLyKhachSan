@@ -395,4 +395,48 @@ public class DanhSachDatPhong_DAO {
 
         return phieuDatPhong;
     }
+    
+ // Phương thức để lấy danh sách các phiếu đặt phòng
+    public List<Object[]> getDanhSachDatPhong(String maPDP) {
+        List<Object[]> ds = new ArrayList<>();
+        String sql = "SELECT pdp.MaPhong, " +
+                     "pdp.NgayNhanPhong, pdp.NgayTraPhong, pdp.LoaiHinh, " +
+                     "CASE " +
+                     "   WHEN pdp.LoaiHinh = N'Ngày đêm' THEN lp.GiaTienTheoNgay " +
+                     "   WHEN pdp.LoaiHinh = N'Giờ' THEN lp.GiaTienTheoGio " +
+                     "   ELSE 0 " +
+                     "END AS GiaTien, " +
+                     "pdp.TongTien " +
+                     "FROM PhieuDatPhong pdp " +
+                     "JOIN Phong p ON pdp.MaPhong = p.MaPhong AND pdp.MaPhieuDatPhong = ? " +
+                     "JOIN LoaiPhong lp ON p.LoaiPhong = lp.MaLoaiPhong";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            // Gán giá trị cho tham số trong câu truy vấn
+            stmt.setString(1, maPDP);  // Thiết lập tham số maPDP vào câu truy vấn
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Lặp qua kết quả trả về
+            	int index = 1;
+                while (rs.next()) {
+                    String maPhong = rs.getString("MaPhong");
+                    Date ngayNhanPhong = rs.getDate("NgayNhanPhong");
+                    Date ngayTraPhong = rs.getDate("NgayTraPhong");
+                    double giaTien = rs.getDouble("GiaTien");
+                    double tongTien = rs.getDouble("TongTien");
+
+                    // Thêm thông tin vào danh sách
+                    Object[] row = new Object[] {index, maPhong, ngayNhanPhong, ngayTraPhong, giaTien, tongTien};
+                    ds.add(row);
+                    index++;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ds;
+    }
 }

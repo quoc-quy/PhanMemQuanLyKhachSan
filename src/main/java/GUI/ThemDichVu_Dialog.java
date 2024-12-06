@@ -29,6 +29,7 @@ import ENTITY.ChiTietDichVu;
 import ENTITY.ChiTietHoaDon;
 import ENTITY.DichVu;
 import ENTITY.HoaDon;
+import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
 
 import javax.swing.DefaultCellEditor;
@@ -46,6 +47,7 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
     private static String maPhong;
 	/**
      * Creates new form ThemDichVu_Dialog
+	 * @param phieuDatPhong 
      */
     public ThemDichVu_Dialog(Window parent, boolean modal, String maPhong, ChiTietDatPhong_Dialog chiTietDP) {
         super();
