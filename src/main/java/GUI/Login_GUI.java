@@ -9,11 +9,20 @@ import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
 import UTIL.MaHoa;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  *
@@ -43,7 +52,7 @@ public class Login_GUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        labelQuenMatKhau = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -53,6 +62,7 @@ public class Login_GUI extends javax.swing.JFrame {
         iconEyeShow = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -76,9 +86,16 @@ public class Login_GUI extends javax.swing.JFrame {
         jLabel1.setText("LOGIN");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 33, -1, 73));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Username");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 127, 77, 27));
+        labelQuenMatKhau.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        labelQuenMatKhau.setForeground(new java.awt.Color(25, 159, 254));
+        labelQuenMatKhau.setText("Quên mật khẩu?");
+        labelQuenMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelQuenMatKhau.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelQuenMatKhauMouseClicked(evt);
+            }
+        });
+        jPanel2.add(labelQuenMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, 110, 27));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Password");
@@ -134,7 +151,16 @@ public class Login_GUI extends javax.swing.JFrame {
                 btnLoginActionPerformed(evt);
             }
         });
+        btnLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                keyPressed(evt);
+            }
+        });
         jPanel2.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 310, 50));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setText("Username");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 127, 77, 27));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(404, 0, 400, 500));
 
@@ -191,6 +217,64 @@ public class Login_GUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    private void labelQuenMatKhauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelQuenMatKhauMouseClicked
+        // TODO add your handling code here:
+    	showForgotPasswordDialog();
+    }//GEN-LAST:event_labelQuenMatKhauMouseClicked
+
+    public void showForgotPasswordDialog() {
+    	JFrame frameForgotPassword = new JFrame("Quên mật khẩu");
+    	JPanel panel = new JPanel();
+    	frameForgotPassword.setLocationRelativeTo(null);
+    	frameForgotPassword.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	frameForgotPassword.setSize(350, 100);
+
+    	// Sử dụng FlowLayout để các thành phần không xuống dòng
+    	panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));  // Các thành phần nằm ngang hàng với khoảng cách giữa các phần tử là 10px
+
+    	// Tên người dùng hoặc email
+    	JLabel labelUsername = new JLabel("Nhập Email:");
+    	labelUsername.setFont(new java.awt.Font("Segoe UI", 1, 14));
+    	JTextField tfUsernameOrEmail = new JTextField(15);
+    	panel.add(labelUsername);
+    	panel.add(tfUsernameOrEmail);
+
+    	// Nút xác nhận
+    	JButton btnSubmit = new JButton("Gửi");
+    	btnSubmit.setBackground(new java.awt.Color(25, 159, 254));
+    	btnSubmit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+    	btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
+    	btnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+    	// Thêm hành động khi nhấn nút Gửi (nếu cần)
+    	btnSubmit.addActionListener(new ActionListener() {
+    	    @Override
+    	    public void actionPerformed(ActionEvent e) {
+    	        String email = tfUsernameOrEmail.getText();
+    	        
+    	        if (email.isEmpty()) {
+    	            JOptionPane.showMessageDialog(frameForgotPassword, "Vui lòng nhập email của bạn.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    	        } else {
+    	            // Gọi lớp DAO để kiểm tra email và xử lý quên mật khẩu
+    	            TaiKhoan_DAO dao = new TaiKhoan_DAO();
+    	            if (dao.isEmailExist(email)) {
+    	                // Nếu email tồn tại, gửi email reset mật khẩu
+    	                dao.sendResetPasswordEmail(email);
+    	                JOptionPane.showMessageDialog(frameForgotPassword, "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn.", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+    	            } else {
+    	                JOptionPane.showMessageDialog(frameForgotPassword, "Email không tồn tại trong hệ thống.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    	            }
+    	        }
+    	    }
+    	});
+
+    	panel.add(btnSubmit);
+
+    	// Thêm panel vào frame
+    	frameForgotPassword.add(panel);
+    	frameForgotPassword.setVisible(true);
+
+    }
     /**
      * @param args the command line arguments
      */
@@ -232,13 +316,14 @@ public class Login_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel iconEyeShow;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel labelQuenMatKhau;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
