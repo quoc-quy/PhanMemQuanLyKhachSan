@@ -19,7 +19,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.ChiTietHoaDon_DAO;
 import DAO.DanhSachDatPhong_DAO;
+import DAO.HoaDon_DAO;
 import DAO.KhachHang_DAO;
 import ENTITY.KhachHang;
 import ENTITY.PhieuDatPhong;
@@ -46,7 +48,7 @@ public class NhanPhong_Dialog extends javax.swing.JDialog {
         loadCustomerCCCDs();
         setupComboBoxListener();
         
-        loadThongTinDatPhong(maPhieuDatPhong);
+        loadThongTinDatPhong(maPhieuDatPhong); 
     }
 
     /**
@@ -320,14 +322,24 @@ public class NhanPhong_Dialog extends javax.swing.JDialog {
     }//GEN-LAST:event_txtTienCocActionPerformed
 
     private void btnNhanPhongMouseClicked(java.awt.event.MouseEvent evt) {
+    	// Tạo mã hóa đơn và lấy MaHoaDon
+        HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+        String maHoaDon = hoaDonDAO.createHoaDon();
     	// Cập nhật trạng thái phòng và trạng thái phiếu đặt phòng
         boolean phongCapNhat = dsDatPhongDAO.capNhatTrangThaiPhong(maPhong, "DANG_SU_DUNG");
         boolean phieuCapNhat = dsDatPhongDAO.capNhatTrangThaiPhieuDatPhong(maPhieuDatPhong, "Đã nhận");
-
-        if (phongCapNhat && phieuCapNhat) {
-            JOptionPane.showMessageDialog(this, "Nhận phòng thành công!");
-            this.dispose(); // Đóng dialog sau khi cập nhật thành công
-        } else {
+     // Kiểm tra nếu có MaHoaDon và MaPhong hợp lệ
+        if (!maHoaDon.isEmpty() && !maPhong.isEmpty()) {
+            // Tạo đối tượng DAO và gọi phương thức themChiTietHoaDon
+            ChiTietHoaDon_DAO ctHoaDonDAO = new ChiTietHoaDon_DAO();
+            boolean isSuccess = ctHoaDonDAO.themChiTietHoaDon(maHoaDon, maPhong);
+            
+            if (phongCapNhat && phieuCapNhat && isSuccess) {
+                JOptionPane.showMessageDialog(this, "Nhận phòng thành công!");
+                this.dispose(); // Đóng dialog sau khi cập nhật thành công
+            }
+        } 
+         else {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi nhận phòng.");
         }
     }//GEN-LAST:event_btnNhanPhongMouseClicked

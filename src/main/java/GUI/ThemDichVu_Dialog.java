@@ -46,7 +46,7 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
 
     private static String maPhong;
 	/**
-     * Creates new form ThemDichVu_Dialog
+     * Creates new form ThemDichVu_Dialog 
 	 * @param phieuDatPhong 
      */
     public ThemDichVu_Dialog(Window parent, boolean modal, String maPhong, ChiTietDatPhong_Dialog chiTietDP) {
@@ -64,7 +64,7 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
 //      Chức năng tìm kiếm
       btnTimKiem.addActionListener(e -> filterTableData());
       
-    }
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.

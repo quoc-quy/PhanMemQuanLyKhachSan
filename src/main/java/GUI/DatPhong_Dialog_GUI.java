@@ -8,7 +8,9 @@ import ENTITY.NhanVien;
 import ENTITY.PhieuDatPhong;
 import ENTITY.Phong;
 import ENTITY.TrangThaiPhong;
+import DAO.ChiTietHoaDon_DAO;
 import DAO.DanhSachDatPhong_DAO;
+import DAO.HoaDon_DAO;
 import DAO.KhachHang_DAO;
 import DAO.LoaiPhong_DAO;
 import DAO.Phong_DAO;
@@ -204,7 +206,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         btnDatNhanh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDatNhanhMouseClicked(evt);
-            }
+            } 
         });
         btnDatNhanh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -416,6 +418,9 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     private void btnDatNhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDatNhanhMouseClicked
     	try {
     		KhachHang_DAO khachHangDAO = new KhachHang_DAO();
+        	// Tạo mã hóa đơn và lấy MaHoaDon
+            HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+            String maHoaDon = hoaDonDAO.createHoaDon();
     		
     	    // Lấy thông tin từ giao diện
     	    String maPhong = lbMaPhong.getText();
@@ -469,6 +474,11 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	    DanhSachDatPhong_DAO dsDatPhongDAO = new DanhSachDatPhong_DAO();
     	    DanhSachDatPhong_GUI dsdpGUI = new DanhSachDatPhong_GUI();
     	    boolean success = dsDatPhongDAO.addPhieuDatPhong(phieuDatPhong);
+    	    if (!maHoaDon.isEmpty() && !maPhong.isEmpty()) {
+                // Tạo đối tượng DAO và gọi phương thức themChiTietHoaDon
+                ChiTietHoaDon_DAO ctHoaDonDAO = new ChiTietHoaDon_DAO();
+                boolean isSuccess = ctHoaDonDAO.themChiTietHoaDon(maHoaDon, maPhong);
+    	    }
     	    
     	    // Thông báo kết quả
     	    if (success) {
@@ -548,7 +558,7 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	    // Thông báo kết quả
     	    if (success) {
     	        dispose();
-    	        JOptionPane.showMessageDialog(this, "Đặt phòng nhanh thành công!");
+    	        JOptionPane.showMessageDialog(this, "Đặt phòng trước thành công!");
 
     	        String maPhongDat = phieuDatPhong.getPhong().getMaPhong();
 

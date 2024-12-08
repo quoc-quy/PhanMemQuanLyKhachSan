@@ -103,7 +103,7 @@ public class ChiTietHoaDon_DAO {
             return rowsAffected > 0;  // Nếu có dòng bị ảnh hưởng, tức là cập nhật thành công
         } catch (SQLException ex) {
             System.out.println("Lỗi khi cập nhật chi tiết hóa đơn: " + ex.getMessage());
-            return false;
+            return false; 
         }
     }
 
@@ -175,5 +175,32 @@ public class ChiTietHoaDon_DAO {
         }
 
         return ds;
+    }
+    
+    
+ // Phương thức để thêm chi tiết hóa đơn khi nhấn nút Đặt nhanh
+    public boolean themChiTietHoaDon(String maHoaDon, String maPhong) {
+        try (Connection conn = ConnectDB.getConnection()) {
+            // Tạo MaChiTietHoaDon ngẫu nhiên hoặc sử dụng UUID
+            String maChiTietHoaDon = generateMaChiTietHoaDon();  // Hoặc tạo mã tự động theo logic của bạn
+
+            // SQL để thêm chi tiết hóa đơn
+            String sql = "INSERT INTO ChiTietHoaDon (MaChiTietHoaDon, MaHoaDon, MaPhong ) "
+                        + "VALUES (?, ?, ?)";
+
+            // Tạo PreparedStatement
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, maChiTietHoaDon);  // MaChiTietHoaDon
+                stmt.setString(2, maHoaDon);         // MaHoaDon
+                stmt.setString(3, maPhong);          // MaPhong
+
+                // Thực thi câu lệnh INSERT
+                int rowsAffected = stmt.executeUpdate();
+                return rowsAffected > 0;  // Nếu có bản ghi được thêm thành công
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
