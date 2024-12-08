@@ -43,6 +43,7 @@ public class Home_GUI extends javax.swing.JFrame {
         cardPanel.add(new NhanVien_GUI(), "nhanvien");
         cardPanel.add(new TroGiup_GUI(), "trogiup");
         cardPanel.add(new LichSuChuyenPhong_GUI(), "lichsuchuyenphong");
+        cardPanel.add(new BaoCaoCongViec_GUI(), "thongkegiaoca");
         
          adjustMenuBasedOnRole(userRole);  // Điều chỉnh menu theo vai trò
     }
@@ -96,7 +97,7 @@ public class Home_GUI extends javax.swing.JFrame {
         lbNhanVien = new javax.swing.JLabel();
         panelThongKeGiaoCa = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
-        lbThongKeGiaoCa = new javax.swing.JLabel();
+        lbBaoCaoCongViec = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         panelLichSuChuyenPhong = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
@@ -453,8 +454,8 @@ public class Home_GUI extends javax.swing.JFrame {
         jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/thong-ke-giao-ca.png"))); // NOI18N
         jLabel34.setText("jLabel20");
 
-        lbThongKeGiaoCa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbThongKeGiaoCa.setText("Thống kê giao ca");
+        lbBaoCaoCongViec.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbBaoCaoCongViec.setText("Báo cáo công việc");
 
         javax.swing.GroupLayout panelThongKeGiaoCaLayout = new javax.swing.GroupLayout(panelThongKeGiaoCa);
         panelThongKeGiaoCa.setLayout(panelThongKeGiaoCaLayout);
@@ -464,7 +465,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lbThongKeGiaoCa, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbBaoCaoCongViec, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(59, Short.MAX_VALUE))
             .addGroup(panelThongKeGiaoCaLayout.createSequentialGroup()
                 .addContainerGap()
@@ -477,7 +478,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(panelThongKeGiaoCaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
-                    .addComponent(lbThongKeGiaoCa))
+                    .addComponent(lbBaoCaoCongViec))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -682,7 +683,7 @@ public class Home_GUI extends javax.swing.JFrame {
                 panelDanhSachDatPhong, panelLichSuChuyenPhong,panelTroGiup, panelDangXuat };
 
 		JLabel[] allLabels = { lbPhong, lbKhachHang, lbDichVu, lbHoaDon, 
-		                lbThongKe, lbKhuyenMai, lbNhanVien, lbThongKeGiaoCa, 
+		                lbThongKe, lbKhuyenMai, lbNhanVien, lbBaoCaoCongViec, 
 		                lblDanhSachDatPhong, lbLichSuChuyenPhong, lbTroGiup, lbDangXuat };
 
         for (int i = 0; i < allPanels.length; i++) {
@@ -722,7 +723,7 @@ public class Home_GUI extends javax.swing.JFrame {
     	changePanelColor(panelDichVu, lbDichVu);
 
         showPanel("service");
-    }                                        
+    }   
 
     private void panelHoaDonMouseClicked(java.awt.event.MouseEvent evt) {
     	changePanelColor(panelHoaDon, lbHoaDon);
@@ -747,7 +748,9 @@ public class Home_GUI extends javax.swing.JFrame {
     }                                          
 
     private void panelThongKeGiaoCaMouseClicked(java.awt.event.MouseEvent evt) {
-    	changePanelColor(panelThongKeGiaoCa, lbThongKeGiaoCa);
+    	changePanelColor(panelThongKeGiaoCa, lbBaoCaoCongViec);
+    	
+    	showPanel("thongkegiaoca");
     }                                               
 
     private void panelDanhSachDatPhongMouseClicked(java.awt.event.MouseEvent evt) {
@@ -828,6 +831,7 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lbBaoCaoCongViec;
     private javax.swing.JLabel lbDangXuat;
     private javax.swing.JLabel lbDichVu;
     private javax.swing.JLabel lbHoaDon;
@@ -837,7 +841,6 @@ public class Home_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lbNhanVien;
     private javax.swing.JLabel lbPhong;
     private javax.swing.JLabel lbThongKe;
-    private javax.swing.JLabel lbThongKeGiaoCa;
     private javax.swing.JLabel lbTroGiup;
     private javax.swing.JLabel lbUserName;
     private javax.swing.JLabel lblDanhSachDatPhong;

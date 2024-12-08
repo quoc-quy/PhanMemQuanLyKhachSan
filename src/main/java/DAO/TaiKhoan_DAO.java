@@ -110,7 +110,6 @@ public class TaiKhoan_DAO {
 
     public void sendResetPasswordEmail(String email) {
     	String resetToken = generateResetToken();
-        
         // Cấu hình thông tin gửi email
         String host = "smtp.gmail.com";
         final String user = "mait58674@gmail.com";  // Địa chỉ email của bạn

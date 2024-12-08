@@ -126,6 +126,9 @@ public class HoaDon {
     public Double getTongTien() {
         return tongTien;
     }
+    public void setTongTien(Double tongTien) {
+        this.tongTien = tongTien;
+    }
     
     public double tinhTongTien(double tienPhong, List<ChiTietDichVu> dichVuList) {
         double tongTienDichVu = 0;
@@ -192,6 +195,13 @@ public class HoaDon {
 
 
 	public void setTongTien(double tongTien2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setTienTraKhach(double double1) {
 		// TODO Auto-generated method stub
 		
 	}

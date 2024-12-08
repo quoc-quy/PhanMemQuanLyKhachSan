@@ -21,54 +21,54 @@ import GUI.HoaDon_GUI;
 
 public class HoaDon_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
-	// Lấy tất cả các hóa đơn từ CSDL
-//    public List<HoaDon> getAllHoaDon() {
-//        List<HoaDon> danhSachHoaDon = new ArrayList<>();
-//        String sql = 
-//        	    "SELECT hd.MaHoaDon, hd.NgayLap, hd.NgayNhanPhong, hd.NgayTraPhong, hd.Thue, hd.TongTien, hd.TienTraKhach, " +
-//        	    "kh.MaKhachHang, kh.TenKhachHang, kh.Phai, kh.CCCD, kh.NgaySinh, kh.DenThoai, " +
-//        	    "nv.MaNhanVien, nv.TenNhanVien, nv.LoaiNhanVien, nv.Phai AS NhanVienPhai, nv.NgaySinh AS NhanVienNgaySinh, nv.CCCD AS NhanVienCCCD, nv.SDT AS NhanVienSDT, " +
-//        	    "km.MaKhuyenMai, km.MoTa, km.NgayBatDau, km.NgayKetThuc, km.TrangThai, km.ChietKhau " +
-//        	    "FROM HoaDon hd " +
-//        	    "JOIN KhachHang kh ON hd.MaKhachHang = kh.MaKhachHang " +
-//        	    "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " +
-//        	    "LEFT JOIN KhuyenMai km ON hd.MaKhuyenMai = km.MaKhuyenMai";
-//
-//        try (Connection conn = ConnectDB.getConnection();
-//             Statement stmt = conn.createStatement();
-//             ResultSet rs = stmt.executeQuery(sql)) {
-//
-//            while (rs.next()) {
-//            	// Lấy dữ liệu từ ResultSet và khởi tạo các đối tượng liên quan
-//                KhachHang khachHang = new KhachHang(
-//                		rs.getString("MaKhachHang"),
-//                        rs.getString("TenKhachHang"),
-//                        rs.getString("CCCD"),
-//                        rs.getString("Phai"),
-//                        rs.getDate("NgaySinh"),
-//                        rs.getString("DenThoai"));
-//                NhanVien nhanVien = new NhanVien(rs.getString("MaNhanVien"));
-//                KhuyenMai khuyenMai = new KhuyenMai(rs.getString("MaKhuyenMai"));
-//
-//                HoaDon hoaDon = new HoaDon(
-//                    rs.getString("MaHoaDon"),
-//                    khuyenMai,
-//                    nhanVien,
-//                    khachHang,
-//                    rs.getDate("NgayLap"),
-//                    rs.getDate("NgayNhanPhong"),
-//                  	  rs.getDate("NgayTraPhong"),
-//                    rs.getInt("Thue"),
-//                    rs.getDouble("TienTraKhach"),
-//                    rs.getDouble("TongTien")
-//                );
-//                danhSachHoaDon.add(hoaDon);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return danhSachHoaDon;
-//    }
+
+    public List<HoaDon> getAllHoaDon() {
+        List<HoaDon> danhSachHoaDon = new ArrayList<>();
+        String sql = 
+        	    "SELECT hd.MaHoaDon, hd.NgayLap, hd.NgayNhanPhong, hd.NgayTraPhong, hd.Thue, hd.TongTien, hd.TienTraKhach, " +
+        	    "kh.MaKhachHang, kh.TenKhachHang, kh.Phai, kh.CCCD, kh.NgaySinh, kh.DenThoai, " +
+        	    "nv.MaNhanVien, nv.TenNhanVien, nv.LoaiNhanVien, nv.Phai AS NhanVienPhai, nv.NgaySinh AS NhanVienNgaySinh, nv.CCCD AS NhanVienCCCD, nv.SDT AS NhanVienSDT, " +
+        	    "km.MaKhuyenMai, km.MoTa, km.NgayBatDau, km.NgayKetThuc, km.TrangThai, km.ChietKhau " +
+        	    "FROM HoaDon hd " +
+        	    "JOIN KhachHang kh ON hd.MaKhachHang = kh.MaKhachHang " +
+        	    "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " +
+        	    "LEFT JOIN KhuyenMai km ON hd.MaKhuyenMai = km.MaKhuyenMai";
+
+        try (Connection conn = ConnectDB.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+            	// Lấy dữ liệu từ ResultSet và khởi tạo các đối tượng liên quan
+                KhachHang khachHang = new KhachHang(
+                		rs.getString("MaKhachHang"),
+                        rs.getString("TenKhachHang"),
+                        rs.getString("CCCD"),
+                        rs.getString("Phai"),
+                        rs.getDate("NgaySinh"),
+                        rs.getString("DenThoai"));
+                NhanVien nhanVien = new NhanVien(rs.getString("MaNhanVien"));
+                KhuyenMai khuyenMai = new KhuyenMai(rs.getString("MaKhuyenMai"));
+
+                HoaDon hoaDon = new HoaDon(
+                    rs.getString("MaHoaDon"),
+                    khuyenMai,
+                    nhanVien,
+                    khachHang,
+                    rs.getDate("NgayLap"),
+                    rs.getDate("NgayNhanPhong"),
+                  	  rs.getDate("NgayTraPhong"),
+                    rs.getInt("Thue"),
+                    rs.getDouble("TienTraKhach"),
+                    rs.getDouble("TongTien")
+                );
+                danhSachHoaDon.add(hoaDon);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return danhSachHoaDon;
+    }
 	
 	
 	public List<Object[]> getAllHoaDonWithPhong() {
@@ -201,6 +201,63 @@ public class HoaDon_DAO {
         }
         return null;  // Trả về null nếu có lỗi
     }
+
+    public List<HoaDon> getHoaDonTheoKhoangThoiGian(java.sql.Date ngayCheckIn, java.sql.Date ngayCheckOut) {
+        List<HoaDon> danhSachHoaDon = new ArrayList<>();
+
+        // Câu lệnh SQL
+        String sql = "SELECT hd.MaHoaDon, hd.NgayLap, hd.NgayNhanPhong, hd.NgayTraPhong, hd.Thue, hd.TongTien, hd.TienTraKhach, " +
+                     "nv.MaNhanVien, nv.TenNhanVien " +
+                     "FROM HoaDon hd " +
+                     "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " +
+                     "WHERE hd.NgayLap BETWEEN ? AND ?"; // Lọc theo ngày lập hóa đơn
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // Thiết lập tham số cho câu truy vấn SQL
+            ps.setDate(1, ngayCheckIn);
+            ps.setDate(2, ngayCheckOut);
+
+            // Thực thi truy vấn và lấy kết quả
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HoaDon hoaDon = new HoaDon();
+                
+                // Gán dữ liệu vào đối tượng HoaDon
+                hoaDon.setMaHoaDon(rs.getString("MaHoaDon"));
+                hoaDon.setNgayLap(rs.getDate("NgayLap"));
+                hoaDon.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
+                hoaDon.setNgayTraPhong(rs.getDate("NgayTraPhong"));
+                Double tongTien = rs.getDouble("TongTien");
+                if (rs.wasNull()) {  // Kiểm tra xem giá trị có NULL không
+                    tongTien = 0.0;  // Nếu NULL, có thể gán giá trị mặc định
+                }
+                hoaDon.setTongTien(tongTien);
+
+                // Gán nhân viên vào hóa đơn
+                NhanVien nhanVien = new NhanVien();
+                nhanVien.setMaNhanVien(rs.getString("MaNhanVien"));
+                nhanVien.setTenNhanVien(rs.getString("TenNhanVien"));
+                hoaDon.setNhanVienLap(nhanVien); // Gán nhân viên cho hóa đơn
+
+                // Thêm hóa đơn vào danh sách
+                danhSachHoaDon.add(hoaDon);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return danhSachHoaDon;
+    }
+
+
+
+
+
+
+
+ 	
 }
 
 
