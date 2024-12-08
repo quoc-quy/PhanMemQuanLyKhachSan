@@ -5,11 +5,14 @@
 package GUI;
 
 import java.awt.Window;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -51,6 +54,7 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         lbMaPhong.setText(maPhong);
         txtKhuyenMai.setText("5");
         updateRoomInfo(maPhong);
+        tinhTongThanhToan();
     }
     
     /**
@@ -689,15 +693,32 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
             }
 
             private void formatInput() {
+                // Tạm dừng DocumentListener để tránh vòng lặp vô hạn khi cập nhật text
                 try {
-                    // Lấy giá trị hiện tại và xóa dấu chấm
-                    String input = txtTienKhachDua.getText().replace(".", "").replace(",", "");
+                    // Tạm dừng DocumentListener
+                    txtTienKhachDua.getDocument().removeDocumentListener(this);
+
+                    // Lấy giá trị hiện tại và loại bỏ tất cả các ký tự không phải số và dấu chấm
+                    String input = txtTienKhachDua.getText().replaceAll("[^0-9]", "");
+
+                    if (input.isEmpty()) {
+                        txtTienKhachDua.setText("");
+                        return; // Nếu không có dữ liệu, không làm gì cả
+                    }
+
+                    // Chuyển giá trị thành double và định dạng lại
                     double value = Double.parseDouble(input);
 
-                    // Định dạng lại
-                    txtTienKhachDua.setText(formatCurrency(value));
+                    // Định dạng lại giá trị và cập nhật vào txtTienKhachDua
+//                    txtTienKhachDua.setText(value);
+//                    txtTienKhachDua.setText(formatCurrency(value));
+
                 } catch (NumberFormatException ex) {
+                    // Nếu có lỗi, đặt lại giá trị
                     txtTienKhachDua.setText("");
+                } finally {
+                    // Bật lại DocumentListener sau khi cập nhật
+                    txtTienKhachDua.getDocument().addDocumentListener(this);
                 }
             }
         });
@@ -846,6 +867,10 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
             txtTienTraKhach.setText("0");
         }
     }
+
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;

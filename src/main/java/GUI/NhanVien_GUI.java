@@ -62,7 +62,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 	public NhanVien_GUI() {
 		initComponents();
 		loadDataToTable();
-		updateHeader();
+		updateHeader(); 
 
 	}
 
@@ -93,7 +93,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 
 		setLayout(new java.awt.CardLayout());
 
-		jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+		jPanel1.setBackground(new java.awt.Color(255, 255, 255)); 
 
 		titleHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 		titleHoaDon.setText("Danh sách nhân viên");
