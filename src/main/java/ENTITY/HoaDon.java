@@ -130,7 +130,20 @@ public class HoaDon {
         this.tongTien = tongTien;
     }
     
-    public double tinhTongTien(double tienPhong, List<ChiTietDichVu> dichVuList) {
+    
+    public Double getTienTraKhach() {
+		return tienTraKhach;
+	}
+
+
+
+	public void setTienTraKhach(Double tienTraKhach) {
+		this.tienTraKhach = tienTraKhach;
+	}
+
+
+
+	public double tinhTongTien(double tienPhong, List<ChiTietDichVu> dichVuList) {
         double tongTienDichVu = 0;
 
         // Tính tổng tiền dịch vụ dựa trên đơn giá và số lượng
@@ -154,12 +167,6 @@ public class HoaDon {
 
         // Tổng thanh toán = Tiền sau chiết khấu + Thuế - Tiền cọc
         return tienSauChietKhau + tienThue - tienCoc;
-    }
-    
-    public double tinhTienTraKhach(double tongThanhToan, double tienKhachDua) {
-        // Tính tiền trả lại cho khách
-        double tienTraKhach = tienKhachDua - tongThanhToan;
-        return tienTraKhach;
     }
 
 	@Override

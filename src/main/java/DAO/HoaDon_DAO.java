@@ -258,6 +258,40 @@ public class HoaDon_DAO {
 
 
  	
+    
+ // Phương thức để cập nhật thông tin hóa đơn trong bảng HoaDon
+    public boolean capNhatHoaDon(HoaDon hoaDon, String maPhong, String maNV) {
+    	String sql = "UPDATE HoaDon "
+    	           + "SET MaNhanVienLap = ?, MaKhachHang = ?, NgayLap = ?, NgayNhanPhong = ?, "
+    	           + "NgayTraPhong = ?, TienTraKhach = ?, TongTien = ?, Thue = ? "
+    	           + "WHERE MaNhanVienLap IS NULL and MaHoaDon in ( "
+    	           + "    SELECT cth.MaHoaDon "
+    	           + "    FROM ChiTietHoaDon cth "
+    	           + "    WHERE cth.MaPhong = ? "
+    	           + ")";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Gán giá trị cho các tham số trong câu lệnh SQL
+            stmt.setString(1, maNV);
+            stmt.setString(2, hoaDon.getKhachHang().getMaKhachHang()); 
+            stmt.setDate(3,  (Date) hoaDon.getNgayLap());
+            stmt.setDate(4, (Date) hoaDon.getNgayNhanPhong());
+            stmt.setDate(5, (Date) hoaDon.getNgayTraPhong());
+            stmt.setDouble(6, hoaDon.getTienTraKhach()); 
+            stmt.setDouble(7, hoaDon.getTongTien()); 
+            stmt.setInt(8, hoaDon.getThue()); 
+            stmt.setString(9, maPhong); 
+
+            // Thực thi câu lệnh UPDATE
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Nếu có bản ghi bị ảnh hưởng
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
 
 

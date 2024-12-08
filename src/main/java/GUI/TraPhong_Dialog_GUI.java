@@ -4,10 +4,13 @@
  */
 package GUI;
 
+import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -20,6 +23,12 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.ChiTietHoaDon_DAO;
 import DAO.DanhSachDatPhong_DAO;
+import DAO.HoaDon_DAO;
+import DAO.KhachHang_DAO;
+import DAO.Phong_DAO;
+import ENTITY.HoaDon;
+import ENTITY.KhachHang;
+import ENTITY.NhanVien;
 import ENTITY.PhieuDatPhong;
 
 /**
@@ -246,7 +255,12 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         btnTraPhongVaIn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTraPhongVaIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnTraPhongVaInMouseClicked(evt);
+                try {
+					btnTraPhongVaInMouseClicked(evt);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
         btnTraPhongVaIn.addActionListener(new java.awt.event.ActionListener() {
@@ -481,8 +495,87 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
-    private void btnTraPhongVaInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTraPhongVaInMouseClicked
-        
+    private void btnTraPhongVaInMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {//GEN-FIRST:event_btnTraPhongVaInMouseClicked
+    	try {
+    		Phong_DAO phongDAO = new Phong_DAO();
+    		// Lấy mã nhân viên từ đăng nhập
+            String maNhanVienLap = Login_GUI.maNhanVien; 
+            NhanVien nhanVien = new NhanVien(maNhanVienLap);
+            KhachHang_DAO khDAO = new KhachHang_DAO();
+            
+            // Lấy mã phòng
+            String maPhong = lbMaPhong.getText();
+            String maKH = khDAO.layMaKhachHangTheoMaPhong(maPhong);
+            
+            // Định dạng ngày cần chuyển
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date ngaylap = new java.util.Date(); // Ngày hiện tại
+            
+            String ngayNhan = null;
+            String ngayTra = null;
+            
+            // Lấy NgayNhanPhong và NgayTraPhong từ bảng
+            for (int i = 0; i < tbDanhSachHoaDon.getRowCount(); i++) {
+                Object valueCol3 = tbDanhSachHoaDon.getValueAt(i, 2); // Cột NgayNhanPhong
+                Object valueCol4 = tbDanhSachHoaDon.getValueAt(i, 3); // Cột NgayTraPhong
+                if (valueCol3 != null) {
+                    ngayNhan = valueCol3.toString();
+                }
+                if (valueCol4 != null) {
+                    ngayTra = valueCol4.toString();
+                }
+            }
+            
+            // Chuyển chuỗi sang java.sql.Date
+            java.sql.Date ngaylapSQL = new java.sql.Date(ngaylap.getTime());
+            
+            java.util.Date ngayNhanPhong = dateFormat.parse(ngayNhan);
+            java.sql.Date ngayNhanPhongSQL = new java.sql.Date(ngayNhanPhong.getTime());
+
+            java.util.Date ngayTraPhong = dateFormat.parse(ngayTra);
+            java.sql.Date ngayTraPhongSQL = new java.sql.Date(ngayTraPhong.getTime());
+            
+         // Lấy giá trị từ các ô nhập liệu và loại bỏ dấu "," và "."
+            String tienTraKhachText = txtTienTraKhach.getText().replace(",", "").replace(".", "");
+            String tongThanhToanText = txtTongThanhToan.getText().replace(",", "").replace(".", "");
+            String thueText = txtThue.getText().replace(",", "").replace(".", "");
+            
+            Double tienTraKhach = Double.parseDouble(tienTraKhachText);
+    	    Double tongThanhToan = Double.parseDouble(tongThanhToanText);
+    	    int thue = Integer.parseInt(thueText);
+
+            // Tạo đối tượng HoaDon
+            NhanVien nv = new NhanVien(maNhanVienLap);
+            KhachHang kh = new KhachHang(maKH);
+            
+            HoaDon hd = new HoaDon();
+            hd.setNhanVienLap(nv);
+            hd.setKhachHang(kh);
+            hd.setNgayLap(ngaylapSQL); // Lấy ngày hiện tại
+            hd.setNgayNhanPhong(ngayNhanPhongSQL);
+            hd.setNgayTraPhong(ngayTraPhongSQL);
+            hd.setTienTraKhach(tienTraKhach);
+            hd.setTongTien(tongThanhToan);
+            hd.setThue(thue);
+            
+            // Cập nhật thông tin vào cơ sở dữ liệu
+            HoaDon_DAO hdDAO = new HoaDon_DAO();
+            boolean success = hdDAO.capNhatHoaDon(hd, maPhong, maNhanVienLap);
+            
+            // Thông báo kết quả
+            if(success) {
+                dispose(); // Đóng cửa sổ hiện tại
+                JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
+                phongDAO.capNhatTrangThaiPhong(maPhong, "PHONG_TRONG");
+                phongDAO.updateTinhTrangPhong(maPhong, "CHUA_DON");
+//    	        phongGUI.updateRoomColor(maPhong, Color.decode("#004B97"));
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Thanh toán thất bại!");
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }//GEN-LAST:event_btnTraPhongVaInMouseClicked
 
     private void btnTraPhongVaInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraPhongVaInActionPerformed

@@ -220,6 +220,34 @@ public class KhachHang_DAO {
         
         return maKhachHang;
     }
+    
+ // Phương thức để lấy mã khách hàng dựa trên mã phòng
+    public String layMaKhachHangTheoMaPhong(String maPhong) {
+        String maKhachHang = null;
+        String sql = "SELECT TOP 1 pdp.MaKhachHang "
+                   + "FROM ChiTietHoaDon cthd "
+                   + "JOIN PhieuDatPhong pdp ON cthd.MaPhong = pdp.MaPhong "
+                   + "JOIN Phong p ON p.MaPhong = pdp.MaPhong "
+                   + "WHERE pdp.TrangThai = N'Đã nhận' "
+                   + "AND p.MaPhong = ?";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Gán giá trị cho tham số trong câu lệnh SQL
+            stmt.setString(1, maPhong);  // Gán MaPhong vào tham số đầu tiên
+
+            // Thực thi câu lệnh SELECT
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    maKhachHang = rs.getString("MaKhachHang");  // Lấy MaKhachHang từ kết quả
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return maKhachHang; // Nếu không tìm thấy, trả về null
+    }
 }
 
     
