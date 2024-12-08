@@ -34,7 +34,7 @@ public class KhachHang_DAO {
                     rs.getString("CCCD"),
                     rs.getString("Phai"),
                     rs.getDate("NgaySinh"),
-                    rs.getString("DenThoai")
+                    rs.getString("DIenThoai")
                 );
                 dsKhachHang.add(kh);
             }
@@ -45,7 +45,7 @@ public class KhachHang_DAO {
     }
     
     public boolean addKhachHang(KhachHang khachHang) {
-    	String query = "INSERT INTO KhachHang (MaKhachHang, TenKhachHang, CCCD, Phai, NgaySinh, DenThoai) VALUES (?, ?, ?, ?, ? ,?)";
+    	String query = "INSERT INTO KhachHang (MaKhachHang, TenKhachHang, CCCD, Phai, NgaySinh, DienThoai) VALUES (?, ?, ?, ?, ? ,?)";
     	try(Connection conn = ConnectDB.getConnection();
     		PreparedStatement ps = conn.prepareStatement(query)){
     		
@@ -74,7 +74,7 @@ public class KhachHang_DAO {
     }
     
     public boolean updateKhachHang(KhachHang khachHang) {
-    	String query = "UPDATE KhachHang SET TenKhachHang = ?, CCCD = ?, Phai = ?, NgaySinh = ?, DenThoai = ? WHERE MaKhachHang = ?";
+    	String query = "UPDATE KhachHang SET TenKhachHang = ?, CCCD = ?, Phai = ?, NgaySinh = ?, DienThoai = ? WHERE MaKhachHang = ?";
     	try(Connection conn = ConnectDB.getConnection();
     			PreparedStatement ps = conn.prepareStatement(query)){
     		ps.setString(1, khachHang.getTenKhachHang());
@@ -105,7 +105,7 @@ public class KhachHang_DAO {
                 khachHang.setCCCD(rs.getString("CCCD"));
                 khachHang.setPhai(rs.getString("Phai"));
                 khachHang.setNgaySinh(rs.getDate("NgaySinh"));
-                khachHang.setDienThoai(rs.getString("DenThoai"));
+                khachHang.setDienThoai(rs.getString("DienThoai"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -190,7 +190,7 @@ public class KhachHang_DAO {
                     rs.getString("CCCD"),
                     rs.getString("Phai"),
                     rs.getDate("NgaySinh"),
-                    rs.getString("DenThoai")
+                    rs.getString("DienThoai")
                 );
             }
         } catch (Exception e) {
