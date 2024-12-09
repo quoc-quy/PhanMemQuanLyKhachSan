@@ -251,13 +251,6 @@ public class HoaDon_DAO {
         return danhSachHoaDon;
     }
 
-
-
-
-
-
-
- 	
     
  // Phương thức để cập nhật thông tin hóa đơn trong bảng HoaDon
     public boolean capNhatHoaDon(HoaDon hoaDon, String maPhong, String maNV) {

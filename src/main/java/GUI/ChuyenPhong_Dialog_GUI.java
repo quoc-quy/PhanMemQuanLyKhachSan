@@ -152,12 +152,15 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
             newBooking.setGioTraPhong(phieuDatPhong.getGioTraPhong());
             newBooking.setTongTien(Double.parseDouble(lblTongTien.getText().replace(" VND", "").replace(",", ""))); // Set tổng tiền
             newBooking.setTrangThai("Đã nhận");
+            LichSuChuyenPhong_GUI lichSuChuyenPhongGUI = new LichSuChuyenPhong_GUI();
+            lichSuChuyenPhongGUI.loadDataToTable();
 
             boolean bookingSuccess = bookingDAO.addPhieuDatPhong(newBooking);
 
             if (bookingSuccess) {
                 // Sau khi thêm phiếu mới thành công, lấy mã của phiếu đặt phòng mới
                 String newMaPDP = newBooking.getMaPDP(); // Lấy mã mới của phiếu đặt phòng
+                
 
                 boolean updateNewRoomStatus = bookingDAO.capNhatTrangThaiPhong(selectedRoom, "DANG_SU_DUNG");
                 if (!updateNewRoomStatus) {

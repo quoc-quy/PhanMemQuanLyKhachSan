@@ -144,6 +144,7 @@ public class ChiTietDatPhong_Dialog extends javax.swing.JDialog {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				showChangeRoomGUI(phong, phieuDatPhong);
+				
 			}
 		});
         

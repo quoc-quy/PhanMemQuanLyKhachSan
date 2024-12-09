@@ -11,7 +11,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import ConnectDB.ConnectDB;
+import ENTITY.HoaDon;
 import ENTITY.LichSuChuyenPhong;
+import ENTITY.NhanVien;
 
 public class LichSuChuyenPhong_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
@@ -131,4 +133,53 @@ public class LichSuChuyenPhong_DAO {
 	    return maChuyenPhong;
 	}
 	
+	public List<Object[]> getLichSuChuyenPhongTheoKhoangThoiGian(java.sql.Date ngayCheckIn, java.sql.Date ngayCheckOut) {
+	    List<Object[]> danhSachLichSu = new ArrayList<>();
+
+	    // Sửa câu lệnh SQL để lọc theo Ngày chuyển phòng
+	    String sql = "SELECT lscp.MaChuyenPhong, lscp.MaPhieuDatPhong, lscp.PhongCu, lscp.PhongMoi, lscp.LyDo, lscp.NgayChuyenPhong " +
+	                 "FROM LichSuChuyenPhong lscp " +
+	                 "WHERE lscp.NgayChuyenPhong BETWEEN ? AND ?";  // Điều kiện lọc theo ngày
+
+	    try (Connection conn = ConnectDB.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+	        // Thiết lập tham số cho câu truy vấn SQL
+	        ps.setDate(1, ngayCheckIn);
+	        ps.setDate(2, ngayCheckOut);
+
+	        // Thực thi truy vấn và lấy kết quả
+	        ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	            String maChuyenPhong = rs.getString("MaChuyenPhong");
+	            String maPhieuDatPhong = rs.getString("MaPhieuDatPhong");
+	            String phongCu = rs.getString("PhongCu");
+	            String phongMoi = rs.getString("PhongMoi");
+	            String lyDo = rs.getString("LyDo");
+	            Date ngayChuyenPhong = rs.getDate("NgayChuyenPhong");
+
+	            // Thêm một dòng dữ liệu vào danh sách
+	            Object[] row = {
+	                maChuyenPhong,
+	                maPhieuDatPhong,
+	                phongCu,
+	                phongMoi,
+	                lyDo,
+	                ngayChuyenPhong
+	            };
+
+	            // Thêm dòng vào danh sách
+	            danhSachLichSu.add(row);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return danhSachLichSu;
+	}
+
+
+
+
 }
