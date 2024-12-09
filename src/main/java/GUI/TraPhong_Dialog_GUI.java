@@ -25,6 +25,7 @@ import DAO.ChiTietHoaDon_DAO;
 import DAO.DanhSachDatPhong_DAO;
 import DAO.HoaDon_DAO;
 import DAO.KhachHang_DAO;
+import DAO.PhieuDatPhong_DAO;
 import DAO.Phong_DAO;
 import ENTITY.HoaDon;
 import ENTITY.KhachHang;
@@ -52,7 +53,7 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         this.chiTietDP = chiTietDP;
         initComponents();
         setLocationRelativeTo(null);
-        
+         
         loadDuLieuDSHD(phieuDatPhong.getMaPDP());
         loadDuLieuDSDV(maPhong);
         
@@ -498,15 +499,24 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
     private void btnTraPhongVaInMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {//GEN-FIRST:event_btnTraPhongVaInMouseClicked
     	try {
     		Phong_DAO phongDAO = new Phong_DAO();
+    		PhieuDatPhong_DAO pdpDAO = new PhieuDatPhong_DAO();
     		// Lấy mã nhân viên từ đăng nhập
             String maNhanVienLap = Login_GUI.maNhanVien; 
             NhanVien nhanVien = new NhanVien(maNhanVienLap);
             KhachHang_DAO khDAO = new KhachHang_DAO();
+            String maPDP = pdpDAO.getMaPDPByMaPhong(maPhong);
+//            
+            System.out.println("MÃ Phiếu đặt phòng: "+maPDP);
             
             // Lấy mã phòng
             String maPhong = lbMaPhong.getText();
             String maKH = khDAO.layMaKhachHangTheoMaPhong(maPhong);
+            String cccd = khDAO.getCCCDByMaKhachHang(maKH);
             
+            KhachHang kh = new KhachHang(cccd);
+            kh.setMaKhachHang(maKH);
+            
+            System.out.println("MÃ Khách Hàng: "+maKH);
             // Định dạng ngày cần chuyển
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date ngaylap = new java.util.Date(); // Ngày hiện tại
@@ -546,7 +556,6 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
 
             // Tạo đối tượng HoaDon
             NhanVien nv = new NhanVien(maNhanVienLap);
-            KhachHang kh = new KhachHang(maKH);
             
             HoaDon hd = new HoaDon();
             hd.setNhanVienLap(nv);
@@ -568,6 +577,7 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
                 phongDAO.capNhatTrangThaiPhong(maPhong, "PHONG_TRONG");
                 phongDAO.updateTinhTrangPhong(maPhong, "CHUA_DON");
+                dsDatPhongDAO.capNhatTrangThaiPhieuDatPhong(maPDP, "Hoàn thành");
 //    	        phongGUI.updateRoomColor(maPhong, Color.decode("#004B97"));
             }
             else {

@@ -30,7 +30,7 @@ public class HoaDon_DAO {
         	    "nv.MaNhanVien, nv.TenNhanVien, nv.LoaiNhanVien, nv.Phai AS NhanVienPhai, nv.NgaySinh AS NhanVienNgaySinh, nv.CCCD AS NhanVienCCCD, nv.SDT AS NhanVienSDT, " +
         	    "km.MaKhuyenMai, km.MoTa, km.NgayBatDau, km.NgayKetThuc, km.TrangThai, km.ChietKhau " +
         	    "FROM HoaDon hd " +
-        	    "JOIN KhachHang kh ON hd.MaKhachHang = kh.MaKhachHang " +
+        	    "JOIN KhachHang kh ON hd.MaKhachHang = kh.MaKhachHang " + 
         	    "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " +
         	    "LEFT JOIN KhuyenMai km ON hd.MaKhuyenMai = km.MaKhuyenMai";
 
@@ -201,6 +201,35 @@ public class HoaDon_DAO {
         }
         return null;  // Trả về null nếu có lỗi
     }
+    
+    public String getMaHoaDonFromMaPhong(String maPhong) {
+        String maHoaDon = null;  // Khởi tạo giá trị mặc định là null
+        String query = "SELECT cthd.MaHoaDon "
+                     + "FROM ChiTietHoaDon cthd, HoaDon h "
+                     + "WHERE cthd.MaHoaDon = h.MaHoaDon "
+                     + "AND h.MaNhanVienLap IS NULL "
+                     + "AND cthd.MaPhong = ?";  // Sử dụng tham số để bảo mật và tránh SQL injection
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            // Gán tham số MaPhong vào câu lệnh SQL
+            ps.setString(1, maPhong);
+
+            // Thực thi câu lệnh SELECT
+            ResultSet rs = ps.executeQuery();
+            
+            // Nếu có kết quả trả về, lấy MaHoaDon
+            if (rs.next()) {
+                maHoaDon = rs.getString("MaHoaDon");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi lấy MaHoaDon từ MaPhong: " + ex.getMessage());
+        }
+
+        return maHoaDon;  // Trả về MaHoaDon hoặc null nếu không tìm thấy
+    }
+
 
     public List<HoaDon> getHoaDonTheoKhoangThoiGian(java.sql.Date ngayCheckIn, java.sql.Date ngayCheckOut) {
         List<HoaDon> danhSachHoaDon = new ArrayList<>();
@@ -250,7 +279,6 @@ public class HoaDon_DAO {
 
         return danhSachHoaDon;
     }
-
     
  // Phương thức để cập nhật thông tin hóa đơn trong bảng HoaDon
     public boolean capNhatHoaDon(HoaDon hoaDon, String maPhong, String maNV) {

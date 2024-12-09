@@ -9,6 +9,7 @@ package ENTITY;
  * @author 84837
  */
 public class ChiTietHoaDon {
+	private String maCTHD;
     private HoaDon hoaDon;
     private Phong phong;
     private DichVu dichVu;
@@ -21,13 +22,24 @@ public class ChiTietHoaDon {
 		super();
 	}
 
-	public ChiTietHoaDon(HoaDon hoaDon, Phong phong, DichVu dichVu, int soLuong, Double tongTienDichVu) {
+	public ChiTietHoaDon(String maCTHD, HoaDon hoaDon, Phong phong, DichVu dichVu, int soLuong, Double tongTienDichVu) {
 		super();
+		this.maCTHD = maCTHD;
 		this.hoaDon = hoaDon;
 		this.phong = phong;
 		this.dichVu = dichVu;
 		this.soLuong = soLuong;
 		this.tongTienDichVu = tongTienDichVu;
+	}
+	
+	
+
+	public String getMaCTHD() {
+		return maCTHD;
+	}
+
+	public void setMaCTHD(String maCTHD) {
+		this.maCTHD = maCTHD;
 	}
 
 	public HoaDon getHoaDon() {

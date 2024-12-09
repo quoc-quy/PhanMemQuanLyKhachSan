@@ -28,13 +28,9 @@ public class ChiTietHoaDon_DAO {
 	    }
 	    return "CTHD" + String.format("%04d", nextId);  // Tạo mã chi tiết hóa đơn, ví dụ CTHD0001
 	}
-	
+	 
 	// Phương thức thêm hoặc cập nhật chi tiết hóa đơn
     public boolean addOrUpdateChiTietHoaDon(ChiTietHoaDon chiTietHoaDon, String maHoaDon, String maPhong) {
-        // Kiểm tra nếu ngày hiện tại nằm trong khoảng ngày nhận phòng và ngày trả phòng
-        if (!checkIfServiceTimeIsValid(maPhong)) {
-            return false;  // Nếu thời gian không hợp lệ, trả về false
-        }
 
         // Kiểm tra xem dịch vụ đã tồn tại chưa
         if (checkIfDichVuExists(maPhong, chiTietHoaDon.getDichVu().getMaDichVu())) {
@@ -46,29 +42,38 @@ public class ChiTietHoaDon_DAO {
         }
     }
 
-    // Phương thức kiểm tra thời gian dịch vụ hợp lệ
-    private boolean checkIfServiceTimeIsValid(String maPhong) {
-        String query = "SELECT NgayNhanPhong, NgayTraPhong " +
-                       "FROM PhieuDatPhong " +
-                       "WHERE MaPhong = ? AND GETDATE() BETWEEN NgayNhanPhong AND NgayTraPhong";  // Kiểm tra ngày hiện tại nằm trong khoảng
-
+    private boolean checkMaDichVuIsNull(String maPhong) {
+        // Câu lệnh SQL kiểm tra MaDichVu là NULL
+        String query = "SELECT cthd.MaDichVu "
+                     + "FROM ChiTietHoaDon cthd, HoaDon h "
+                     + "WHERE cthd.MaHoaDon = h.MaHoaDon "
+                     + "AND h.MaNhanVienLap IS NULL "
+                     + "AND cthd.MaPhong = ? "
+                     + "AND cthd.MaDichVu IS NULL";
+        
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
+            // Gán tham số MaPhong vào câu lệnh SQL
             ps.setString(1, maPhong);
+
+            // Thực thi câu lệnh SELECT
             ResultSet rs = ps.executeQuery();
+            
+            // Nếu có bản ghi trả về, có nghĩa là MaDichVu là NULL
             if (rs.next()) {
-                return true;  // Ngày hiện tại nằm trong khoảng thời gian nhận và trả phòng
+                return true;  // MaDichVu là NULL
             }
         } catch (SQLException ex) {
-            System.out.println("Lỗi khi kiểm tra thời gian dịch vụ: " + ex.getMessage());
+            System.out.println("Lỗi khi kiểm tra MaDichVu: " + ex.getMessage());
         }
-        return false;  // Ngày hiện tại không nằm trong khoảng thời gian nhận và trả phòng
+        return false;  // MaDichVu không phải là NULL
     }
+
 
     // Phương thức kiểm tra nếu dịch vụ đã tồn tại trong ChiTietHoaDon
     private boolean checkIfDichVuExists(String maPhong, String maDichVu) {
-        String query = "SELECT COUNT(*) FROM ChiTietHoaDon WHERE MaPhong = ? AND MaDichVu = ?";
+        String query = "SELECT COUNT(*) FROM ChiTietHoaDon WHERE MaPhong = ? AND  MaDichVu = ?";
         
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -88,7 +93,8 @@ public class ChiTietHoaDon_DAO {
 
     // Phương thức cập nhật chi tiết hóa đơn (nếu dịch vụ đã tồn tại)
     private boolean updateChiTietHoaDon(ChiTietHoaDon chiTietHoaDon, String maPhong) {
-        String query = "UPDATE ChiTietHoaDon SET SoLuong = SoLuong + ?, TongTienDichVu = TongTienDichVu + ? WHERE MaPhong = ? AND MaDichVu = ?";
+        String query = "UPDATE ChiTietHoaDon SET SoLuong = SoLuong + ?, TongTienDichVu = TongTienDichVu + ? "
+        		+ "WHERE MaPhong = ? AND MaDichVu = ?";
         
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -116,7 +122,7 @@ public class ChiTietHoaDon_DAO {
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             // Tạo mã chi tiết hóa đơn
-            String maChiTietHoaDon = generateMaChiTietHoaDon();  // Phương thức tạo mã chi tiết hóa đơn tự động
+            String maChiTietHoaDon = generateMaChiTietHoaDon();   // Phương thức tạo mã chi tiết hóa đơn tự động
             
             // Gán giá trị vào câu lệnh SQL
             ps.setString(1, maChiTietHoaDon);  // Mã chi tiết hóa đơn

@@ -20,7 +20,7 @@ public class PhieuDatPhong_DAO {
 	
 	public boolean addPhieuDatPhong(PhieuDatPhong phieuDatPhong) {
         String sql = "INSERT INTO PhieuDatPhong (MaKhachHang, MaPhong, MaNhanVienLap, NgayNhanPhong, NgayTraPhong, TienCoc) "
-                   + "VALUES (?, ?, ?, ?, ?, ?)";
+                   + "VALUES (?, ?, ?, ?, ?, ?)"; 
 
         try (Connection conn = connectDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -155,5 +155,26 @@ public class PhieuDatPhong_DAO {
 
 	    return phieuDatPhong;
 	}
-
+	
+	// Phương thức lấy mã khách hàng dựa vào CCCD
+    public String getMaPDPByMaPhong(String maPhong) {
+        String maPDP = null;
+        
+        String sql = "SELECT MaPhieuDatPhong FROM PhieuDatPhong WHERE MaPhong = ? and TrangThai = N'Đã nhận'";
+        
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, maPhong);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+            	maPDP = rs.getString("MaPhieuDatPhong");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return maPDP;
+    }
 }

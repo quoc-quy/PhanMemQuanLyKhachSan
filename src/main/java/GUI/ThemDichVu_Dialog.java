@@ -46,7 +46,7 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
 
     private static String maPhong;
 	/**
-     * Creates new form ThemDichVu_Dialog 
+     * Creates new form ThemDichVu_Dialog  
 	 * @param phieuDatPhong 
      */
     public ThemDichVu_Dialog(Window parent, boolean modal, String maPhong, ChiTietDatPhong_Dialog chiTietDP) {
@@ -337,59 +337,63 @@ public class ThemDichVu_Dialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyMouseClicked
 
     private void btnLuuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLuuMouseClicked
-    	// Tạo mã hóa đơn và lấy MaHoaDon
-        HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
-        String maHoaDon = hoaDonDAO.createHoaDon();  // Tạo mã hóa đơn mới
+    	try {
+    		// Tạo mã hóa đơn và lấy MaHoaDon
+            HoaDon_DAO hoaDonDAO = new HoaDon_DAO();
+            String maHoaDon = hoaDonDAO.getMaHoaDonFromMaPhong(maPhong);  // Tạo mã hóa đơn mới
 
-        String maPhong = lbMaPhong.getText();
+            String maPhong = lbMaPhong.getText();
 
-        if (maHoaDon != null) {
-            boolean isAllSaved = true;  // Biến cờ để theo dõi trạng thái lưu thành công
+            if (maHoaDon != null) {
+                boolean isAllSaved = true;  // Biến cờ để theo dõi trạng thái lưu thành công
 
-            // Lặp qua các dòng trong bảng để lấy thông tin dịch vụ và lưu vào ChiTietHoaDon
-            for (int i = 0; i < tbChiTietSP.getRowCount(); i++) {
-                String tenDichVu = tbChiTietSP.getValueAt(i, 1).toString();  // Tên dịch vụ
-                int soLuong = Integer.parseInt(tbChiTietSP.getValueAt(i, 2).toString());  // Số lượng
-                double tongTienDichVu = Double.parseDouble(tbChiTietSP.getValueAt(i, 4).toString());  // Đơn giá
+                // Lặp qua các dòng trong bảng để lấy thông tin dịch vụ và lưu vào ChiTietHoaDon
+                for (int i = 0; i < tbChiTietSP.getRowCount(); i++) {
+                    String tenDichVu = tbChiTietSP.getValueAt(i, 1).toString();  // Tên dịch vụ
+                    int soLuong = Integer.parseInt(tbChiTietSP.getValueAt(i, 2).toString());  // Số lượng
+                    double tongTienDichVu = Double.parseDouble(tbChiTietSP.getValueAt(i, 4).toString());  // Đơn giá
 
-                // Lấy mã dịch vụ từ tên dịch vụ
-                DichVu_DAO dichVuDAO = new DichVu_DAO();
-                String maDichVu = dichVuDAO.getIdDichVuByName(tenDichVu);  // Lấy mã dịch vụ từ DAO
+                    // Lấy mã dịch vụ từ tên dịch vụ
+                    DichVu_DAO dichVuDAO = new DichVu_DAO();
+                    String maDichVu = dichVuDAO.getIdDichVuByName(tenDichVu);  // Lấy mã dịch vụ từ DAO
 
-                if (maDichVu == null) {
-                    // Nếu không tìm thấy mã dịch vụ, thông báo lỗi và dừng lại
-                    JOptionPane.showMessageDialog(this, "Mã dịch vụ không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
+                    if (maDichVu == null) {
+                        // Nếu không tìm thấy mã dịch vụ, thông báo lỗi và dừng lại
+                        JOptionPane.showMessageDialog(this, "Mã dịch vụ không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // Lấy thời gian dịch vụ từ hệ thống (hoặc từ giao diện)
+                    java.sql.Date ngayDichVu = new java.sql.Date(System.currentTimeMillis());  // Ví dụ lấy ngày hiện tại, có thể lấy từ giao diện nếu cần
+
+                    // Tạo đối tượng ChiTietHoaDon và lưu vào cơ sở dữ liệu
+                    ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+                    chiTietHoaDon.setHoaDon(new HoaDon(maHoaDon));  // Gắn mã hóa đơn
+                    chiTietHoaDon.setPhong(new Phong(maPhong));  // Mã phòng (có thể lấy từ giao diện)
+                    chiTietHoaDon.setDichVu(new DichVu(maDichVu));  // Mã dịch vụ, tên dịch vụ và đơn giá
+                    chiTietHoaDon.setSoLuong(soLuong);  // Số lượng
+                    chiTietHoaDon.setTongTienDichVu(tongTienDichVu);  // Thành tiền
+
+                    // Lưu chi tiết hóa đơn vào cơ sở dữ liệu
+                    ChiTietHoaDon_DAO chiTietDAO = new ChiTietHoaDon_DAO();
+                    if (!chiTietDAO.addOrUpdateChiTietHoaDon(chiTietHoaDon, maHoaDon, maPhong)) {
+                        isAllSaved = false;  // Nếu có lỗi khi lưu dịch vụ, đánh dấu trạng thái là lỗi
+                    }
                 }
 
-                // Lấy thời gian dịch vụ từ hệ thống (hoặc từ giao diện)
-                java.sql.Date ngayDichVu = new java.sql.Date(System.currentTimeMillis());  // Ví dụ lấy ngày hiện tại, có thể lấy từ giao diện nếu cần
-
-                // Tạo đối tượng ChiTietHoaDon và lưu vào cơ sở dữ liệu
-                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
-                chiTietHoaDon.setHoaDon(new HoaDon(maHoaDon));  // Gắn mã hóa đơn
-                chiTietHoaDon.setPhong(new Phong(maPhong));  // Mã phòng (có thể lấy từ giao diện)
-                chiTietHoaDon.setDichVu(new DichVu(maDichVu));  // Mã dịch vụ, tên dịch vụ và đơn giá
-                chiTietHoaDon.setSoLuong(soLuong);  // Số lượng
-                chiTietHoaDon.setTongTienDichVu(tongTienDichVu);  // Thành tiền
-
-                // Lưu chi tiết hóa đơn vào cơ sở dữ liệu
-                ChiTietHoaDon_DAO chiTietDAO = new ChiTietHoaDon_DAO();
-                if (!chiTietDAO.addOrUpdateChiTietHoaDon(chiTietHoaDon, maHoaDon, maPhong)) {
-                    isAllSaved = false;  // Nếu có lỗi khi lưu dịch vụ, đánh dấu trạng thái là lỗi
+                // Hiển thị thông báo chỉ khi tất cả dịch vụ đã được lưu thành công
+                if (isAllSaved) {
+                    JOptionPane.showMessageDialog(this, "Lưu thành công!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Có lỗi khi lưu một số dịch vụ!");
                 }
-            }
-
-            // Hiển thị thông báo chỉ khi tất cả dịch vụ đã được lưu thành công
-            if (isAllSaved) {
-                JOptionPane.showMessageDialog(this, "Lưu thành công!");
             } else {
-                JOptionPane.showMessageDialog(this, "Có lỗi khi lưu một số dịch vụ!");
+                JOptionPane.showMessageDialog(this, "Không thể tạo mã hóa đơn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Không thể tạo mã hóa đơn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-        dispose();
+            dispose();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         
     }//GEN-LAST:event_btnLuuMouseClicked
 
