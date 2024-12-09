@@ -47,6 +47,7 @@ import com.toedter.calendar.JDateChooser;
 import ConnectDB.ConnectDB;
 import DAO.KhachHang_DAO;
 import DAO.NhanVien_DAO;
+import DAO.TaiKhoan_DAO;
 import ENTITY.KhachHang;
 import ENTITY.LoaiNhanVien;
 import ENTITY.NhanVien;
@@ -62,7 +63,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 	public NhanVien_GUI() {
 		initComponents();
 		loadDataToTable();
-		updateHeader(); 
+		updateHeader();
 
 	}
 
@@ -93,13 +94,13 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 
 		setLayout(new java.awt.CardLayout());
 
-		jPanel1.setBackground(new java.awt.Color(255, 255, 255)); 
+		jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
 		titleHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 		titleHoaDon.setText("Danh sách nhân viên");
 
 		tbNhanVien.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {},
-				new String[] { "Mã nhân viên", "Tên nhân viên", "Loại", "Phái", "Ngày sinh", "Số điện thoại" }) {
+				new String[] { "Mã nhân viên", "Tên nhân viên", "Loại", "Ngày sinh", "Số điện thoại", "Phái" }) {
 			Class[] types = new Class[] { java.lang.Object.class, java.lang.String.class, java.lang.Object.class,
 					java.lang.String.class, java.lang.Object.class, java.lang.String.class };
 
@@ -348,6 +349,9 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		}
 	}
 
+
+
+
 	// Method to update an existing employee
 	private void updateEmployee() {
 		int selectedRow = tbNhanVien.getSelectedRow();
@@ -367,210 +371,209 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 	}
 
 	private JDialog createUpdateEmployeeDialog(NhanVien nhanVien, NhanVien_DAO nhanVienDAO) {
-	    JDialog updateEmployeeDialog = new JDialog((Frame) null, "Cập Nhật Nhân Viên", true);
-	    updateEmployeeDialog.setSize(900, 400);
-	    updateEmployeeDialog.setLocationRelativeTo(null);
+		JDialog updateEmployeeDialog = new JDialog((Frame) null, "Cập Nhật Nhân Viên", true);
+		updateEmployeeDialog.setSize(900, 400);
+		updateEmployeeDialog.setLocationRelativeTo(null);
 
-	    // Create UI components
-	    JTextField txtMaNhanVien = new JTextField(nhanVien.getMaNhanVien(), 20);
-	    txtMaNhanVien.setEnabled(false); // Make this field non-editable
-	    JTextField txtTenNhanVien = new JTextField(nhanVien.getTenNhanVien(), 20);
-	    JComboBox<LoaiNhanVien> cbLoaiNhanVien = new JComboBox<>(LoaiNhanVien.values());
-	    cbLoaiNhanVien.setSelectedItem(nhanVien.getLoaiNhanVien());
-	    
-	    JTextField txtCCCD = new JTextField(nhanVien.getCCCD(), 20);
-	    ((AbstractDocument) txtCCCD.getDocument()).setDocumentFilter(new NumericDocumentFilter());
-	    
-	    JDateChooser dateChooserNgaySinh = new JDateChooser();
-	    dateChooserNgaySinh.setDate(nhanVien.getNgaySinh());
-	    dateChooserNgaySinh.setDateFormatString("dd/MM/yyyy");
+		// Create UI components
+		JTextField txtMaNhanVien = new JTextField(nhanVien.getMaNhanVien(), 20);
+		txtMaNhanVien.setEnabled(false); // Make this field non-editable
+		JTextField txtTenNhanVien = new JTextField(nhanVien.getTenNhanVien(), 20);
+		JComboBox<LoaiNhanVien> cbLoaiNhanVien = new JComboBox<>(LoaiNhanVien.values());
+		cbLoaiNhanVien.setSelectedItem(nhanVien.getLoaiNhanVien());
 
-	    JTextField txtSoDienThoai = new JTextField(nhanVien.getSoDienThoai(), 20);
-	    ((AbstractDocument) txtSoDienThoai.getDocument()).setDocumentFilter(new NumericDocumentFilter());
+		JTextField txtCCCD = new JTextField(nhanVien.getCCCD(), 20);
+		((AbstractDocument) txtCCCD.getDocument()).setDocumentFilter(new NumericDocumentFilter());
 
-	    JComboBox<String> cbPhai = new JComboBox<>(new String[] { "Nam", "Nữ", "Khác" });
-	    cbPhai.setSelectedItem(nhanVien.getPhai());
+		JDateChooser dateChooserNgaySinh = new JDateChooser();
+		dateChooserNgaySinh.setDate(nhanVien.getNgaySinh());
+		dateChooserNgaySinh.setDateFormatString("dd/MM/yyyy");
 
-	    JButton btnSave = new JButton("Lưu");
-	    JButton btnCancel = new JButton("Hủy");
-	    btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14));
-	    btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-	    btnSave.setBackground(Color.decode("#199FFE"));
-	    btnSave.setForeground(Color.WHITE);
-	    btnCancel.setBackground(Color.decode("#D3D3D3"));
+		JTextField txtSoDienThoai = new JTextField(nhanVien.getSoDienThoai(), 20);
+		((AbstractDocument) txtSoDienThoai.getDocument()).setDocumentFilter(new NumericDocumentFilter());
 
-	    // Set button sizes
-	    Dimension buttonSize = new Dimension(100, 40);
-	    btnSave.setPreferredSize(buttonSize);
-	    btnCancel.setPreferredSize(buttonSize);
+		JComboBox<String> cbPhai = new JComboBox<>(new String[] { "Nam", "Nữ", "Khác" });
+		cbPhai.setSelectedItem(nhanVien.getPhai());
 
-	    // Layout components
-	    JPanel formPanel = new JPanel(new GridBagLayout());
-	    Font labelFont = new Font("Segoe UI", Font.BOLD, 20);
-	    Font textFieldFont = new Font("Segoe UI", Font.PLAIN, 20);
-	    Dimension textFieldSize = new Dimension(250, 45);
+		JButton btnSave = new JButton("Lưu");
+		JButton btnCancel = new JButton("Hủy");
+		btnSave.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnSave.setBackground(Color.decode("#199FFE"));
+		btnSave.setForeground(Color.WHITE);
+		btnCancel.setBackground(Color.decode("#D3D3D3"));
 
-	    GridBagConstraints gbc = new GridBagConstraints();
-	    gbc.insets = new Insets(5, 5, 5, 5);
-	    gbc.fill = GridBagConstraints.HORIZONTAL;
+		// Set button sizes
+		Dimension buttonSize = new Dimension(100, 40);
+		btnSave.setPreferredSize(buttonSize);
+		btnCancel.setPreferredSize(buttonSize);
 
-	    // Row 1: Mã nhân viên and Tên nhân viên
-	    gbc.gridx = 0;
-	    gbc.gridy = 0;
-	    JLabel lblMaNhanVien = new JLabel("Mã nhân viên:");
-	    lblMaNhanVien.setFont(labelFont);
-	    formPanel.add(lblMaNhanVien, gbc);
+		// Layout components
+		JPanel formPanel = new JPanel(new GridBagLayout());
+		Font labelFont = new Font("Segoe UI", Font.BOLD, 20);
+		Font textFieldFont = new Font("Segoe UI", Font.PLAIN, 20);
+		Dimension textFieldSize = new Dimension(250, 45);
 
-	    gbc.gridx = 1;
-	    formPanel.add(txtMaNhanVien, gbc);
-	    txtMaNhanVien.setPreferredSize(textFieldSize);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 
-	    gbc.gridx = 2;
-	    JLabel lblTenNhanVien = new JLabel("Tên nhân viên:");
-	    lblTenNhanVien.setFont(labelFont);
-	    formPanel.add(lblTenNhanVien, gbc);
+		// Row 1: Mã nhân viên and Tên nhân viên
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		JLabel lblMaNhanVien = new JLabel("Mã nhân viên:");
+		lblMaNhanVien.setFont(labelFont);
+		formPanel.add(lblMaNhanVien, gbc);
 
-	    gbc.gridx = 3;
-	    formPanel.add(txtTenNhanVien, gbc);
-	    txtTenNhanVien.setPreferredSize(textFieldSize);
+		gbc.gridx = 1;
+		formPanel.add(txtMaNhanVien, gbc);
+		txtMaNhanVien.setPreferredSize(textFieldSize);
 
-	    // Row 2: Loại nhân viên and Giới tính
-	    gbc.gridx = 0;
-	    gbc.gridy = 1;
-	    JLabel lblLoaiNhanVien = new JLabel("Loại nhân viên:");
-	    lblLoaiNhanVien.setFont(labelFont);
-	    formPanel.add(lblLoaiNhanVien, gbc);
+		gbc.gridx = 2;
+		JLabel lblTenNhanVien = new JLabel("Tên nhân viên:");
+		lblTenNhanVien.setFont(labelFont);
+		formPanel.add(lblTenNhanVien, gbc);
 
-	    gbc.gridx = 1;
-	    formPanel.add(cbLoaiNhanVien, gbc);
-	    cbLoaiNhanVien.setPreferredSize(textFieldSize);
+		gbc.gridx = 3;
+		formPanel.add(txtTenNhanVien, gbc);
+		txtTenNhanVien.setPreferredSize(textFieldSize);
 
-	    gbc.gridx = 2;
-	    JLabel lblPhai = new JLabel("Giới tính:");
-	    lblPhai.setFont(labelFont);
-	    formPanel.add(lblPhai, gbc);
+		// Row 2: Loại nhân viên and Giới tính
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		JLabel lblLoaiNhanVien = new JLabel("Loại nhân viên:");
+		lblLoaiNhanVien.setFont(labelFont);
+		formPanel.add(lblLoaiNhanVien, gbc);
 
-	    gbc.gridx = 3;
-	    formPanel.add(cbPhai, gbc);
-	    cbPhai.setPreferredSize(textFieldSize);
+		gbc.gridx = 1;
+		formPanel.add(cbLoaiNhanVien, gbc);
+		cbLoaiNhanVien.setPreferredSize(textFieldSize);
 
-	    // Row 3: Số CCCD and Điện thoại
-	    gbc.gridx = 0;
-	    gbc.gridy = 2;
-	    JLabel lblCCCD = new JLabel("Số CCCD:");
-	    lblCCCD.setFont(labelFont);
-	    formPanel.add(lblCCCD, gbc);
+		gbc.gridx = 2;
+		JLabel lblPhai = new JLabel("Giới tính:");
+		lblPhai.setFont(labelFont);
+		formPanel.add(lblPhai, gbc);
 
-	    gbc.gridx = 1;
-	    formPanel.add(txtCCCD, gbc);
-	    txtCCCD.setPreferredSize(textFieldSize);
+		gbc.gridx = 3;
+		formPanel.add(cbPhai, gbc);
+		cbPhai.setPreferredSize(textFieldSize);
 
-	    gbc.gridx = 2;
-	    JLabel lblSoDienThoai = new JLabel("Điện thoại:");
-	    lblSoDienThoai.setFont(labelFont);
-	    formPanel.add(lblSoDienThoai, gbc);
+		// Row 3: Số CCCD and Điện thoại
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		JLabel lblCCCD = new JLabel("Số CCCD:");
+		lblCCCD.setFont(labelFont);
+		formPanel.add(lblCCCD, gbc);
 
-	    gbc.gridx = 3;
-	    formPanel.add(txtSoDienThoai, gbc);
-	    txtSoDienThoai.setPreferredSize(textFieldSize);
+		gbc.gridx = 1;
+		formPanel.add(txtCCCD, gbc);
+		txtCCCD.setPreferredSize(textFieldSize);
 
-	    // Row 4: Ngày sinh
-	    gbc.gridx = 0;
-	    gbc.gridy = 3;
-	    JLabel lblNgaySinh = new JLabel("Ngày sinh:");
-	    lblNgaySinh.setFont(labelFont);
-	    formPanel.add(lblNgaySinh, gbc);
+		gbc.gridx = 2;
+		JLabel lblSoDienThoai = new JLabel("Điện thoại:");
+		lblSoDienThoai.setFont(labelFont);
+		formPanel.add(lblSoDienThoai, gbc);
 
-	    gbc.gridx = 1;
-	    formPanel.add(dateChooserNgaySinh, gbc);
-	    dateChooserNgaySinh.setPreferredSize(textFieldSize);
+		gbc.gridx = 3;
+		formPanel.add(txtSoDienThoai, gbc);
+		txtSoDienThoai.setPreferredSize(textFieldSize);
 
-	    // Button panel setup
-	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-	    buttonPanel.add(btnCancel);
-	    buttonPanel.add(btnSave);
+		// Row 4: Ngày sinh
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		JLabel lblNgaySinh = new JLabel("Ngày sinh:");
+		lblNgaySinh.setFont(labelFont);
+		formPanel.add(lblNgaySinh, gbc);
 
-	    // Main panel setup
-	    JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-	    mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	    mainPanel.add(formPanel, BorderLayout.CENTER);
-	    mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+		gbc.gridx = 1;
+		formPanel.add(dateChooserNgaySinh, gbc);
+		dateChooserNgaySinh.setPreferredSize(textFieldSize);
 
-	    // Button actions
-	    btnSave.addActionListener(e -> {
-	        // Gọi hàm updateEmployeeData và kiểm tra xem việc cập nhật có thành công hay không
-	        if (updateEmployeeData(updateEmployeeDialog, nhanVien, nhanVienDAO, txtTenNhanVien, cbLoaiNhanVien, txtCCCD,
-	                dateChooserNgaySinh, txtSoDienThoai, cbPhai)) {
-	            updateEmployeeDialog.dispose(); // Đóng dialog nếu thành công
-	        }
-	    });
-	    btnCancel.addActionListener(e -> updateEmployeeDialog.dispose());
+		// Button panel setup
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		buttonPanel.add(btnCancel);
+		buttonPanel.add(btnSave);
 
-	    updateEmployeeDialog.add(mainPanel);
-	    return updateEmployeeDialog;
+		// Main panel setup
+		JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		mainPanel.add(formPanel, BorderLayout.CENTER);
+		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+		// Button actions
+		btnSave.addActionListener(e -> {
+			// Gọi hàm updateEmployeeData và kiểm tra xem việc cập nhật có thành công hay
+			// không
+			if (updateEmployeeData(updateEmployeeDialog, nhanVien, nhanVienDAO, txtTenNhanVien, cbLoaiNhanVien, txtCCCD,
+					dateChooserNgaySinh, txtSoDienThoai, cbPhai)) {
+				updateEmployeeDialog.dispose(); // Đóng dialog nếu thành công
+			}
+		});
+		btnCancel.addActionListener(e -> updateEmployeeDialog.dispose());
+
+		updateEmployeeDialog.add(mainPanel);
+		return updateEmployeeDialog;
 	}
-	
 
 	private boolean updateEmployeeData(JDialog dialog, NhanVien nhanVien, NhanVien_DAO nhanVienDAO,
-	        JTextField txtTenNhanVien, JComboBox<LoaiNhanVien> cbLoaiNhanVien,
-	        JTextField txtCCCD, JDateChooser dateChooserNgaySinh, JTextField txtSoDienThoai,
-	        JComboBox<String> cbPhai) {
-	    
-	    // Lấy dữ liệu từ các trường đầu vào
-	    String tenNhanVien = txtTenNhanVien.getText().trim();
-	    LoaiNhanVien loaiNhanVien = (LoaiNhanVien) cbLoaiNhanVien.getSelectedItem();
-	    String cccd = txtCCCD.getText().trim();
-	    String soDienThoai = txtSoDienThoai.getText().trim();
-	    String phai = (String) cbPhai.getSelectedItem();
-	    Date ngaySinh = dateChooserNgaySinh.getDate();
+			JTextField txtTenNhanVien, JComboBox<LoaiNhanVien> cbLoaiNhanVien, JTextField txtCCCD,
+			JDateChooser dateChooserNgaySinh, JTextField txtSoDienThoai, JComboBox<String> cbPhai) {
 
-	    // Kiểm tra tính hợp lệ của đầu vào
-	    if (isInputValid(tenNhanVien, phai, ngaySinh, cccd, soDienThoai)) {
-	        java.sql.Date sqlNgaySinh = new java.sql.Date(ngaySinh.getTime());
+		// Lấy dữ liệu từ các trường đầu vào
+		String tenNhanVien = txtTenNhanVien.getText().trim();
+		LoaiNhanVien loaiNhanVien = (LoaiNhanVien) cbLoaiNhanVien.getSelectedItem();
+		String cccd = txtCCCD.getText().trim();
+		String soDienThoai = txtSoDienThoai.getText().trim();
+		String phai = (String) cbPhai.getSelectedItem();
+		Date ngaySinh = dateChooserNgaySinh.getDate();
 
-	        // Cập nhật thông tin nhân viên
-	        nhanVien.setTenNhanVien(tenNhanVien);
-	        nhanVien.setLoaiNhanVien(loaiNhanVien);
-	        nhanVien.setCCCD(cccd);
-	        nhanVien.setSoDienThoai(soDienThoai);
-	        nhanVien.setPhai(phai);
-	        nhanVien.setNgaySinh(sqlNgaySinh);
+		// Kiểm tra tính hợp lệ của đầu vào
+		if (isInputValid(tenNhanVien, phai, ngaySinh, cccd, soDienThoai)) {
+			java.sql.Date sqlNgaySinh = new java.sql.Date(ngaySinh.getTime());
 
-	        // Cập nhật nhân viên vào cơ sở dữ liệu
-	        if (nhanVienDAO.updateNhanVien(nhanVien)) {
-	            loadDataToTable();
-	            JOptionPane.showMessageDialog(dialog, "Nhân viên được cập nhật thành công.");
-	            dialog.dispose();
-	        } else {
-	            JOptionPane.showMessageDialog(dialog, "Cập nhật không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-	        }
-	    } else {
-	        JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ và đúng thông tin.", "Thông báo",
-	                JOptionPane.WARNING_MESSAGE);
-	    }
+			// Cập nhật thông tin nhân viên
+			nhanVien.setTenNhanVien(tenNhanVien);
+			nhanVien.setLoaiNhanVien(loaiNhanVien);
+			nhanVien.setCCCD(cccd);
+			nhanVien.setSoDienThoai(soDienThoai);
+			nhanVien.setPhai(phai);
+			nhanVien.setNgaySinh(sqlNgaySinh);
+
+			// Cập nhật nhân viên vào cơ sở dữ liệu
+			if (nhanVienDAO.updateNhanVien(nhanVien)) {
+				loadDataToTable();
+				JOptionPane.showMessageDialog(dialog, "Nhân viên được cập nhật thành công.");
+				dialog.dispose();
+			} else {
+				JOptionPane.showMessageDialog(dialog, "Cập nhật không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(dialog, "Vui lòng điền đầy đủ và đúng thông tin.", "Thông báo",
+					JOptionPane.WARNING_MESSAGE);
+		}
 		return false;
 	}
 
 	// Hàm kiểm tra tính hợp lệ của đầu vào
 	private boolean isInputValid(String tenNhanVien, String phai, Date ngaySinh, String cccd, String soDienThoai) {
-	    if (tenNhanVien.isEmpty() || phai.isEmpty() || ngaySinh == null || cccd.isEmpty() || soDienThoai.isEmpty()) {
-	        return false;
-	    }
-	    if (!soDienThoai.matches("\\d{10,11}")) { // Kiểm tra số điện thoại có đúng định dạng không (10-11 số)
-	        JOptionPane.showMessageDialog(null, "Số điện thoại phải có từ 10 đến 11 chữ số.", "Thông báo",
-	                JOptionPane.WARNING_MESSAGE);
-	        return false;
-	    }
-	    if (!cccd.matches("\\d{12}")) { // Kiểm tra CCCD có đúng định dạng 12 chữ số không
-	        JOptionPane.showMessageDialog(null, "Số CCCD phải có đúng 12 chữ số.", "Thông báo",
-	                JOptionPane.WARNING_MESSAGE);
-	        return false;
-	    }
-	    return true;
+		if (tenNhanVien.isEmpty() || phai.isEmpty() || ngaySinh == null || cccd.isEmpty() || soDienThoai.isEmpty()) {
+			return false;
+		}
+		if (!soDienThoai.matches("\\d{10,11}")) { // Kiểm tra số điện thoại có đúng định dạng không (10-11 số)
+			JOptionPane.showMessageDialog(null, "Số điện thoại phải có từ 10 đến 11 chữ số.", "Thông báo",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		if (!cccd.matches("\\d{12}")) { // Kiểm tra CCCD có đúng định dạng 12 chữ số không
+			JOptionPane.showMessageDialog(null, "Số CCCD phải có đúng 12 chữ số.", "Thông báo",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 
 	private boolean isInputValid(String tenNhanVien, String phai, Date ngaySinh, String soDienThoai) {
-	    return !tenNhanVien.isEmpty() && !phai.isEmpty() && ngaySinh != null && !soDienThoai.isEmpty();
+		return !tenNhanVien.isEmpty() && !phai.isEmpty() && ngaySinh != null && !soDienThoai.isEmpty();
 	}
 
 	private java.sql.Date parseDate(String dateString) throws java.text.ParseException {
@@ -649,14 +652,18 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		// Create UI components
 		JTextField txtTenNhanVien = new JTextField(20);
 		JComboBox<LoaiNhanVien> cbLoaiNhanVien = new JComboBox<>(LoaiNhanVien.values());
-		
+
 		JDateChooser dateChooserNgaySinh = new JDateChooser();
 		dateChooserNgaySinh.setDateFormatString("dd/MM/yyyy");
-		
+
 		JTextField txtCCCD = new JTextField(20);
 		((AbstractDocument) txtCCCD.getDocument()).setDocumentFilter(new NumericDocumentFilter()); // Apply filter
 		JTextField txtSoDienThoai = new JTextField(20);
 		((AbstractDocument) txtSoDienThoai.getDocument()).setDocumentFilter(new NumericDocumentFilter());
+
+		JTextField txtEmail = new JTextField(20);
+		JTextField txtTenDangNhap = new JTextField(20);
+		JTextField txtMatKhau = new JTextField(20);
 
 		// Replace JTextField for Gender with JComboBox
 		JComboBox<String> cbGioiTinh = new JComboBox<>(new String[] { "Nam", "Nữ", "Khác" });
@@ -724,7 +731,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		gbc.gridy = 1;
 		JLabel lblGioiTinh = new JLabel("Giới tính:");
 		lblGioiTinh.setFont(labelFont);
-		
+
 		formPanel.add(lblGioiTinh, gbc);
 
 		gbc.gridx = 3;
@@ -732,7 +739,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		formPanel.add(cbGioiTinh, gbc); // Use JComboBox for Gender
 		cbGioiTinh.setPreferredSize(textFieldSize);
 
-		// Row 3: Điện thoại
+		// Row 3: Điện thoại và Tên đăng nhập
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		JLabel lblSoDienThoai = new JLabel("Điện thoại:");
@@ -744,7 +751,18 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		formPanel.add(txtSoDienThoai, gbc);
 		txtSoDienThoai.setPreferredSize(textFieldSize);
 
-		// Row 4: Ngày sinh
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		JLabel lblTenDangNhap = new JLabel("Tên đăng nhập:");
+		lblTenDangNhap.setFont(labelFont);
+		formPanel.add(lblTenDangNhap, gbc);
+
+		gbc.gridx = 3;
+		gbc.gridy = 2;
+		formPanel.add(txtTenDangNhap, gbc);
+		txtTenDangNhap.setPreferredSize(textFieldSize);
+
+		// Row 4: Ngày sinh và mật khẩu
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		JLabel lblNgaySinh = new JLabel("Ngày sinh:");
@@ -755,6 +773,28 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		gbc.gridy = 3;
 		formPanel.add(dateChooserNgaySinh, gbc);
 		dateChooserNgaySinh.setPreferredSize(textFieldSize);
+
+		gbc.gridx = 2;
+		gbc.gridy = 3;
+		JLabel lblMatKhau = new JLabel("Mật khẩu:");
+		lblMatKhau.setFont(labelFont);
+		formPanel.add(lblMatKhau, gbc);
+
+		gbc.gridx = 3;
+		gbc.gridy = 3;
+		formPanel.add(txtMatKhau, gbc);
+		txtMatKhau.setPreferredSize(textFieldSize);
+		// Row 5: Email
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(labelFont);
+		formPanel.add(lblEmail, gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		formPanel.add(txtEmail, gbc);
+		txtEmail.setPreferredSize(textFieldSize);
 
 		// Button panel setup
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -769,7 +809,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 
 		btnSave.addActionListener(e -> {
 			if (saveEmployeeData(addEmployeeDialog, txtTenNhanVien, cbLoaiNhanVien, dateChooserNgaySinh, txtCCCD,
-					txtSoDienThoai, cbGioiTinh)) { // Pass the JComboBox directly
+					txtSoDienThoai, cbGioiTinh, txtEmail, txtTenDangNhap, txtMatKhau)) { // Pass the JComboBox directly
 				addEmployeeDialog.dispose();
 			}
 		});
@@ -788,16 +828,58 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		panel.add(component, gbc);
 	}
 
+	private boolean saveTaiKhoanData(JDialog dialog, JTextField txtTenDangNhap, JTextField txtMatKhau,
+			JTextField txtEmail) {
+		String tenDangNhap = txtTenDangNhap.getText().trim();
+		String matKhau = txtMatKhau.getText().trim();
+		String email = txtEmail.getText().trim();
+
+		// Kiểm tra nếu tên đăng nhập rỗng
+		if (tenDangNhap.isEmpty()) {
+			JOptionPane.showMessageDialog(dialog, "Tên đăng nhập không được để trống!", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		// Kiểm tra nếu mật khẩu rỗng
+		if (matKhau.isEmpty()) {
+			JOptionPane.showMessageDialog(dialog, "Mật khẩu không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		// Kiểm tra nếu email rỗng
+		if (email.isEmpty()) {
+			JOptionPane.showMessageDialog(dialog, "Email không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		// Kiểm tra định dạng email hợp lệ
+		String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+		if (!email.matches(emailPattern)) {
+			JOptionPane.showMessageDialog(dialog, "Email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		// Nếu tất cả điều kiện trên đều hợp lệ, trả về true
+		return true;
+	}
+
 	// Save Employee Data with validation and auto-incremented ID
 	private boolean saveEmployeeData(JDialog dialog, JTextField txtTenNhanVien, JComboBox<LoaiNhanVien> cbLoaiNhanVien,
-			JDateChooser dateChooserNgaySinh, JTextField txtCCCD, JTextField txtSoDienThoai,
-			JComboBox<String> cbGioiTinh) {
-		String tenNhanVien = txtTenNhanVien.getText().trim();
-		LoaiNhanVien loaiNhanVien = (LoaiNhanVien) cbLoaiNhanVien.getSelectedItem();
-		Date ngaySinh = dateChooserNgaySinh.getDate();
-		String cccd = txtCCCD.getText().trim();
-		String sdt = txtSoDienThoai.getText().trim();
-		String phai = cbGioiTinh.getSelectedItem().toString(); // Correctly retrieve the selected item as String
+	        JDateChooser dateChooserNgaySinh, JTextField txtCCCD, JTextField txtSoDienThoai,
+	        JComboBox<String> cbGioiTinh, JTextField txtEmail, JTextField txtTenDangNhap, JTextField txtMatKhau) {
+	    String tenNhanVien = txtTenNhanVien.getText().trim();
+	    LoaiNhanVien loaiNhanVien = (LoaiNhanVien) cbLoaiNhanVien.getSelectedItem();
+	    Date ngaySinh = dateChooserNgaySinh.getDate();
+	    // Định dạng ngày sinh thành dd/MM/yy
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    String formattedNgaySinh = dateFormat.format(ngaySinh);
+	    String cccd = txtCCCD.getText().trim();
+	    String sdt = txtSoDienThoai.getText().trim();
+	    String phai = cbGioiTinh.getSelectedItem().toString();
+	    String email = txtEmail.getText().trim();
+	    String tenDangNhap = txtTenDangNhap.getText().trim();
+	    String matKhau = txtMatKhau.getText().trim();
 
 // Kiểm tra hợp lệ
 		// Kiểm tra trường tên nhân viên không để trống
@@ -865,25 +947,38 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 			JOptionPane.showMessageDialog(dialog, "Lỗi khi tạo mã nhân viên mới.", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-
-// Lưu vào cơ sở dữ liệu
-		if (saveToDatabase(maNhanVien, tenNhanVien, loaiNhanVien, phai, cccd, ngaySinh, sdt)) {
-			DefaultTableModel tableModel = (DefaultTableModel) tbNhanVien.getModel();
-			tableModel.addRow(new Object[] { maNhanVien, tenNhanVien, loaiNhanVien, ngaySinh, cccd, sdt, phai });
-			return true;
-		} else {
-			JOptionPane.showMessageDialog(dialog, "Lỗi lưu dữ liệu vào cơ sở dữ liệu.", "Lỗi",
-					JOptionPane.ERROR_MESSAGE);
+// Sinh mã tài khoản
+		String maTaiKhoan = generateNewAccountId();
+		if (maTaiKhoan == null) {
+			JOptionPane.showMessageDialog(dialog, "Lỗi khi tạo mã tài khoản mới.", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+
+	    // Kiểm tra xem tài khoản có tồn tại không trước khi lưu
+	    if (!saveToDatabaseTaiKhoan(maTaiKhoan, tenDangNhap, matKhau, email, maNhanVien)) {
+	        JOptionPane.showMessageDialog(dialog, "Lỗi lưu tài khoản vào cơ sở dữ liệu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        return false;
+	    }
+
+	    // Kiểm tra xem nhân viên đã tồn tại chưa trước khi lưu
+	    if (!saveToDatabase(maNhanVien, tenNhanVien, loaiNhanVien, maTaiKhoan, phai, cccd, ngaySinh, sdt)) {
+	        JOptionPane.showMessageDialog(dialog, "Lỗi lưu nhân viên vào cơ sở dữ liệu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+	        return false;
+	    }
+
+	    // Nếu tất cả lưu thành công, thêm vào bảng
+	    DefaultTableModel tableModel = (DefaultTableModel) tbNhanVien.getModel();
+	    tableModel.addRow(new Object[] { maNhanVien, tenNhanVien, loaiNhanVien, formattedNgaySinh, cccd, sdt, phai });
+	    return true;
+	
 	}
 
 	private String generateNewEmployeeId(LoaiNhanVien loaiNhanVien) {
 		String prefix = loaiNhanVien == LoaiNhanVien.NV_QUANLY ? "QL" : "NV";
 		String maxIdQuery = "SELECT MAX(MaNhanVien) FROM NhanVien WHERE MaNhanVien LIKE ?";
 
-		ConnectDB connectDB = new ConnectDB(); // Tạo đối tượng kết nối DB
-		try (Connection conn = connectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(maxIdQuery)) {
+		try (Connection conn = new ConnectDB().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(maxIdQuery)) {
 
 			if (conn == null) {
 				JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu.", "Lỗi kết nối",
@@ -891,22 +986,63 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 				return null;
 			}
 
-			// Thiết lập mẫu tìm kiếm với tiền tố
 			pstmt.setString(1, prefix + "%");
-
-			// Thực hiện truy vấn
 			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				String lastId = rs.getString(1);
+
+				// Kiểm tra nếu lastId có giá trị hợp lệ và không phải null
+				if (lastId != null && lastId.length() > 2) {
+					try {
+						// Trích xuất số từ mã nhân viên
+						int lastNumber = Integer.parseInt(lastId.substring(2)); // Cắt bỏ tiền tố "QL" hoặc "NV"
+						return prefix + String.format("%03d", lastNumber + 1); // Tăng số lên 1 và định dạng lại
+					} catch (NumberFormatException e) {
+						// Nếu có lỗi khi phân tích số, thông báo và thoát
+						JOptionPane.showMessageDialog(null, "Lỗi khi phân tích mã nhân viên: " + e.getMessage(), "Lỗi",
+								JOptionPane.ERROR_MESSAGE);
+						return null;
+					}
+				}
+			}
+			// Nếu không có mã nhân viên nào trong cơ sở dữ liệu, bắt đầu từ "001"
+			return prefix + "001";
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Lỗi khi truy vấn cơ sở dữ liệu: " + e.getMessage(), "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+	}
+
+	private String generateNewAccountId() {
+		String prefix = "TK";
+		String maxIdQuery = "SELECT MAX(MaTaiKhoan) FROM TaiKhoan WHERE MaTaiKhoan LIKE ?";
+
+		try (Connection conn = new ConnectDB().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(maxIdQuery)) {
+
+			if (conn == null) {
+				JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu .", "Lỗi kết nối",
+						JOptionPane.ERROR_MESSAGE);
+				return null;
+			}
+
+			pstmt.setString(1, prefix + "%"); // Tìm các mã tài khoản bắt đầu với "TK"
+			ResultSet rs = pstmt.executeQuery();
+
 			if (rs.next()) {
 				String lastId = rs.getString(1);
 
 				if (lastId != null) {
-					// Tách phần số từ mã hiện tại và tăng thêm 1
-					int lastNumber = Integer.parseInt(lastId.substring(2));
+					// Tách phần số và tăng thêm 1
+					int lastNumber = Integer.parseInt(lastId.substring(2)); // Bỏ "TK"
 					return prefix + String.format("%03d", lastNumber + 1);
 				}
 			}
 
-			// Nếu không có mã nào, bắt đầu từ 001
+			// Nếu không có mã nào tồn tại, bắt đầu từ TK001
 			return prefix + "001";
 
 		} catch (SQLException e) {
@@ -916,8 +1052,38 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 	}
 
 	// Method to save employee data to the database
-	private boolean saveToDatabase(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String phai,
-			String cccd, Date ngaySinh, String sdt) {
+	private boolean saveToDatabaseTaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau, String email, String maNhanVien) {
+		String sql = "INSERT INTO TaiKhoan (MaTaiKhoan, TenDangNhap, MatKhau, Email, MaNhanVien) VALUES (?, ?, ?, ?, ?)";
+
+		try (Connection conn = new ConnectDB().getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			if (conn == null) {
+				JOptionPane.showMessageDialog(null, "Không thể kết nối tới cơ sở dữ liệu .", "Lỗi kết nối",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+
+			// Gán giá trị cho các placeholder
+			pstmt.setString(1, maTaiKhoan);
+			pstmt.setString(2, tenDangNhap);
+			pstmt.setString(3, matKhau);
+			pstmt.setString(4, email);
+			pstmt.setString(5, maNhanVien);
+
+			// Thực hiện câu lệnh
+			int rowsInserted = pstmt.executeUpdate();
+			return rowsInserted > 0; // Trả về true nếu có ít nhất một dòng được thêm
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Lỗi khi truy vấn cơ sở dữ liệu: " + e.getMessage(), "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+
+	private boolean saveToDatabase(String maNhanVien, String tenNhanVien, LoaiNhanVien loaiNhanVien, String maTaiKhoan,
+			String phai, String cccd, Date ngaySinh, String sdt) {
 		ConnectDB connectDB = new ConnectDB(); // Create an instance of ConnectDB
 		try (Connection conn = connectDB.getConnection()) { // Use the connection from ConnectDB
 			if (conn == null) {
@@ -926,16 +1092,17 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 				return false;
 			}
 
-			String sql = "INSERT INTO NhanVien (MaNhanVien, TenNhanVien, LoaiNhanVien, NgaySinh, CCCD, SDT, Phai) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO NhanVien (MaNhanVien, TenNhanVien, LoaiNhanVien, TaiKhoan, NgaySinh, CCCD, SDT, Phai) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 				pstmt.setString(1, maNhanVien);
 				pstmt.setString(2, tenNhanVien);
 				pstmt.setString(3, loaiNhanVien.name()); // Assuming LoaiNhanVien is an enum
-				pstmt.setDate(4, new java.sql.Date(ngaySinh.getTime()));
-				pstmt.setString(5, cccd);
-				pstmt.setString(6, sdt);
-				pstmt.setString(7, phai);
+				pstmt.setString(4, maTaiKhoan);
+				pstmt.setDate(5, new java.sql.Date(ngaySinh.getTime()));
+				pstmt.setString(6, cccd);
+				pstmt.setString(7, sdt);
+				pstmt.setString(8, phai);
 
 				int rowsInserted = pstmt.executeUpdate();
 				return rowsInserted > 0; // Return true if at least one row was inserted
