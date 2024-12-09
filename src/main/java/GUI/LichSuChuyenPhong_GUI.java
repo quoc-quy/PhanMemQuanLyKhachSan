@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -30,12 +31,13 @@ public class LichSuChuyenPhong_GUI extends javax.swing.JPanel {
     private JTable tbLichSuChuyenPhong;
 	private LichSuChuyenPhong_DAO lichSuChuyenPhongDao = new LichSuChuyenPhong_DAO();
     private Phong_DAO phongDAO = new Phong_DAO();
+
     /**
      * Creates new form LichSuChuyenPhong_GUI
      */
     public LichSuChuyenPhong_GUI() {
         initComponents();
-
+        setDefaultDate();
         updateHeader();
         
         loadDataToTable();
@@ -216,6 +218,29 @@ public class LichSuChuyenPhong_GUI extends javax.swing.JPanel {
             });
         }
     }
+    
+    private void setDefaultDate() {
+    	Calendar calendar = Calendar.getInstance();
+
+        // Đặt giờ về 0:00 để tránh sai lệch thời gian
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        
+        txtNgayCheckIn.setDateFormatString("dd/MM/yyyy");
+        txtNgayCheckOut.setDateFormatString("dd/MM/yyyy");
+
+        // Ngày Check-in là ngày hiện tại
+        java.util.Date checkInDate = calendar.getTime();
+        txtNgayCheckIn.setDate(checkInDate);
+
+        // Ngày Check-out là ngày hôm sau
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        java.util.Date checkOutDate = calendar.getTime();
+        txtNgayCheckOut.setDate(checkOutDate);
+    }
+
 
 
 

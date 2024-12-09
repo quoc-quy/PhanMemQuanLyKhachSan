@@ -4,10 +4,14 @@
  */
 package GUI;
 
+import java.awt.Font;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import DAO.HoaDon_DAO;
 import ENTITY.HoaDon;
@@ -24,7 +28,8 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
      */
     public BaoCaoCongViec_GUI() {
         initComponents();
-        
+        setDefaultDate();
+        updateHeader();
         loadDataToTable(); 
     }
 
@@ -147,6 +152,10 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
             loadDataToTable();
         }
     }//GEN-LAST:event_txtNgayCheckInPropertyChange
+    private void updateHeader() {
+		JTableHeader header = tbDanhSachDatPhong.getTableHeader();
+		header.setFont(new Font("Times new Romans", Font.BOLD, 16));
+	}
 
     private void txtNgayCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtNgayCheckOutPropertyChange
     	if (txtNgayCheckIn.getDate() != null && txtNgayCheckOut.getDate() != null) {
@@ -156,11 +165,11 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNgayCheckOutPropertyChange
 
     private void cboTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTrangThaiActionPerformed
-
+    	loadDataToTable();
     }//GEN-LAST:event_cboTrangThaiActionPerformed
     
     private void loadDataToTable() {
-    	HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
+        HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
         DefaultTableModel model = (DefaultTableModel) tbDanhSachDatPhong.getModel();
         model.setRowCount(0);  // Reset bảng
 
@@ -168,18 +177,26 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
         java.util.Date ngayCheckIn = txtNgayCheckIn.getDate();
         java.util.Date ngayCheckOut = txtNgayCheckOut.getDate();
 
+        // Lấy mã nhân viên từ cboTrangThai (comboBox)
+        String maNhanVien = cboTrangThai.getSelectedItem() != null ? cboTrangThai.getSelectedItem().toString() : null;
+
         // Nếu cả hai ngày đều có giá trị
-        if (ngayCheckIn != null && ngayCheckOut != null) {
+        if (ngayCheckIn != null && ngayCheckOut != null && maNhanVien != null) {
             java.sql.Date sqlNgayCheckIn = new java.sql.Date(ngayCheckIn.getTime());
             java.sql.Date sqlNgayCheckOut = new java.sql.Date(ngayCheckOut.getTime());
-
-            // Lọc hóa đơn theo khoảng thời gian
-            List<HoaDon> danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut);
+            // Lọc hóa đơn theo khoảng thời gian và mã nhân viên (nếu có)
+            List<HoaDon> danhSachHoaDon;
+            
+            if (maNhanVien != null && !maNhanVien.equals("Tất cả")) {
+                danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, maNhanVien);
+            } else {
+                danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, null); // Nếu mã nhân viên là "Tất cả", bỏ qua lọc theo nhân viên
+            }
 
             // Thêm dữ liệu vào bảng
             for (HoaDon hoaDon : danhSachHoaDon) {
                 String maHoaDon = hoaDon.getMaHoaDon();
-                String maNhanVien = hoaDon.getNhanVienLap() != null ? hoaDon.getNhanVienLap().getMaNhanVien() : "Không có";
+                String maNhanVien1 = hoaDon.getNhanVienLap() != null ? hoaDon.getNhanVienLap().getMaNhanVien() : "Không có";
                 java.util.Date ngayLap = hoaDon.getNgayLap();
                 java.util.Date ngayNhanPhong = hoaDon.getNgayNhanPhong();
                 java.util.Date ngayTraPhong = hoaDon.getNgayTraPhong();
@@ -187,7 +204,7 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
 
                 model.addRow(new Object[]{
                     maHoaDon,
-                    maNhanVien,
+                    maNhanVien1,
                     ngayLap,
                     ngayNhanPhong,
                     ngayTraPhong,
@@ -195,27 +212,33 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
                 });
             }
         } else {
-            // Nếu không có đủ thông tin ngày, lấy tất cả dữ liệu
-            List<HoaDon> danhSachHoaDon = hoaDon_DAO.getAllHoaDon();
-            
-            for (HoaDon hoaDon : danhSachHoaDon) {
-                String maHoaDon = hoaDon.getMaHoaDon();
-                String maNhanVien = hoaDon.getNhanVienLap() != null ? hoaDon.getNhanVienLap().getMaNhanVien() : "Không có";
-                java.util.Date ngayLap = hoaDon.getNgayLap();
-                java.util.Date ngayNhanPhong = hoaDon.getNgayNhanPhong();
-                java.util.Date ngayTraPhong = hoaDon.getNgayTraPhong();
-                Double tongTien = hoaDon.getTongTien();
-
-                model.addRow(new Object[]{
-                    maHoaDon,
-                    maNhanVien,
-                    ngayLap,
-                    ngayNhanPhong,
-                    ngayTraPhong,
-                    tongTien
-                });
-            }
+            // Nếu không có ngày chọn, có thể thông báo lỗi hoặc làm gì đó
+        	
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khoảng thời gian!");
         }
+    }
+
+    
+    private void setDefaultDate() {
+    	Calendar calendar = Calendar.getInstance();
+
+        // Đặt giờ về 0:00 để tránh sai lệch thời gian
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        
+        txtNgayCheckIn.setDateFormatString("dd/MM/yyyy");
+        txtNgayCheckOut.setDateFormatString("dd/MM/yyyy");
+
+        // Ngày Check-in là ngày hiện tại
+        java.util.Date checkInDate = calendar.getTime();
+        txtNgayCheckIn.setDate(checkInDate);
+
+        // Ngày Check-out là ngày hôm sau
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        java.util.Date checkOutDate = calendar.getTime();
+        txtNgayCheckOut.setDate(checkOutDate);
     }
 
 

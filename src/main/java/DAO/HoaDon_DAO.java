@@ -231,15 +231,20 @@ public class HoaDon_DAO {
     }
 
 
-    public List<HoaDon> getHoaDonTheoKhoangThoiGian(java.sql.Date ngayCheckIn, java.sql.Date ngayCheckOut) {
+    public List<HoaDon> getHoaDonTheoKhoangThoiGian(java.sql.Date ngayCheckIn, java.sql.Date ngayCheckOut, String maNhanVien) {
         List<HoaDon> danhSachHoaDon = new ArrayList<>();
 
-        // Câu lệnh SQL
+        // Câu lệnh SQL với điều kiện lọc theo mã nhân viên
         String sql = "SELECT hd.MaHoaDon, hd.NgayLap, hd.NgayNhanPhong, hd.NgayTraPhong, hd.Thue, hd.TongTien, hd.TienTraKhach, " +
                      "nv.MaNhanVien, nv.TenNhanVien " +
                      "FROM HoaDon hd " +
                      "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " +
-                     "WHERE hd.NgayLap BETWEEN ? AND ?"; // Lọc theo ngày lập hóa đơn
+                     "WHERE hd.NgayLap BETWEEN ? AND ? ";
+
+        // Nếu có mã nhân viên, thêm điều kiện lọc
+        if (maNhanVien != null && !maNhanVien.isEmpty()) {
+            sql += "AND nv.MaNhanVien = ?";
+        }
 
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -247,6 +252,11 @@ public class HoaDon_DAO {
             // Thiết lập tham số cho câu truy vấn SQL
             ps.setDate(1, ngayCheckIn);
             ps.setDate(2, ngayCheckOut);
+
+            // Nếu có mã nhân viên, thiết lập tham số thứ ba
+            if (maNhanVien != null && !maNhanVien.isEmpty()) {
+                ps.setString(3, maNhanVien);
+            }
 
             // Thực thi truy vấn và lấy kết quả
             ResultSet rs = ps.executeQuery();
@@ -258,19 +268,21 @@ public class HoaDon_DAO {
                 hoaDon.setNgayLap(rs.getDate("NgayLap"));
                 hoaDon.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
                 hoaDon.setNgayTraPhong(rs.getDate("NgayTraPhong"));
+                
                 Double tongTien = rs.getDouble("TongTien");
                 if (rs.wasNull()) {  // Kiểm tra xem giá trị có NULL không
                     tongTien = 0.0;  // Nếu NULL, có thể gán giá trị mặc định
                 }
                 hoaDon.setTongTien(tongTien);
-
-                // Gán nhân viên vào hóa đơn
+                
+                
+                // Thiết lập nhân viên
                 NhanVien nhanVien = new NhanVien();
                 nhanVien.setMaNhanVien(rs.getString("MaNhanVien"));
                 nhanVien.setTenNhanVien(rs.getString("TenNhanVien"));
-                hoaDon.setNhanVienLap(nhanVien); // Gán nhân viên cho hóa đơn
-
-                // Thêm hóa đơn vào danh sách
+                hoaDon.setNhanVienLap(nhanVien);
+                
+                // Thêm vào danh sách kết quả
                 danhSachHoaDon.add(hoaDon);
             }
         } catch (SQLException e) {
@@ -279,6 +291,8 @@ public class HoaDon_DAO {
 
         return danhSachHoaDon;
     }
+
+
     
  // Phương thức để cập nhật thông tin hóa đơn trong bảng HoaDon
     public boolean capNhatHoaDon(HoaDon hoaDon, String maPhong, String maNV) {
