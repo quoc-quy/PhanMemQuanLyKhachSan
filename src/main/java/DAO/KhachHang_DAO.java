@@ -34,7 +34,7 @@ public class KhachHang_DAO {
                     rs.getString("CCCD"),
                     rs.getString("Phai"),
                     rs.getDate("NgaySinh"),
-                    rs.getString("DIenThoai")
+                    rs.getString("DenThoai")
                 );
                 dsKhachHang.add(kh);
             }
@@ -45,7 +45,7 @@ public class KhachHang_DAO {
     }
     
     public boolean addKhachHang(KhachHang khachHang) {
-    	String query = "INSERT INTO KhachHang (MaKhachHang, TenKhachHang, CCCD, Phai, NgaySinh, DienThoai) VALUES (?, ?, ?, ?, ? ,?)";
+    	String query = "INSERT INTO KhachHang (MaKhachHang, TenKhachHang, CCCD, Phai, NgaySinh, DenThoai) VALUES (?, ?, ?, ?, ? ,?)";
     	try(Connection conn = ConnectDB.getConnection();
     		PreparedStatement ps = conn.prepareStatement(query)){
     		
@@ -105,7 +105,7 @@ public class KhachHang_DAO {
                 khachHang.setCCCD(rs.getString("CCCD"));
                 khachHang.setPhai(rs.getString("Phai"));
                 khachHang.setNgaySinh(rs.getDate("NgaySinh"));
-                khachHang.setDienThoai(rs.getString("DienThoai"));
+                khachHang.setDienThoai(rs.getString("DenThoai"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -190,7 +190,7 @@ public class KhachHang_DAO {
                     rs.getString("CCCD"),
                     rs.getString("Phai"),
                     rs.getDate("NgaySinh"),
-                    rs.getString("DienThoai")
+                    rs.getString("DenThoai")
                 );
             }
         } catch (Exception e) {
