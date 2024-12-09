@@ -51,6 +51,7 @@ import DAO.TaiKhoan_DAO;
 import ENTITY.KhachHang;
 import ENTITY.LoaiNhanVien;
 import ENTITY.NhanVien;
+import UTIL.MaHoa;
 
 /**
  *
@@ -880,6 +881,7 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 	    String email = txtEmail.getText().trim();
 	    String tenDangNhap = txtTenDangNhap.getText().trim();
 	    String matKhau = txtMatKhau.getText().trim();
+	    matKhau = MaHoa.toSHA1(matKhau);
 
 // Kiểm tra hợp lệ
 		// Kiểm tra trường tên nhân viên không để trống
