@@ -290,7 +290,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
 		// Tạo model mới để chứa dữ liệu lọc
 		DefaultTableModel filteredModel = new DefaultTableModel(new String[] { "Mã hóa đơn", "Khách hàng", "Phòng",
-				"Ngày nhận", "Ngày trả", "Khuyến mãi", "Tổng thanh toán" }, 0);
+				"Ngày nhận", "Ngày trả", "Thuế", "Tổng thanh toán" }, 0);
 
 		boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
 

@@ -37,6 +37,7 @@ public class Home_GUI extends javax.swing.JFrame {
         cardPanel.add(new Phong_GUI(), "room");
         cardPanel.add(new DanhSachDatPhong_GUI(), "dsDatPhong");
         cardPanel.add(new DichVu_GUI(), "service");
+        cardPanel.add(new ThongKe_GUI(), "thongke");
         cardPanel.add(new HoaDon_GUI(), "hoadon");
         cardPanel.add(new KhuyenMai_GUI(), "khuyenmai");
         cardPanel.add(new KhachHang_GUI(), "khachhang");
@@ -733,6 +734,8 @@ public class Home_GUI extends javax.swing.JFrame {
 
     private void panelThongKeMouseClicked(java.awt.event.MouseEvent evt) {
     	changePanelColor(panelThongKe, lbThongKe);
+    	
+    	showPanel("thongke");
     }                                         
 
     private void panelKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {
