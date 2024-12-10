@@ -31,6 +31,12 @@
 	    <artifactId>javax.mail</artifactId>
 	    <version>1.6.2</version>
 	</dependency>
+	<dependency>
+	    <groupId>com.itextpdf</groupId>
+	    <artifactId>itext7-core</artifactId>
+	    <version>7.2.3</version>  <!-- Phiên bản mới nhất có thể thay đổi -->
+	    <type>pom</type>
+	</dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

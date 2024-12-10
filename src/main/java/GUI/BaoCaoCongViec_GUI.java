@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import Components.ExportFile;
 import DAO.HoaDon_DAO;
 import ENTITY.HoaDon;
 import ENTITY.NhanVien;
@@ -51,13 +52,15 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
         txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
         txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
         cboTrangThai = new javax.swing.JComboBox<>();
+        btnXuatFile = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setLayout(new java.awt.CardLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         titleHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        titleHoaDon.setText("Báo cáo công việc");
+        titleHoaDon.setText("Hóa đơn");
 
         tbDanhSachDatPhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][] {},  // Bắt đầu với dữ liệu rỗng
@@ -105,6 +108,41 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
             }
         });
 
+        btnXuatFile = new RoundedPanel(30);
+        btnXuatFile.setBackground(new java.awt.Color(129, 251, 184));
+        btnXuatFile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXuatFile.setMaximumSize(new java.awt.Dimension(100, 50));
+        btnXuatFile.setPreferredSize(new java.awt.Dimension(100, 50));
+        btnXuatFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXuatFileMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Export.png"))); // NOI18N
+        jLabel1.setText("Xuất file");
+
+        javax.swing.GroupLayout btnXuatFileLayout = new javax.swing.GroupLayout(btnXuatFile);
+        btnXuatFile.setLayout(btnXuatFileLayout);
+        btnXuatFileLayout.setHorizontalGroup(
+            btnXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnXuatFileLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        btnXuatFileLayout.setVerticalGroup(
+            btnXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnXuatFileLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,7 +151,9 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titleHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 521, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                .addComponent(btnXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNgayCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -128,16 +168,22 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 14, Short.MAX_VALUE)
+                .addGap(0, 10, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(titleHoaDon)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(txtNgayCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNgayCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtNgayCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNgayCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -167,6 +213,12 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
     private void cboTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTrangThaiActionPerformed
     	loadDataToTable();
     }//GEN-LAST:event_cboTrangThaiActionPerformed
+
+    private void btnXuatFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXuatFileMouseClicked
+        // TODO add your handling code here:
+    	ExportFile exporter = new ExportFile();
+		exporter.exportToPDF(tbDanhSachDatPhong); // Xuất dữ liệu từ bảng tbHoaDon
+    }//GEN-LAST:event_btnXuatFileMouseClicked
     
     private void loadDataToTable() {
         HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
@@ -240,6 +292,8 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
         java.util.Date checkOutDate = calendar.getTime();
         txtNgayCheckOut.setDate(checkOutDate);
     }
+    
+    
 
 
 
@@ -248,7 +302,9 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel btnXuatFile;
     private javax.swing.JComboBox<String> cboTrangThai;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;

@@ -208,7 +208,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 //   Sự kiện xuất file
 	private void btnXuatFileMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnXuatFileMouseClicked
 		ExportFile exporter = new ExportFile();
-		exporter.exportToExcel(tbHoaDon); // Xuất dữ liệu từ bảng tbHoaDon
+		exporter.exportToPDF(tbHoaDon); // Xuất dữ liệu từ bảng tbHoaDon
 	}
 
 	private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {
