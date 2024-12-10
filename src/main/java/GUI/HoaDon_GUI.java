@@ -71,7 +71,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         tbDanhSachDatPhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-            new String[] { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Lập",
+            new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Tên Nhân Viên", "Ngày Lập",
 					"Ngày Nhận Phòng", "Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền"
  }
         ) {
@@ -272,9 +272,10 @@ public class HoaDon_GUI extends javax.swing.JPanel {
         HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
         List<HoaDon> dsHoaDon = hoaDon_DAO.getAllHoaDon();
         DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {},
-				new String[] { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Lập",
+				new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Tên Nhân Viên", "Ngày Lập",
 						"Ngày Nhận Phòng", "Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền"});
         tbDanhSachDatPhong.setModel(tableModel);
+        originalModel = tableModel;
 		tableModel.setRowCount(0);
 
         // Lấy giá trị ngày từ txtNgayCheckIn và txtNgayCheckOut
@@ -300,7 +301,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             // Thêm dữ liệu vào bảng
             for (HoaDon hoaDon : danhSachHoaDon) {
                 String maHoaDon = hoaDon.getMaHoaDon();
-                String tenKhachHang = hoaDon.getKhachHang() != null ? hoaDon.getKhachHang().getMaKhachHang() : "Không có";
+                String tenKhachHang = hoaDon.getKhachHang() != null ? hoaDon.getKhachHang().getTenKhachHang() : "Không có";
                 String tenNhanVien1 = hoaDon.getNhanVienLap() != null ? hoaDon.getNhanVienLap().getTenNhanVien() : "Không có";
                 
                 java.util.Date ngayLap = hoaDon.getNgayLap();
@@ -354,48 +355,56 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }
 
     private void filterTableData() {
-		String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
+        if (originalModel.getRowCount() == 0) {
+            System.out.println("No data in originalModel");
+            return;
+        }
 
-		// Tạo model mới để chứa dữ liệu lọc
-		DefaultTableModel filteredModel = new DefaultTableModel(new String[] { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Lập",
-				"Ngày Nhận Phòng", "Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền" }, 0);
+        String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
 
-		boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
+        // Kiểm tra nếu từ khóa rỗng, khôi phục dữ liệu ban đầu
+        if (keyword.isEmpty()) {
+            tbDanhSachDatPhong.setModel(originalModel); // Khôi phục model ban đầu
+            return;
+        }
 
-		// Duyệt qua từng hàng trong originalModel và lọc dữ liệu
-		for (int i = 0; i < originalModel.getRowCount(); i++) {// Lấy tên khách hàng và mã phòng, kiểm tra null và loại
-																// bỏ khoảng trắng
-			String tenKhachHang = originalModel.getValueAt(i, 1) != null
-					? originalModel.getValueAt(i, 1).toString().trim().toLowerCase()
-					: "";
-			String maPhong = originalModel.getValueAt(i, 2) != null
-					? originalModel.getValueAt(i, 2).toString().trim().toLowerCase()
-					: "";
+        // Tạo model mới để chứa dữ liệu lọc
+        DefaultTableModel filteredModel = new DefaultTableModel(new String[] { 
+            "Mã Hóa Đơn", "Tên Khách Hàng", "Tên Nhân Viên", "Ngày Lập", 
+            "Ngày Nhận Phòng", "Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền" 
+        }, 0);
 
-			// Kiểm tra nếu từ khóa xuất hiện trong tên khách hàng hoặc mã phòng
-			if (tenKhachHang.contains(keyword) || maPhong.contains(keyword)) {
-				filteredModel.addRow(new Object[] { 
-						originalModel.getValueAt(i, 0), // Mã hóa đơn
-						originalModel.getValueAt(i, 1), // Khách hàng
-						originalModel.getValueAt(i, 2), // Phòng
-						originalModel.getValueAt(i, 3), // Ngày nhận
-						originalModel.getValueAt(i, 4), // Ngày trả
-						originalModel.getValueAt(i, 5), // Khuyến mãi
-						originalModel.getValueAt(i, 6),
-						originalModel.getValueAt(i, 7),
-						originalModel.getValueAt(i, 8)
-						
-				});
-				found = true; // Đánh dấu là đã tìm thấy dữ liệu
-			}
-		}
+        boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
+        
+        // Duyệt qua từng hàng trong originalModel và lọc dữ liệu
+        for (int i = 0; i < originalModel.getRowCount(); i++) {
+            String tenKhachHang = originalModel.getValueAt(i, 1) != null
+                    ? originalModel.getValueAt(i, 1).toString().trim().toLowerCase()
+                    : "";
+            String tenNhanVien = originalModel.getValueAt(i, 2) != null
+                    ? originalModel.getValueAt(i, 2).toString().trim().toLowerCase()
+                    : "";
 
-		// Cập nhật JTable với model đã lọc hoặc hiển thị thông báo nếu không tìm thấy
-		if(!found) {
-			JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả nào trùng với từ khóa");
-		}
-		tbDanhSachDatPhong.setModel(filteredModel);
-	}
+            // Kiểm tra nếu từ khóa tìm kiếm có trong tên khách hàng hoặc tên nhân viên
+            if (tenKhachHang.contains(keyword) || tenNhanVien.contains(keyword)) {
+                Object[] row = new Object[originalModel.getColumnCount()];
+                for (int j = 0; j < originalModel.getColumnCount(); j++) {
+                    row[j] = originalModel.getValueAt(i, j);  // Sao chép giá trị từ originalModel vào filteredModel
+                }
+                filteredModel.addRow(row);  // Thêm hàng vào model mới
+                found = true;  // Đánh dấu là đã tìm thấy ít nhất 1 kết quả
+            }
+        }
+
+        if (!found) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy kết quả!");
+        }
+
+        tbDanhSachDatPhong.setModel(filteredModel); // Cập nhật model của bảng với dữ liệu lọc
+    }
+
+
+
 
 
 
