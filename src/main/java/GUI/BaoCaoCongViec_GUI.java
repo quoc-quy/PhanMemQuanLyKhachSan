@@ -188,9 +188,9 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
             List<HoaDon> danhSachHoaDon;
             
             if (maNhanVien != null && !maNhanVien.equals("Tất cả")) {
-                danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut);
+                danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, maNhanVien);
             } else {
-                danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut); // Nếu mã nhân viên là "Tất cả", bỏ qua lọc theo nhân viên
+                danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, null); // Nếu mã nhân viên là "Tất cả", bỏ qua lọc theo nhân viên
             }
 
             // Thêm dữ liệu vào bảng
