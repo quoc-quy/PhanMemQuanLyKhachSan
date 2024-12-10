@@ -17,7 +17,6 @@ import ENTITY.HoaDon;
 import ENTITY.KhachHang;
 import ENTITY.KhuyenMai;
 import ENTITY.NhanVien;
-import GUI.HoaDon_GUI;
 
 public class HoaDon_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
