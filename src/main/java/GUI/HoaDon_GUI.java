@@ -7,6 +7,7 @@ package GUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -299,6 +300,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
                 java.util.Date ngayNhanPhong = hoaDon.getNgayNhanPhong();
                 java.util.Date ngayTraPhong = hoaDon.getNgayTraPhong();
                 Double tongTien = hoaDon.getTongTien();
+                
 
                 model.addRow(new Object[]{
                     maHoaDon,
@@ -365,7 +367,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 						originalModel.getValueAt(i, 3), // Ngày nhận
 						originalModel.getValueAt(i, 4), // Ngày trả
 						originalModel.getValueAt(i, 5), // Khuyến mãi
-						originalModel.getValueAt(i, 6) // Tổng thanh toán
+						
 				});
 				found = true; // Đánh dấu là đã tìm thấy dữ liệu
 			}

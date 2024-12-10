@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class ExportFile {
@@ -46,49 +47,91 @@ public class ExportFile {
                 Document document = new Document(pdf);
 
                 // Tạo tiêu đề cho hóa đơn
-                document.add(new Paragraph("Hóa đơn khách sạn TQSN").setBold().setFontSize(18).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER));
-                document.add(new Paragraph("\n"));
+                PdfFont arialFont = PdfFontFactory.createFont("/FONTS/Arial.ttf", PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
 
+                // Áp dụng font Arial cho các đoạn văn bản
+                document.add(new Paragraph("Khách sạn TQSN - Phục vụ tận tình")
+                    .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
+                
+                document.add(new Paragraph("12 Nguyễn Văn Bảo, phường 4, Gò Vấp, thành phố Hồ Chí Minh")
+                    .setItalic().setFontSize(12).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
+                
+                document.add(new Paragraph("Hotline: 19002024 - 19002025")
+                    .setItalic().setFontSize(12).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
+                
+                document.add(new Paragraph("Website: www.khachsanTQSN.com")
+                    .setItalic().setFontSize(12).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
+                
+                document.add(new Paragraph("\n"));
+                
+                document.add(new Paragraph("HÓA ĐƠN THANH TOÁN")
+                    .setBold().setFontSize(25).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER).setFont(arialFont));
+                document.add(new Paragraph("_____________________________________________________________________________")).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER);
+                	
+                document.add(new Paragraph("\n"));
                 // Lấy TableModel từ JTable
                 TableModel model = table.getModel();
 
                 // Tạo bảng để chứa thông tin hóa đơn
-                Table pdfTable = new Table(2); // 2 cột: 1 cho tên thông tin và 1 cho giá trị
+                
+                
 
                 // Các tên cột và giá trị từ dòng đã chọn
-                String[] columnNames = {
-                    "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền"
-                };
+                PdfFont arialFont1 = null;
+                try {
+                    arialFont1 = PdfFontFactory.createFont("/FONTS/Arial.ttf", PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Không thể tải font Arial.");
+                    return;
+                }
 
                 
+                
+               
                 // Định dạng ngày
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
                 // Lấy dữ liệu từ dòng đã chọn
                 String maHoaDon = model.getValueAt(selectedRow, 0).toString();
                 String maNhanVien = model.getValueAt(selectedRow, 1).toString();
-                String ngayLap = model.getValueAt(selectedRow, 2).toString();
+                String ngayLap = model.getValueAt(selectedRow, 2).toString(); 
                 String ngayNhanPhong = model.getValueAt(selectedRow, 3).toString();
                 String ngayTraPhong = model.getValueAt(selectedRow, 4).toString();
                 String tongTien = model.getValueAt(selectedRow, 5).toString();
+                
 
                 // Thêm các giá trị vào bảng PDF
-                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[0])));
-                pdfTable.addCell(new Cell().add(new Paragraph(maHoaDon)));
-                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[1])));
-                pdfTable.addCell(new Cell().add(new Paragraph(maNhanVien)));
-                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[2])));
-                pdfTable.addCell(new Cell().add(new Paragraph(ngayLap)));
-                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[3])));
-                pdfTable.addCell(new Cell().add(new Paragraph(ngayNhanPhong)));
-                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[4])));
-                pdfTable.addCell(new Cell().add(new Paragraph(ngayTraPhong)));
-                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[5])));
-                pdfTable.addCell(new Cell().add(new Paragraph(tongTien)));
-
-                // Thêm bảng vào document
-                document.add(pdfTable);
-
+                document.add(new Paragraph("Mã hóa đơn:        " + maHoaDon)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                document.add(new Paragraph("Mã nhân viên lập:        " + maNhanVien)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                document.add(new Paragraph("Ngày lập hóa đơn:        " + ngayLap)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                document.add(new Paragraph("Ngày nhận phòng:        " + ngayNhanPhong)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                document.add(new Paragraph("Ngày trả phòng:        " + ngayTraPhong)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                document.add(new Paragraph("_____________________________________________________________________________")).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER);
+                
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("Tổng tiền thanh toán:        " + tongTien)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
+                
+                document.add(new Paragraph("Thông tin thanh toán")
+                        .setBold().setFontSize(15).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                    
+                    document.add(new Paragraph("Ngân hàng: Ngân hàng thương mai cổ phần Ngoại thương Việt Nam")
+                        .setFontSize(12).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                    
+                    document.add(new Paragraph("Tên tài khoản: Nguyễn Văn A")
+                            .setFontSize(12).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                    
+                    document.add(new Paragraph("Số tài khoản: 0123456771991")
+                            .setFontSize(12).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                    document.add(new Paragraph("\n"));
+                    document.add(new Paragraph("XIN CẢM ƠN QÚY KHÁCH !!!")
+                            .setBold().setFontSize(25).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER).setFont(arialFont));
                 // Đóng document
                 document.close();
 
