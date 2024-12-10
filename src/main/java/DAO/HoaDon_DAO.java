@@ -225,8 +225,12 @@ public class HoaDon_DAO {
 
 		// Câu lệnh SQL với điều kiện lọc theo mã nhân viên
 		String sql = "SELECT hd.MaHoaDon, hd.NgayLap, hd.NgayNhanPhong, hd.NgayTraPhong, hd.Thue, hd.TongTien, hd.TienTraKhach, "
-				+ "nv.MaNhanVien, nv.TenNhanVien " + "FROM HoaDon hd "
+				+ "kh.MaKhachHang, kh.TenKhachHang, kh.Phai, kh.CCCD, kh.NgaySinh, kh.DenThoai, "
+				+ "nv.MaNhanVien, nv.TenNhanVien "
+				+ "FROM HoaDon hd " + "JOIN KhachHang kh ON hd.MaKhachHang = kh.MaKhachHang "
 				+ "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " + "WHERE hd.NgayLap BETWEEN ? AND ? ";
+		
+		
 
 		// Nếu có mã nhân viên, thêm điều kiện lọc
 		if (maNhanVien != null && !maNhanVien.isEmpty()) {
@@ -260,6 +264,18 @@ public class HoaDon_DAO {
 					tongTien = 0.0; // Nếu NULL, có thể gán giá trị mặc định
 				}
 				hoaDon.setTongTien(tongTien);
+				
+				Double tienTraKhach = rs.getDouble("TienTraKhach");
+				if (rs.wasNull()) { // Kiểm tra xem giá trị có NULL không
+					tienTraKhach = 0.0; // Nếu NULL, có thể gán giá trị mặc định
+				}
+				hoaDon.setTienTraKhach(tienTraKhach);
+				
+				Integer thue = rs.getInt("Thue");
+				if (rs.wasNull()) { // Kiểm tra xem giá trị có NULL không
+					thue = 0; // Nếu NULL, có thể gán giá trị mặc định
+				}
+				hoaDon.setThue(thue);
 
 				// Thiết lập nhân viên
 				NhanVien nhanVien = new NhanVien();
@@ -267,6 +283,10 @@ public class HoaDon_DAO {
 				nhanVien.setTenNhanVien(rs.getString("TenNhanVien"));
 				hoaDon.setNhanVienLap(nhanVien);
 
+				KhachHang khachHang = new KhachHang();
+				khachHang.setMaKhachHang(rs.getString("MaKhachHang"));
+				khachHang.setTenKhachHang(rs.getNString("TenKhachHang"));
+				hoaDon.setKhachHang(khachHang);
 				// Thêm vào danh sách kết quả
 				danhSachHoaDon.add(hoaDon);
 			}

@@ -94,17 +94,22 @@ public class ExportFile {
 
                 // Lấy dữ liệu từ dòng đã chọn
                 String maHoaDon = model.getValueAt(selectedRow, 0).toString();
-                String maNhanVien = model.getValueAt(selectedRow, 1).toString();
-                String ngayLap = model.getValueAt(selectedRow, 2).toString(); 
-                String ngayNhanPhong = model.getValueAt(selectedRow, 3).toString();
-                String ngayTraPhong = model.getValueAt(selectedRow, 4).toString();
-                String tongTien = model.getValueAt(selectedRow, 5).toString();
+                String tenKhachHang = model.getValueAt(selectedRow, 1).toString();
+                String tenNhanVien = model.getValueAt(selectedRow, 2).toString();
+                String ngayLap = model.getValueAt(selectedRow, 3).toString(); 
+                String ngayNhanPhong = model.getValueAt(selectedRow, 4).toString();
+                String ngayTraPhong = model.getValueAt(selectedRow, 5).toString();
+                String tienTraKhach = model.getValueAt(selectedRow, 6).toString();
+                String thue = model.getValueAt(selectedRow, 7).toString();
+                String tongTien = model.getValueAt(selectedRow, 8).toString();
                 
 
                 // Thêm các giá trị vào bảng PDF
                 document.add(new Paragraph("Mã hóa đơn:        " + maHoaDon)
                         .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
-                document.add(new Paragraph("Mã nhân viên lập:        " + maNhanVien)
+                document.add(new Paragraph("Tên khách hàng:        " + tenKhachHang)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
+                document.add(new Paragraph("Tên nhân viên lập:        " + tenNhanVien)
                         .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
                 document.add(new Paragraph("Ngày lập hóa đơn:        " + ngayLap)
                         .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
@@ -115,9 +120,17 @@ public class ExportFile {
                 document.add(new Paragraph("_____________________________________________________________________________")).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER);
                 
                 document.add(new Paragraph("\n"));
+                document.add(new Paragraph("Thuế VAT:        " + thue + "%")
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
+                
                 document.add(new Paragraph("Tổng tiền thanh toán:        " + tongTien)
                         .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
                 
+                document.add(new Paragraph("Tiền thối cho khách:        " + tienTraKhach)
+                        .setBold().setFontSize(13).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.RIGHT).setFont(arialFont));
+                document.add(new Paragraph("_____________________________________________________________________________")).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER);
+                
+                document.add(new Paragraph("\n"));
                 document.add(new Paragraph("Thông tin thanh toán")
                         .setBold().setFontSize(15).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.LEFT).setFont(arialFont));
                     

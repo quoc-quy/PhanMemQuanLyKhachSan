@@ -71,7 +71,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
         tbDanhSachDatPhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-            new String[] { "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền"
+            new String[] { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Lập",
+					"Ngày Nhận Phòng", "Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền"
  }
         ) {
             Class<?>[] types = new Class<?>[] {
@@ -232,7 +233,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNgayCheckInPropertyChange
     private void updateHeader() {
 		JTableHeader header = tbDanhSachDatPhong.getTableHeader();
-		header.setFont(new Font("Times new Romans", Font.BOLD, 16));
+		header.setFont(new Font("Times new Romans", Font.BOLD, 13));
 	}
 
     private void txtNgayCheckOutPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtNgayCheckOutPropertyChange
@@ -247,7 +248,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     }//GEN-LAST:event_cboTrangThaiActionPerformed
 
     private void btnXuatFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXuatFileMouseClicked
-        // TODO add your handling code here:
+//         TODO add your handling code here:
     	ExportFile exporter = new ExportFile();
 		exporter.exportToPDF(tbDanhSachDatPhong); // Xuất dữ liệu từ bảng tbHoaDon
     }//GEN-LAST:event_btnXuatFileMouseClicked
@@ -269,8 +270,12 @@ public class HoaDon_GUI extends javax.swing.JPanel {
     
     private void loadDataToTable() {
         HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
-        DefaultTableModel model = (DefaultTableModel) tbDanhSachDatPhong.getModel();
-        model.setRowCount(0);  // Reset bảng
+        List<HoaDon> dsHoaDon = hoaDon_DAO.getAllHoaDon();
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {},
+				new String[] { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Lập",
+						"Ngày Nhận Phòng", "Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền"});
+        tbDanhSachDatPhong.setModel(tableModel);
+		tableModel.setRowCount(0);
 
         // Lấy giá trị ngày từ txtNgayCheckIn và txtNgayCheckOut
         java.util.Date ngayCheckIn = txtNgayCheckIn.getDate();
@@ -295,19 +300,26 @@ public class HoaDon_GUI extends javax.swing.JPanel {
             // Thêm dữ liệu vào bảng
             for (HoaDon hoaDon : danhSachHoaDon) {
                 String maHoaDon = hoaDon.getMaHoaDon();
-                String maNhanVien1 = hoaDon.getNhanVienLap() != null ? hoaDon.getNhanVienLap().getMaNhanVien() : "Không có";
+                String tenKhachHang = hoaDon.getKhachHang() != null ? hoaDon.getKhachHang().getMaKhachHang() : "Không có";
+                String tenNhanVien1 = hoaDon.getNhanVienLap() != null ? hoaDon.getNhanVienLap().getTenNhanVien() : "Không có";
+                
                 java.util.Date ngayLap = hoaDon.getNgayLap();
                 java.util.Date ngayNhanPhong = hoaDon.getNgayNhanPhong();
                 java.util.Date ngayTraPhong = hoaDon.getNgayTraPhong();
                 Double tongTien = hoaDon.getTongTien();
+                Double tienTraKhach = hoaDon.getTienTraKhach();
+                Integer thue = hoaDon.getThue();
                 
 
-                model.addRow(new Object[]{
+                tableModel.addRow(new Object[]{
                     maHoaDon,
-                    maNhanVien1,
+                    tenKhachHang,
+                    tenNhanVien1,
                     ngayLap,
                     ngayNhanPhong,
                     ngayTraPhong,
+                    tienTraKhach,
+                    thue,
                     tongTien
                 });
             }
@@ -345,7 +357,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 		String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
 
 		// Tạo model mới để chứa dữ liệu lọc
-		DefaultTableModel filteredModel = new DefaultTableModel(new String[] { "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền" }, 0);
+		DefaultTableModel filteredModel = new DefaultTableModel(new String[] { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Lập",
+				"Ngày Nhận Phòng", "Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền" }, 0);
 
 		boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
 
@@ -361,12 +374,16 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
 			// Kiểm tra nếu từ khóa xuất hiện trong tên khách hàng hoặc mã phòng
 			if (tenKhachHang.contains(keyword) || maPhong.contains(keyword)) {
-				filteredModel.addRow(new Object[] { originalModel.getValueAt(i, 0), // Mã hóa đơn
+				filteredModel.addRow(new Object[] { 
+						originalModel.getValueAt(i, 0), // Mã hóa đơn
 						originalModel.getValueAt(i, 1), // Khách hàng
 						originalModel.getValueAt(i, 2), // Phòng
 						originalModel.getValueAt(i, 3), // Ngày nhận
 						originalModel.getValueAt(i, 4), // Ngày trả
 						originalModel.getValueAt(i, 5), // Khuyến mãi
+						originalModel.getValueAt(i, 6),
+						originalModel.getValueAt(i, 7),
+						originalModel.getValueAt(i, 8)
 						
 				});
 				found = true; // Đánh dấu là đã tìm thấy dữ liệu
