@@ -17,7 +17,6 @@ import ENTITY.HoaDon;
 import ENTITY.KhachHang;
 import ENTITY.KhuyenMai;
 import ENTITY.NhanVien;
-import GUI.HoaDon_GUI;
 
 public class HoaDon_DAO {
 	private final ConnectDB connectDB = new ConnectDB();
@@ -38,14 +37,24 @@ public class HoaDon_DAO {
 
 			while (rs.next()) {
 				// Lấy dữ liệu từ ResultSet và khởi tạo các đối tượng liên quan
-				KhachHang khachHang = new KhachHang(rs.getString("MaKhachHang"), rs.getString("TenKhachHang"),
-						rs.getString("CCCD"), rs.getString("Phai"), rs.getDate("NgaySinh"), rs.getString("DenThoai"));
+				KhachHang khachHang = new KhachHang(
+						rs.getString("MaKhachHang"), 
+						rs.getString("TenKhachHang"),
+						rs.getString("CCCD"), 
+						rs.getString("Phai"), 
+						rs.getDate("NgaySinh"), 
+						rs.getString("DenThoai"));
 				NhanVien nhanVien = new NhanVien(rs.getString("MaNhanVien"));
 				KhuyenMai khuyenMai = new KhuyenMai(rs.getString("MaKhuyenMai"));
 
-				HoaDon hoaDon = new HoaDon(rs.getString("MaHoaDon"), khuyenMai, nhanVien, khachHang,
-						rs.getDate("NgayLap"), rs.getDate("NgayNhanPhong"), rs.getDate("NgayTraPhong"),
-						rs.getInt("Thue"), rs.getDouble("TienTraKhach"), rs.getDouble("TongTien"));
+				HoaDon hoaDon = new HoaDon(
+						rs.getString("MaHoaDon"), khuyenMai, nhanVien, khachHang,
+						rs.getDate("NgayLap"), 
+						rs.getDate("NgayNhanPhong"), 
+						rs.getDate("NgayTraPhong"),
+						rs.getInt("Thue"), 
+						rs.getDouble("TienTraKhach"), 
+						rs.getDouble("TongTien"));
 				danhSachHoaDon.add(hoaDon);
 			}
 		} catch (SQLException e) {
@@ -176,24 +185,64 @@ public class HoaDon_DAO {
 		return null; // Trả về null nếu có lỗi
 	}
 
-	public List<HoaDon> getHoaDonTheoKhoangThoiGian(java.sql.Date ngayCheckIn, java.sql.Date ngayCheckOut) {
+	public String getMaHoaDonFromMaPhong(String maPhong) {
+		String maHoaDon = null; // Khởi tạo giá trị mặc định là null
+		String query = "SELECT cthd.MaHoaDon " + "FROM ChiTietHoaDon cthd, HoaDon h "
+				+ "WHERE cthd.MaHoaDon = h.MaHoaDon " + "AND h.MaNhanVienLap IS NULL " + "AND cthd.MaPhong = ?"; // Sử
+																													// dụng
+																													// tham
+																													// số
+																													// để
+																													// bảo
+																													// mật
+																													// và
+																													// tránh
+																													// SQL
+																													// injection
+
+		try (Connection conn = ConnectDB.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+			// Gán tham số MaPhong vào câu lệnh SQL
+			ps.setString(1, maPhong);
+
+			// Thực thi câu lệnh SELECT
+			ResultSet rs = ps.executeQuery();
+
+			// Nếu có kết quả trả về, lấy MaHoaDon
+			if (rs.next()) {
+				maHoaDon = rs.getString("MaHoaDon");
+			}
+		} catch (SQLException ex) {
+			System.out.println("Lỗi khi lấy MaHoaDon từ MaPhong: " + ex.getMessage());
+		}
+
+		return maHoaDon; // Trả về MaHoaDon hoặc null nếu không tìm thấy
+	}
+
+	public List<HoaDon> getHoaDonTheoKhoangThoiGian(java.sql.Date ngayCheckIn, java.sql.Date ngayCheckOut,
+			String maNhanVien) {
 		List<HoaDon> danhSachHoaDon = new ArrayList<>();
 
-		// Câu lệnh SQL
+		// Câu lệnh SQL với điều kiện lọc theo mã nhân viên
 		String sql = "SELECT hd.MaHoaDon, hd.NgayLap, hd.NgayNhanPhong, hd.NgayTraPhong, hd.Thue, hd.TongTien, hd.TienTraKhach, "
 				+ "nv.MaNhanVien, nv.TenNhanVien " + "FROM HoaDon hd "
-				+ "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " + "WHERE hd.NgayLap BETWEEN ? AND ?"; // Lọc
-																												// theo
-																												// ngày
-																												// lập
-																												// hóa
-																												// đơn
+				+ "JOIN NhanVien nv ON hd.MaNhanVienLap = nv.MaNhanVien " + "WHERE hd.NgayLap BETWEEN ? AND ? ";
+
+		// Nếu có mã nhân viên, thêm điều kiện lọc
+		if (maNhanVien != null && !maNhanVien.isEmpty()) {
+			sql += "AND nv.MaNhanVien = ?";
+		}
 
 		try (Connection conn = ConnectDB.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
 			// Thiết lập tham số cho câu truy vấn SQL
 			ps.setDate(1, ngayCheckIn);
 			ps.setDate(2, ngayCheckOut);
+
+			// Nếu có mã nhân viên, thiết lập tham số thứ ba
+			if (maNhanVien != null && !maNhanVien.isEmpty()) {
+				ps.setString(3, maNhanVien);
+			}
 
 			// Thực thi truy vấn và lấy kết quả
 			ResultSet rs = ps.executeQuery();
@@ -205,19 +254,20 @@ public class HoaDon_DAO {
 				hoaDon.setNgayLap(rs.getDate("NgayLap"));
 				hoaDon.setNgayNhanPhong(rs.getDate("NgayNhanPhong"));
 				hoaDon.setNgayTraPhong(rs.getDate("NgayTraPhong"));
+
 				Double tongTien = rs.getDouble("TongTien");
 				if (rs.wasNull()) { // Kiểm tra xem giá trị có NULL không
 					tongTien = 0.0; // Nếu NULL, có thể gán giá trị mặc định
 				}
 				hoaDon.setTongTien(tongTien);
 
-				// Gán nhân viên vào hóa đơn
+				// Thiết lập nhân viên
 				NhanVien nhanVien = new NhanVien();
 				nhanVien.setMaNhanVien(rs.getString("MaNhanVien"));
 				nhanVien.setTenNhanVien(rs.getString("TenNhanVien"));
-				hoaDon.setNhanVienLap(nhanVien); // Gán nhân viên cho hóa đơn
+				hoaDon.setNhanVienLap(nhanVien);
 
-				// Thêm hóa đơn vào danh sách
+				// Thêm vào danh sách kết quả
 				danhSachHoaDon.add(hoaDon);
 			}
 		} catch (SQLException e) {
@@ -226,32 +276,6 @@ public class HoaDon_DAO {
 
 		return danhSachHoaDon;
 	}
-	public boolean createHoaDon(HoaDon hoaDon) {
-	    String sql = "INSERT INTO HoaDon (MaHoaDon, MaKhachHang, MaNhanVienLap, MaKhuyenMai, TienTraKhach, TongTien, Thue, NgayLap, NgayNhanPhong, NgayTraPhong) "
-	            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-	    try (Connection conn = ConnectDB.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-	        // Set giá trị cho PreparedStatement
-	        stmt.setString(1, hoaDon.getMaHoaDon());
-	        stmt.setString(2, hoaDon.getKhachHang().getMaKhachHang());
-	        stmt.setString(3, hoaDon.getNhanVienLap().getMaNhanVien());
-	        stmt.setString(4, hoaDon.getKhuyenMai().getMakhuyenMai());
-	        stmt.setDouble(5, hoaDon.getTienTraKhach());
-	        stmt.setDouble(6, hoaDon.getTongTien());
-	        stmt.setInt(7, hoaDon.getThue());
-	        stmt.setDate(8, (Date) hoaDon.getNgayLap());
-	        stmt.setDate(9, (Date) hoaDon.getNgayNhanPhong());
-			stmt.setDate(10, (Date) hoaDon.getNgayTraPhong());
-	        int rowsAffected = stmt.executeUpdate();
-	        return rowsAffected > 0;
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
-
 
 	// Phương thức để cập nhật thông tin hóa đơn trong bảng HoaDon
 	public boolean capNhatHoaDon(HoaDon hoaDon, String maPhong, String maNV) {
@@ -281,32 +305,4 @@ public class HoaDon_DAO {
 			return false;
 		}
 	}
-
-	public String getMaHoaDonFromMaPhong(String maPhong) {
-        String maHoaDon = null;  // Khởi tạo giá trị mặc định là null
-        String query = "SELECT cthd.MaHoaDon "
-                     + "FROM ChiTietHoaDon cthd, HoaDon h "
-                     + "WHERE cthd.MaHoaDon = h.MaHoaDon "
-                     + "AND h.MaNhanVienLap IS NULL "
-                     + "AND cthd.MaPhong = ?";  // Sử dụng tham số để bảo mật và tránh SQL injection
-
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
-            // Gán tham số MaPhong vào câu lệnh SQL
-            ps.setString(1, maPhong);
-
-            // Thực thi câu lệnh SELECT
-            ResultSet rs = ps.executeQuery();
-            
-            // Nếu có kết quả trả về, lấy MaHoaDon
-            if (rs.next()) {
-                maHoaDon = rs.getString("MaHoaDon");
-            }
-        } catch (SQLException ex) {
-            System.out.println("Lỗi khi lấy MaHoaDon từ MaPhong: " + ex.getMessage());
-        }
-
-        return maHoaDon;  // Trả về MaHoaDon hoặc null nếu không tìm thấy
-    }
 }

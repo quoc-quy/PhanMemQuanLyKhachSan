@@ -1,68 +1,103 @@
 package Components;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Cell;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class ExportFile {
-	// Phương thức xuất dữ liệu từ JTable sang Excel
-    public void exportToExcel(JTable table) {
-        JFileChooser fileChooser = new JFileChooser(); // Hộp thoại chọn thư mục
-        fileChooser.setDialogTitle("Chọn nơi lưu file Excel");
+
+    public void exportToPDF(JTable table) {
+        // Lấy dòng được chọn trong JTable
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng để xuất.");
+            return;
+        }
+
+        // Mở hộp thoại chọn thư mục lưu file
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu file PDF");
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Chỉ cho phép chọn thư mục
 
-        int userSelection = fileChooser.showSaveDialog(null); // Hiển thị hộp thoại
-
+        int userSelection = fileChooser.showSaveDialog(null);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            // Lấy đường dẫn thư mục mà người dùng đã chọn
+            // Lấy thư mục và tạo đường dẫn cho file PDF
             File directory = fileChooser.getSelectedFile();
-            String filePath = directory.getAbsolutePath() + "/HoaDon.xlsx"; // Tạo tên file
+            String filePath = directory.getAbsolutePath() + "/HoaDon.pdf"; // Tên file PDF
 
-            Workbook workbook = new XSSFWorkbook(); // Khởi tạo Workbook Excel
-            Sheet sheet = workbook.createSheet("HoaDon"); // Tạo sheet mới
+            // Khởi tạo file PDF
+            try {
+                // Tạo PdfWriter
+                PdfWriter writer = new PdfWriter(filePath);
+                // Khởi tạo PdfDocument
+                PdfDocument pdf = new PdfDocument(writer);
+                // Tạo document
+                Document document = new Document(pdf);
 
-            TableModel model = table.getModel();
+                // Tạo tiêu đề cho hóa đơn
+                document.add(new Paragraph("Hóa đơn khách sạn TQSN").setBold().setFontSize(18).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER));
+                document.add(new Paragraph("\n"));
 
-            // Tạo tiêu đề (header) cho sheet Excel
-            Row headerRow = sheet.createRow(0);
-            for (int i = 0; i < model.getColumnCount(); i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(model.getColumnName(i));
-            }
+                // Lấy TableModel từ JTable
+                TableModel model = table.getModel();
 
-            // Điền dữ liệu từ JTable vào sheet Excel
-            for (int i = 0; i < model.getRowCount(); i++) {
-                Row row = sheet.createRow(i + 1);
-                for (int j = 0; j < model.getColumnCount(); j++) {
-                    Cell cell = row.createCell(j);
-                    Object value = model.getValueAt(i, j);
-                    if (value != null) {
-                        cell.setCellValue(value.toString());
-                    }
-                }
-            }
+                // Tạo bảng để chứa thông tin hóa đơn
+                Table pdfTable = new Table(2); // 2 cột: 1 cho tên thông tin và 1 cho giá trị
 
-            // Ghi Workbook vào file Excel
-            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                workbook.write(outputStream); // Ghi dữ liệu vào file
-                JOptionPane.showMessageDialog(null, "Xuất file Excel thành công tại: " + filePath);
+                // Các tên cột và giá trị từ dòng đã chọn
+                String[] columnNames = {
+                    "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền"
+                };
+
+                
+                // Định dạng ngày
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                // Lấy dữ liệu từ dòng đã chọn
+                String maHoaDon = model.getValueAt(selectedRow, 0).toString();
+                String maNhanVien = model.getValueAt(selectedRow, 1).toString();
+                String ngayLap = model.getValueAt(selectedRow, 2).toString();
+                String ngayNhanPhong = model.getValueAt(selectedRow, 3).toString();
+                String ngayTraPhong = model.getValueAt(selectedRow, 4).toString();
+                String tongTien = model.getValueAt(selectedRow, 5).toString();
+
+                // Thêm các giá trị vào bảng PDF
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[0])));
+                pdfTable.addCell(new Cell().add(new Paragraph(maHoaDon)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[1])));
+                pdfTable.addCell(new Cell().add(new Paragraph(maNhanVien)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[2])));
+                pdfTable.addCell(new Cell().add(new Paragraph(ngayLap)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[3])));
+                pdfTable.addCell(new Cell().add(new Paragraph(ngayNhanPhong)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[4])));
+                pdfTable.addCell(new Cell().add(new Paragraph(ngayTraPhong)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[5])));
+                pdfTable.addCell(new Cell().add(new Paragraph(tongTien)));
+
+                // Thêm bảng vào document
+                document.add(pdfTable);
+
+                // Đóng document
+                document.close();
+
+                // Thông báo thành công
+                JOptionPane.showMessageDialog(null, "Đã xuất file PDF thành công!");
             } catch (IOException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Lỗi khi xuất file Excel.");
-            } finally {
-                try {
-                    workbook.close(); // Đóng Workbook
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xuất file PDF.");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Bạn đã hủy xuất file.");
         }
     }
 }
