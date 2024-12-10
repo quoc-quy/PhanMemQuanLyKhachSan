@@ -42,7 +42,7 @@ public class Home_GUI extends javax.swing.JFrame {
         cardPanel.add(new NhanVien_GUI(), "nhanvien");
         cardPanel.add(new TroGiup_GUI(), "trogiup");
         cardPanel.add(new LichSuChuyenPhong_GUI(), "lichsuchuyenphong");
-        cardPanel.add(new BaoCaoCongViec_GUI(), "hoadon");
+        cardPanel.add(new HoaDon_GUI(), "hoadon");
         
          adjustMenuBasedOnRole(userRole);  // Điều chỉnh menu theo vai trò
     }

@@ -23,12 +23,12 @@ import ENTITY.NhanVien;
  *
  * @author 84837
  */
-public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
+public class HoaDon_GUI extends javax.swing.JPanel {
 	private DefaultTableModel originalModel;
     /**
      * Creates new form BaoCaoCongViec_GUI
      */
-    public BaoCaoCongViec_GUI() {
+    public HoaDon_GUI() {
         initComponents();
         setDefaultDate();
         updateHeader();
