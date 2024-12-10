@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.sql.Date;
 import java.util.Calendar;
@@ -23,7 +24,7 @@ import ENTITY.NhanVien;
  * @author 84837
  */
 public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
-
+	private DefaultTableModel originalModel;
     /**
      * Creates new form BaoCaoCongViec_GUI
      */
@@ -32,6 +33,9 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
         setDefaultDate();
         updateHeader();
         loadDataToTable(); 
+        originalModel = (DefaultTableModel) tbDanhSachDatPhong.getModel();
+        
+        btnTimKiem.addActionListener(e -> filterTableData());
     }
 
     /**
@@ -54,6 +58,8 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
         cboTrangThai = new javax.swing.JComboBox<>();
         btnXuatFile = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnTimKiem = new javax.swing.JButton();
+        txtTimKiem = new javax.swing.JTextField();
 
         setLayout(new java.awt.CardLayout());
 
@@ -64,7 +70,8 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
 
         tbDanhSachDatPhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][] {},  // Bắt đầu với dữ liệu rỗng
-            new String[] { "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền" }
+            new String[] { "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền"
+ }
         ) {
             Class<?>[] types = new Class<?>[] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class,
@@ -143,6 +150,23 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        btnTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Search.png"))); // NOI18N
+
+        txtTimKiem.setForeground(new java.awt.Color(144, 144, 144));
+        txtTimKiem.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtTimKiemFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTimKiemFocusLost(evt);
+            }
+        });
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimKiemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -151,7 +175,11 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titleHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTimKiem)
+                .addGap(27, 27, 27)
                 .addComponent(btnXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,9 +209,12 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
                                     .addComponent(jLabel5)
                                     .addComponent(txtNgayCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNgayCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnTimKiem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnXuatFile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                                    .addComponent(txtTimKiem))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -219,6 +250,21 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
     	ExportFile exporter = new ExportFile();
 		exporter.exportToPDF(tbDanhSachDatPhong); // Xuất dữ liệu từ bảng tbHoaDon
     }//GEN-LAST:event_btnXuatFileMouseClicked
+
+    private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusGained
+        // TODO add your handling code here:
+    	txtTimKiem.setText("");
+		txtTimKiem.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtTimKiemFocusGained
+
+    private void txtTimKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusLost
+        // TODO add your handling code here:
+    	txtTimKiem.setForeground(Color.decode("#909090"));
+    }//GEN-LAST:event_txtTimKiemFocusLost
+
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimKiemActionPerformed
     
     private void loadDataToTable() {
         HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
@@ -292,16 +338,52 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
         java.util.Date checkOutDate = calendar.getTime();
         txtNgayCheckOut.setDate(checkOutDate);
     }
-    
-    
 
+    private void filterTableData() {
+		String keyword = txtTimKiem.getText().trim().toLowerCase(); // Lấy từ khóa tìm kiếm
 
+		// Tạo model mới để chứa dữ liệu lọc
+		DefaultTableModel filteredModel = new DefaultTableModel(new String[] { "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền" }, 0);
+
+		boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu
+
+		// Duyệt qua từng hàng trong originalModel và lọc dữ liệu
+		for (int i = 0; i < originalModel.getRowCount(); i++) {// Lấy tên khách hàng và mã phòng, kiểm tra null và loại
+																// bỏ khoảng trắng
+			String tenKhachHang = originalModel.getValueAt(i, 1) != null
+					? originalModel.getValueAt(i, 1).toString().trim().toLowerCase()
+					: "";
+			String maPhong = originalModel.getValueAt(i, 2) != null
+					? originalModel.getValueAt(i, 2).toString().trim().toLowerCase()
+					: "";
+
+			// Kiểm tra nếu từ khóa xuất hiện trong tên khách hàng hoặc mã phòng
+			if (tenKhachHang.contains(keyword) || maPhong.contains(keyword)) {
+				filteredModel.addRow(new Object[] { originalModel.getValueAt(i, 0), // Mã hóa đơn
+						originalModel.getValueAt(i, 1), // Khách hàng
+						originalModel.getValueAt(i, 2), // Phòng
+						originalModel.getValueAt(i, 3), // Ngày nhận
+						originalModel.getValueAt(i, 4), // Ngày trả
+						originalModel.getValueAt(i, 5), // Khuyến mãi
+						originalModel.getValueAt(i, 6) // Tổng thanh toán
+				});
+				found = true; // Đánh dấu là đã tìm thấy dữ liệu
+			}
+		}
+
+		// Cập nhật JTable với model đã lọc hoặc hiển thị thông báo nếu không tìm thấy
+		if(!found) {
+			JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả nào trùng với từ khóa");
+		}
+		tbDanhSachDatPhong.setModel(filteredModel);
+	}
 
 
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JPanel btnXuatFile;
     private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JLabel jLabel1;
@@ -313,5 +395,6 @@ public class BaoCaoCongViec_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel titleHoaDon;
     private com.toedter.calendar.JDateChooser txtNgayCheckIn;
     private com.toedter.calendar.JDateChooser txtNgayCheckOut;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,15 +1,19 @@
 package Components;
 
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
-
-
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Cell;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class ExportFile {
 
@@ -41,32 +45,58 @@ public class ExportFile {
                 // Tạo document
                 Document document = new Document(pdf);
 
+                // Tạo tiêu đề cho hóa đơn
+                document.add(new Paragraph("Hóa đơn khách sạn TQSN").setBold().setFontSize(18).setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER));
+                document.add(new Paragraph("\n"));
+
                 // Lấy TableModel từ JTable
                 TableModel model = table.getModel();
+
+                // Tạo bảng để chứa thông tin hóa đơn
+                Table pdfTable = new Table(2); // 2 cột: 1 cho tên thông tin và 1 cho giá trị
+
+                // Các tên cột và giá trị từ dòng đã chọn
+                String[] columnNames = {
+                    "Mã hóa đơn", "Mã nhân viên", "Ngày lập", "Ngày nhận phòng", "Ngày trả phòng", "Tổng tiền"
+                };
+
                 
+                // Định dạng ngày
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
                 // Lấy dữ liệu từ dòng đã chọn
-                StringBuilder data = new StringBuilder();
-                for (int i = 0; i < model.getColumnCount(); i++) {
-                    data.append(model.getColumnName(i)).append(": ")
-                        .append(model.getValueAt(selectedRow, i)).append("\n");
-                }
+                String maHoaDon = model.getValueAt(selectedRow, 0).toString();
+                String maNhanVien = model.getValueAt(selectedRow, 1).toString();
+                String ngayLap = model.getValueAt(selectedRow, 2).toString();
+                String ngayNhanPhong = model.getValueAt(selectedRow, 3).toString();
+                String ngayTraPhong = model.getValueAt(selectedRow, 4).toString();
+                String tongTien = model.getValueAt(selectedRow, 5).toString();
 
-                // Tạo một đoạn văn bản với dữ liệu dòng đã chọn
-                Paragraph paragraph = new Paragraph(data.toString())
-                        
-                        .setFontSize(12);
+                // Thêm các giá trị vào bảng PDF
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[0])));
+                pdfTable.addCell(new Cell().add(new Paragraph(maHoaDon)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[1])));
+                pdfTable.addCell(new Cell().add(new Paragraph(maNhanVien)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[2])));
+                pdfTable.addCell(new Cell().add(new Paragraph(ngayLap)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[3])));
+                pdfTable.addCell(new Cell().add(new Paragraph(ngayNhanPhong)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[4])));
+                pdfTable.addCell(new Cell().add(new Paragraph(ngayTraPhong)));
+                pdfTable.addCell(new Cell().add(new Paragraph(columnNames[5])));
+                pdfTable.addCell(new Cell().add(new Paragraph(tongTien)));
 
-                // Thêm đoạn văn vào document
-                document.add(paragraph);
-                
+                // Thêm bảng vào document
+                document.add(pdfTable);
+
                 // Đóng document
                 document.close();
 
-                JOptionPane.showMessageDialog(null, "Xuất PDF thành công!");
-
+                // Thông báo thành công
+                JOptionPane.showMessageDialog(null, "Đã xuất file PDF thành công!");
             } catch (IOException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Lỗi khi tạo file PDF.");
+                JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xuất file PDF.");
             }
         }
     }
