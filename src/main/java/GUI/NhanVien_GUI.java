@@ -350,9 +350,6 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		}
 	}
 
-
-
-
 	// Method to update an existing employee
 	private void updateEmployee() {
 		int selectedRow = tbNhanVien.getSelectedRow();
@@ -867,21 +864,21 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 
 	// Save Employee Data with validation and auto-incremented ID
 	private boolean saveEmployeeData(JDialog dialog, JTextField txtTenNhanVien, JComboBox<LoaiNhanVien> cbLoaiNhanVien,
-	        JDateChooser dateChooserNgaySinh, JTextField txtCCCD, JTextField txtSoDienThoai,
-	        JComboBox<String> cbGioiTinh, JTextField txtEmail, JTextField txtTenDangNhap, JTextField txtMatKhau) {
-	    String tenNhanVien = txtTenNhanVien.getText().trim();
-	    LoaiNhanVien loaiNhanVien = (LoaiNhanVien) cbLoaiNhanVien.getSelectedItem();
-	    Date ngaySinh = dateChooserNgaySinh.getDate();
-	    // Định dạng ngày sinh thành dd/MM/yy
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	    String formattedNgaySinh = dateFormat.format(ngaySinh);
-	    String cccd = txtCCCD.getText().trim();
-	    String sdt = txtSoDienThoai.getText().trim();
-	    String phai = cbGioiTinh.getSelectedItem().toString();
-	    String email = txtEmail.getText().trim();
-	    String tenDangNhap = txtTenDangNhap.getText().trim();
-	    String matKhau = txtMatKhau.getText().trim();
-	    matKhau = MaHoa.toSHA1(matKhau);
+			JDateChooser dateChooserNgaySinh, JTextField txtCCCD, JTextField txtSoDienThoai,
+			JComboBox<String> cbGioiTinh, JTextField txtEmail, JTextField txtTenDangNhap, JTextField txtMatKhau) {
+		String tenNhanVien = txtTenNhanVien.getText().trim();
+		LoaiNhanVien loaiNhanVien = (LoaiNhanVien) cbLoaiNhanVien.getSelectedItem();
+		Date ngaySinh = dateChooserNgaySinh.getDate();
+		// Định dạng ngày sinh thành dd/MM/yy
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String formattedNgaySinh = dateFormat.format(ngaySinh);
+		String cccd = txtCCCD.getText().trim();
+		String sdt = txtSoDienThoai.getText().trim();
+		String phai = cbGioiTinh.getSelectedItem().toString();
+		String email = txtEmail.getText().trim();
+		String tenDangNhap = txtTenDangNhap.getText().trim();
+		String matKhau = txtMatKhau.getText().trim();
+		matKhau = MaHoa.toSHA1(matKhau);
 
 // Kiểm tra hợp lệ
 		// Kiểm tra trường tên nhân viên không để trống
@@ -956,23 +953,25 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 			return false;
 		}
 
-	    // Kiểm tra xem tài khoản có tồn tại không trước khi lưu
-	    if (!saveToDatabaseTaiKhoan(maTaiKhoan, tenDangNhap, matKhau, email, maNhanVien)) {
-	        JOptionPane.showMessageDialog(dialog, "Lỗi lưu tài khoản vào cơ sở dữ liệu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-	        return false;
-	    }
+		// Kiểm tra xem nhân viên đã tồn tại chưa trước khi lưu
+		if (!saveToDatabase(maNhanVien, tenNhanVien, loaiNhanVien, maTaiKhoan, phai, cccd, ngaySinh, sdt)) {
+			JOptionPane.showMessageDialog(dialog, "Lỗi lưu nhân viên vào cơ sở dữ liệu.", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 
-	    // Kiểm tra xem nhân viên đã tồn tại chưa trước khi lưu
-	    if (!saveToDatabase(maNhanVien, tenNhanVien, loaiNhanVien, maTaiKhoan, phai, cccd, ngaySinh, sdt)) {
-	        JOptionPane.showMessageDialog(dialog, "Lỗi lưu nhân viên vào cơ sở dữ liệu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-	        return false;
-	    }
+		// Kiểm tra xem tài khoản có tồn tại không trước khi lưu
+		if (!saveToDatabaseTaiKhoan(maTaiKhoan, tenDangNhap, matKhau, email, maNhanVien)) {
+			JOptionPane.showMessageDialog(dialog, "Lỗi lưu tài khoản vào cơ sở dữ liệu.", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 
-	    // Nếu tất cả lưu thành công, thêm vào bảng
-	    DefaultTableModel tableModel = (DefaultTableModel) tbNhanVien.getModel();
-	    tableModel.addRow(new Object[] { maNhanVien, tenNhanVien, loaiNhanVien, formattedNgaySinh, cccd, sdt, phai });
-	    return true;
-	
+		// Nếu tất cả lưu thành công, thêm vào bảng
+		DefaultTableModel tableModel = (DefaultTableModel) tbNhanVien.getModel();
+		tableModel.addRow(new Object[] { maNhanVien, tenNhanVien, loaiNhanVien, formattedNgaySinh, cccd, sdt, phai });
+		return true;
+
 	}
 
 	private String generateNewEmployeeId(LoaiNhanVien loaiNhanVien) {
@@ -1054,7 +1053,8 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 	}
 
 	// Method to save employee data to the database
-	private boolean saveToDatabaseTaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau, String email, String maNhanVien) {
+	private boolean saveToDatabaseTaiKhoan(String maTaiKhoan, String tenDangNhap, String matKhau, String email,
+			String maNhanVien) {
 		String sql = "INSERT INTO TaiKhoan (MaTaiKhoan, TenDangNhap, MatKhau, Email, MaNhanVien) VALUES (?, ?, ?, ?, ?)";
 
 		try (Connection conn = new ConnectDB().getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
