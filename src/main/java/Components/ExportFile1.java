@@ -32,39 +32,42 @@ public class ExportFile1 {
                 PdfWriter writer = new PdfWriter(filePath);
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf);
-                
-                PdfFont arialFont = PdfFontFactory.createFont("/FONTS/Arial.ttf", PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
 
-                // Lấy model dữ liệu của bảng JTable
+                // Sử dụng font Arial từ tệp .ttf
+                PdfFont arialFont = PdfFontFactory.createFont("FONTS/Arial.ttf", PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+
+                // Thêm tiêu đề cho file PDF
+                document.add(new Paragraph("DANH SÁCH HÓA ĐƠN").setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER).setFont(arialFont).setFontSize(25).setBold());
+                document.add(new Paragraph("\n"));
+                // Tạo bảng từ JTable
                 TableModel model = table.getModel();
+                int columnCount = model.getColumnCount();
+                Table pdfTable = new Table(columnCount);
 
-                // Tạo bảng PDF từ dữ liệu trong JTable
-                Table pdfTable = new Table(model.getColumnCount());
-
-                // Thêm tiêu đề cột
-                for (int i = 0; i < model.getColumnCount(); i++) {
-                    pdfTable.addHeaderCell(new Cell().add(new Paragraph(model.getColumnName(i))));
+                // Thêm tiêu đề cột vào bảng PDF
+                for (int col = 0; col < columnCount; col++) {
+                    pdfTable.addCell(new Cell().add(new Paragraph(model.getColumnName(col)).setFont(arialFont).setFontSize(12)));
                 }
 
-                // Thêm dữ liệu của từng dòng trong bảng
-                for (int row = 0; row < model.getRowCount(); row++) {
-                    for (int col = 0; col < model.getColumnCount(); col++) {
-                        Object cellValue = model.getValueAt(row, col);
-                        pdfTable.addCell(new Cell().add(new Paragraph(cellValue.toString())));
+                // Thêm các dòng dữ liệu vào bảng PDF
+                int rowCount = model.getRowCount();
+                for (int row = 0; row < rowCount; row++) {
+                    for (int col = 0; col < columnCount; col++) {
+                        pdfTable.addCell(new Cell().add(new Paragraph(model.getValueAt(row, col).toString()).setFont(arialFont).setFontSize(12)));
                     }
                 }
 
-                // Thêm bảng vào tài liệu PDF
+                // Thêm bảng vào file PDF
                 document.add(pdfTable);
+
+                // Đóng tài liệu
                 document.close();
 
-                JOptionPane.showMessageDialog(null, "Đã xuất file thành công");
+                JOptionPane.showMessageDialog(null, "File PDF đã được xuất thành công!");
+
             } catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Có lỗi khi xuất file: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Lỗi khi xuất file PDF: " + e.getMessage());
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Hủy bỏ xuất file.");
         }
     }
 }
