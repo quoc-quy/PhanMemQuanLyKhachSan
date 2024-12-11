@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import Components.ExportFile;
+import Components.ExportFile1;
 import DAO.HoaDon_DAO;
 import ENTITY.HoaDon;
 import ENTITY.NhanVien;
@@ -249,7 +250,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
     private void btnXuatFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXuatFileMouseClicked
 //         TODO add your handling code here:
-    	ExportFile exporter = new ExportFile();
+    	ExportFile1 exporter = new ExportFile1();
 		exporter.exportToPDF(tbDanhSachDatPhong); // Xuất dữ liệu từ bảng tbHoaDon
     }//GEN-LAST:event_btnXuatFileMouseClicked
 
