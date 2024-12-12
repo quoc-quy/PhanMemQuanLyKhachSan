@@ -832,33 +832,56 @@ public class NhanVien_GUI extends javax.swing.JPanel {
 		String matKhau = txtMatKhau.getText().trim();
 		String email = txtEmail.getText().trim();
 
-		// Kiểm tra nếu tên đăng nhập rỗng
+// Kiểm tra tên đăng nhập
 		if (tenDangNhap.isEmpty()) {
-			JOptionPane.showMessageDialog(dialog, "Tên đăng nhập không được để trống!", "Lỗi",
+			JOptionPane.showMessageDialog(dialog, "Tên đăng nhập không được để trống. Vui lòng nhập tên đăng nhập!",
+					"Lỗi", JOptionPane.ERROR_MESSAGE);
+			txtTenDangNhap.requestFocus();
+			return false;
+		}
+
+		if (tenDangNhap.length() < 5) {
+			JOptionPane.showMessageDialog(dialog, "Tên đăng nhập phải có ít nhất 5 ký tự!", "Lỗi",
 					JOptionPane.ERROR_MESSAGE);
+			txtTenDangNhap.requestFocus();
 			return false;
 		}
 
-		// Kiểm tra nếu mật khẩu rỗng
+// Kiểm tra mật khẩu
 		if (matKhau.isEmpty()) {
-			JOptionPane.showMessageDialog(dialog, "Mật khẩu không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(dialog, "Mật khẩu không được để trống. Vui lòng nhập mật khẩu!", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtMatKhau.requestFocus();
 			return false;
 		}
 
-		// Kiểm tra nếu email rỗng
+		if (matKhau.length() < 6) {
+			JOptionPane.showMessageDialog(dialog, "Mật khẩu phải có ít nhất 6 ký tự để đảm bảo bảo mật!", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtMatKhau.requestFocus();
+			return false;
+		}
+
+// Kiểm tra email
 		if (email.isEmpty()) {
-			JOptionPane.showMessageDialog(dialog, "Email không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(dialog, "Email không được để trống. Vui lòng nhập email!", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtEmail.requestFocus();
 			return false;
 		}
 
-		// Kiểm tra định dạng email hợp lệ
-		String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+// Chấp nhận nhiều nhà cung cấp email, không giới hạn chỉ Gmail
+		String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 		if (!email.matches(emailPattern)) {
-			JOptionPane.showMessageDialog(dialog, "Email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(dialog, "Email không hợp lệ. Vui lòng nhập email đúng định dạng!", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtEmail.requestFocus();
 			return false;
 		}
 
-		// Nếu tất cả điều kiện trên đều hợp lệ, trả về true
+// Nếu tất cả điều kiện hợp lệ, trả về true
+		JOptionPane.showMessageDialog(dialog, "Thông tin tài khoản hợp lệ và đã được lưu thành công!", "Thành công",
+				JOptionPane.INFORMATION_MESSAGE);
 		return true;
 	}
 
