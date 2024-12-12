@@ -242,6 +242,27 @@ public class KhachHang_DAO {
         
         return CCCD;
     }
+    // Phương thức lấy mã khách hàng dựa vào CCCD
+    public String getTenByMaKH(String maKH) {
+        String ten = null;
+        
+        String sql = "SELECT TenKhachHang FROM KhachHang WHERE MaKhachHang = ?";
+        
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, maKH);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+            	ten = rs.getString("TenKhachHang");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return ten;
+    }
     
  // Phương thức để lấy mã khách hàng dựa trên mã phòng
     public String layMaKhachHangTheoMaPhong(String maPhong) {

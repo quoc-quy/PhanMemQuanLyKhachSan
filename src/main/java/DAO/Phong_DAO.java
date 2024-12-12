@@ -407,4 +407,28 @@ public class Phong_DAO {
             }
         }
     }
+	
+	// Phương thức lấy mã khách hàng dựa vào CCCD
+    public String getLoaiPhongByMaPhong(String maPhong) {
+        String loaiPhong = null;
+        
+        String sql = "select lp.TenLoaiPhong "
+        		+ "from Phong p, LoaiPhong lp "
+        		+ "where p.LoaiPhong = lp.MaLoaiPhong and  p.MaPhong = ?";
+        
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, maPhong);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+            	loaiPhong = rs.getString("TenLoaiPhong");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return loaiPhong;
+    }
 }

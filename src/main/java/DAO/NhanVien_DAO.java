@@ -168,4 +168,26 @@ public class NhanVien_DAO {
 			return false;
 		}
 	}
+    
+ // Phương thức lấy mã khách hàng dựa vào CCCD
+    public String getTenNVByMaNV(String maNV) {
+        String tenNV = null;
+        
+        String sql = "SELECT TenNhanVien FROM NhanVien WHERE MaNhanVien = ?";
+        
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, maNV);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+            	tenNV = rs.getString("TenNhanVien");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return tenNV;
+    }
 }

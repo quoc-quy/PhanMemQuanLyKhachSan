@@ -21,10 +21,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
+import Components.ExportFile;
 import DAO.ChiTietHoaDon_DAO;
 import DAO.DanhSachDatPhong_DAO;
 import DAO.HoaDon_DAO;
 import DAO.KhachHang_DAO;
+import DAO.NhanVien_DAO;
 import DAO.PhieuDatPhong_DAO;
 import DAO.Phong_DAO;
 import ENTITY.HoaDon;
@@ -499,22 +501,24 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
     private void btnTraPhongVaInMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {//GEN-FIRST:event_btnTraPhongVaInMouseClicked
     	try {
     		Phong_DAO phongDAO = new Phong_DAO();
+    		NhanVien_DAO nvDAO = new NhanVien_DAO();
     		PhieuDatPhong_DAO pdpDAO = new PhieuDatPhong_DAO();
+    		HoaDon_DAO hdDAO = new HoaDon_DAO();
     		// Lấy mã nhân viên từ đăng nhập
             String maNhanVienLap = Login_GUI.maNhanVien; 
-            NhanVien nhanVien = new NhanVien(maNhanVienLap);
             KhachHang_DAO khDAO = new KhachHang_DAO();
             String maPDP = pdpDAO.getMaPDPByMaPhong(maPhong);
-//            
-            System.out.println("MÃ Phiếu đặt phòng: "+maPDP);
+            String tenKH = txtTenKH.getText();
+            String maHD = hdDAO.getMaHoaDonFromMaPhong(maPhong);
             
             // Lấy mã phòng
             String maPhong = lbMaPhong.getText();
             String maKH = khDAO.layMaKhachHangTheoMaPhong(maPhong);
             String cccd = khDAO.getCCCDByMaKhachHang(maKH);
-            
+            String loaiPhong = phongDAO.getLoaiPhongByMaPhong(maPhong);
             KhachHang kh = new KhachHang(cccd);
             kh.setMaKhachHang(maKH);
+            kh.setTenKhachHang(tenKH);
             
             System.out.println("MÃ Khách Hàng: "+maKH);
             // Định dạng ngày cần chuyển
@@ -556,8 +560,12 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
 
             // Tạo đối tượng HoaDon
             NhanVien nv = new NhanVien(maNhanVienLap);
+            String tenNV = nvDAO.getTenNVByMaNV(maNhanVienLap);
+            nv.setTenNhanVien(tenNV);
+            System.out.println("tên Nhân viên: " + tenNV);
             
             HoaDon hd = new HoaDon();
+            hd.setMaHoaDon(maHD);
             hd.setNhanVienLap(nv);
             hd.setKhachHang(kh);
             hd.setNgayLap(ngaylapSQL); // Lấy ngày hiện tại
@@ -566,9 +574,29 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
             hd.setTienTraKhach(tienTraKhach);
             hd.setTongTien(tongThanhToan);
             hd.setThue(thue);
+
+            String phuThu = txtPhuThu.getText();
+            String km = txtKhuyenMai.getText();
+            double tongTienPhong = 0.0;
+            double tongTienDichVu = 0.0;
+
+            // Tính tổng tiền từ bảng tbDanhSachHoaDon (cột Tổng tiền)
+            for (int i = 0; i < tbDanhSachHoaDon.getRowCount(); i++) {
+                Object value = tbDanhSachHoaDon.getValueAt(i, 5); // Cột 5: Tổng tiền
+                if (value != null) {
+                	tongTienPhong += Double.parseDouble(value.toString());
+                }
+            }
+
+            // Tính tổng tiền từ bảng tbDanhSachDichVu (cột Thành tiền)
+            for (int i = 0; i < tbDanhSachDichVu.getRowCount(); i++) {
+                Object value = tbDanhSachDichVu.getValueAt(i, 4); // Cột 4: Thành tiền
+                if (value != null) {
+                    tongTienDichVu += Double.parseDouble(value.toString());
+                }
+            }
             
             // Cập nhật thông tin vào cơ sở dữ liệu
-            HoaDon_DAO hdDAO = new HoaDon_DAO();
             boolean success = hdDAO.capNhatHoaDon(hd, maPhong, maNhanVienLap);
             
             // Thông báo kết quả
@@ -579,6 +607,9 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
                 phongDAO.updateTinhTrangPhong(maPhong, "CHUA_DON");
                 dsDatPhongDAO.capNhatTrangThaiPhieuDatPhong(maPDP, "Hoàn thành");
 //    	        phongGUI.updateRoomColor(maPhong, Color.decode("#004B97"));
+                
+                ExportFile exportFile = new ExportFile();
+                exportFile.exportInvoiceToPDF(hd, maPhong, loaiPhong, phuThu, km, tongTienPhong, tongTienDichVu, kh, tbDanhSachDichVu.getModel());
             }
             else {
                 JOptionPane.showMessageDialog(this, "Thanh toán thất bại!");

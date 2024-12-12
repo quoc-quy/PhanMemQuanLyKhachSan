@@ -188,17 +188,7 @@ public class HoaDon_DAO {
 	public String getMaHoaDonFromMaPhong(String maPhong) {
 		String maHoaDon = null; // Khởi tạo giá trị mặc định là null
 		String query = "SELECT cthd.MaHoaDon " + "FROM ChiTietHoaDon cthd, HoaDon h "
-				+ "WHERE cthd.MaHoaDon = h.MaHoaDon " + "AND h.MaNhanVienLap IS NULL " + "AND cthd.MaPhong = ?"; // Sử
-																													// dụng
-																													// tham
-																													// số
-																													// để
-																													// bảo
-																													// mật
-																													// và
-																													// tránh
-																													// SQL
-																													// injection
+				+ "WHERE cthd.MaHoaDon = h.MaHoaDon " + "AND h.MaNhanVienLap IS NULL " + "AND cthd.MaPhong = ?"; // Sử																								// injection
 
 		try (Connection conn = ConnectDB.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
