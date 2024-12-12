@@ -19,6 +19,12 @@ public enum LoaiNhanVien {
 
     @Override
     public String toString() {
-        return loaiNhanVien;
+        return loaiNhanVien; // Hiển thị "Quan Ly" hoặc "Le Tan" trong giao diện
+    }
+
+    // Thêm phương thức để lấy giá trị chính xác dùng trong database
+    public String getDatabaseValue() {
+        return this.name(); // Trả về "NV_QUANLY" hoặc "NV_LETAN"
     }
 }
+
