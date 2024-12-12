@@ -99,6 +99,10 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         txtNgayCheckIn = new com.toedter.calendar.JDateChooser();
         txtNgayCheckOut = new com.toedter.calendar.JDateChooser();
         cboTrangThai = new javax.swing.JComboBox<>();
+        
+        btnHuy = new RoundedPanel(20);
+        btnCapNhat = new RoundedPanel(20);
+        btnNhanPhong = new RoundedPanel(20);
 
         setPreferredSize(new java.awt.Dimension(855, 634));
         setLayout(new java.awt.CardLayout());
@@ -158,6 +162,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+        
 
         btnCapNhat.setBackground(new java.awt.Color(245, 109, 40));
         btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
