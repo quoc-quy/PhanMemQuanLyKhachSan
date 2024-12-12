@@ -129,6 +129,7 @@ public class NhanVien_DAO {
     }
 
     // Update an employee
+ // Update an employee
     public boolean updateNhanVien(NhanVien nhanVien) {
         if (nhanVien == null || nhanVien.getMaNhanVien() == null || nhanVien.getMaNhanVien().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Dữ liệu nhân viên không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -139,7 +140,7 @@ public class NhanVien_DAO {
         try (Connection connection = ConnectDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nhanVien.getTenNhanVien());
-            statement.setString(2, nhanVien.getLoaiNhanVien().toString());
+            statement.setString(2, nhanVien.getLoaiNhanVien().getDatabaseValue());
             statement.setDate(3, new java.sql.Date(nhanVien.getNgaySinh().getTime()));
             statement.setString(4, nhanVien.getCCCD());
             statement.setString(5, nhanVien.getSoDienThoai());
@@ -154,6 +155,7 @@ public class NhanVien_DAO {
             return false;
         }
     }
+
 
     // Delete an employee and their account
     public boolean deleteNhanVien(String maNhanVien) {
