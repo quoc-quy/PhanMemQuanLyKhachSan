@@ -74,8 +74,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
 		tbDanhSachDatPhong.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {}, // Bắt đầu với dữ liệu
 																								// rỗng
-				new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Tên Nhân Viên", "Ngày Lập", "Ngày Nhận Phòng",
-						"Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền" }) {
+				new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Ngày Lập", "Ngày Nhận Phòng",
+						"Ngày Trả Phòng", "Thuế", "Tổng Tiền" }) {
 			Class<?>[] types = new Class<?>[] { java.lang.String.class, java.lang.String.class, java.lang.String.class,
 					java.lang.String.class, java.lang.String.class, java.lang.String.class };
 
@@ -307,11 +307,15 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 			java.sql.Date sqlNgayCheckOut = new java.sql.Date(ngayCheckOut.getTime());
 			// Lọc hóa đơn theo khoảng thời gian và mã nhân viên (nếu có)
 			List<HoaDon> danhSachHoaDon;
-
-			if (maNhanVien != null && !maNhanVien.equals("Tất cả")) {
-				danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, maNhanVien);
+			
+			if(maNhanVien.equals("Tất cả")) {
+				danhSachHoaDon = hoaDon_DAO.getAllHoaDon();
 			} else {
-				danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, null); 
+				if (maNhanVien != null && !maNhanVien.equals("Tất cả")) {
+					danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, maNhanVien);
+				} else {
+					danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, null); 
+				}
 			}
 
 			// Thêm dữ liệu vào bảng
@@ -379,8 +383,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 
 		// Tạo model mới để chứa dữ liệu lọc
 		DefaultTableModel filteredModel = new DefaultTableModel(
-				new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Tên Nhân Viên", "Ngày Lập", "Ngày Nhận Phòng",
-						"Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền" },
+				new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Phòng","Ngày Lập", "Ngày Nhận Phòng",
+						"Ngày Trả Phòng", "Thuế", "Tổng Tiền" },
 				0);
 
 		boolean found = false; // Đánh dấu nếu tìm thấy dữ liệu

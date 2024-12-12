@@ -143,7 +143,7 @@ public class ExportFile {
 
 	            // Thuế
 	            document.add(new Paragraph("\n"));
-	            document.add(new Paragraph("Thế: " + hd.getThue() + " %")
+	            document.add(new Paragraph("Thuế: " + hd.getThue() + " %")
 	                    .setFont(font)
 	                    .setBold()
 	                    .setTextAlignment(TextAlignment.RIGHT).setFixedLeading(12f));

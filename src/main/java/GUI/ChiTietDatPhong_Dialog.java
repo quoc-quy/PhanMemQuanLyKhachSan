@@ -160,13 +160,12 @@ public class ChiTietDatPhong_Dialog extends javax.swing.JDialog {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//
-//				String maPhong = phong.getMaPhong(); 
-//				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
-//			    Window window = SwingUtilities.getWindowAncestor(ChiTietDatPhong_Dialog.this);
-//			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(window, true, maPhong, null);
-//			    ChiTietDatPhong_Dialog.this.dispose();
-//			    dialogDatPhong.setVisible(true);
+				String maPhong = phong.getMaPhong(); 
+				// Sử dụng SwingUtilities để lấy Window chứa Phong_GUI
+			    Window window = SwingUtilities.getWindowAncestor(ChiTietDatPhong_Dialog.this);
+			    DatPhong_Dialog_GUI dialogDatPhong = new DatPhong_Dialog_GUI(window, true, maPhong, null);
+			    ChiTietDatPhong_Dialog.this.dispose();
+			    dialogDatPhong.setVisible(true);
 			}
 
 			@Override

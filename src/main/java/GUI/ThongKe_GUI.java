@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.toedter.calendar.JDateChooser;
@@ -184,7 +186,7 @@ public class ThongKe_GUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không có dữ liệu trong khoảng ngày đã chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        
+
         // Tạo dataset cho biểu đồ
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (Map.Entry<String, Double> entry : revenueData.entrySet()) {
@@ -198,6 +200,11 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 "Doanh Thu (VND)",
                 dataset   
         );
+
+        // Chỉnh sửa độ rộng của các cột
+        CategoryPlot plot = barChart.getCategoryPlot();
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setMaximumBarWidth(0.05); // Điều chỉnh đây để làm cột hẹp lại (giá trị nhỏ hơn sẽ hẹp hơn)
 
         // Hiển thị biểu đồ
         ChartPanel chart = new ChartPanel(barChart);
@@ -268,6 +275,12 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 dataset
         );
 
+
+        // Chỉnh sửa độ rộng của các cột
+        CategoryPlot plot = barChart.getCategoryPlot();
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setMaximumBarWidth(0.05); // Điều chỉnh đây để làm cột hẹp lại (giá trị nhỏ hơn sẽ hẹp hơn)
+        
         // Hiển thị biểu đồ
         ChartPanel chart = new ChartPanel(barChart);
         chartPanel.removeAll();
@@ -301,6 +314,11 @@ public class ThongKe_GUI extends javax.swing.JPanel {
                 "Doanh Thu (VND)",
                 dataset
         );
+
+        // Chỉnh sửa độ rộng của các cột
+        CategoryPlot plot = barChart.getCategoryPlot();
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setMaximumBarWidth(0.05); // Điều chỉnh đây để làm cột hẹp lại (giá trị nhỏ hơn sẽ hẹp hơn)
 
         // Hiển thị biểu đồ
         ChartPanel chart = new ChartPanel(barChart);

@@ -65,6 +65,7 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         handleTotalAmountChange();
         lbMaPhong.setText(maPhong);
         txtKhuyenMai.setText("5");
+        txtThue.setText("10");
         updateRoomInfo(maPhong);
         tinhTongThanhToan();
     }
@@ -783,12 +784,15 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         // Cộng thêm phụ thu vào tổng thanh toán
         tongThanhToan = tongThanhToanSauThue + phuThu;
 
-        // Định dạng số để hiển thị theo kiểu 380.000
+        // Làm tròn số theo đơn vị 1,000
+        tongThanhToan = Math.ceil(tongThanhToan / 1000) * 1000;
+        
         DecimalFormat formatter = new DecimalFormat("###,###");
         String formattedTongThanhToan = formatter.format(tongThanhToan);
 
         // Hiển thị tổng thanh toán lên txtTongThanhToan
         txtTongThanhToan.setText(formattedTongThanhToan);
+        updateTienButtons();
     }
     
     private void initializeListeners() {
@@ -864,22 +868,23 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         // Lấy tổng thanh toán từ txtTongThanhToan
         double tongThanhToan = Double.parseDouble(txtTongThanhToan.getText().replace(".", "").replace(",", "")); // Xóa dấu phẩy để lấy giá trị dạng số
 
-        // Mảng các mệnh giá tiền phổ biến
+        // Mảng các mệnh giá tiền phổ biến từ 100,000 đến 2,000,000 VND
         double[] tienKhachDua = {
-            100000, 110000, 120000, 150000, 160000, 170000, 180000, 190000,
-            200000, 210000, 220000, 250000, 260000, 270000, 280000, 290000,
-            300000, 310000, 320000, 350000, 360000, 370000, 380000, 390000,
-            400000, 410000, 420000, 450000, 460000, 470000, 480000, 490000,
-            500000, 510000, 520000, 550000, 560000, 570000, 580000, 590000,
-            600000, 610000, 620000, 650000, 660000, 670000, 680000, 690000,
-            700000, 710000, 720000, 750000, 760000, 770000, 780000, 790000,
-            800000, 810000, 820000, 850000, 860000, 870000, 880000, 890000,
-            900000, 910000, 920000, 950000, 960000, 970000, 980000, 990000,
-            1000000
+            100000, 110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000,
+            200000, 210000, 220000, 230000, 240000, 250000, 260000, 270000, 280000, 290000,
+            300000, 310000, 320000, 330000, 340000, 350000, 360000, 370000, 380000, 390000,
+            400000, 410000, 420000, 430000, 440000, 450000, 460000, 470000, 480000, 490000,
+            500000, 510000, 520000, 530000, 540000, 550000, 560000, 570000, 580000, 590000,
+            600000, 610000, 620000, 630000, 640000, 650000, 660000, 670000, 680000, 690000,
+            700000, 710000, 720000, 730000, 740000, 750000, 760000, 770000, 780000, 790000,
+            800000, 810000, 820000, 830000, 840000, 850000, 860000, 870000, 880000, 890000,
+            900000, 910000, 920000, 930000, 940000, 950000, 960000, 970000, 980000, 990000,
+            1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000, 
+            2000000
         };
 
-        // Nút đầu tiên: Làm tròn gần nhất lớn hơn hoặc bằng tổng thanh toán
-        double tienKhachDua1 = roundUpToNearest(tongThanhToan);
+        // Nút đầu tiên: Làm cho btnTien1 bằng với tổng thanh toán
+        double tienKhachDua1 = tongThanhToan;
 
         // Tính các mệnh giá tiếp theo cho btnTien2 và btnTien3
         double tienKhachDua2 = getNextHigherAmount(tongThanhToan, tienKhachDua, tienKhachDua1);
@@ -892,7 +897,7 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-            	btnTien1.setText(formatCurrency(tienKhachDua1));
+                btnTien1.setText(formatCurrency(tienKhachDua1)); // btnTien1 = tổng thanh toán
                 btnTien2.setText(formatCurrency(tienKhachDua2));
                 btnTien3.setText(formatCurrency(tienKhachDua3));
                 btnTien4.setText(formatCurrency(tienKhachDua4));
@@ -940,8 +945,6 @@ public class TraPhong_Dialog_GUI extends javax.swing.JDialog {
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         return decimalFormat.format(amount).replace(",", ".");
     }
-
-
     
  // Phương thức tính tổng thanh toán và cập nhật các nút tiền
     private void handleTotalAmountChange() {
