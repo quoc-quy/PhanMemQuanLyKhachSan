@@ -445,7 +445,14 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
     	        JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày nhận phòng và ngày trả phòng.");
     	        return;
     	    }
-
+    	    
+    	 // Kiểm tra xem ngày nhận phòng có trùng với ngày hiện tại không
+            java.util.Date currentDate = new java.util.Date();
+            if (!isSameDay(ngayNhanPhong, currentDate)) {
+                JOptionPane.showMessageDialog(this, "Ngày nhận phòng phải trùng với ngày hiện tại.");
+                return;
+            }
+    	    
     	    // Tạo các đối tượng liên quan
     	    KhachHang khachHang = new KhachHang();
     	    khachHang.setMaKhachHang(maKhachHang); // Sử dụng mã khách hàng
@@ -828,7 +835,12 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
         });
     }
 
-    
+
+ // Phương thức để kiểm tra xem 2 ngày có trùng nhau không
+	 private boolean isSameDay(java.util.Date date1, java.util.Date date2) {
+	     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	     return sdf.format(date1).equals(sdf.format(date2));
+	 }
     
     private void calculateTotalAmount() {
         try {

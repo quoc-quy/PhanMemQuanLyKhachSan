@@ -11,6 +11,11 @@ import java.sql.Date;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.DocumentFilter.FilterBypass;
 
 import DAO.KhachHang_DAO;
 import ENTITY.KhachHang;
@@ -41,7 +46,8 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
 		KhachHang_DAO khachHangDAO = new KhachHang_DAO();
 		String newCustomerCode = khachHangDAO.getNextCustomerID();
 		txtMaKH.setText(newCustomerCode);
-
+		((AbstractDocument) txtCCCD.getDocument()).setDocumentFilter(new NumericDocumentFilter());
+		((AbstractDocument) txtSDT.getDocument()).setDocumentFilter(new NumericDocumentFilter());
 		addInputValidation();
 	}
 
@@ -465,6 +471,29 @@ public class ThemKhachHangDialog_GUI extends javax.swing.JDialog {
 			}
 		});
 	}	
+	
+	private static class NumericDocumentFilter extends DocumentFilter {
+		@Override
+		public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
+				throws BadLocationException {
+			if (string != null && string.matches("\\d*")) { // Check if input is numeric
+				super.insertString(fb, offset, string, attr);
+			}
+		}
+
+		@Override
+		public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+				throws BadLocationException {
+			if (text != null && text.matches("\\d*")) { // Check if input is numeric
+				super.replace(fb, offset, length, text, attrs);
+			}
+		}
+
+		@Override
+		public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+			super.remove(fb, offset, length);
+		}
+	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btnHuy;
