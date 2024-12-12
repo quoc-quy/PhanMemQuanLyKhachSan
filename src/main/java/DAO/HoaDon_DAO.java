@@ -315,4 +315,28 @@ public class HoaDon_DAO {
 			return false;
 		}
 	}
+	
+	// Phương thức lấy mã khách hàng dựa vào CCCD
+    public String getMaPhongByMaHD(String maHD) {
+        String maPhong = null;
+        
+        String sql = "select cthd.MaPhong "
+        		+ "from ChiTietHoaDon cthd, HoaDon h "
+        		+ "where cthd.MaHoaDon = h.MaHoaDon and h.MaHoaDon = ?";
+        
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, maHD);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+            	maPhong = rs.getString("MaPhong");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return maPhong;
+    }
 }

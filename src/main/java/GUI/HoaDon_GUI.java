@@ -288,8 +288,8 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 		HoaDon_DAO hoaDon_DAO = new HoaDon_DAO();
 		List<HoaDon> dsHoaDon = hoaDon_DAO.getAllHoaDon();
 		DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {},
-				new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Tên Nhân Viên", "Ngày Lập", "Ngày Nhận Phòng",
-						"Ngày Trả Phòng", "Tiền Trả Khách", "Thuế", "Tổng Tiền" });
+				new String[] { "Mã Hóa Đơn", "Tên Khách Hàng", "Phòng","Ngày Lập", "Ngày Nhận Phòng",
+						"Ngày Trả Phòng", "Thuế", "Tổng Tiền" });
 		tbDanhSachDatPhong.setModel(tableModel);
 		originalModel = tableModel;
 		tableModel.setRowCount(0);// Đặt lại số dòng về 0
@@ -311,19 +311,7 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 			if (maNhanVien != null && !maNhanVien.equals("Tất cả")) {
 				danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, maNhanVien);
 			} else {
-				danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, null); // Nếu
-																												// mã
-																												// nhân
-																												// viên
-																												// là
-																												// "Tất
-																												// cả",
-																												// bỏ
-																												// qua
-																												// lọc
-																												// theo
-																												// nhân
-																												// viên
+				danhSachHoaDon = hoaDon_DAO.getHoaDonTheoKhoangThoiGian(sqlNgayCheckIn, sqlNgayCheckOut, null); 
 			}
 
 			// Thêm dữ liệu vào bảng
@@ -337,11 +325,14 @@ public class HoaDon_GUI extends javax.swing.JPanel {
 				java.util.Date ngayNhanPhong = hoaDon.getNgayNhanPhong();
 				java.util.Date ngayTraPhong = hoaDon.getNgayTraPhong();
 				Double tongTien = hoaDon.getTongTien();
+				DecimalFormat df = new DecimalFormat("#,###,###");
+				String formattedTongTien = df.format(tongTien);
 				Double tienTraKhach = hoaDon.getTienTraKhach();
 				Integer thue = hoaDon.getThue();
+				String maPhong = hoaDon_DAO.getMaPhongByMaHD(maHoaDon);
 
-				tableModel.addRow(new Object[] { maHoaDon, tenKhachHang, tenNhanVien1, ngayLap, ngayNhanPhong,
-						ngayTraPhong, tienTraKhach, thue, tongTien });
+				tableModel.addRow(new Object[] { maHoaDon, tenKhachHang, maPhong, ngayLap, ngayNhanPhong,
+						ngayTraPhong, thue, formattedTongTien });
 			}
 		} else {
 			// Nếu không có ngày chọn, có thể thông báo lỗi hoặc làm gì đó

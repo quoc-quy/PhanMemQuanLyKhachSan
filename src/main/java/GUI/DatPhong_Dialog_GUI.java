@@ -788,6 +788,15 @@ public class DatPhong_Dialog_GUI extends javax.swing.JDialog {
                 if ("Giờ".equals(cboLoaiHinh.getSelectedItem().toString())) {
                     Date checkInDate = txtNgayCheckIn.getDate();
                     
+                 // Đặt giờ Check-in là 12:00
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(checkInDate);
+                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    txtGioCheckIn.setValue(calendar.getTime()); // Đặt thời gian vào txtGioCheckIn
+                    
                     // Đặt ngày Check-out bằng ngày Check-in
                     txtNgayCheckOut.setDate(checkInDate);
                 }

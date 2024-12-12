@@ -10,6 +10,7 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -413,7 +414,9 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
         // Định dạng ngày theo dd/MM/yyyy
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         int count = 1;
+        
         for (Object[] row : dsDatPhong) {
+    		DecimalFormat df = new DecimalFormat("#,###,###");
             tableModel.addRow(new Object[]{
             	count ,  
                 row[1],
@@ -422,7 +425,7 @@ public class DanhSachDatPhong_GUI extends javax.swing.JPanel {
                 row[4],  
                 dateFormat.format(row[5]),
                 dateFormat.format(row[6]), 
-                row[7],
+                row[7]= df.format(row[7]),
                 row[8]
             });
             count++;

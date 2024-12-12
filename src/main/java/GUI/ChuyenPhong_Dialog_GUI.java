@@ -62,6 +62,7 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
         
         checkInDateChooser = new JDateChooser();
         checkInDateChooser.setDate(new Date());
+        checkInDateChooser.setDateFormatString("dd/MM/yyyy");  // Đặt định dạng ngày
         checkInDateChooser.getDateEditor().addPropertyChangeListener(e -> calculateTotalAmount());
         centerPanel.add(checkInDateChooser);
 
@@ -71,6 +72,7 @@ public class ChuyenPhong_Dialog_GUI extends JDialog {
         
         checkOutDateChooser = new JDateChooser();
         checkOutDateChooser.setDate(new Date());
+        checkOutDateChooser.setDateFormatString("dd/MM/yyyy");  // Đặt định dạng ngày
         checkOutDateChooser.getDateEditor().addPropertyChangeListener(e -> calculateTotalAmount());
         centerPanel.add(checkOutDateChooser);
 

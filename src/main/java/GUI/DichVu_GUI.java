@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -225,9 +226,21 @@ public class DichVu_GUI extends javax.swing.JPanel {
 
 		tableModel.setRowCount(0);
 
+		// Duyệt qua danh sách dịch vụ
 		for (DichVu dv : dsDichVu) {
-			Object[] row = { dv.getMaDichVu(), dv.getTenDichVu(), dv.getSoLuong(), dv.getDonGia(), dv.getDonViTinh() };
-			tableModel.addRow(row);
+		    // Định dạng đơn giá
+		    DecimalFormat df = new DecimalFormat("#,###,###");
+		    String formattedDonGia = df.format(dv.getDonGia());
+
+		    // Thêm dữ liệu vào hàng trong bảng
+		    Object[] row = {
+		        dv.getMaDichVu(),
+		        dv.getTenDichVu(),
+		        dv.getSoLuong(),
+		        formattedDonGia,  // Sử dụng giá trị đã định dạng
+		        dv.getDonViTinh()
+		    };
+		    tableModel.addRow(row);
 		}
 
 		// Inside your constructor or initComponents method
